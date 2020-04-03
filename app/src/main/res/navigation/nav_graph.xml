@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="team.marker.view.history.HistoryFragment"
+        android:label="HistoryFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="team.marker.view.home.HomeFragment"
+        android:label="HomeFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="team.marker.view.login.LoginFragment"
+        android:label="LoginFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="team.marker.view.product.ProductFragment"
+        android:label="ProductFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="team.marker.view.scan.ScanFragment"
+        android:label="ScanFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/scanErrorFragment"
+        android:name="team.marker.view.scan.ScanErrorFragment"
+        android:label="ScanErrorFragment">
+    </fragment>
+
+</navigation>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2e2d32</color>
+    <color name="colorPrimaryDark">#2e2d32</color>
+    <color name="colorAccent">#424242</color>
+    <color name="blackText">#000000</color>
+    <color name="white_code_text">#EEEEEE</color>
+    <color name="gray_intro_text">#CAD0D2</color>
+    <color name="grayText">#646464</color>
+    <color name="input_text">#ffffff</color>
+    <color name="white">#ffffff</color>
+
+    <color name="black_primary">#222222</color>
+    <color name="blue_primary">#04368f</color>
+</resources>
