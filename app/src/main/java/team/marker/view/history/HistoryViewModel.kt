@@ -7,27 +7,28 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.LoginRequest
+import team.marker.model.responses.History
 import team.marker.model.responses.Login
 
 class HistoryViewModel(private val repository: ApiRepository) : ViewModel() {
 
     private lateinit var disposable: Disposable
 
-    val success = MutableLiveData<Login>()
+    val response = MutableLiveData<History>()
     val error = MutableLiveData<String>()
 
-    /*fun login(request: LoginRequest) {
+    fun history(offset: String) {
         disposable = Observable.fromCallable {
-            repository.login(request)
+            repository.history(offset)
                 ?.subscribe({
-                    success.postValue(it?.response)
+                    response.postValue(it?.response)
                     error.postValue(it?.error.toString())
                 }, {
                 })
         }
             .subscribeOn(Schedulers.io())
             .subscribe()
-    }*/
+    }
 
     override fun onCleared() {
         super.onCleared()

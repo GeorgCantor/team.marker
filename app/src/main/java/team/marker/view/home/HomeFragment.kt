@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -27,15 +26,14 @@ class HomeFragment : Fragment() {
         //accessToken = prefManager.getString(TOKEN) ?: ""
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // common
         super.onViewCreated(view, savedInstanceState)
-
+        // buttons
         btn_scan.setOnClickListener { scan(view) }
         btn_history.setOnClickListener { history(view) }
         btn_logout.setOnClickListener { logout() }
@@ -46,7 +44,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun history(view: View) {
-        Navigation.findNavController(view).navigate(R.id.historyFragment)
+        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_historyFragment)
     }
 
     private fun logout() {

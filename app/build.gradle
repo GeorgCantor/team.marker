@@ -50,7 +50,9 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
 
     implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
+
     implementation 'com.google.android.gms:play-services-vision:19.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // qr-codes
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0@aar'

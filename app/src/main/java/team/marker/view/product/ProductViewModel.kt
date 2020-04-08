@@ -6,9 +6,6 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import team.marker.model.remote.ApiRepository
-import team.marker.model.requests.LoginRequest
-import team.marker.model.requests.ProductRequest
-import team.marker.model.responses.Login
 import team.marker.model.responses.Product
 
 class ProductViewModel(private val repository: ApiRepository) : ViewModel() {

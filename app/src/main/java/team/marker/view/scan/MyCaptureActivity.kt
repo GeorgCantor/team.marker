@@ -12,7 +12,8 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import kotlinx.android.synthetic.main.tmp_scan_capture.*
 
 
-class MyCaptureActivity : AppCompatActivity() { //Nothing in side.
+class MyCaptureActivity : AppCompatActivity() {
+
     private var capture: CaptureManager? = null
     private var barcodeScannerView: DecoratedBarcodeView? = null
     private var torchOn: Boolean = false
@@ -25,21 +26,12 @@ class MyCaptureActivity : AppCompatActivity() { //Nothing in side.
         capture!!.decode()
 
         btn_scan_back.setOnClickListener {
-            Log.e("Message", "back button pressed")
-            //activity?.finish()
+            //Log.e("Message", "back button pressed")
             finish()
-            /*setContentView(team.marker.R.layout.activity_main)
-
-            val navHostFragment = navHostFragment as NavHostFragment
-            val inflater = navHostFragment.navController.navInflater
-            val graph = inflater.inflate(team.marker.R.navigation.nav_graph)
-            graph.startDestination = team.marker.R.id.homeFragment
-
-            navHostFragment.navController.graph = graph*/
         }
 
         btn_scan_flash.setOnClickListener {
-            Log.e("Message", "flash on")
+            //Log.e("Message", "flash on")
             barcodeScannerView?.setTorchOn()
 
             if (!torchOn) {

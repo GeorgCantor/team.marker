@@ -27,11 +27,9 @@ class LoginFragment : Fragment() {
         viewModel = getViewModel { parametersOf() }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +46,7 @@ class LoginFragment : Fragment() {
                 PreferenceManager(requireActivity()).saveString("token", token)
                 access_sid = sid
                 access_token = token
-                Navigation.findNavController(view).navigate(R.id.homeFragment)
+                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment)
             }
         })
         // error
@@ -56,22 +54,21 @@ class LoginFragment : Fragment() {
             // vars
             val msg = error?.error_msg
             // update
-            //Log.e("Message", msg)
             show_error(context, error_login, "неправильный логин или пароль", 5000, 0)
-            error_login.text = "неправильный логин или пароль"
+            //error_login.text = "неправильный логин или пароль"
         })
     }
 
     private fun apply() {
+        // vars
+        val login: String = input_login.text.toString()
+        val password: String = input_password.text.toString()
+        // request
+        viewModel.login(LoginRequest(login, password))
         /*if (!loginIsReady) {
             showError(context, error_tv, getString(R.string.accept_conditions_error), 5000, 0)
             return
         }*/
-
-        val login: String = input_login.text.toString()
-        val password: String = input_password.text.toString()
-        Log.e("Message", "$login, $password");
-
-        viewModel.login(LoginRequest(login, password))
+        //Log.e("Message", "$login, $password");
     }
 }

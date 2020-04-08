@@ -14,18 +14,36 @@
         android:id="@+id/homeFragment"
         android:name="team.marker.view.home.HomeFragment"
         android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="team.marker.view.login.LoginFragment"
         android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"/>
     </fragment>
 
     <fragment
         android:id="@+id/productFragment"
         android:name="team.marker.view.product.ProductFragment"
         android:label="ProductFragment">
+        <action
+            android:id="@+id/action_productFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
