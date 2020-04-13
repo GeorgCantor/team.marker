@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QR Скан</string>
+    <string name="app_name">QR СКАНЕР</string>
     <string name="login_message">Приложение для сканирования промышленных изделий</string>
     <string name="login_btn">Войти</string>
 </resources>

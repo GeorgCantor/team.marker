@@ -29,10 +29,9 @@ class ScanFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         val res = scanResult?.contents;
-        //Toast.makeText(activity, "Scan Complete: $res", Toast.LENGTH_SHORT).show()
         if (res != null) {
             val bundle = Bundle()
-            bundle.putString("product_id", res)
+            bundle.putString("product_url", res)
             findNavController(this).navigate(R.id.productFragment, bundle)
         } else findNavController(this).navigate(R.id.homeFragment)
     }
