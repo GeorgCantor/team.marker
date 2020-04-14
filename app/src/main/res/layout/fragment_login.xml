@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/button_login"
+                    android:background="@drawable/btn_login"
                     android:fontFamily="sans-serif-medium"
                     android:letterSpacing="0.05"
                     android:stateListAnimator="@null"

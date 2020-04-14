@@ -7,12 +7,11 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_primary"
+        layout="@layout/toolbar_product_error"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Изделие не найдено, проверьте код"

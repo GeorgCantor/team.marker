@@ -7,9 +7,12 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import com.github.barteksc.pdfviewer.PDFView
 import kotlinx.android.synthetic.main.fragment_webview.*
+import kotlinx.android.synthetic.main.toolbar_file.*
 import team.marker.R
 import team.marker.util.shortToast
 import java.io.BufferedInputStream
@@ -83,13 +86,15 @@ class WebViewActivity : AppCompatActivity() {
         val output = File(this.filesDir.path + this.packageName + "/download/")
         btn_download.setOnClickListener { downloadFile(file_path, file_title, output) }
 
+        btn_back.setOnClickListener { back() }
+
     }
 
     private fun downloadFile(url: String?, file_title: String?, outputFile: File) {
         val DownloadUrl: String = url!!
         val filename = "$file_title.pdf"
         val request1 = DownloadManager.Request(Uri.parse(DownloadUrl))
-        request1.setDescription("Sample Music File") //appears the same in Notification bar while downloading
+        request1.setDescription("Document File") //appears the same in Notification bar while downloading
 
         request1.setTitle(filename)
         //request1.setVisibleInDownloadsUi(false)
@@ -97,16 +102,20 @@ class WebViewActivity : AppCompatActivity() {
         //request1.allowScanningByMediaScanner()
         //request1.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         request1.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        request1.setDestinationInExternalFilesDir(applicationContext, "/File", filename)
+        request1.setDestinationInExternalFilesDir(applicationContext, "/downloads", filename)
 
         val manager1 =
             getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         Objects.requireNonNull(manager1).enqueue(request1)
         if (DownloadManager.STATUS_SUCCESSFUL == 8) {
-            shortToast("download complete")
+            shortToast("Загрузка завершена")
             //request1.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             //DownloadSuccess()
         }
+    }
+
+    private fun back() {
+        finish()
     }
 
 }

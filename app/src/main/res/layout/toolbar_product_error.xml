@@ -32,15 +32,4 @@
         app:layout_constraintStart_toEndOf="@+id/btn_back"
         app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
-    <ImageView
-        android:id="@+id/btn_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_4dp"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar_text"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar_text"
-        app:srcCompat="@drawable/ic_share" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

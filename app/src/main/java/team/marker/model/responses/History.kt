@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class History(
     @SerializedName("info") val info: MutableList<HistoryItem>,
-    @SerializedName("next_id") val next_id: Int?
+    @SerializedName("next_offset") val next_id: Int?
 )

@@ -21,7 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_product.*
-import kotlinx.android.synthetic.main.toolbar_primary.*
+import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
@@ -76,7 +76,6 @@ class ProductFragment : Fragment() {
         list1.toggle_list()
         // events
         btn_back.setOnClickListener { back(view) }
-        btn_share.setOnClickListener { share(view) }
         list_1.setOnClickListener { list1.toggle_list() }
         list_2.setOnClickListener { list2.toggle_list() }
         list_3.setOnClickListener { list3.toggle_list() }
@@ -116,6 +115,7 @@ class ProductFragment : Fragment() {
                 val manufacturer = it.manufacturer
                 val customer = it.customer
                 val contract = it.contract
+                val productTitle = it.title.toString()
                 val customerTitle = customer?.title.toString()
                 val customerLat = customer?.address_lat
                 val customerLng = customer?.address_lng
@@ -125,7 +125,7 @@ class ProductFragment : Fragment() {
                 val manufacturerLat = manufacturer?.address_lat
                 val manufacturerLng = manufacturer?.address_lng
                 // texts
-                product_title_info.text = it.title.toString()
+                product_title_info.text = productTitle
                 product_code_info.text = it.code.toString()
                 company_title_info.text = manufacturerTitle
                 company_address_info.text = manufacturer?.address.toString()
@@ -142,16 +142,12 @@ class ProductFragment : Fragment() {
                 // map (manufacturer)
                 val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
                 manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
-                //manufacturerMap.moveCamera(CameraUpdateFactory.newLatLng(manufacturerMarker))
-                //manufacturerMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f))
-                manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(manufacturerLat!!, manufacturerLng!!), 8f))
+                manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
                 manufacturerMap.uiSettings.isScrollGesturesEnabled = false
                 // map (customer)
                 val customerMarker = LatLng(customerLat!!, customerLng!!)
                 customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
-                //customerMap.moveCamera(CameraUpdateFactory.newLatLng(customerMarker))
-                //customerMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f))
-                customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(customerLat!!, customerLng!!), 8f))
+                customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
                 customerMap.uiSettings.isScrollGesturesEnabled = false
 
                 product_options_recycler.isNestedScrollingEnabled = false;
@@ -161,14 +157,19 @@ class ProductFragment : Fragment() {
                     //NavHostFragment.findNavController(this).navigate(R.id.action_withdrawsFragment_to_withdrawFragment, bundle)
                 }
 
-                product_files_recycler.isNestedScrollingEnabled = false;
-                product_files_recycler.adapter = ProductFilesAdapter(it.files?: mutableListOf()) { file ->
-                    if (file.type == 1) {
-                        val intent = Intent(activity, WebViewActivity::class.java)
-                        intent.putExtra("path", file.path)
-                        intent.putExtra("title", file.title)
-                        startActivity(intent)
-                    }
+                if (it.files?.size!! > 0) {
+                    product_files_recycler.isNestedScrollingEnabled = false;
+                    product_files_recycler.adapter =
+                        ProductFilesAdapter(it.files ?: mutableListOf()) { file ->
+                            if (file.type == 1) {
+                                val intent = Intent(activity, WebViewActivity::class.java)
+                                intent.putExtra("path", file.path)
+                                intent.putExtra("title", file.title)
+                                startActivity(intent)
+                            }
+                        }
+                } else {
+                    expand_5_empty.visibility = View.VISIBLE
                 }
 
                 product_options_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_2.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
@@ -178,6 +179,8 @@ class ProductFragment : Fragment() {
                 product_files_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_5.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
                 val targetHeight3 = product_files_recycler.measuredHeight
                 product_files_recycler.layoutParams.height = targetHeight3
+
+                btn_share.setOnClickListener { share(productUrl, productTitle) }
 
             } else {
                 NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
@@ -201,24 +204,25 @@ class ProductFragment : Fragment() {
         Navigation.findNavController(view).navigate(R.id.action_productFragment_to_homeFragment)
     }
 
-    private fun share(view: View) {
+    private fun share(url: String, title: String) {
         val i = Intent(Intent.ACTION_SEND)
         i.type = "text/plain"
-        i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL")
-        i.putExtra(Intent.EXTRA_TEXT, "http://www.url.com")
-        startActivity(Intent.createChooser(i, "Share URL"))
+        i.putExtra(Intent.EXTRA_SUBJECT, title)
+        i.putExtra(Intent.EXTRA_TEXT, url)
+        startActivity(Intent.createChooser(i, "Поделиться URL"))
     }
 
     private fun makeCall() {
-        val intent = Intent(Intent.ACTION_CALL)
-        intent.data = Uri.parse("tel:+$phone")
-
+        // vars
+        val i = Intent(Intent.ACTION_CALL)
+        i.data = Uri.parse("tel:+$phone")
+        // actions
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 10)
             return
         } else {
             try {
-                startActivity(intent)
+                startActivity(i)
             } catch (ex: ActivityNotFoundException) {
                 requireActivity().shortToast("приложение для звонков не найдено")
             }
@@ -232,9 +236,7 @@ class ProductFragment : Fragment() {
     }
 
     private fun sendEmail(email: String) {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
-        //intent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
-        //intent.putExtra(Intent.EXTRA_TEXT, "Body")
-        startActivity(Intent.createChooser(intent, ""))
+        val i = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
+        startActivity(Intent.createChooser(i, "Отправить email"))
     }
 }

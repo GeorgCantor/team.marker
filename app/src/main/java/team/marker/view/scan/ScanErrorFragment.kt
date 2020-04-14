@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.toolbar_primary.*
+import kotlinx.android.synthetic.main.toolbar_product.*
 import team.marker.R
 
 class ScanErrorFragment : Fragment() {
