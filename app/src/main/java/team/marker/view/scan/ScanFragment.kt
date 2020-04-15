@@ -2,6 +2,7 @@ package team.marker.view.scan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,10 @@ class ScanFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        val res = scanResult?.contents;
+        val res = scanResult?.contents
+        //val urlMatcher = "marker\\.team".toRegex()
+        //Log.e("Message", urlMatcher.find(res).toString())
+        //if (urlMatcher.find(res) != null) {
         if (res != null) {
             val bundle = Bundle()
             bundle.putString("product_url", res)

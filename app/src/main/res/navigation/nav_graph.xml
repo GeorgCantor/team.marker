@@ -63,6 +63,13 @@
         android:id="@+id/scanErrorFragment"
         android:name="team.marker.view.scan.ScanErrorFragment"
         android:label="ScanErrorFragment">
+        <action
+            android:id="@+id/action_scanErrorFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment

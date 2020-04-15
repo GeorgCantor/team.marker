@@ -67,6 +67,7 @@ class ProductFragment : Fragment() {
         // common
         super.onViewCreated(view, savedInstanceState)
         val productId = productUrl.replace("https://marker.team/products/","")
+        Log.e("message 2", productId)
         viewModel.getProduct(productId)
         // vars
         list1 = ExpandList(expand_1, list_1_expand)
@@ -108,10 +109,15 @@ class ProductFragment : Fragment() {
             sendEmail(email)
         }
 
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            Log.e("message", "not found")
+            NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
+        })
+
         // product info
         viewModel.response.observe(viewLifecycleOwner, Observer {
-
-            if (it.id!! > 0) {
+            //Log.e("message", it.id.toString())
+            //if (it.id!! > 0) {
                 // vars
                 val manufacturer = it.manufacturer
                 val customer = it.customer
@@ -183,6 +189,7 @@ class ProductFragment : Fragment() {
                                 intent.putExtra("path", file.path)
                                 intent.putExtra("title", file.title)
                                 startActivity(intent)
+                                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                             }
                         }
                 } else {
@@ -199,9 +206,9 @@ class ProductFragment : Fragment() {
 
                 btn_share.setOnClickListener { share(productUrl, productTitle) }
 
-            } else {
-                NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
-            }
+            //} else {
+                //NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
+            //}
         })
     }
 

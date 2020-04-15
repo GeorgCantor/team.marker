@@ -20,6 +20,6 @@ interface ApiService {
     fun getOwner(): Observable<ResponseAPI<User?>?>?
 
     @GET("product")
-    fun getProduct(@Query("product_id") offset: String?): Observable<ResponseAPI<Product?>?>?
+    fun getProduct(@Query("product_id") product_id: String?): Observable<ResponseAPI<Product?>?>?
 
 }

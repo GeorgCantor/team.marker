@@ -3,10 +3,7 @@ package team.marker.view.product
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -116,6 +113,7 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun back() {
         finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
 }

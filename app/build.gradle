@@ -50,13 +50,14 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
 
     implementation 'androidx.navigation:navigation-fragment:2.0.0-rc02'
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 
-    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+    implementation 'com.google.android.gms:play-services-vision:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     // qr-codes
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0@aar'
-    implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.google.zxing:core:3.3.3'
 
     // files
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'

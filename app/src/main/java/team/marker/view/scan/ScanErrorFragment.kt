@@ -25,7 +25,7 @@ class ScanErrorFragment : Fragment() {
     }
 
     private fun back(view: View) {
-        Navigation.findNavController(view).navigate(R.id.homeFragment)
+        Navigation.findNavController(view).navigate(R.id.action_scanErrorFragment_to_homeFragment)
     }
 
 }

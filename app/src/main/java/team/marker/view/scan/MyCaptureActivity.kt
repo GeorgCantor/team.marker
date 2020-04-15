@@ -1,15 +1,13 @@
 package team.marker.view.scan
 
-import android.R.bool
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
-import kotlinx.android.synthetic.main.tmp_scan_capture.*
+import kotlinx.android.synthetic.main.activity_scan.*
 
 
 class MyCaptureActivity : AppCompatActivity() {
@@ -51,7 +49,7 @@ class MyCaptureActivity : AppCompatActivity() {
      */
     protected fun initializeContent(): DecoratedBarcodeView? {
         //setContentView(R.layout.zxing_capture)
-        setContentView(team.marker.R.layout.tmp_scan_capture)
+        setContentView(team.marker.R.layout.activity_scan)
         return findViewById<View>(R.id.zxing_barcode_scanner) as DecoratedBarcodeView
     }
 

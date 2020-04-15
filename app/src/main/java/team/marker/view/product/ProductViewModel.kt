@@ -1,5 +1,6 @@
 package team.marker.view.product
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
@@ -21,7 +22,7 @@ class ProductViewModel(private val repository: ApiRepository) : ViewModel() {
             repository.product(product_id)
                 ?.subscribe({
                     success.postValue(it?.success)
-                    response.postValue(it?.response)
+                    it?.response?.let { response.postValue(it) }
                     it?.error?.let { error.postValue(it.toString()) }
                 }, {
                 })
