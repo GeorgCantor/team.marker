@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("history")
-    fun getHistory(@Query("offset") offset: String?): Observable<ResponseAPI<History?>?>?
+    fun getHistory(@Query("offset") offset: Int?): Observable<ResponseAPI<History?>?>?
 
     @POST("login")
     fun getLogin(@Body request: LoginRequest?): Observable<ResponseAPI<Login?>?>?

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,11 +117,14 @@ class ProductFragment : Fragment() {
                 val customer = it.customer
                 val contract = it.contract
                 val productTitle = it.title.toString()
-                val customerTitle = customer?.title.toString()
+                val customerTitle = if (customer?.title.isNullOrBlank()) "не указан" else customer?.title
+                val customerAddress = if (customer?.address.isNullOrBlank()) "не указан" else customer?.address
+                val customerPhone = if (customer?.phone.isNullOrBlank()) "не указан" else customer?.phone
+                val customerEmail = if (customer?.email.isNullOrBlank()) "не указана" else customer?.email
                 val customerLat = customer?.address_lat
                 val customerLng = customer?.address_lng
-                val customerContract = contract?.title.toString() + " от " + contract?.date.toString()
-                val customerAnnex = "№" + contract?.annex_number.toString() + " от " + contract?.annex_date.toString()
+                val customerContract = if (contract?.title.isNullOrBlank()) "не указан" else contract?.title.toString() + " от " + contract?.date.toString()
+                val customerAnnex = if (contract?.annex_number.isNullOrBlank()) "не указано" else "№" + contract?.annex_number.toString() + " от " + contract?.annex_date.toString()
                 val manufacturerTitle = manufacturer?.title.toString()
                 val manufacturerLat = manufacturer?.address_lat
                 val manufacturerLng = manufacturer?.address_lng
@@ -132,9 +136,9 @@ class ProductFragment : Fragment() {
                 company_phone_info.text = manufacturer?.phone.toString()
                 company_email_info.text = manufacturer?.email.toString()
                 customer_title_info.text = customerTitle
-                customer_address_info.text = customer?.address.toString()
-                customer_phone_info.text = customer?.phone.toString()
-                customer_email_info.text = customer?.email.toString()
+                customer_address_info.text = customerAddress
+                customer_phone_info.text = customerPhone
+                customer_email_info.text = customerEmail
                 customer_contract_info.text = customerContract
                 customer_annex_info.text = customerAnnex
                 produced_info.text = it.produced.toString()
@@ -145,16 +149,29 @@ class ProductFragment : Fragment() {
                 manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
                 manufacturerMap.uiSettings.isScrollGesturesEnabled = false
                 // map (customer)
-                val customerMarker = LatLng(customerLat!!, customerLng!!)
-                customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
-                customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
-                customerMap.uiSettings.isScrollGesturesEnabled = false
+                Log.e("Message", customerLat.toString())
+                if (customerLat.toString() == "0.0") {
+                    Log.e("Message", "empty")
+                    customer_map_wrap.visibility = View.GONE
+                } else {
+                    val customerMarker = LatLng(customerLat!!, customerLng!!)
+                    customerMap.addMarker(
+                        MarkerOptions().position(customerMarker).title(customerTitle)
+                    )
+                    customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
+                    customerMap.uiSettings.isScrollGesturesEnabled = false
+                }
 
-                product_options_recycler.isNestedScrollingEnabled = false;
-                product_options_recycler.adapter = ProductOptionsAdapter(it.options?: mutableListOf()) { option ->
-                    //val bundle = Bundle()
-                    //bundle.putParcelable("option", option)
-                    //NavHostFragment.findNavController(this).navigate(R.id.action_withdrawsFragment_to_withdrawFragment, bundle)
+                if (it.options?.size!! > 0) {
+                    product_options_recycler.isNestedScrollingEnabled = false;
+                    product_options_recycler.adapter =
+                        ProductOptionsAdapter(it.options ?: mutableListOf()) { option ->
+                            //val bundle = Bundle()
+                            //bundle.putParcelable("option", option)
+                            //NavHostFragment.findNavController(this).navigate(R.id.action_withdrawsFragment_to_withdrawFragment, bundle)
+                        }
+                } else {
+                    expand_2_empty.visibility = View.VISIBLE
                 }
 
                 if (it.files?.size!! > 0) {

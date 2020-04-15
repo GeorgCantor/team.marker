@@ -9,6 +9,6 @@ class ApiRepository(private val apiService: ApiService) {
     fun login(loginRequest: LoginRequest): Observable<ResponseAPI<Login?>?>? = apiService.getLogin(loginRequest)
     fun logout(): Observable<ResponseAPI<ResponseMessage?>?>? = apiService.logout()
     // common
-    fun history(offset: String): Observable<ResponseAPI<History?>?>? = apiService.getHistory(offset)
+    fun history(offset: Int?): Observable<ResponseAPI<History?>?>? = apiService.getHistory(offset)
     fun product(product_id: String): Observable<ResponseAPI<Product?>?>? = apiService.getProduct(product_id)
 }

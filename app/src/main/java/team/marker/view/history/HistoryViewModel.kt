@@ -6,20 +6,20 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import team.marker.model.remote.ApiRepository
-import team.marker.model.requests.LoginRequest
 import team.marker.model.responses.History
-import team.marker.model.responses.Login
 
 class HistoryViewModel(private val repository: ApiRepository) : ViewModel() {
 
     private lateinit var disposable: Disposable
 
+    val progressIsVisible = MutableLiveData<Boolean>().apply { this.value = true }
     val response = MutableLiveData<History>()
     val error = MutableLiveData<String>()
 
-    fun history(offset: String) {
+    fun getHistory(offset: Int? = 0) {
         disposable = Observable.fromCallable {
             repository.history(offset)
+                ?.doFinally { progressIsVisible.postValue(false) }
                 ?.subscribe({
                     response.postValue(it?.response)
                     error.postValue(it?.error.toString())
@@ -32,6 +32,6 @@ class HistoryViewModel(private val repository: ApiRepository) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        disposable.dispose()
+        if (::disposable.isInitialized) disposable.dispose()
     }
 }

@@ -1,7 +1,10 @@
 package team.marker.model.responses
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Product(
     @SerializedName("id") val id: Int? = null,
     @SerializedName("code") val code: String? = null,
@@ -14,4 +17,4 @@ data class Product(
     @SerializedName("options") val options: MutableList<ProductOption>? = null,
     @SerializedName("files") val files: MutableList<ProductFile>? = null,
     @SerializedName("contract") val contract: Contract? = null
-)
+) : Parcelable
