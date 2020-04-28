@@ -1,11 +1,15 @@
 package team.marker.util
 
-import android.R
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.*
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import android.view.animation.RotateAnimation
+import kotlin.math.roundToLong
 
 
 class ExpandList(val view: View, val icon: View) {
@@ -64,6 +68,10 @@ class ExpandList(val view: View, val icon: View) {
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
         })
+
+        //v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        //va.duration = (v.measuredHeight / v.context.resources.displayMetrics.density).roundToLong()
+        //Log.e("Message", va.duration.toString())
         va.duration = 500
         va.interpolator = OvershootInterpolator()
         va.start()
@@ -86,6 +94,10 @@ class ExpandList(val view: View, val icon: View) {
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
         })
+        //v.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        //v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        //va.duration = ((initialHeight) / v.context.resources.displayMetrics.density).roundToLong()
+        //Log.e("Message", va.duration.toString())
         va.duration = 500
         va.interpolator = DecelerateInterpolator()
         va.start()

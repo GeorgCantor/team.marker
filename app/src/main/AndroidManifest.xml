@@ -40,16 +40,23 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https"
+                    android:host="marker.team"
+                    android:pathPrefix="/products" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.scan.MyCaptureActivity"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:stateNotNeeded="true"/>
+            android:stateNotNeeded="true" />
         <activity
             android:name=".view.product.WebViewActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -72,10 +72,4 @@
             app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
-    <fragment
-        android:id="@+id/webviewFragment"
-        android:name="team.marker.view.product.WebviewFragment"
-        android:label="WebviewFragment">
-    </fragment>
-
 </navigation>

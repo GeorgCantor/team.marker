@@ -95,7 +95,7 @@
                     android:id="@+id/expand_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
+                    android:animateLayoutChanges="false"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/list_1">
 
@@ -870,10 +870,134 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/customer_contract"
+                        android:id="@+id/consignee_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@+id/customer_email">
+                        <TextView
+                            android:id="@+id/consignee_title_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Грузополучатель"
+                            android:textColor="@color/blue_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/consignee_title_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="36dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="не указан"
+                            android:textColor="@color/black_primary"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#ddd"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/consignee_title_info" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/consignee_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/consignee_title">
+                        <TextView
+                            android:id="@+id/consignee_address_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Адрес грузополучателя"
+                            android:textColor="@color/blue_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/consignee_address_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="36dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="не указан"
+                            android:textColor="@color/black_primary"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#ddd"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/consignee_address_info" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/consignee_destination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/consignee_address">
+                        <TextView
+                            android:id="@+id/consignee_destination_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Пункт назначения"
+                            android:textColor="@color/blue_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/consignee_destination_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="36dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:fontFamily="sans-serif"
+                            android:text="не указан"
+                            android:textColor="@color/black_primary"
+                            android:textSize="18sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#ddd"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/consignee_destination_info" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/customer_contract"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/consignee_destination">
                         <TextView
                             android:id="@+id/customer_contract_label"
                             android:fontFamily="sans-serif"

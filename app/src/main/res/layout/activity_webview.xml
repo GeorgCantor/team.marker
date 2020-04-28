@@ -24,19 +24,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!--<ImageView
-        android:id="@+id/btn_download"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="15dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="8dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="30dp"
-        android:background="@drawable/btn_round"
-        app:layout_constraintStart_toStartOf="parent"
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/blue_primary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_download" />-->
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

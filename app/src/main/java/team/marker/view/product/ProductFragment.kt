@@ -67,7 +67,7 @@ class ProductFragment : Fragment() {
         // common
         super.onViewCreated(view, savedInstanceState)
         val productId = productUrl.replace("https://marker.team/products/","")
-        Log.e("message 2", productId)
+        //Log.e("message 2", productId)
         viewModel.getProduct(productId)
         // vars
         list1 = ExpandList(expand_1, list_1_expand)
@@ -110,105 +110,103 @@ class ProductFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
-            Log.e("message", "not found")
+            //Log.e("message", "not found")
             NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
         })
 
         // product info
         viewModel.response.observe(viewLifecycleOwner, Observer {
-            //Log.e("message", it.id.toString())
-            //if (it.id!! > 0) {
-                // vars
-                val manufacturer = it.manufacturer
-                val customer = it.customer
-                val contract = it.contract
-                val productTitle = it.title.toString()
-                val customerTitle = if (customer?.title.isNullOrBlank()) "не указан" else customer?.title
-                val customerAddress = if (customer?.address.isNullOrBlank()) "не указан" else customer?.address
-                val customerPhone = if (customer?.phone.isNullOrBlank()) "не указан" else customer?.phone
-                val customerEmail = if (customer?.email.isNullOrBlank()) "не указана" else customer?.email
-                val customerLat = customer?.address_lat
-                val customerLng = customer?.address_lng
-                val customerContract = if (contract?.title.isNullOrBlank()) "не указан" else contract?.title.toString() + " от " + contract?.date.toString()
-                val customerAnnex = if (contract?.annex_number.isNullOrBlank()) "не указано" else "№" + contract?.annex_number.toString() + " от " + contract?.annex_date.toString()
-                val manufacturerTitle = manufacturer?.title.toString()
-                val manufacturerLat = manufacturer?.address_lat
-                val manufacturerLng = manufacturer?.address_lng
-                // texts
-                product_title_info.text = productTitle
-                product_code_info.text = it.code.toString()
-                company_title_info.text = manufacturerTitle
-                company_address_info.text = manufacturer?.address.toString()
-                company_phone_info.text = manufacturer?.phone.toString()
-                company_email_info.text = manufacturer?.email.toString()
-                customer_title_info.text = customerTitle
-                customer_address_info.text = customerAddress
-                customer_phone_info.text = customerPhone
-                customer_email_info.text = customerEmail
-                customer_contract_info.text = customerContract
-                customer_annex_info.text = customerAnnex
-                produced_info.text = it.produced.toString()
-                shipped_info.text = it.shipped.toString()
-                // map (manufacturer)
-                val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
-                manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
-                manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
-                manufacturerMap.uiSettings.isScrollGesturesEnabled = false
-                // map (customer)
-                Log.e("Message", customerLat.toString())
-                if (customerLat.toString() == "0.0") {
-                    Log.e("Message", "empty")
-                    customer_map_wrap.visibility = View.GONE
-                } else {
-                    val customerMarker = LatLng(customerLat!!, customerLng!!)
-                    customerMap.addMarker(
-                        MarkerOptions().position(customerMarker).title(customerTitle)
-                    )
-                    customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
-                    customerMap.uiSettings.isScrollGesturesEnabled = false
+            // vars
+            val manufacturer = it.manufacturer
+            val customer = it.customer
+            val consignee = it.consignee
+            val contract = it.contract
+            val productCode = it.code.toString()
+            val productTitle = it.title.toString()
+            val customerTitle = if (customer?.title.isNullOrBlank()) "не указан" else customer?.title
+            val customerAddress = if (customer?.address.isNullOrBlank()) "не указан" else customer?.address
+            val customerPhone = if (customer?.phone.isNullOrBlank()) "не указан" else customer?.phone
+            val customerEmail = if (customer?.email.isNullOrBlank()) "не указана" else customer?.email
+            val customerLat = customer?.address_lat
+            val customerLng = customer?.address_lng
+            val customerContract = if (contract?.title.isNullOrBlank()) "не указан" else contract?.title.toString() + " от " + contract?.date.toString()
+            val customerAnnex = if (contract?.annex_number.isNullOrBlank()) "не указано" else "№" + contract?.annex_number.toString() + " от " + contract?.annex_date.toString()
+            val consigneeTitle = if (consignee?.title.isNullOrBlank()) "не указан" else consignee?.title
+            val consigneeAddress = if (consignee?.address.isNullOrBlank()) "не указан" else consignee?.address
+            val consigneeDestination = if (it.destination.isNullOrBlank()) "не указан" else it.destination.toString()
+            val manufacturerTitle = manufacturer?.title
+            val manufacturerLat = manufacturer?.address_lat
+            val manufacturerLng = manufacturer?.address_lng
+            val producedDate = if (it.produced.isNullOrBlank()) "не указана" else it.produced.toString()
+            val shippedDate = if (it.shipped.isNullOrBlank()) "не указана" else it.shipped.toString()
+            // texts
+            product_title_info.text = productTitle
+            product_code_info.text = productCode
+            company_title_info.text = manufacturerTitle
+            company_address_info.text = manufacturer?.address.toString()
+            company_phone_info.text = manufacturer?.phone.toString()
+            company_email_info.text = manufacturer?.email.toString()
+            customer_title_info.text = customerTitle
+            customer_address_info.text = customerAddress
+            consignee_title_info.text = consigneeTitle
+            consignee_address_info.text = consigneeAddress
+            consignee_destination_info.text = consigneeDestination
+            customer_phone_info.text = customerPhone
+            customer_email_info.text = customerEmail
+            customer_contract_info.text = customerContract
+            customer_annex_info.text = customerAnnex
+            produced_info.text = producedDate
+            shipped_info.text = shippedDate
+            // hide empty
+            if (productCode == "не указан") product_code.visibility = View.GONE
+            if (producedDate == "не указана") produced.visibility = View.GONE
+            if (shippedDate == "не указана") shipped.visibility = View.GONE
+            // map (manufacturer)
+            val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
+            manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
+            manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
+            manufacturerMap.uiSettings.isScrollGesturesEnabled = false
+            // map (customer)
+            if (customerLat.toString() == "0.0") {
+                customer_map_wrap.visibility = View.GONE
+            } else {
+                val customerMarker = LatLng(customerLat!!, customerLng!!)
+                customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
+                customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
+                customerMap.uiSettings.isScrollGesturesEnabled = false
+            }
+
+            if (it.options?.size!! > 0) {
+                product_options_recycler.isNestedScrollingEnabled = false;
+                product_options_recycler.adapter = ProductOptionsAdapter(it.options ?: mutableListOf()) { }
+            } else {
+                expand_2_empty.visibility = View.VISIBLE
+            }
+
+            if (it.files?.size!! > 0) {
+                product_files_recycler.isNestedScrollingEnabled = false;
+                product_files_recycler.adapter = ProductFilesAdapter(it.files ?: mutableListOf()) { file ->
+                    if (file.type == 1) {
+                        val intent = Intent(activity, WebViewActivity::class.java)
+                        intent.putExtra("path", file.path)
+                        intent.putExtra("title", file.title)
+                        startActivity(intent)
+                        activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    }
                 }
+            } else {
+                expand_5_empty.visibility = View.VISIBLE
+            }
 
-                if (it.options?.size!! > 0) {
-                    product_options_recycler.isNestedScrollingEnabled = false;
-                    product_options_recycler.adapter =
-                        ProductOptionsAdapter(it.options ?: mutableListOf()) { option ->
-                            //val bundle = Bundle()
-                            //bundle.putParcelable("option", option)
-                            //NavHostFragment.findNavController(this).navigate(R.id.action_withdrawsFragment_to_withdrawFragment, bundle)
-                        }
-                } else {
-                    expand_2_empty.visibility = View.VISIBLE
-                }
+            product_options_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_2.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
+            val targetHeight2 = product_options_recycler.measuredHeight
+            product_options_recycler.layoutParams.height = targetHeight2
 
-                if (it.files?.size!! > 0) {
-                    product_files_recycler.isNestedScrollingEnabled = false;
-                    product_files_recycler.adapter =
-                        ProductFilesAdapter(it.files ?: mutableListOf()) { file ->
-                            if (file.type == 1) {
-                                val intent = Intent(activity, WebViewActivity::class.java)
-                                intent.putExtra("path", file.path)
-                                intent.putExtra("title", file.title)
-                                startActivity(intent)
-                                activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                            }
-                        }
-                } else {
-                    expand_5_empty.visibility = View.VISIBLE
-                }
+            product_files_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_5.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
+            val targetHeight3 = product_files_recycler.measuredHeight
+            product_files_recycler.layoutParams.height = targetHeight3
 
-                product_options_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_2.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
-                val targetHeight2 = product_options_recycler.measuredHeight
-                product_options_recycler.layoutParams.height = targetHeight2
-
-                product_files_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_5.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
-                val targetHeight3 = product_files_recycler.measuredHeight
-                product_files_recycler.layoutParams.height = targetHeight3
-
-                btn_share.setOnClickListener { share(productUrl, productTitle) }
-
-            //} else {
-                //NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
-            //}
+            btn_share.setOnClickListener { share(productUrl, productTitle) }
         })
     }
 
