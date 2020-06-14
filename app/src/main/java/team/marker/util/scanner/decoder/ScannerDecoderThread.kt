@@ -10,6 +10,7 @@ import com.google.zxing.LuminanceSource
 import com.google.zxing.Result
 import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.BarcodeResult
+import com.journeyapps.barcodescanner.Decoder
 import com.journeyapps.barcodescanner.SourceData
 import com.journeyapps.barcodescanner.Util
 import com.journeyapps.barcodescanner.camera.CameraInstance

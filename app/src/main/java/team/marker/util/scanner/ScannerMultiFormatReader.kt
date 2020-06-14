@@ -14,13 +14,17 @@ class ScannerMultiFormatReader : ScannerReader {
     @Throws(NotFoundException::class)
     override fun decode(image: BinaryBitmap): Result {
         setHints(null)
-        return decodeInternal(image)
+        val res = decodeInternal(image)
+        //Log.e("init", res.toString())
+        return res
     }
 
     @Throws(NotFoundException::class)
     override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Result {
         setHints(hints)
-        return decodeInternal(image)
+        val res = decodeInternal(image)
+        //Log.e("init", res.toString())
+        return res
     }
 
     override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<Result?> {
@@ -31,7 +35,9 @@ class ScannerMultiFormatReader : ScannerReader {
     @Throws(NotFoundException::class)
     fun decodeWithState(image: BinaryBitmap): Result {
         if (readers == null) setHints(null)
-        return decodeInternal(image)
+        val res = decodeInternal(image)
+        //Log.e("init", res.toString())
+        return res
     }
 
     fun setHints(hints: MutableMap<DecodeHintType, Any?>?) {
@@ -88,10 +94,10 @@ class ScannerMultiFormatReader : ScannerReader {
                 try {
                     val res = reader.decodeMultiple(image, hints)
                     val output = res[0]
-                    Log.e("Res 1", res[0]!!.toString())
-                    Log.e("Res 2", res[1]!!.toString())
-                    Log.e("Res 3", res[2]!!.toString())
-                    Log.e("Res 4", res[3]!!.toString())
+                    if (res.size >= 1) Log.e("Res 1", res[0].toString())
+                    if (res.size >= 2) Log.e("Res 2", res[1].toString())
+                    if (res.size >= 3) Log.e("Res 3", res[2].toString())
+                    if (res.size >= 4) Log.e("Res 4", res[3].toString())
                     return output!!
                 } catch (re: ScannerReaderException) {
                     // continue

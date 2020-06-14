@@ -2,20 +2,20 @@ package team.marker.util.scanner.decoder
 
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.DecodeHintType
+import com.journeyapps.barcodescanner.Decoder
 import team.marker.util.scanner.ScannerMultiFormatReader
 import team.marker.util.scanner.decoder.ScannerDecoder
 import team.marker.util.scanner.decoder.ScannerDecoderFactory
 import team.marker.util.scanner.decoder.ScannerInvertedDecoder
 import java.util.*
 
-class ScannerDefaultDecoderFactory :
-    ScannerDecoderFactory {
+class ScannerDefaultDecoderFactory : ScannerDecoderFactory {
     private var decodeFormats: Collection<BarcodeFormat>? = null
     private var hints: Map<DecodeHintType, *>? = null
     private var characterSet: String? = null
     private var inverted = false
 
-    constructor() {}
+    constructor()
     constructor(decodeFormats: Collection<BarcodeFormat>?, hints: Map<DecodeHintType, *>?, characterSet: String?, inverted: Boolean) {
         this.decodeFormats = decodeFormats
         this.hints = hints

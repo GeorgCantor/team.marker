@@ -3,6 +3,7 @@ package team.marker.util.scanner
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import com.google.zxing.DecodeHintType
 import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.R
@@ -59,8 +60,7 @@ class ScannerBarcodeView : ScannerCameraPreview {
     }
 
     private fun initialize() {
-        decoderFactory =
-            ScannerDefaultDecoderFactory()
+        decoderFactory = ScannerDefaultDecoderFactory()
         resultHandler = Handler(resultCallback)
     }
 
