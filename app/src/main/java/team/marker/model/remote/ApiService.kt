@@ -19,7 +19,14 @@ interface ApiService {
     @GET("owner")
     fun getOwner(): Observable<ResponseAPI<User?>?>?
 
+    @POST("pick")
+    fun pick(@Body request: PickRequest?): Observable<ResponseAPI<ResponseMessage?>?>?
+
     @GET("product")
-    fun getProduct(@Query("product_id") product_id: String?): Observable<ResponseAPI<Product?>?>?
+    fun getProduct(
+        @Query("product_id") product_id: String?,
+        @Query("lat") lat: String?,
+        @Query("lng") lng: String?
+    ): Observable<ResponseAPI<Product?>?>?
 
 }

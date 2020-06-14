@@ -26,12 +26,15 @@ import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
+import team.marker.util.Constants
 import team.marker.util.ExpandList
+import team.marker.util.PreferenceManager
 import team.marker.util.shortToast
 
 class ProductFragment : Fragment() {
 
     private lateinit var viewModel: ProductViewModel
+    private lateinit var prefManager: PreferenceManager
     private val productUrl: String by lazy { arguments?.get("product_url") as String }
 
     private var phone: String? = null
@@ -48,6 +51,7 @@ class ProductFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf() }
+        prefManager = PreferenceManager(requireActivity())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,11 +68,13 @@ class ProductFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // common
+        // override
         super.onViewCreated(view, savedInstanceState)
+        // common
         val productId = productUrl.replace("https://marker.team/products/","")
-        //Log.e("message 2", productId)
-        viewModel.getProduct(productId)
+        val lat = prefManager.getString("lat") ?: ""
+        val lng = prefManager.getString("lng") ?: ""
+        viewModel.getProduct(productId, lat, lng)
         // vars
         list1 = ExpandList(expand_1, list_1_expand)
         list2 = ExpandList(expand_2, list_2_expand)

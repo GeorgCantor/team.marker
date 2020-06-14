@@ -2,7 +2,6 @@ package team.marker.view.scan
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,6 @@ import com.google.zxing.integration.android.IntentIntegrator
 import team.marker.R
 
 class ScanFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_scan, container, false)
@@ -30,9 +25,6 @@ class ScanFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         val res = scanResult?.contents
-        //val urlMatcher = "marker\\.team".toRegex()
-        //Log.e("Message", urlMatcher.find(res).toString())
-        //if (urlMatcher.find(res) != null) {
         if (res != null) {
             val bundle = Bundle()
             bundle.putString("product_url", res)
@@ -46,8 +38,7 @@ class ScanFragment : Fragment() {
         integrator.setPrompt("")
         //integrator.setBarcodeImageEnabled(false)
         integrator.setOrientationLocked(false)
-        integrator.captureActivity = MyCaptureActivity::class.java
-        //integrator.captureActivity = CaptureActivity::class.java
+        integrator.captureActivity = ScanActivity::class.java
         integrator.initiateScan()
     }
 

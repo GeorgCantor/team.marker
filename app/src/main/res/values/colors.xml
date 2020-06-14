@@ -13,4 +13,8 @@
     <color name="black_primary">#222222</color>
     <color name="blue_primary">#04368f</color>
     <color name="blue_gray">#8A9AAC</color>
+
+    <color name="scan_viewfinder_laser">#0241B3</color>
+    <color name="scan_pick_success">#4CAF50</color>
+    <color name="scan_pick_fail">#F44336</color>
 </resources>

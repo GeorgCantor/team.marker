@@ -37,7 +37,7 @@ object ApiClient {
                     .addHeader("Accept", "application/json")
                     .addHeader("v", API_VERSION)
                     .addHeader("app-key", APP_KEY)
-                    .addHeader("sid", access_sid.toString())
+                    .addHeader("sid", access_sid)
                     .addHeader("token", access_token)
                     .build()
                 return chain.proceed(request)
@@ -45,7 +45,6 @@ object ApiClient {
         }
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .addNetworkInterceptor(ResponseCacheInterceptor())
             .addInterceptor(OfflineResponseCacheInterceptor(context))
             .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)

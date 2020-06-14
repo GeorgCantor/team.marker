@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
             val token = response?.token
             // update
             if (sid != null && token != null) {
-                PreferenceManager(requireActivity()).saveInt("sid", sid)
+                PreferenceManager(requireActivity()).saveString("sid", sid)
                 PreferenceManager(requireActivity()).saveString("token", token)
                 access_sid = sid
                 access_token = token
