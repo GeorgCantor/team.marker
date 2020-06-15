@@ -8,6 +8,8 @@ import com.google.zxing.DecodeHintType
 import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.*
+import team.marker.util.scanner.common.ScannerBarcodeCallback
+import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.util.scanner.decoder.*
 import java.util.*
 
@@ -17,13 +19,13 @@ class ScannerBarcodeView : ScannerCameraPreview {
     }
 
     private var decodeMode = DecodeMode.NONE
-    private var callback: BarcodeCallback? = null
+    private var callback: ScannerBarcodeCallback? = null
     private var decoderThread: ScannerDecoderThread? = null
     internal var decoderFactory: ScannerDecoderFactory? = null
     private var resultHandler: Handler? = null
     private val resultCallback = Handler.Callback { message ->
         if (message.what == R.id.zxing_decode_succeeded) {
-            val result = message.obj as BarcodeResult
+            val result = message.obj as ScannerBarcodeResultMultiple
             if (result != null) {
                 if (callback != null && decodeMode != DecodeMode.NONE) {
                     callback!!.barcodeResult(result)
@@ -84,13 +86,13 @@ class ScannerBarcodeView : ScannerCameraPreview {
         return decoderFactory
     }
 
-    fun decodeSingle(callback: BarcodeCallback?) {
+    fun decodeSingle(callback: ScannerBarcodeCallback?) {
         decodeMode = DecodeMode.SINGLE
         this.callback = callback
         startDecoderThread()
     }
 
-    fun decodeContinuous(callback: BarcodeCallback?) {
+    fun decodeContinuous(callback: ScannerBarcodeCallback?) {
         decodeMode = DecodeMode.CONTINUOUS
         this.callback = callback
         startDecoderThread()

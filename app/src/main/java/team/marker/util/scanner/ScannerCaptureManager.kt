@@ -18,10 +18,11 @@ import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
 import com.google.zxing.client.android.R
-import com.journeyapps.barcodescanner.BarcodeCallback
-import com.journeyapps.barcodescanner.BarcodeResult
 import kotlinx.android.synthetic.main.fragment_pick.view.*
+import kotlinx.android.synthetic.main.toolbar_product_error.view.*
 import team.marker.util.runDelayed
+import team.marker.util.scanner.common.ScannerBarcodeCallback
+import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.view.pick.PickFragment
 
 class ScannerCaptureManager(
@@ -36,8 +37,8 @@ class ScannerCaptureManager(
     private lateinit var handler: Handler
     private var finishWhenClosed = false
 
-    private val callback: BarcodeCallback = object : BarcodeCallback {
-        override fun barcodeResult(result: BarcodeResult) {
+    private val callback: ScannerBarcodeCallback = object : ScannerBarcodeCallback {
+        override fun barcodeResult(result: ScannerBarcodeResultMultiple) {
             barcodeView.pause()
             beepManager.playBeepSoundAndVibrate()
             handler.post { returnResult(result) }
@@ -119,29 +120,52 @@ class ScannerCaptureManager(
         closeAndFinish()
     }
 
-    private fun returnResult(rawResult: BarcodeResult) {
+    private fun returnResult(rawResult: ScannerBarcodeResultMultiple) {
         // vars
-        val scanResults = rawResult.toString()
-        Log.e("MessageScan", scanResults)
-        val rx = "^https://marker.team/products/([0-9]+)$".toRegex()
-        // success
-        if (scanResults.matches(rx)) {
-            val productId = scanResults.replace(rx, "$1")
-            PickFragment.sendResult(productId)
+        //val scanResults = Gson().fromJson(rawResult, Result::class.java).toString()
+        //val jsonArray = JSONArray(rawResult)
+        val reg = Regex(";")
+        val scanArray = rawResult.toString().split(reg)
+        var productIds: MutableList<String> = ArrayList()
+        var rawResultSize = 0;
+        for (scanItem in scanArray) {
+            Log.e("scanItem", scanItem)
+            val rx = "^https://marker.team/products/([0-9]+)$".toRegex()
+            if (scanItem.matches(rx)) {
+                val productId = scanItem.replace(rx, "$1")
+                productIds.add(productId)
+            }
+            if (scanItem.isNotEmpty()) rawResultSize++
+        }
+        if (productIds.size >= 1) {
+            PickFragment.sendResult(productIds)
             view.pick_success.visibility = View.VISIBLE
+            view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
             runDelayed(1000) {
                 view.pick_success.visibility = View.GONE
                 barcodeView.resume()
             }
-        }
-        // fail
-        else {
+        } else {
             view.pick_fail.visibility = View.VISIBLE
+            view.pick_fail_text.text = "Распознано " + productIds.size + " из " + rawResultSize
             runDelayed(1000) {
                 view.pick_fail.visibility = View.GONE
                 barcodeView.resume()
             }
         }
+        //val scanResults = ScanArray[0]
+        //val scanResults = rawResult.toString()
+        //Log.e("MessageScan", scanResults)
+        //val rx = "^https://marker.team/products/([0-9]+)$".toRegex()
+        // success
+        /*if (scanResults.matches(rx)) {
+            //val productId = scanResults.replace(rx, "$1")
+
+        }
+        // fail
+        else {
+
+        }*/
 
     }
 

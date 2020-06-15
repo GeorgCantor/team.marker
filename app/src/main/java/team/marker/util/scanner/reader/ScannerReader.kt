@@ -9,6 +9,9 @@ interface ScannerReader {
     fun decode(image: BinaryBitmap): Result
 
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
+    fun decodeMultiple(image: BinaryBitmap): Array<Result?>
+
+    @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
     fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Result
 
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)

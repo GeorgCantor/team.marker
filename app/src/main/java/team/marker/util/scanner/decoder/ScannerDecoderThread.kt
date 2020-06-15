@@ -10,12 +10,11 @@ import com.google.zxing.LuminanceSource
 import com.google.zxing.Result
 import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.Decoder
 import com.journeyapps.barcodescanner.SourceData
 import com.journeyapps.barcodescanner.Util
 import com.journeyapps.barcodescanner.camera.CameraInstance
 import com.journeyapps.barcodescanner.camera.PreviewCallback
-import team.marker.util.scanner.decoder.ScannerDecoder
+import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 
 class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDecoder, resultHandler: Handler?) {
     private var cameraInstance: CameraInstance? = null
@@ -27,20 +26,12 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
     private var running = false
     private val LOCK = Any()
     private val callback = Handler.Callback { message ->
-        if (message.what == R.id.zxing_decode) {
-            decode(message.obj as SourceData)
-        } else if (message.what == R.id.zxing_preview_failed) {
-            // Error already logged. Try again.
-            requestNextPreview()
-        }
+        //if (message.what == R.id.zxing_decode) decode(message.obj as SourceData)
+        if (message.what == R.id.zxing_decode) decodeMultiple(message.obj as SourceData)
+        else if (message.what == R.id.zxing_preview_failed) requestNextPreview()
         true
     }
 
-    /**
-     * Start decoding.
-     *
-     * This must be called from the UI thread.
-     */
     fun start() {
         Util.validateMainThread()
         thread = HandlerThread(TAG)
@@ -50,11 +41,6 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
         requestNextPreview()
     }
 
-    /**
-     * Stop decoding.
-     *
-     * This must be called from the UI thread.
-     */
     fun stop() {
         Util.validateMainThread()
         synchronized(LOCK) {
@@ -67,40 +53,24 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
     private val previewCallback: PreviewCallback =
         object : PreviewCallback {
             override fun onPreview(sourceData: SourceData) {
-                // Only post if running, to prevent a warning like this:
-                //   java.lang.RuntimeException: Handler (android.os.Handler) sending message to a Handler on a dead thread
-
-                // synchronize to handle cases where this is called concurrently with stop()
                 synchronized(LOCK) {
-                    if (running) {
-                        // Post to our thread.
-                        handler!!.obtainMessage(R.id.zxing_decode, sourceData).sendToTarget()
-                    }
+                    if (running) handler!!.obtainMessage(R.id.zxing_decode, sourceData).sendToTarget()
                 }
             }
 
             override fun onPreviewError(e: Exception) {
                 synchronized(LOCK) {
-                    if (running) {
-                        // Post to our thread.
-                        handler!!.obtainMessage(R.id.zxing_preview_failed).sendToTarget()
-                    }
+                    if (running) handler!!.obtainMessage(R.id.zxing_preview_failed).sendToTarget()
                 }
             }
         }
 
     private fun requestNextPreview() {
-        if (cameraInstance!!.isOpen) {
-            cameraInstance!!.requestPreview(previewCallback)
-        }
+        if (cameraInstance!!.isOpen) cameraInstance!!.requestPreview(previewCallback)
     }
 
     protected fun createSource(sourceData: SourceData): LuminanceSource? {
-        return if (cropRect == null) {
-            null
-        } else {
-            sourceData.createSource()
-        }
+        return if (cropRect == null) null else sourceData.createSource()
     }
 
     private fun decode(sourceData: SourceData) {
@@ -108,39 +78,56 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
         var rawResult: Result? = null
         sourceData.cropRect = cropRect
         val source = createSource(sourceData)
-        if (source != null) {
-            rawResult = decoder.decode(source)
-        }
+        if (source != null) rawResult = decoder.decode(source)
         if (rawResult != null) {
-            // Don't log the barcode contents for security.
             val end = System.currentTimeMillis()
             Log.d(TAG, "Found barcode in " + (end - start) + " ms")
             if (resultHandler != null) {
                 val barcodeResult = BarcodeResult(rawResult, sourceData)
-                val message = Message.obtain(
-                    resultHandler,
-                    R.id.zxing_decode_succeeded,
-                    barcodeResult
-                )
+                val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
                 val bundle = Bundle()
                 message.data = bundle
                 message.sendToTarget()
             }
         } else {
             if (resultHandler != null) {
-                val message =
-                    Message.obtain(resultHandler, R.id.zxing_decode_failed)
+                val message = Message.obtain(resultHandler, R.id.zxing_decode_failed)
                 message.sendToTarget()
             }
         }
         if (resultHandler != null) {
-            val resultPoints =
-                decoder.possibleResultPoints
-            val message = Message.obtain(
-                resultHandler,
-                R.id.zxing_possible_result_points,
-                resultPoints
-            )
+            val resultPoints = decoder.possibleResultPoints
+            val message = Message.obtain(resultHandler, R.id.zxing_possible_result_points, resultPoints)
+            message.sendToTarget()
+        }
+        requestNextPreview()
+    }
+
+    private fun decodeMultiple(sourceData: SourceData) {
+        val start = System.currentTimeMillis()
+        var rawResult: Array<Result?>? = null
+        sourceData.cropRect = cropRect
+        val source = createSource(sourceData)
+        if (source != null) rawResult = decoder.decodeMultiple(source)
+        if (rawResult != null) {
+            val end = System.currentTimeMillis()
+            Log.d(TAG, "Found barcode in " + (end - start) + " ms")
+            if (resultHandler != null) {
+                val barcodeResult = ScannerBarcodeResultMultiple(rawResult, sourceData)
+                val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
+                val bundle = Bundle()
+                message.data = bundle
+                message.sendToTarget()
+            }
+        } else {
+            if (resultHandler != null) {
+                val message = Message.obtain(resultHandler, R.id.zxing_decode_failed)
+                message.sendToTarget()
+            }
+        }
+        if (resultHandler != null) {
+            val resultPoints = decoder.possibleResultPoints
+            val message = Message.obtain(resultHandler, R.id.zxing_possible_result_points, resultPoints)
             message.sendToTarget()
         }
         requestNextPreview()

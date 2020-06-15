@@ -8,36 +8,43 @@ import team.marker.util.scanner.reader.ScannerReader
 import java.util.*
 
 class ScannerMultiFormatReader : ScannerReader {
+
     private var hints: MutableMap<DecodeHintType, Any?>? = null
     private var readers: Array<ScannerReader>? = null
 
     @Throws(NotFoundException::class)
     override fun decode(image: BinaryBitmap): Result {
         setHints(null)
-        val res = decodeInternal(image)
-        //Log.e("init", res.toString())
-        return res
+        return decodeInternal(image)
+    }
+
+    @Throws(NotFoundException::class)
+    override fun decodeMultiple(image: BinaryBitmap): Array<Result?> {
+        setHints(null)
+        return decodeInternalMultiple(image)
     }
 
     @Throws(NotFoundException::class)
     override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Result {
         setHints(hints)
-        val res = decodeInternal(image)
-        //Log.e("init", res.toString())
-        return res
+        return decodeInternal(image)
     }
 
     override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<Result?> {
         setHints(hints)
-        return decodeInternalArray(image)
+        return decodeInternalMultiple(image)
     }
 
     @Throws(NotFoundException::class)
     fun decodeWithState(image: BinaryBitmap): Result {
         if (readers == null) setHints(null)
-        val res = decodeInternal(image)
-        //Log.e("init", res.toString())
-        return res
+        return decodeInternal(image)
+    }
+
+    @Throws(NotFoundException::class)
+    fun decodeWithStateMultiple(image: BinaryBitmap): Array<Result?> {
+        if (readers == null) setHints(null)
+        return decodeInternalMultiple(image)
     }
 
     fun setHints(hints: MutableMap<DecodeHintType, Any?>?) {
@@ -108,14 +115,15 @@ class ScannerMultiFormatReader : ScannerReader {
     }
 
     @Throws(NotFoundException::class)
-    private fun decodeInternalArray(image: BinaryBitmap): Array<Result?> {
+    private fun decodeInternalMultiple(image: BinaryBitmap): Array<Result?> {
         if (readers != null) {
             for (reader in readers!!) {
                 try {
                     val res = reader.decodeMultiple(image, hints)
-                    Log.e("Res 2", res.toString())
-                    //val output = res[0]
-                    //return output!!
+                    if (res.size >= 1) Log.e("Res M1", res[0].toString())
+                    if (res.size >= 2) Log.e("Res M2", res[1].toString())
+                    if (res.size >= 3) Log.e("Res M3", res[2].toString())
+                    if (res.size >= 4) Log.e("Res M4", res[3].toString())
                     return res
                 } catch (re: ScannerReaderException) {
                     // continue

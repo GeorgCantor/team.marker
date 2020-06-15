@@ -67,8 +67,10 @@ class PickFragment : Fragment() {
 
         private var productIds: MutableList<String> = mutableListOf()
 
-        fun sendResult(productId: String) {
-            if (!productIds.contains(productId)) productIds.add(productId)
+        fun sendResult(currentProductIds: MutableList<String>) {
+            for (currentProductId in currentProductIds) {
+                if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
+            }
             Log.e("productIds Size", productIds.size.toString())
         }
 

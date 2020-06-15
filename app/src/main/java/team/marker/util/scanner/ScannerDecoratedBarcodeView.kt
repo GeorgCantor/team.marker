@@ -17,6 +17,8 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import com.journeyapps.barcodescanner.camera.CameraSettings
 import kotlinx.android.synthetic.main.scanner.view.*
 import team.marker.R
+import team.marker.util.scanner.common.ScannerBarcodeCallback
+import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 open class ScannerDecoratedBarcodeView : FrameLayout {
@@ -26,8 +28,8 @@ open class ScannerDecoratedBarcodeView : FrameLayout {
 
     private var torchListener: TorchListener? = null
 
-    private inner class WrappedCallback(private val delegate: BarcodeCallback) : BarcodeCallback {
-        override fun barcodeResult(result: BarcodeResult) {
+    private inner class WrappedCallback(private val delegate: ScannerBarcodeCallback) : ScannerBarcodeCallback {
+        override fun barcodeResult(result: ScannerBarcodeResultMultiple) {
             delegate.barcodeResult(result)
         }
 
@@ -90,11 +92,11 @@ open class ScannerDecoratedBarcodeView : FrameLayout {
         return zxing_barcode_surface
     }
 
-    fun decodeSingle(callback: BarcodeCallback) {
+    fun decodeSingle(callback: ScannerBarcodeCallback) {
         barcodeView!!.decodeSingle(WrappedCallback(callback))
     }
 
-    fun decodeContinuous(callback: BarcodeCallback) {
+    fun decodeContinuous(callback: ScannerBarcodeCallback) {
         barcodeView!!.decodeContinuous(WrappedCallback(callback))
     }
 
