@@ -57,7 +57,7 @@ class PickFragment : Fragment() {
     }
 
     private fun finish(view: View) {
-        Log.e("productIds", productIds.toString())
+        //Log.e("productIds", productIds.toString())
         viewModel.pick(PickRequest(productIds))
         productIds = mutableListOf()
         Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_homeFragment)
@@ -71,7 +71,7 @@ class PickFragment : Fragment() {
             for (currentProductId in currentProductIds) {
                 if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
             }
-            Log.e("productIds Size", productIds.size.toString())
+            //Log.e("productIds Size", productIds.size.toString())
         }
 
     }

@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
 
     private fun logout() {
         // pref manager
-        prefManager.saveInt("sid", 0)
+        prefManager.saveString("sid", "")
         prefManager.saveString("token", "")
         viewModel.logout()
         // restart
@@ -98,18 +98,25 @@ class HomeFragment : Fragment() {
 
     private fun getLocationExecute() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) { return }
         fusedLocationClient
             .lastLocation
-            .addOnSuccessListener(requireActivity(),
-                OnSuccessListener<Location?> { location ->
-                    if (location != null) {
-                        val lat = location.latitude.toString()
-                        val lng = location.longitude.toString()
-                        prefManager.saveString("lat", lat)
-                        prefManager.saveString("lng", lng)
-                        Log.e("Message", "$lat:$lng")
-                    }
-                })
+            .addOnSuccessListener(requireActivity()) { location ->
+                if (location != null) {
+                    val lat = location.latitude.toString()
+                    val lng = location.longitude.toString()
+                    prefManager.saveString("lat", lat)
+                    prefManager.saveString("lng", lng)
+                    Log.e("Message", "$lat:$lng")
+                }
+            }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

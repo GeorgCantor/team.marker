@@ -1,13 +1,7 @@
 package team.marker.util.scanner.common
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.util.Log
-import com.google.gson.Gson
 import com.google.zxing.Result
-import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.SourceData
-import java.util.ArrayList
 
 class ScannerBarcodeResultMultiple(var result: Array<Result?>, protected var sourceData: SourceData) {
 
@@ -38,29 +32,22 @@ class ScannerBarcodeResultMultiple(var result: Array<Result?>, protected var sou
             }
         }
         return barcode
-    }*/
+    }
 
-    //val text: String get() = result[0]?.text!!
-    /*val rawBytes: ByteArray get() = result[0]?.rawBytes!!
+    val text: String get() = result[0]?.text!!
+    val rawBytes: ByteArray get() = result[0]?.rawBytes!!
     val resultPoints: Array<ResultPoint> get() = result[0]?.resultPoints!!
     val barcodeFormat: BarcodeFormat get() = result[0]?.barcodeFormat!!
     val resultMetadata: Map<ResultMetadataType, Any> get() = result[0]?.resultMetadata!!
     val timestamp: Long get() = result[0]?.timestamp!!*/
 
     override fun toString(): String {
-        //var newResult: MutableList<String> = ArrayList()
-        var newRes: String = ""
-        for (res in result) {
-            newRes += res?.text + ";"
-            //newResult.add(res?.text.toString())
-        }
-        //val newRes = Gson().toJson(newResult)
-        Log.e("newResult", newRes)
-        return newRes
-        //return if (result.isNotEmpty()) result[0]!!.text else ""
+        var res = ""
+        for (item in result) res += item?.text + ";eot;"
+        return res
     }
 
-    companion object {
+    /*companion object {
         private const val PREVIEW_LINE_WIDTH = 4.0f
         private const val PREVIEW_DOT_WIDTH = 10.0f
         private fun drawLine(canvas: Canvas, paint: Paint, a: ResultPoint?, b: ResultPoint?, scaleFactor: Int) {
@@ -68,6 +55,6 @@ class ScannerBarcodeResultMultiple(var result: Array<Result?>, protected var sou
                 canvas.drawLine(a.x / scaleFactor, a.y / scaleFactor, b.x / scaleFactor, b.y / scaleFactor, paint)
             }
         }
-    }
+    }*/
 
 }

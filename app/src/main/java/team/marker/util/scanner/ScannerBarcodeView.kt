@@ -21,32 +21,30 @@ class ScannerBarcodeView : ScannerCameraPreview {
     private var decodeMode = DecodeMode.NONE
     private var callback: ScannerBarcodeCallback? = null
     private var decoderThread: ScannerDecoderThread? = null
-    internal var decoderFactory: ScannerDecoderFactory? = null
+    private var decoderFactory: ScannerDecoderFactory? = null
     private var resultHandler: Handler? = null
     private val resultCallback = Handler.Callback { message ->
-        if (message.what == R.id.zxing_decode_succeeded) {
-            val result = message.obj as ScannerBarcodeResultMultiple
-            if (result != null) {
-                if (callback != null && decodeMode != DecodeMode.NONE) {
-                    callback!!.barcodeResult(result)
-                    if (decodeMode == DecodeMode.SINGLE) {
-                        stopDecoding()
+        when (message.what) {
+            R.id.zxing_decode_succeeded -> {
+                val result = message.obj as ScannerBarcodeResultMultiple
+                if (result != null) {
+                    if (callback != null && decodeMode != DecodeMode.NONE) {
+                        callback!!.barcodeResult(result)
+                        if (decodeMode == DecodeMode.SINGLE) stopDecoding()
                     }
                 }
+                return@Callback true
             }
-            return@Callback true
-        } else if (message.what == R.id.zxing_decode_failed) {
-            // Failed. Next preview is automatically tried.
-            return@Callback true
-        } else if (message.what == R.id.zxing_possible_result_points) {
-            val resultPoints =
-                message.obj as List<ResultPoint>
-            if (callback != null && decodeMode != DecodeMode.NONE) {
-                callback!!.possibleResultPoints(resultPoints)
+            R.id.zxing_decode_failed -> {
+                return@Callback true
             }
-            return@Callback true
+            R.id.zxing_possible_result_points -> {
+                val resultPoints = message.obj as List<ResultPoint>
+                if (callback != null && decodeMode != DecodeMode.NONE) callback!!.possibleResultPoints(resultPoints)
+                return@Callback true
+            }
+            else -> false
         }
-        false
     }
 
     constructor(context: Context?) : super(context!!) {

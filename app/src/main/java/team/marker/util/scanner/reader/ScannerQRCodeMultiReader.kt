@@ -37,9 +37,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                     result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.structuredAppendParity)
                 }
                 results.add(result)
-            } catch (re: ScannerReaderException) {
-                // ignore and continue
-            }
+            } catch (re: ScannerReaderException) { }
         }
         return if (results.isEmpty()) {
             EMPTY_RESULT_ARRAY

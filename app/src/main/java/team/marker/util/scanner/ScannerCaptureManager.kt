@@ -19,17 +19,12 @@ import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
 import com.google.zxing.client.android.R
 import kotlinx.android.synthetic.main.fragment_pick.view.*
-import kotlinx.android.synthetic.main.toolbar_product_error.view.*
 import team.marker.util.runDelayed
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.view.pick.PickFragment
 
-class ScannerCaptureManager(
-    private val activity: FragmentActivity,
-    private val barcodeView: ScannerDecoratedBarcodeView,
-    private val view: View
-) {
+class ScannerCaptureManager(private val activity: FragmentActivity, private val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
 
     private var destroyed = false
     private val inactivityTimer: InactivityTimer
@@ -72,9 +67,7 @@ class ScannerCaptureManager(
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) === PackageManager.PERMISSION_GRANTED) {
             barcodeView.resume()
         } else if (!askedPermission) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA),
-                cameraPermissionReqCode
-            )
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), cameraPermissionReqCode)
             askedPermission = true
         } else {
             // Wait for permission result
@@ -122,51 +115,41 @@ class ScannerCaptureManager(
 
     private fun returnResult(rawResult: ScannerBarcodeResultMultiple) {
         // vars
-        //val scanResults = Gson().fromJson(rawResult, Result::class.java).toString()
-        //val jsonArray = JSONArray(rawResult)
-        val reg = Regex(";")
-        val scanArray = rawResult.toString().split(reg)
-        var productIds: MutableList<String> = ArrayList()
-        var rawResultSize = 0;
-        for (scanItem in scanArray) {
-            Log.e("scanItem", scanItem)
-            val rx = "^https://marker.team/products/([0-9]+)$".toRegex()
-            if (scanItem.matches(rx)) {
-                val productId = scanItem.replace(rx, "$1")
+        val rx1 = Regex(";eot;")
+        val rawArray = rawResult.toString().split(rx1)
+        val productIds: MutableList<String> = ArrayList()
+        var rawResultSize = 0
+        // parse
+        for (rawItem in rawArray) {
+            Log.e("scanItem", rawItem)
+            val rx2 = "^https://marker.team/products/([0-9]+)$".toRegex()
+            if (rawItem.matches(rx2)) {
+                val productId = rawItem.replace(rx2, "$1")
                 productIds.add(productId)
             }
-            if (scanItem.isNotEmpty()) rawResultSize++
+            if (rawItem.isNotEmpty()) rawResultSize++
         }
+        // success
         if (productIds.size >= 1) {
             PickFragment.sendResult(productIds)
             view.pick_success.visibility = View.VISIBLE
             view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
             runDelayed(1000) {
                 view.pick_success.visibility = View.GONE
-                barcodeView.resume()
             }
-        } else {
+        }
+        // fail
+        else if (rawResultSize >= 1) {
             view.pick_fail.visibility = View.VISIBLE
             view.pick_fail_text.text = "Распознано " + productIds.size + " из " + rawResultSize
             runDelayed(1000) {
                 view.pick_fail.visibility = View.GONE
-                barcodeView.resume()
             }
         }
-        //val scanResults = ScanArray[0]
-        //val scanResults = rawResult.toString()
-        //Log.e("MessageScan", scanResults)
-        //val rx = "^https://marker.team/products/([0-9]+)$".toRegex()
-        // success
-        /*if (scanResults.matches(rx)) {
-            //val productId = scanResults.replace(rx, "$1")
-
+        // resume
+        runDelayed(1000) {
+            barcodeView.resume()
         }
-        // fail
-        else {
-
-        }*/
-
     }
 
     private fun displayFrameworkBugMessageAndExit() {

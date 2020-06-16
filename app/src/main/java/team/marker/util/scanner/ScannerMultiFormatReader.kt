@@ -49,8 +49,8 @@ class ScannerMultiFormatReader : ScannerReader {
 
     fun setHints(hints: MutableMap<DecodeHintType, Any?>?) {
         this.hints = hints
-        val tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER)
-        val formats: Collection<BarcodeFormat>? = if (hints == null) null else hints[DecodeHintType.POSSIBLE_FORMATS] as Collection<BarcodeFormat>?
+        /*val tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER)
+        val formats: Collection<BarcodeFormat>? = if (hints == null) null else hints[DecodeHintType.POSSIBLE_FORMATS] as Collection<BarcodeFormat>?*/
         val readers: MutableCollection<ScannerReader> = ArrayList()
         /*if (formats != null) {
             val addOneDReader = formats.contains(BarcodeFormat.UPC_A) ||
@@ -99,16 +99,8 @@ class ScannerMultiFormatReader : ScannerReader {
         if (readers != null) {
             for (reader in readers!!) {
                 try {
-                    val res = reader.decodeMultiple(image, hints)
-                    val output = res[0]
-                    if (res.size >= 1) Log.e("Res 1", res[0].toString())
-                    if (res.size >= 2) Log.e("Res 2", res[1].toString())
-                    if (res.size >= 3) Log.e("Res 3", res[2].toString())
-                    if (res.size >= 4) Log.e("Res 4", res[3].toString())
-                    return output!!
-                } catch (re: ScannerReaderException) {
-                    // continue
-                }
+                    return reader.decode(image, hints)
+                } catch (re: ScannerReaderException) { }
             }
         }
         throw NotFoundException.getNotFoundInstance()
@@ -125,9 +117,7 @@ class ScannerMultiFormatReader : ScannerReader {
                     if (res.size >= 3) Log.e("Res M3", res[2].toString())
                     if (res.size >= 4) Log.e("Res M4", res[3].toString())
                     return res
-                } catch (re: ScannerReaderException) {
-                    // continue
-                }
+                } catch (re: ScannerReaderException) { }
             }
         }
         throw NotFoundException.getNotFoundInstance()
