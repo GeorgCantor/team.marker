@@ -14,7 +14,6 @@ class PickViewModel(private val repository: ApiRepository) : ViewModel() {
 
     private lateinit var disposable: Disposable
 
-    val success = MutableLiveData<Boolean>()
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
 
@@ -23,7 +22,6 @@ class PickViewModel(private val repository: ApiRepository) : ViewModel() {
             repository.pick(request)
                 ?.subscribe({
                     Log.e("Message", request.toString())
-                    success.postValue(it?.success)
                     it?.response?.let { response.postValue(it) }
                     it?.error?.let { error.postValue(it.toString()) }
                 }, {

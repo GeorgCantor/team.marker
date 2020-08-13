@@ -77,12 +77,52 @@
         android:name="team.marker.view.pick.PickFragment"
         android:label="PickFragment">
         <action
-            android:id="@+id/action_pickFragment_to_homeFragment"
+            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
+            app:destination="@id/pickCompleteFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pickCompleteFragment"
+        android:name="team.marker.view.pick.complete.PickCompleteFragment"
+        android:label="PickCompleteFragment">
+        <action
+            android:id="@+id/action_pickCompleteFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_pickCompleteFragment_to_pickProductsFragment"
+            app:destination="@id/pickProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pickProductsFragment"
+        android:name="team.marker.view.pick.products.PickProductsFragment"
+        android:label="PickProductsFragment">
+        <action
+            android:id="@+id/action_pickProductsFragment_to_pickCompleteFragment"
+            app:destination="@id/pickCompleteFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_pickProductsFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

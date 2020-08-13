@@ -7,6 +7,8 @@ import team.marker.view.history.HistoryViewModel
 import team.marker.view.home.HomeViewModel
 import team.marker.view.login.LoginViewModel
 import team.marker.view.pick.PickViewModel
+import team.marker.view.pick.complete.PickCompleteViewModel
+import team.marker.view.pick.products.PickProductsViewModel
 import team.marker.view.product.ProductViewModel
 
 val repositoryModule = module {
@@ -18,6 +20,8 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { PickViewModel(get()) }
+    viewModel { PickCompleteViewModel(get()) }
+    viewModel { PickProductsViewModel(get()) }
     viewModel { ProductViewModel(get()) }
 }
 

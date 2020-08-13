@@ -1,7 +1,9 @@
 package team.marker.view.login
 
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnPreparedListener
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_login.*
-import team.marker.R
-import team.marker.model.requests.LoginRequest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import team.marker.R
+import team.marker.model.requests.LoginRequest
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.PreferenceManager
 import team.marker.util.show_error
+
 
 class LoginFragment : Fragment() {
 
@@ -33,7 +36,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        // buttons
         btn_login.setOnClickListener { apply() }
         // success
         viewModel.response.observe(viewLifecycleOwner, Observer { response ->
@@ -55,8 +58,21 @@ class LoginFragment : Fragment() {
             val msg = error?.error_msg
             // update
             show_error(context, error_login, "неправильный логин или пароль", 5000, 0)
-            //error_login.text = "неправильный логин или пароль"
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // video
+        val uri: Uri = Uri.parse("android.resource://team.marker/" + R.raw.bg_login)
+        videoView.setVideoURI(uri)
+        videoView.start()
+        // prepare
+        videoView.setOnPreparedListener { mediaPlayer ->
+            mediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING)
+            mediaPlayer.isLooping = true
+            mediaPlayer.setScreenOnWhilePlaying(false)
+        }
     }
 
     private fun apply() {

@@ -1,10 +1,14 @@
 package team.marker.view
 
 import android.Manifest
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         // vars (access)
         access_sid = PreferenceManager(this).getString("sid") ?: ""
         access_token = PreferenceManager(this).getString("token") ?: ""

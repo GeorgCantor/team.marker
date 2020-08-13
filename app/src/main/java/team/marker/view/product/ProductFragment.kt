@@ -1,16 +1,10 @@
 package team.marker.view.product
 
-import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -26,18 +20,14 @@ import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
-import team.marker.util.Constants
 import team.marker.util.ExpandList
 import team.marker.util.PreferenceManager
-import team.marker.util.shortToast
 
 class ProductFragment : Fragment() {
 
     private lateinit var viewModel: ProductViewModel
     private lateinit var prefManager: PreferenceManager
     private val productUrl: String by lazy { arguments?.get("product_url") as String }
-
-    private var phone: String? = null
 
     private lateinit var list1: ExpandList
     private lateinit var list2: ExpandList
@@ -81,42 +71,19 @@ class ProductFragment : Fragment() {
         list3 = ExpandList(expand_3, list_3_expand)
         list4 = ExpandList(expand_4, list_4_expand)
         list5 = ExpandList(expand_5, list_5_expand)
-        list1.toggle_list()
+        list1.toggleList("force")
         // events
         btn_back.setOnClickListener { back(view) }
-        list_1.setOnClickListener { list1.toggle_list() }
-        list_2.setOnClickListener { list2.toggle_list() }
-        list_3.setOnClickListener { list3.toggle_list() }
-        list_4.setOnClickListener { list4.toggle_list() }
+        list_1.setOnClickListener { list1.toggleList() }
+        list_2.setOnClickListener { list2.toggleList() }
+        list_3.setOnClickListener { list3.toggleList() }
+        list_4.setOnClickListener { list4.toggleList() }
         list_5.setOnClickListener {
             list_5.parent.requestChildFocus(list_5, list_5)
-            list5.toggle_list()
-        }
-
-        company_phone_info.setOnClickListener {
-            phone = company_phone_info.text.toString()
-            phone = phone?.replace("[^\\d]+", "")
-            makeCall()
-        }
-
-        customer_phone_info.setOnClickListener {
-            phone = customer_phone_info.text.toString()
-            phone = phone?.replace("[^\\d]+", "")
-            makeCall()
-        }
-
-        company_email_info.setOnClickListener {
-            val email = company_email_info.text.toString()
-            sendEmail(email)
-        }
-
-        customer_email_info.setOnClickListener {
-            val email = customer_email_info.text.toString()
-            sendEmail(email)
+            list5.toggleList()
         }
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
-            //Log.e("message", "not found")
             NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
         })
 
@@ -131,8 +98,6 @@ class ProductFragment : Fragment() {
             val productTitle = it.title.toString()
             val customerTitle = if (customer?.title.isNullOrBlank()) "не указан" else customer?.title
             val customerAddress = if (customer?.address.isNullOrBlank()) "не указан" else customer?.address
-            val customerPhone = if (customer?.phone.isNullOrBlank()) "не указан" else customer?.phone
-            val customerEmail = if (customer?.email.isNullOrBlank()) "не указана" else customer?.email
             val customerLat = customer?.address_lat
             val customerLng = customer?.address_lng
             val customerContract = if (contract?.title.isNullOrBlank()) "не указан" else contract?.title.toString() + " от " + contract?.date.toString()
@@ -151,14 +116,11 @@ class ProductFragment : Fragment() {
             company_title_info.text = manufacturerTitle
             company_address_info.text = manufacturer?.address.toString()
             company_phone_info.text = manufacturer?.phone.toString()
-            company_email_info.text = manufacturer?.email.toString()
             customer_title_info.text = customerTitle
             customer_address_info.text = customerAddress
             consignee_title_info.text = consigneeTitle
             consignee_address_info.text = consigneeAddress
             consignee_destination_info.text = consigneeDestination
-            customer_phone_info.text = customerPhone
-            customer_email_info.text = customerEmail
             customer_contract_info.text = customerContract
             customer_annex_info.text = customerAnnex
             produced_info.text = producedDate
@@ -229,7 +191,8 @@ class ProductFragment : Fragment() {
     }
 
     private fun back(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_productFragment_to_homeFragment)
+        activity?.onBackPressed()
+        //Navigation.findNavController(view).navigate(R.id.action_productFragment_to_homeFragment)
     }
 
     private fun share(url: String, title: String) {
@@ -240,31 +203,4 @@ class ProductFragment : Fragment() {
         startActivity(Intent.createChooser(i, "Поделиться URL"))
     }
 
-    private fun makeCall() {
-        // vars
-        val i = Intent(Intent.ACTION_CALL)
-        i.data = Uri.parse("tel:+$phone")
-        // actions
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 10)
-            return
-        } else {
-            try {
-                startActivity(i)
-            } catch (ex: ActivityNotFoundException) {
-                requireActivity().shortToast("приложение для звонков не найдено")
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            makeCall()
-        }
-    }
-
-    private fun sendEmail(email: String) {
-        val i = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
-        startActivity(Intent.createChooser(i, "Отправить email"))
-    }
 }

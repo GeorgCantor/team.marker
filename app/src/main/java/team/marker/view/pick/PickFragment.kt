@@ -58,9 +58,13 @@ class PickFragment : Fragment() {
 
     private fun finish(view: View) {
         //Log.e("productIds", productIds.toString())
-        viewModel.pick(PickRequest(productIds))
+        val bundle = Bundle()
+        //bundle.putString("product_ids", "ids")
+        val array = arrayListOf<String>()
+        array.addAll(productIds)
+        bundle.putStringArrayList("product_ids", array)
         productIds = mutableListOf()
-        Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_homeFragment)
+        Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
     }
 
     companion object {

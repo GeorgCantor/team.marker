@@ -29,4 +29,7 @@ interface ApiService {
         @Query("lng") lng: String?
     ): Observable<ResponseAPI<Product?>?>?
 
+    @GET("products")
+    fun getProducts(@Query("product_ids") product_ids: String?): Observable<ResponseAPI<Products?>?>?
+
 }

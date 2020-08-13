@@ -1,60 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_intro_2"
-    android:fillViewport="true">
+    android:fitsSystemWindows="true"
+    android:background="#0a141d"
+    app:statusBarBackground="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/intro_layout"
+        <VideoView
+            android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:layout_gravity="center" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/logo_group"
+                android:id="@+id/intro_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/input_group"
-                app:layout_constraintVertical_bias="0.3">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="76dp"
-                android:layout_height="76dp"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="30dp"
                 android:contentDescription="@string/app_name"
-                app:layout_constraintBottom_toTopOf="@+id/app_name_title"
+                app:layout_constraintBottom_toTopOf="@id/input_group"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_logo_white_2" />
-
-            <TextView
-                android:id="@+id/app_name_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-condensed"
-                android:letterSpacing="0.05"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:textColor="#eeffffff"
-                android:textSize="28sp"
-                app:layout_constraintTop_toBottomOf="@+id/image_view"
-                app:layout_constraintStart_toStartOf="@id/image_view"
-                app:layout_constraintEnd_toEndOf="@id/image_view"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintVertical_bias="0.3"
+                android:layout_marginVertical="50dp"
+                app:srcCompat="@drawable/ic_logo_new" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/input_group"
@@ -64,11 +62,13 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="25dp"
-                android:background="@drawable/wrap_primary"
-                android:paddingTop="25dp"
+                android:background="@drawable/wrap_login"
                 android:paddingStart="25dp"
+                android:paddingTop="25dp"
                 android:paddingEnd="25dp"
                 android:paddingBottom="40dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <EditText
@@ -156,7 +156,7 @@
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/btn_login"
                     android:fontFamily="sans-serif-medium"
                     android:letterSpacing="0.05"
@@ -171,8 +171,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

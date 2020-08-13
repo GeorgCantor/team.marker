@@ -22,7 +22,7 @@ class ExpandList(val view: View, val icon: View) {
         val icon = icon
     }
 
-    fun toggle_list() {
+    fun toggleList(mode: String? = "default") {
         if (inProgress) return
         inProgress = true
         if (isCollapsed) {
@@ -30,7 +30,7 @@ class ExpandList(val view: View, val icon: View) {
             isCollapsed = false
 
             val rotate = RotateAnimation(0F, 180F, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-            rotate.duration = 300
+            rotate.duration = if (mode == "force") 0 else 300
             rotate.interpolator = DecelerateInterpolator()
             rotate.fillAfter = true
             icon.startAnimation(rotate)
@@ -39,7 +39,7 @@ class ExpandList(val view: View, val icon: View) {
             isCollapsed = true
 
             val rotate = RotateAnimation(180F, 0F, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-            rotate.duration = 300
+            rotate.duration = if (mode == "force") 0 else 300
             rotate.interpolator = DecelerateInterpolator()
             rotate.fillAfter = true
             icon.startAnimation(rotate)
