@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -23,6 +24,9 @@ class PickCompleteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf() }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,7 +46,10 @@ class PickCompleteFragment : Fragment() {
         if (size == 0) {
             input_email.visibility = View.GONE
             btn_send.text = "Закрыть"
+            //btn_send.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_logout)
+            note_title.setImageResource(R.drawable.ic_empty)
             btn_products.visibility = View.GONE
+            ic_email.visibility = View.GONE
         }
         btn_products.setOnClickListener { products(view) }
         btn_send.setOnClickListener { send(view, size) }

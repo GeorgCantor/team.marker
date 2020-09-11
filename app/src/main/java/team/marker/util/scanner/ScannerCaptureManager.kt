@@ -147,7 +147,7 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
             }
         }
         // resume
-        runDelayed(1000) {
+        runDelayed(700) {
             barcodeView.resume()
         }
     }

@@ -161,19 +161,13 @@ open class ScannerCameraPreview : ViewGroup {
         initialize(context, attrs, defStyleAttr, 0)
     }
 
-    private fun initialize(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) {
+    private fun initialize(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         if (background == null) {
             // Default to SurfaceView colour, so that there are less changes.
             setBackgroundColor(Color.BLACK)
         }
         initializeAttributes(attrs)
-        windowManager =
-            context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         stateHandler = Handler(stateCallback)
         rotationListener = RotationListener()
     }
@@ -384,21 +378,13 @@ open class ScannerCameraPreview : ViewGroup {
     }
 
     private fun startPreviewIfReady() {
+        //Log.e("scan", "resume")
         if (currentSurfaceSize != null && previewSize != null && surfaceRect != null) {
-            if (surfaceView != null && currentSurfaceSize == Size(
-                    surfaceRect!!.width(),
-                    surfaceRect!!.height()
-                )
-            ) {
+            if (surfaceView != null && currentSurfaceSize == Size(surfaceRect!!.width(), surfaceRect!!.height())) {
                 startCameraPreview(CameraSurface(surfaceView!!.holder))
             } else if (textureView != null && Build.VERSION.SDK_INT >= 14 && textureView!!.surfaceTexture != null) {
                 if (previewSize != null) {
-                    val transform = calculateTextureTransform(
-                        Size(
-                            textureView!!.width,
-                            textureView!!.height
-                        ), previewSize!!
-                    )
+                    val transform = calculateTextureTransform(Size(textureView!!.width, textureView!!.height), previewSize!!)
                     textureView!!.setTransform(transform)
                 }
                 startCameraPreview(CameraSurface(textureView!!.surfaceTexture))
@@ -541,16 +527,11 @@ open class ScannerCameraPreview : ViewGroup {
         this.marginFraction = marginFraction
     }
 
-    /**
-     * Considered active if between resume() and pause().
-     *
-     * @return true if active
-     */
-    protected val isActive: Boolean
-        protected get() = cameraInstance != null
+    private val isActive: Boolean
+        get() = cameraInstance != null
 
     private val displayRotation: Int
-        private get() = windowManager!!.defaultDisplay.rotation
+        get() = windowManager!!.defaultDisplay.rotation
 
     private fun initCamera() {
         if (cameraInstance != null) {

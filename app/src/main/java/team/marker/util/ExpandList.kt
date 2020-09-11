@@ -53,7 +53,7 @@ class ExpandList(val view: View, val icon: View) {
         v.visibility = View.VISIBLE
 
         val va = ValueAnimator.ofInt(1, targetHeight)
-        va.addUpdateListener { animation ->
+        va.addUpdateListener {
             //v.layoutParams.height = (animation.animatedValue as Int)
             v.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
             v.requestLayout()

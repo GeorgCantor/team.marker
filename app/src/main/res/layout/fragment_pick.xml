@@ -4,55 +4,17 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fff"
+    android:background="#000000"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true"
-    app:statusBarBackground="@android:color/transparent">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#ffffff"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/btn_scan_flash"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_flash"
-            android:contentDescription="Вспышка" />
-
-        <Button
-            android:id="@+id/btn_scan_back"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="20dp"
-            android:paddingHorizontal="10dp"
-            android:text="Завершить"
-            android:textSize="12sp"
-            android:textColor="#fff"
-            android:letterSpacing="0.05"
-            android:background="@drawable/btn_primary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    app:statusBarBackground="#000000">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -112,6 +74,44 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#55000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_scan_flash"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_flash_2"
+            android:contentDescription="Вспышка" />
+
+        <Button
+            android:id="@+id/btn_scan_back"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:paddingHorizontal="10dp"
+            android:text="Завершить"
+            android:textSize="12sp"
+            android:textColor="#fff"
+            android:letterSpacing="0.05"
+            android:background="#000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

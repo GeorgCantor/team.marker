@@ -26,6 +26,9 @@ class PickFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf() }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,10 +50,12 @@ class PickFragment : Fragment() {
                 false -> {
                     barcodeScannerView?.setTorchOn();
                     torchOn = true
+                    btn_scan_flash.setImageResource(R.drawable.ic_flash_off_2)
                 }
                 true -> {
                     barcodeScannerView?.setTorchOff();
                     torchOn = false
+                    btn_scan_flash.setImageResource(R.drawable.ic_flash_2)
                 }
             }
         }

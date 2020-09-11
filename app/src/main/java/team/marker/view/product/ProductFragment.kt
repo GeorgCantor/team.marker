@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,8 +21,10 @@ import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
+import team.marker.util.DividerItemDecorator
 import team.marker.util.ExpandList
 import team.marker.util.PreferenceManager
+
 
 class ProductFragment : Fragment() {
 
@@ -44,7 +47,11 @@ class ProductFragment : Fragment() {
         prefManager = PreferenceManager(requireActivity())
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // inflate
         val v = inflater.inflate(R.layout.fragment_product, container, false)
         // map (manufacturer)
@@ -61,7 +68,7 @@ class ProductFragment : Fragment() {
         // override
         super.onViewCreated(view, savedInstanceState)
         // common
-        val productId = productUrl.replace("https://marker.team/products/","")
+        val productId = productUrl.replace("https://marker.team/products/", "")
         val lat = prefManager.getString("lat") ?: ""
         val lng = prefManager.getString("lng") ?: ""
         viewModel.getProduct(productId, lat, lng)
@@ -147,13 +154,15 @@ class ProductFragment : Fragment() {
             if (it.options?.size!! > 0) {
                 product_options_recycler.isNestedScrollingEnabled = false;
                 product_options_recycler.adapter = ProductOptionsAdapter(it.options ?: mutableListOf()) { }
+                //val dividerItemDecoration: ItemDecoration = DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!)
+                //product_options_recycler.addItemDecoration(dividerItemDecoration)
             } else {
                 expand_2_empty.visibility = View.VISIBLE
             }
 
             if (it.files?.size!! > 0) {
                 product_files_recycler.isNestedScrollingEnabled = false;
-                product_files_recycler.adapter = ProductFilesAdapter(it.files ?: mutableListOf()) { file ->
+                product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
                     if (file.type == 1) {
                         val intent = Intent(activity, WebViewActivity::class.java)
                         intent.putExtra("path", file.path)
@@ -166,11 +175,21 @@ class ProductFragment : Fragment() {
                 expand_5_empty.visibility = View.VISIBLE
             }
 
-            product_options_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_2.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
+            product_options_recycler.measure(
+                View.MeasureSpec.makeMeasureSpec(
+                    expand_2.width,
+                    View.MeasureSpec.EXACTLY
+                ), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST)
+            )
             val targetHeight2 = product_options_recycler.measuredHeight
             product_options_recycler.layoutParams.height = targetHeight2
 
-            product_files_recycler.measure(View.MeasureSpec.makeMeasureSpec(expand_5.width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST))
+            product_files_recycler.measure(
+                View.MeasureSpec.makeMeasureSpec(
+                    expand_5.width,
+                    View.MeasureSpec.EXACTLY
+                ), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST)
+            )
             val targetHeight3 = product_files_recycler.measuredHeight
             product_files_recycler.layoutParams.height = targetHeight3
 

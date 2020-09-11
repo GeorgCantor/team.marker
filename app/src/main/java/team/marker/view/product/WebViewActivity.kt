@@ -26,6 +26,10 @@ class WebViewActivity : AppCompatActivity() {
         // common
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_webview)
+        // status bar
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = resources.getColor(team.marker.R.color.dark_gray)
+        }
         // vars
         val filePath = intent.getStringExtra("path")
         val fileTitle = intent.getStringExtra("title")

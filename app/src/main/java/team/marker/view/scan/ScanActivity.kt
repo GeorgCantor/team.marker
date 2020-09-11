@@ -8,6 +8,9 @@ import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import kotlinx.android.synthetic.main.activity_scan.*
+import kotlinx.android.synthetic.main.activity_scan.btn_scan_back
+import kotlinx.android.synthetic.main.activity_scan.btn_scan_flash
+import kotlinx.android.synthetic.main.fragment_pick.*
 
 class ScanActivity : AppCompatActivity() {
 
@@ -22,6 +25,10 @@ class ScanActivity : AppCompatActivity() {
         capture!!.initializeFromIntent(intent, savedInstanceState)
         capture!!.decode()
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = resources.getColor(team.marker.R.color.blackText)
+        }
+
         btn_scan_back.setOnClickListener { finish() }
 
         btn_scan_flash.setOnClickListener {
@@ -30,10 +37,12 @@ class ScanActivity : AppCompatActivity() {
                 false -> {
                     barcodeScannerView?.setTorchOn();
                     torchOn = true
+                    btn_scan_flash.setImageResource(team.marker.R.drawable.ic_flash_off_2)
                 }
                 true -> {
                     barcodeScannerView?.setTorchOff();
                     torchOn = false
+                    btn_scan_flash.setImageResource(team.marker.R.drawable.ic_flash_2)
                 }
             }
         }

@@ -18,4 +18,7 @@
         <item name="android:textSelectHandle">@drawable/transparent</item>
     </style>
 
+    <style name="BtnTheme" parent="Theme.MaterialComponents.Light.Bridge">
+    </style>
+
 </resources>

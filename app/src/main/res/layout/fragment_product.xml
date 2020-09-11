@@ -43,7 +43,7 @@
                     android:id="@+id/list_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ECF5FF"
+                    android:background="#fff"
                     android:animateLayoutChanges="true"
                     app:layout_constraintTop_toTopOf="@+id/content">
 
@@ -62,9 +62,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Описание"
-                        android:textColor="#333"
+                        android:textColor="@color/blue_gray"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_1_photo"
                         app:layout_constraintStart_toEndOf="@id/list_1_photo"
@@ -111,23 +111,22 @@
                             android:layout_marginTop="14dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif"
                             android:text="Наименование"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif-medium"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
                             android:id="@+id/product_title_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif-medium"
                             android:text="Название изделия"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -163,7 +162,7 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указан"
@@ -207,7 +206,7 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указана"
@@ -253,7 +252,7 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указана"
@@ -281,7 +280,7 @@
                     android:id="@+id/list_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ECF5FF"
+                    android:background="#fff"
                     android:animateLayoutChanges="true"
                     app:layout_constraintTop_toBottomOf="@+id/expand_1">
 
@@ -300,9 +299,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Характеристики"
-                        android:textColor="#333"
+                        android:textColor="@color/blue_gray"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_2_photo"
                         app:layout_constraintStart_toEndOf="@id/list_2_photo"
@@ -380,6 +379,12 @@
                         tools:itemCount="3"
                         tools:listitem="@layout/item_product_option" />
 
+                    <!--<View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#ccc"
+                        app:layout_constraintBottom_toBottomOf="parent" />-->
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -387,7 +392,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
-                    android:background="#ECF5FF"
+                    android:background="#fff"
                     app:layout_constraintTop_toBottomOf="@+id/expand_2">
 
                     <ImageView
@@ -403,10 +408,10 @@
                         android:id="@+id/list_3_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-medium"
                         android:paddingStart="20dp"
                         android:text="Поставщик"
-                        android:textColor="#333"
+                        android:textColor="@color/blue_gray"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_3_photo"
                         app:layout_constraintStart_toEndOf="@id/list_3_photo"
@@ -448,7 +453,7 @@
 
                         <TextView
                             android:id="@+id/company_title_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -456,7 +461,7 @@
                             android:paddingEnd="20dp"
                             android:text="Изготовитель"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -465,12 +470,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="Наименование изготовителя"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -493,7 +498,7 @@
 
                         <TextView
                             android:id="@+id/company_address_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -501,7 +506,7 @@
                             android:paddingEnd="20dp"
                             android:text="Адрес изготовителя"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -510,12 +515,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -538,7 +543,7 @@
 
                         <TextView
                             android:id="@+id/company_phone_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -546,7 +551,7 @@
                             android:paddingEnd="20dp"
                             android:text="Отдел закупки"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -555,12 +560,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -597,7 +602,7 @@
                     android:id="@+id/list_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ECF5FF"
+                    android:background="#fff"
                     android:animateLayoutChanges="true"
                     app:layout_constraintTop_toBottomOf="@+id/expand_3">
 
@@ -616,9 +621,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Заказчик"
-                        android:textColor="#333"
+                        android:textColor="@color/blue_gray"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_4_photo"
                         app:layout_constraintStart_toEndOf="@id/list_4_photo"
@@ -665,23 +670,23 @@
                             android:layout_marginTop="14dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Заказчик"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
                             android:id="@+id/customer_title_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:fontFamily="sans-serif"
                             android:text="Заказчик"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -702,7 +707,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/customer_title">
                         <TextView
                             android:id="@+id/customer_address_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -710,7 +715,7 @@
                             android:paddingEnd="20dp"
                             android:text="Адрес заказчика"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
@@ -718,12 +723,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
                         <View
@@ -750,23 +755,23 @@
                             android:layout_marginTop="14dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Грузополучатель"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
                             android:id="@+id/consignee_title_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:fontFamily="sans-serif"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -792,23 +797,23 @@
                             android:layout_marginTop="14dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Адрес грузополучателя"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
                             android:id="@+id/consignee_address_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:fontFamily="sans-serif"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <View
@@ -833,23 +838,23 @@
                             android:layout_marginTop="14dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Пункт назначения"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
                             android:id="@+id/consignee_destination_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:fontFamily="sans-serif"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <View
@@ -869,7 +874,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/consignee_destination">
                         <TextView
                             android:id="@+id/customer_contract_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -877,7 +882,7 @@
                             android:paddingEnd="20dp"
                             android:text="Договор поставки"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
@@ -885,12 +890,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указан"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
                         <View
@@ -912,7 +917,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/customer_contract">
                         <TextView
                             android:id="@+id/customer_annex_label"
-                            android:fontFamily="sans-serif"
+                            android:fontFamily="sans-serif-medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
@@ -920,7 +925,7 @@
                             android:paddingEnd="20dp"
                             android:text="Приложение"
                             android:textColor="@color/blue_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                         <TextView
@@ -928,12 +933,12 @@
                             android:fontFamily="sans-serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="36dp"
+                            android:layout_marginTop="40dp"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="не указано"
                             android:textColor="@color/black_primary"
-                            android:textSize="18sp"
+                            android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
                         <View
@@ -978,7 +983,7 @@
                     android:id="@+id/list_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ECF5FF"
+                    android:background="#fff"
                     android:animateLayoutChanges="true"
                     app:layout_constraintTop_toBottomOf="@+id/expand_4">
 
@@ -997,9 +1002,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-medium"
                         android:text="Документация"
-                        android:textColor="#333"
+                        android:textColor="@color/blue_gray"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_5_photo"
                         app:layout_constraintStart_toEndOf="@id/list_5_photo"

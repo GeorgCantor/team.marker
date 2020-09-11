@@ -22,13 +22,13 @@ import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 open class ScannerDecoratedBarcodeView : FrameLayout {
-    var barcodeView: ScannerBarcodeView? = null
-    var viewFinder: ScannerViewfinderView? = null
-    var statusView: TextView? = null
 
+    var barcodeView: ScannerBarcodeView? = null
+    private var viewFinder: ScannerViewfinderView? = null
+    private var statusView: TextView? = null
     private var torchListener: TorchListener? = null
 
-    private inner class WrappedCallback(private val delegate: ScannerBarcodeCallback) : ScannerBarcodeCallback {
+    private class WrappedCallback(private val delegate: ScannerBarcodeCallback) : ScannerBarcodeCallback {
         override fun barcodeResult(result: ScannerBarcodeResultMultiple) {
             delegate.barcodeResult(result)
         }

@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.media.MediaPlayer.OnPreparedListener
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,9 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getViewModel { parametersOf() }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,7 +68,7 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // video
-        val uri: Uri = Uri.parse("android.resource://team.marker/" + R.raw.bg_login)
+        /*val uri: Uri = Uri.parse("android.resource://team.marker/" + R.raw.bg_login)
         videoView.setVideoURI(uri)
         videoView.start()
         // prepare
@@ -72,7 +76,7 @@ class LoginFragment : Fragment() {
             mediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING)
             mediaPlayer.isLooping = true
             mediaPlayer.setScreenOnWhilePlaying(false)
-        }
+        }*/
     }
 
     private fun apply() {
