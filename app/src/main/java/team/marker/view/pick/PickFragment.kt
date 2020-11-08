@@ -1,25 +1,27 @@
 package team.marker.view.pick
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_pick.*
 import kotlinx.android.synthetic.main.fragment_pick.btn_scan_flash
+import kotlinx.android.synthetic.main.fragment_pick.view.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
-import team.marker.model.requests.PickRequest
-import team.marker.util.scanner.ScannerCaptureManager
+import team.marker.model.requests.PickProduct
+import team.marker.util.PreferenceManager
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
 class PickFragment : Fragment() {
 
     private lateinit var viewModel: PickViewModel
-    private lateinit var capture: ScannerCaptureManager
+    private lateinit var capture: PickCaptureManager
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
 
@@ -39,7 +41,7 @@ class PickFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
-        capture = ScannerCaptureManager(requireActivity(), barcodeScannerView!!, view)
+        capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
 
         btn_scan_back.setOnClickListener { finish(view) }
@@ -59,28 +61,55 @@ class PickFragment : Fragment() {
                 }
             }
         }
+
+        btn_settings.setOnClickListener { settings(view) }
+        btn_pick_window.setOnClickListener { resume(view) }
     }
 
     private fun finish(view: View) {
         //Log.e("productIds", productIds.toString())
         val bundle = Bundle()
         //bundle.putString("product_ids", "ids")
-        val array = arrayListOf<String>()
-        array.addAll(productIds)
-        bundle.putStringArrayList("product_ids", array)
-        productIds = mutableListOf()
+        val array = arrayListOf<PickProduct>()
+        array.addAll(products)
+        bundle.putParcelableArrayList("products", array)
+        products = mutableListOf()
         Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
+    }
+
+    private fun settings(view: View) {
+        Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_pickSettingsFragment)
+    }
+
+    private fun resume(view: View) {
+        // vars
+        val mode = PreferenceManager(requireActivity()).getInt("mode") ?: 0
+        val product = PickProduct()
+        product.id = currentProductId.toInt()
+        product.quantity = input_quantity.text.toString()
+        product.type = mode
+        products.add(product)
+        // view
+        pick_window.visibility = View.GONE
+        pick_bg.visibility = View.GONE
+        capture.barcodeView.resume()
     }
 
     companion object {
 
-        private var productIds: MutableList<String> = mutableListOf()
+        private var products: MutableList<PickProduct> = mutableListOf()
+        private var currentProductId: String = "0"
 
-        fun sendResult(currentProductIds: MutableList<String>) {
-            for (currentProductId in currentProductIds) {
+        fun showQuantityWindow(view: View, currentProductIds: MutableList<String>) {
+            // parse
+            /*for (currentProductId in currentProductIds) {
                 if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
-            }
-            //Log.e("productIds Size", productIds.size.toString())
+            }*/
+            currentProductId = "0"
+            if (currentProductIds.size > 0) currentProductId = currentProductIds[0]
+            // view
+            view.pick_window.visibility = View.VISIBLE
+            view.pick_bg.visibility = View.VISIBLE
         }
 
     }

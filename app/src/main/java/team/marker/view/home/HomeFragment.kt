@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         // buttons
         btn_scan.setOnClickListener { scan(view) }
         btn_pick.setOnClickListener { pick(view) }
-        //btn_history.setOnClickListener { history(view) }
+        btn_breach.setOnClickListener { breach(view) }
         btn_logout.setOnClickListener { logout() }
         // geo
         getLocation()
@@ -67,9 +67,9 @@ class HomeFragment : Fragment() {
         Navigation.findNavController(view).navigate(R.id.pickFragment)
     }
 
-    /*private fun history(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_historyFragment)
-    }*/
+    private fun breach(view: View) {
+        Navigation.findNavController(view).navigate(R.id.breachFragment)
+    }
 
     private fun logout() {
         // pref manager

@@ -25,6 +25,80 @@
             app:zxing_preview_scaling_strategy="centerCrop"
             app:zxing_use_texture_view="false" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pick_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pick_window"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@color/white"
+            android:visibility="visible"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="30dp"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:id="@+id/input_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:background="@drawable/input_primary"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="0.0"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:textColor="@color/input_text"
+                android:textColorHint="#5519194D"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="28sp"
+                android:textStyle="normal"
+                android:theme="@style/CustomTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_pick_window"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/btn_home"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:stateListAnimator="@null"
+                android:text="Добавить"
+                android:textAllCaps="true"
+                android:textColor="#19194D"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pick_success"
             android:layout_width="match_parent"
@@ -97,6 +171,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_flash_2"
             android:contentDescription="Вспышка" />
+
+        <ImageView
+            android:id="@+id/btn_settings"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toEndOf="@id/btn_scan_flash"
+            app:layout_constraintTop_toTopOf="@id/btn_scan_flash"
+            app:srcCompat="@drawable/ic_settings"
+            app:tint="@color/white"
+            android:contentDescription="Настройки" />
 
         <Button
             android:id="@+id/btn_scan_back"

@@ -1,27 +1,26 @@
-package team.marker.view.pick.complete
+package team.marker.view.breach.complete
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
+import kotlinx.android.synthetic.main.fragment_pick_complete.btn_send
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
-import team.marker.model.requests.PickProduct
+import team.marker.model.requests.BreachRequest
 import team.marker.model.requests.PickRequest
 import team.marker.util.nameCase
-import team.marker.view.pick.PickFragment
 
-class PickCompleteFragment : Fragment() {
+class BreachCompleteFragment : Fragment() {
 
-    private lateinit var viewModel: PickCompleteViewModel
-    private val products: ArrayList<PickProduct> by lazy { arguments?.get("products") as ArrayList<PickProduct> }
+    private lateinit var viewModel: BreachCompleteViewModel
+    private val productIds: ArrayList<String> by lazy { arguments?.get("product_ids") as ArrayList<String> }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +31,16 @@ class PickCompleteFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pick_complete, container, false)
+        return inflater.inflate(R.layout.fragment_breach_complete, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(product in products) {
-            Log.e("Message", product.id.toString() + " " + product.quantity + " " + product.type)
+        for(productId in productIds) {
+            Log.e("Message", productId)
         }
-        val size = products.size
-        val labelScan = nameCase(size, arrayOf("Отсканирован", "Отсканировано", "Отсканировано"))
+        val size = productIds.size
+        /*val labelScan = nameCase(size, arrayOf("Отсканирован", "Отсканировано", "Отсканировано"))
         val labelCode = nameCase(size, arrayOf("код", "кода", "кодов"))
         if (size > 0) note_text.text = "$labelScan $size $labelCode, введите электронную почту для отправки отчета."
         else note_text.text = "Отсканированных кодов нет. Выполните повторное сканирование перед отправкой отчета."
@@ -53,25 +52,24 @@ class PickCompleteFragment : Fragment() {
             btn_products.visibility = View.GONE
             ic_email.visibility = View.GONE
         }
-        btn_products.setOnClickListener { products(view) }
+        btn_products.setOnClickListener { products(view) }*/
         btn_send.setOnClickListener { send(view, size) }
     }
 
-    private fun products(view: View) {
+    /*private fun products(view: View) {
         val bundle = Bundle()
-        val productIds = arrayListOf<String>()
-        for(product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
         Log.e("productIdsStr", productIdsStr)
         bundle.putString("product_ids", productIdsStr)
         Navigation.findNavController(view).navigate(R.id.action_pickCompleteFragment_to_pickProductsFragment, bundle)
-    }
+    }*/
 
     private fun send(view: View, size: Int) {
-        val email = input_email.text.toString()
-        if (size > 0 && email.isEmpty()) return
-        if (size > 0) viewModel.pick(PickRequest(products, email))
-        Navigation.findNavController(view).navigate(R.id.action_pickCompleteFragment_to_homeFragment)
+        val description = input_description.text.toString()
+        val productId = "1"
+        //if (size > 0 && email.isEmpty()) return
+        viewModel.breach(BreachRequest(productId, description))
+        Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
 
 }

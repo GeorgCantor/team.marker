@@ -1,32 +1,15 @@
 package team.marker.view
 
-import android.Manifest
-import android.app.PendingIntent.getActivity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Location
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavArgument
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.activity_main.*
 import team.marker.R
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.PreferenceManager
-
 
 class MainActivity : AppCompatActivity() {
 

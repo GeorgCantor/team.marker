@@ -3,6 +3,7 @@ package team.marker.view
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import team.marker.model.remote.*
+import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marker.view.history.HistoryViewModel
 import team.marker.view.home.HomeViewModel
 import team.marker.view.login.LoginViewModel
@@ -16,6 +17,7 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
+    viewModel { BreachCompleteViewModel(get()) }
     viewModel { HistoryViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LoginViewModel(get()) }

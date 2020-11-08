@@ -1,4 +1,4 @@
-package team.marker.util.scanner
+package team.marker.view.pick
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -18,13 +18,12 @@ import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
 import com.google.zxing.client.android.R
-import kotlinx.android.synthetic.main.fragment_pick.view.*
-import team.marker.util.runDelayed
+import team.marker.util.scanner.ScannerCameraPreview
+import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
-import team.marker.view.pick.PickFragment
 
-class ScannerCaptureManager(private val activity: FragmentActivity, private val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
+class PickCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
 
     private var destroyed = false
     private val inactivityTimer: InactivityTimer
@@ -42,7 +41,8 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
     }
 
-    private val stateListener: ScannerCameraPreview.StateListener = object : ScannerCameraPreview.StateListener {
+    private val stateListener: ScannerCameraPreview.StateListener = object :
+        ScannerCameraPreview.StateListener {
         override fun previewSized() {}
         override fun previewStarted() {}
         override fun previewStopped() {}
@@ -103,6 +103,7 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
         if (barcodeView.barcodeView!!.isCameraClosed) finish()
         else finishWhenClosed = true
         barcodeView.pause()
+        //barcodeView.pauseAndWait()
         inactivityTimer.cancel()
     }
 
@@ -130,7 +131,8 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
             if (rawItem.isNotEmpty()) rawResultSize++
         }
         // success
-        if (productIds.size >= 1) {
+        PickFragment.showQuantityWindow(view, productIds)
+        /*if (productIds.size >= 1) {
             PickFragment.sendResult(productIds)
             view.pick_success.visibility = View.VISIBLE
             view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
@@ -149,7 +151,7 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
         // resume
         runDelayed(700) {
             barcodeView.resume()
-        }
+        }*/
     }
 
     private fun displayFrameworkBugMessageAndExit() {
@@ -163,7 +165,7 @@ class ScannerCaptureManager(private val activity: FragmentActivity, private val 
     }
 
     companion object {
-        private val TAG = ScannerCaptureManager::class.java.simpleName
+        private val TAG = PickCaptureManager::class.java.simpleName
         private var cameraPermissionReqCode = 250
         private const val SAVED_ORIENTATION_LOCK = "SAVED_ORIENTATION_LOCK"
 

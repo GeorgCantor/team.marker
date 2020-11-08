@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/btn_home"
             android:gravity="center"
             android:orientation="horizontal"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/btn_home"
             android:gravity="center"
             android:orientation="horizontal"
@@ -146,6 +146,71 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="Сканировать QR-коды для оприходования изделий"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#9919194D"
+                    android:textSize="12sp"
+                    android:textStyle="normal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_breach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/btn_home"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:stateListAnimator="@null"
+            android:paddingStart="30dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_pick"
+            tools:targetApi="lollipop">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_breach_2"
+                app:tint="@color/blue_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:contentDescription="" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Некондиция"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.05"
+                    android:textAllCaps="true"
+                    android:textColor="#19194D"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Отправить отчет о некондиционных изделиях"
                     android:fontFamily="sans-serif"
                     android:textColor="#9919194D"
                     android:textSize="12sp"

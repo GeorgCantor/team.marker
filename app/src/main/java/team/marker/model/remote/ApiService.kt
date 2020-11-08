@@ -7,8 +7,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("history")
-    fun getHistory(@Query("offset") offset: Int?): Observable<ResponseAPI<History?>?>?
+    // auth
 
     @POST("login")
     fun getLogin(@Body request: LoginRequest?): Observable<ResponseAPI<Login?>?>?
@@ -19,7 +18,15 @@ interface ApiService {
     @GET("owner")
     fun getOwner(): Observable<ResponseAPI<User?>?>?
 
-    @POST("pick")
+    // scan
+
+    @POST("breach")
+    fun breach(@Body request: BreachRequest?): Observable<ResponseAPI<ResponseMessage?>?>?
+
+    @GET("history")
+    fun getHistory(@Query("offset") offset: Int?): Observable<ResponseAPI<History?>?>?
+
+    @POST("pick_extra")
     fun pick(@Body request: PickRequest?): Observable<ResponseAPI<ResponseMessage?>?>?
 
     @GET("product")
