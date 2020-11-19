@@ -17,8 +17,7 @@ import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
-import com.google.zxing.client.android.R
-import team.marker.util.PreferenceManager
+import team.marker.R
 import team.marker.util.scanner.ScannerCameraPreview
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
