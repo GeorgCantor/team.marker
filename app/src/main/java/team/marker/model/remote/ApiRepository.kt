@@ -1,17 +1,18 @@
 package team.marker.model.remote
 
-import io.reactivex.Observable
-import team.marker.model.requests.*
-import team.marker.model.responses.*
+import team.marker.model.requests.BreachRequest
+import team.marker.model.requests.LoginRequest
+import team.marker.model.requests.PickRequest
 
 class ApiRepository(private val apiService: ApiService) {
     // auth
-    fun login(loginRequest: LoginRequest): Observable<ResponseAPI<Login?>?>? = apiService.getLogin(loginRequest)
-    fun logout(): Observable<ResponseAPI<ResponseMessage?>?>? = apiService.logout()
+    suspend fun login(loginRequest: LoginRequest) = apiService.getLogin(loginRequest)
+    suspend fun logout() = apiService.logout()
+
     // common
-    fun breach(breachRequest: BreachRequest): Observable<ResponseAPI<ResponseMessage?>?>? = apiService.breach(breachRequest)
-    fun history(offset: Int?): Observable<ResponseAPI<History?>?>? = apiService.getHistory(offset)
-    fun pick(pickRequest: PickRequest): Observable<ResponseAPI<ResponseMessage?>?>? = apiService.pick(pickRequest)
-    fun product(product_id: String, lat: String, lng: String): Observable<ResponseAPI<Product?>?>? = apiService.getProduct(product_id, lat, lng)
-    fun products(product_ids: String?): Observable<ResponseAPI<Products?>?>? = apiService.getProducts(product_ids)
+    suspend fun breach(breachRequest: BreachRequest) = apiService.breach(breachRequest)
+    suspend fun history(offset: Int?) = apiService.getHistory(offset)
+    suspend fun pick(pickRequest: PickRequest) = apiService.pick(pickRequest)
+    suspend fun product(product_id: String, lat: String, lng: String) = apiService.getProduct(product_id, lat, lng)
+    suspend fun products(product_ids: String?) = apiService.getProducts(product_ids)
 }

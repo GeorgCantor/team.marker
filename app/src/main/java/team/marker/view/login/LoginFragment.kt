@@ -15,8 +15,7 @@ import team.marker.model.requests.LoginRequest
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.PreferenceManager
-import team.marker.util.show_error
-
+import team.marker.util.showError
 
 class LoginFragment : Fragment() {
 
@@ -53,11 +52,8 @@ class LoginFragment : Fragment() {
             }
         })
         // error
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
-            // vars
-            val msg = error?.error_msg
-            // update
-            show_error(context, error_login, "неправильный логин или пароль", 5000, 0)
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            showError(context, error_login, "неправильный логин или пароль", 5000, 0)
         })
     }
 

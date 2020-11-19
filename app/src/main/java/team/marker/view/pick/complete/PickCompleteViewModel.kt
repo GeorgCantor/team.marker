@@ -1,38 +1,29 @@
 package team.marker.view.pick.complete
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.ResponseMessage
 
 class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel() {
 
-    private lateinit var disposable: Disposable
-
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
 
-    fun pick(request: PickRequest) {
-        disposable = Observable.fromCallable {
-            repository.pick(request)
-                ?.subscribe({
-                    Log.e("Message", request.toString())
-                    it?.response?.let { response.postValue(it) }
-                    it?.error?.let { error.postValue(it.toString()) }
-                }, {
-                })
-        }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        error.postValue(throwable.message)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        if (::disposable.isInitialized) disposable.dispose()
+    fun pick(request: PickRequest) {
+        viewModelScope.launch(exceptionHandler) {
+            repository.pick(request).apply {
+                response.postValue(this?.response)
+                error.postValue(this?.error?.error_msg)
+            }
+        }
     }
 }

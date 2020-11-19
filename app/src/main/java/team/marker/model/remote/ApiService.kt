@@ -1,42 +1,45 @@
 package team.marker.model.remote
 
-import io.reactivex.Observable
-import team.marker.model.requests.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
+import team.marker.model.requests.BreachRequest
+import team.marker.model.requests.LoginRequest
+import team.marker.model.requests.PickRequest
 import team.marker.model.responses.*
-import retrofit2.http.*
 
 interface ApiService {
 
     // auth
 
     @POST("login")
-    fun getLogin(@Body request: LoginRequest?): Observable<ResponseAPI<Login?>?>?
+    suspend fun getLogin(@Body request: LoginRequest?): ResponseAPI<Login?>?
 
     @POST("logout")
-    fun logout(): Observable<ResponseAPI<ResponseMessage?>?>?
+    suspend fun logout(): ResponseAPI<ResponseMessage?>?
 
     @GET("owner")
-    fun getOwner(): Observable<ResponseAPI<User?>?>?
+    suspend fun getOwner(): ResponseAPI<User?>?
 
     // scan
 
     @POST("breach")
-    fun breach(@Body request: BreachRequest?): Observable<ResponseAPI<ResponseMessage?>?>?
+    suspend fun breach(@Body request: BreachRequest?): ResponseAPI<ResponseMessage?>?
 
     @GET("history")
-    fun getHistory(@Query("offset") offset: Int?): Observable<ResponseAPI<History?>?>?
+    suspend fun getHistory(@Query("offset") offset: Int?): ResponseAPI<History?>?
 
     @POST("pick_extra")
-    fun pick(@Body request: PickRequest?): Observable<ResponseAPI<ResponseMessage?>?>?
+    suspend fun pick(@Body request: PickRequest?): ResponseAPI<ResponseMessage?>?
 
     @GET("product")
-    fun getProduct(
+    suspend fun getProduct(
         @Query("product_id") product_id: String?,
         @Query("lat") lat: String?,
         @Query("lng") lng: String?
-    ): Observable<ResponseAPI<Product?>?>?
+    ): ResponseAPI<Product?>?
 
     @GET("products")
-    fun getProducts(@Query("product_ids") product_ids: String?): Observable<ResponseAPI<Products?>?>?
-
+    suspend fun getProducts(@Query("product_ids") product_ids: String?): ResponseAPI<Products?>?
 }

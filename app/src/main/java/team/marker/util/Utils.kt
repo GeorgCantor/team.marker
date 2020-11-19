@@ -5,11 +5,10 @@ import android.os.Handler
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import android.widget.TextView
 import team.marker.R
 
-fun show_error(context: Context?, textView: TextView, message: String?, hide: Int, gone: Int) {
+fun showError(context: Context?, textView: TextView, message: String?, hide: Int, gone: Int) {
     //if (gone == 1) textView.visibility = ProgressBar.VISIBLE
     textView.text = message
     val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in)

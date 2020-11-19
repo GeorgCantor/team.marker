@@ -8,10 +8,8 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.BuildConfig
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import team.marker.model.remote.interceptor.OfflineResponseCacheInterceptor
-import team.marker.model.remote.interceptor.ResponseCacheInterceptor
 import team.marker.util.Constants.API_VERSION
 import team.marker.util.Constants.APP_KEY
 import team.marker.util.Constants.BASE_URL
@@ -57,7 +55,6 @@ object ApiClient {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
             .build()
 
