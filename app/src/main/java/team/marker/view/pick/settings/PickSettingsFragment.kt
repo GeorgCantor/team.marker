@@ -10,7 +10,6 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_pick_settings.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import team.marker.R
-import team.marker.util.Constants
 import team.marker.util.PreferenceManager
 
 class PickSettingsFragment : Fragment() {

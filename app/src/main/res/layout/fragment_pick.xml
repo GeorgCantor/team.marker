@@ -39,21 +39,35 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pick_window"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
             android:paddingHorizontal="30dp"
-            android:paddingVertical="30dp"
+            android:paddingVertical="20dp"
             app:layout_constraintVertical_bias="0.5"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <TextView
+                android:id="@+id/pick_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Введите длину оприходуемого изделия в погонных метрах"
+                android:textColor="#9919194D"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
-                android:id="@+id/input_quantity"
+                android:id="@+id/pick_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -62,7 +76,7 @@
                 android:cursorVisible="true"
                 android:ems="10"
                 android:fontFamily="sans-serif"
-                android:hint="0.0"
+                android:hint="0"
                 android:gravity="center"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
@@ -74,14 +88,12 @@
                 android:textSize="28sp"
                 android:textStyle="normal"
                 android:theme="@style/CustomTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/pick_note"/>
 
             <Button
-                android:id="@+id/btn_pick_window"
+                android:id="@+id/btn_add"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="30dp"
                 android:paddingHorizontal="10dp"
                 android:background="@drawable/btn_home"
@@ -93,9 +105,24 @@
                 android:textColor="#19194D"
                 android:textSize="15sp"
                 android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/pick_quantity"/>
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/btn_home"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:stateListAnimator="@null"
+                android:text="Отмена"
+                android:textAllCaps="true"
+                android:textColor="#19194D"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintTop_toBottomOf="@id/btn_add"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

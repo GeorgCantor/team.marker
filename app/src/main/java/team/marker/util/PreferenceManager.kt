@@ -1,11 +1,11 @@
 package team.marker.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.fragment.app.FragmentActivity
 import team.marker.util.Constants.MAIN_STORAGE
 
-class PreferenceManager(activity: Activity) {
+class PreferenceManager(activity: FragmentActivity) {
 
     private val prefs: SharedPreferences = activity.getSharedPreferences(MAIN_STORAGE, Context.MODE_PRIVATE)
 

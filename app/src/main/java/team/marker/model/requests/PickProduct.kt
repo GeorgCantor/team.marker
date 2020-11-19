@@ -7,6 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class PickProduct(
     @SerializedName("id") var id: Int? = null,
-    @SerializedName("quantity") var quantity: String? = null,
+    @SerializedName("quantity") var quantity: Double = 0.0,
     @SerializedName("type") var type: Int? = null
 ) : Parcelable

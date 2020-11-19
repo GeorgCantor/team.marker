@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import kotlinx.android.synthetic.main.activity_scan.*
-import kotlinx.android.synthetic.main.activity_scan.btn_scan_back
-import kotlinx.android.synthetic.main.activity_scan.btn_scan_flash
-import kotlinx.android.synthetic.main.fragment_pick.*
+import team.marker.R
 
 class ScanActivity : AppCompatActivity() {
 

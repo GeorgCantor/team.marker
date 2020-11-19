@@ -18,6 +18,7 @@ import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
 import com.google.zxing.client.android.R
+import team.marker.util.PreferenceManager
 import team.marker.util.scanner.ScannerCameraPreview
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
@@ -130,28 +131,8 @@ class PickCaptureManager(private val activity: FragmentActivity, val barcodeView
             }
             if (rawItem.isNotEmpty()) rawResultSize++
         }
-        // success
-        PickFragment.showQuantityWindow(view, productIds)
-        /*if (productIds.size >= 1) {
-            PickFragment.sendResult(productIds)
-            view.pick_success.visibility = View.VISIBLE
-            view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-            runDelayed(1000) {
-                view.pick_success.visibility = View.GONE
-            }
-        }
-        // fail
-        else if (rawResultSize >= 1) {
-            view.pick_fail.visibility = View.VISIBLE
-            view.pick_fail_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-            runDelayed(1000) {
-                view.pick_fail.visibility = View.GONE
-            }
-        }
-        // resume
-        runDelayed(700) {
-            barcodeView.resume()
-        }*/
+        // update
+        PickFragment.addProduct(view, rawResultSize, productIds)
     }
 
     private fun displayFrameworkBugMessageAndExit() {
