@@ -20,10 +20,9 @@ class ProductViewModel(private val repository: ApiRepository) : ViewModel() {
 
     fun getProduct(product_id: String, lat: String, lng: String) {
         viewModelScope.launch(exceptionHandler) {
-            repository.product(product_id, lat, lng).apply {
-                success.postValue(this?.success)
-                response.postValue(this?.response)
-                error.postValue(this?.error?.error_msg)
+            repository.product(product_id, lat, lng)?.apply {
+                response?.let { this@ProductViewModel.response.postValue(it) }
+                error?.let { this@ProductViewModel.error.postValue(it.error_msg) }
             }
         }
     }
