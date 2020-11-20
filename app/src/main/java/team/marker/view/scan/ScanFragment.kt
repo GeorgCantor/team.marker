@@ -1,45 +1,123 @@
 package team.marker.view.scan
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.google.zxing.integration.android.IntentIntegrator
+import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
+import team.marker.model.requests.PickProduct
+import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
 class ScanFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    companion object {
+        private var products: MutableList<PickProduct> = mutableListOf()
+        private lateinit var capture: PickCaptureManager
+
+        fun addProduct(view: View, rawResultSize: Int, currentProductIds: MutableList<String>) {
+            val productIds = arrayListOf<String>()
+            // products
+            for (currentProductId in currentProductIds) {
+                val product = PickProduct()
+                product.id = currentProductId.toInt()
+                product.quantity = 1.0
+                productIds.add(currentProductId)
+                // add
+                updateProducts(product)
+            }
+
+            ScanFragment().openProduct(view)
+        }
+
+        private fun updateProducts(currentProduct: PickProduct): String {
+            // vars
+            var exist = false
+            // parse
+            for (i in 0 until products.size) {
+                if (products[i].id == currentProduct.id) {
+                    if (products[i].type == currentProduct.type) {
+                        products[i].quantity += currentProduct.quantity
+                        exist = true
+                        break
+                    }
+                }
+            }
+            // add new
+            if (!exist) products.add(currentProduct)
+            // output
+            return if (exist) "update" else "add"
+        }
+    }
+
+    private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
+    private var torchOn: Boolean = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_scan, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        readQrCode()
+        barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
+        capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
+        capture.decode()
+
+        btn_scan_flash.setOnClickListener { toggleFlash() }
+        btn_cancel.setOnClickListener { activity?.onBackPressed() }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        val res = scanResult?.contents
-        if (res != null) {
-            val bundle = Bundle()
-            bundle.putString("product_url", res)
-            findNavController(this).navigate(R.id.productFragment, bundle)
-        } else findNavController(this).navigate(R.id.homeFragment)
+    override fun onResume() {
+        super.onResume()
+        capture.onResume()
     }
 
-    private fun readQrCode() {
-        val integrator = IntentIntegrator.forSupportFragment(this)
-        integrator.addExtra("RESULT_DISPLAY_DURATION_MS", 1000L);
-        integrator.setPrompt("")
-        //integrator.setBarcodeImageEnabled(false)
-        integrator.setOrientationLocked(false)
-        integrator.captureActivity = ScanActivity::class.java
-        integrator.initiateScan()
+    override fun onPause() {
+        super.onPause()
+        capture.onPause()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        capture.onDestroy()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        capture.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    fun openProduct(view: View) {
+        val bundle = Bundle()
+        val productIds = arrayListOf<String>()
+        for(product in products) productIds.add(product.id.toString())
+        val productIdsStr = productIds.joinToString(",")
+        bundle.putString("product_url", "https://marker.team/products/$productIdsStr")
+        Navigation.findNavController(view).navigate(R.id.action_scanFragment_to_productFragment, bundle)
+    }
+
+    private fun toggleFlash() {
+        barcodeScannerView?.setTorchOn()
+        when (torchOn) {
+            false -> {
+                barcodeScannerView?.setTorchOn()
+                torchOn = true
+                btn_scan_flash.setImageResource(R.drawable.ic_flash_off_2)
+            }
+            true -> {
+                barcodeScannerView?.setTorchOff()
+                torchOn = false
+                btn_scan_flash.setImageResource(R.drawable.ic_flash_2)
+            }
+        }
+    }
 }

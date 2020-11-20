@@ -77,7 +77,7 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph"/>
+            app:popUpTo="@id/nav_graph" />
     </fragment>
 
     <fragment
@@ -97,6 +97,13 @@
         android:id="@+id/scanFragment"
         android:name="team.marker.view.scan.ScanFragment"
         android:label="ScanFragment">
+        <action
+            android:id="@+id/action_scanFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
