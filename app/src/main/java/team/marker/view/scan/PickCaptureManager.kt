@@ -13,7 +13,6 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
@@ -22,6 +21,7 @@ import team.marker.util.scanner.ScannerCameraPreview
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
+import team.marker.util.scanner.common.ScannerResultPoint
 
 class PickCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
 
@@ -38,7 +38,7 @@ class PickCaptureManager(private val activity: FragmentActivity, val barcodeView
             handler.post { returnResult(result) }
         }
 
-        override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        override fun possibleResultPoints(resultPoints: List<ScannerResultPoint>) {}
     }
 
     private val stateListener: ScannerCameraPreview.StateListener = object :
