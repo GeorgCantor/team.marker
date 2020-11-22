@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.scanner.view.*
 import team.marker.R
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
+import team.marker.util.scanner.common.ScannerResultPoint
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 open class ScannerDecoratedBarcodeView : FrameLayout {
@@ -24,8 +25,8 @@ open class ScannerDecoratedBarcodeView : FrameLayout {
             delegate.barcodeResult(result)
         }
 
-        override fun possibleResultPoints(resultPoints: List<ResultPoint>) {
-            delegate.possibleResultPoints(resultPoints)
+        override fun possibleResultPoints(scannerResultPoints: List<ScannerResultPoint>) {
+            delegate.possibleResultPoints(scannerResultPoints)
         }
     }
 

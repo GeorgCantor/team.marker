@@ -8,6 +8,7 @@ import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.Util
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
+import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.decoder.*
 import java.util.*
 
@@ -37,7 +38,7 @@ class ScannerBarcodeView : ScannerCameraPreview {
                 return@Callback true
             }
             R.id.zxing_possible_result_points -> {
-                val resultPoints = message.obj as List<ResultPoint>
+                val resultPoints = message.obj as List<ScannerResultPoint>
                 if (callback != null && decodeMode != DecodeMode.NONE) callback!!.possibleResultPoints(resultPoints)
                 return@Callback true
             }

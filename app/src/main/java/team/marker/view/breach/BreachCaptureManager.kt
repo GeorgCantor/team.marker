@@ -17,11 +17,11 @@ import com.google.zxing.client.android.BeepManager
 import com.google.zxing.client.android.InactivityTimer
 import com.google.zxing.client.android.Intents
 import team.marker.R
-import team.marker.util.scanner.ResultPoint
 import team.marker.util.scanner.ScannerCameraPreview
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
+import team.marker.util.scanner.common.ScannerResultPoint
 
 class BreachCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
 
@@ -38,7 +38,7 @@ class BreachCaptureManager(private val activity: FragmentActivity, val barcodeVi
             handler.post { returnResult(result) }
         }
 
-        override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        override fun possibleResultPoints(scannerResultPoints: List<ScannerResultPoint>) {}
     }
 
     private val stateListener: ScannerCameraPreview.StateListener = object :

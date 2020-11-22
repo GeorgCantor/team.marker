@@ -3,8 +3,6 @@ package team.marker.util.scanner.decoder
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import team.marker.util.scanner.ScannerMultiFormatReader
-import team.marker.util.scanner.common.ScannerResultPoint
-import team.marker.util.scanner.common.ScannerResultPointCallback
 import team.marker.util.scanner.reader.ScannerReader
 import java.util.*
 

@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.google.zxing.ResultPoint
 import team.marker.R
-import team.marker.util.scanner.common.ScannerResultPoint
 import java.util.*
 
 class ScannerViewfinderView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
