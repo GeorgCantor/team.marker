@@ -79,6 +79,7 @@ class ScanFragment : Fragment() {
     }
 
     override fun onPause() {
+        products.clear()
         super.onPause()
         capture.onPause()
     }
