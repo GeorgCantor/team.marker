@@ -1,7 +1,5 @@
 package team.marker.util.scanner
 
-import com.google.zxing.common.detector.MathUtils
-
 /**
  *
  * Encapsulates a point of interest in an image containing a barcode. Typically, this
