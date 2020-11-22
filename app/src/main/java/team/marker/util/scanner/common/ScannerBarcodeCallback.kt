@@ -1,6 +1,6 @@
 package team.marker.util.scanner.common
 
-import com.google.zxing.ResultPoint
+import team.marker.util.scanner.ResultPoint
 
 interface ScannerBarcodeCallback {
 

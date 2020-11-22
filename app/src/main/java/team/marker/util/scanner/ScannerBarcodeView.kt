@@ -3,11 +3,9 @@ package team.marker.util.scanner
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import com.google.zxing.DecodeHintType
-import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.R
-import com.journeyapps.barcodescanner.*
+import com.journeyapps.barcodescanner.Util
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.util.scanner.decoder.*
