@@ -1,9 +1,8 @@
 package team.marker.util.scanner.common
 
-import com.google.zxing.Result
 import com.journeyapps.barcodescanner.SourceData
 
-class ScannerBarcodeResultMultiple(var result: Array<Result?>, protected var sourceData: SourceData) {
+class ScannerBarcodeResultMultiple(var result: Array<ScannerResult?>, protected var sourceData: SourceData) {
 
     /*val bitmapScaleFactor = 2
     val bitmap: Bitmap get() = sourceData.getBitmap(bitmapScaleFactor)

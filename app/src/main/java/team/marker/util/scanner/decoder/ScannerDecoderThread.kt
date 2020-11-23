@@ -7,14 +7,14 @@ import android.os.HandlerThread
 import android.os.Message
 import android.util.Log
 import com.google.zxing.LuminanceSource
-import com.google.zxing.Result
-import com.google.zxing.client.android.R
-import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.SourceData
 import com.journeyapps.barcodescanner.Util
 import com.journeyapps.barcodescanner.camera.CameraInstance
 import com.journeyapps.barcodescanner.camera.PreviewCallback
+import team.marker.R
+import team.marker.util.scanner.common.ScannerBarcodeResult
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
+import team.marker.util.scanner.common.ScannerResult
 
 class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDecoder, resultHandler: Handler?) {
     private var cameraInstance: CameraInstance? = null
@@ -75,7 +75,7 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
 
     private fun decode(sourceData: SourceData) {
         val start = System.currentTimeMillis()
-        var rawResult: Result? = null
+        var rawResult: ScannerResult? = null
         sourceData.cropRect = cropRect
         val source = createSource(sourceData)
         if (source != null) rawResult = decoder.decode(source)
@@ -83,7 +83,7 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
             val end = System.currentTimeMillis()
             Log.d(TAG, "Found barcode in " + (end - start) + " ms")
             if (resultHandler != null) {
-                val barcodeResult = BarcodeResult(rawResult, sourceData)
+                val barcodeResult = ScannerBarcodeResult(rawResult, sourceData)
                 val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
                 val bundle = Bundle()
                 message.data = bundle
@@ -105,7 +105,7 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
 
     private fun decodeMultiple(sourceData: SourceData) {
         val start = System.currentTimeMillis()
-        var rawResult: Array<Result?>? = null
+        var rawResult: Array<ScannerResult?>? = null
         sourceData.cropRect = cropRect
         val source = createSource(sourceData)
         if (source != null) rawResult = decoder.decodeMultiple(source)

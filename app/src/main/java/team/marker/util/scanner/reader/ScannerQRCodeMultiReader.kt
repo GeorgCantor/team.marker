@@ -3,6 +3,7 @@ package team.marker.util.scanner.reader
 import com.google.zxing.*
 import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerReaderException
+import team.marker.util.scanner.common.ScannerResult
 import team.marker.util.scanner.decoder.ScannerQRCodeDecoderMetaData
 import team.marker.util.scanner.detector.ScannerMultiDetector
 import team.marker.util.scanner.multi.ScannerMultipleBarcodeReader
@@ -12,13 +13,13 @@ import java.util.*
 class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeReader {
 
     @Throws(ScannerNotFoundException::class)
-    override fun decodeMultiple(image: BinaryBitmap): Array<Result?> {
+    override fun decodeMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         return decodeMultiple(image, null)
     }
 
     @Throws(ScannerNotFoundException::class)
-    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<Result?> {
-        var results: MutableList<Result?> = ArrayList()
+    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerResult?> {
+        var results: MutableList<ScannerResult?> = ArrayList()
         val detectorResults = ScannerMultiDetector(image.blackMatrix).detectMulti(hints)
         for (detectorResult in detectorResults) {
             try {
@@ -28,7 +29,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                 if (decoderResult.other is ScannerQRCodeDecoderMetaData) {
                     (decoderResult.other as ScannerQRCodeDecoderMetaData).applyMirroredCorrection(points)
                 }
-                val result = Result(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
+                val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
                 val byteSegments = decoderResult.byteSegments
                 if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
                 val ecLevel = decoderResult.ecLevel
@@ -48,33 +49,33 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
         }
     }
 
-    private class SAComparator : Comparator<Result>, Serializable {
-        override fun compare(a: Result, b: Result): Int {
-            val aNumber = a.resultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
-            val bNumber = b.resultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
+    private class SAComparator : Comparator<ScannerResult>, Serializable {
+        override fun compare(a: ScannerResult, b: ScannerResult): Int {
+            val aNumber = a.resultMetadata!![ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
+            val bNumber = b.resultMetadata!![ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
             return aNumber.compareTo(bNumber)
         }
     }
 
     companion object {
-        private val EMPTY_RESULT_ARRAY = arrayOfNulls<Result>(0)
+        private val EMPTY_RESULT_ARRAY = arrayOfNulls<ScannerResult>(0)
         private val NO_POINTS = arrayOfNulls<ResultPoint>(0)
-        private fun processStructuredAppend(results: List<Result?>): List<Result?> {
+        private fun processStructuredAppend(results: List<ScannerResult?>): List<ScannerResult?> {
             var hasSA = false
             // first, check, if there is at least on SA result in the list
             for (result in results) {
-                if (result!!.resultMetadata.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) {
+                if (result!!.resultMetadata!!.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) {
                     hasSA = true
                     break
                 }
             }
             if (!hasSA) return results
             // it is, second, split the lists and built a new result list
-            val newResults: MutableList<Result> = ArrayList()
-            val saResults: MutableList<Result> = ArrayList()
+            val newResults: MutableList<ScannerResult> = ArrayList()
+            val saResults: MutableList<ScannerResult> = ArrayList()
             for (result in results) {
                 newResults.add(result!!)
-                if (result.resultMetadata.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) saResults.add(result)
+                if (result.resultMetadata!!.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) saResults.add(result)
             }
             // sort and concatenate the SA list items
             Collections.sort(saResults, SAComparator())
@@ -83,9 +84,9 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             var byteSegmentLength = 0
             for (saResult in saResults) {
                 concatedText.append(saResult.text)
-                rawBytesLen += saResult.rawBytes.size
-                if (saResult.resultMetadata.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-                    val byteSegments = saResult.resultMetadata[ResultMetadataType.BYTE_SEGMENTS] as Iterable<ByteArray>?
+                rawBytesLen += saResult.rawBytes!!.size
+                if (saResult.resultMetadata!!.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
+                    val byteSegments = saResult.resultMetadata?.get(ResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
                     for (segment in byteSegments!!) {
                         byteSegmentLength += segment.size
                     }
@@ -96,17 +97,17 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             var newRawBytesIndex = 0
             var byteSegmentIndex = 0
             for (saResult in saResults) {
-                System.arraycopy(saResult.rawBytes, 0, newRawBytes, newRawBytesIndex, saResult.rawBytes.size)
+                System.arraycopy(saResult.rawBytes!!, 0, newRawBytes, newRawBytesIndex, saResult.rawBytes.size)
                 newRawBytesIndex += saResult.rawBytes.size
-                if (saResult.resultMetadata.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-                    val byteSegments = saResult.resultMetadata[ResultMetadataType.BYTE_SEGMENTS] as Iterable<ByteArray>?
+                if (saResult.resultMetadata!!.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
+                    val byteSegments = saResult.resultMetadata?.get(ResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
                     for (segment in byteSegments!!) {
                         System.arraycopy(segment, 0, newByteSegment, byteSegmentIndex, segment.size)
                         byteSegmentIndex += segment.size
                     }
                 }
             }
-            val newResult = Result(concatedText.toString(), newRawBytes,
+            val newResult = ScannerResult(concatedText.toString(), newRawBytes,
                 NO_POINTS, BarcodeFormat.QR_CODE)
             if (byteSegmentLength > 0) {
                 val byteSegmentList: MutableCollection<ByteArray> = ArrayList()

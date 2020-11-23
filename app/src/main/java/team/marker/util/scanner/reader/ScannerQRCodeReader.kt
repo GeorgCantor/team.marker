@@ -3,25 +3,25 @@ package team.marker.util.scanner.reader
 import com.google.zxing.*
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
-import com.google.zxing.qrcode.QRCodeReader
 import com.google.zxing.qrcode.decoder.Decoder
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData
 import com.google.zxing.qrcode.detector.Detector
 import team.marker.util.scanner.common.ScannerChecksumException
 import team.marker.util.scanner.common.ScannerFormatException
 import team.marker.util.scanner.common.ScannerNotFoundException
+import team.marker.util.scanner.common.ScannerResult
 import kotlin.math.roundToInt
 
 abstract class ScannerQRCodeReader : ScannerReader {
     protected val decoder = Decoder()
 
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
-    override fun decode(image: BinaryBitmap): Result {
+    override fun decode(image: BinaryBitmap): ScannerResult {
         return decode(image, null)
     }
 
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
-    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Result {
+    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
         val decoderResult: DecoderResult
         val points: Array<ResultPoint?>
         if (hints != null && hints.containsKey(DecodeHintType.PURE_BARCODE)) {
@@ -36,7 +36,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
 
         // If the code was mirrored: swap the bottom-left and the top-right points.
         if (decoderResult.other is QRCodeDecoderMetaData) (decoderResult.other as QRCodeDecoderMetaData).applyMirroredCorrection(points)
-        val result = Result(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
+        val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
         val byteSegments = decoderResult.byteSegments
         if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
         val ecLevel = decoderResult.ecLevel

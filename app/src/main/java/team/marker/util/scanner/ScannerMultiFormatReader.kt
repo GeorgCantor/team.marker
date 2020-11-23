@@ -1,8 +1,11 @@
 package team.marker.util.scanner
 
 import android.util.Log
-import com.google.zxing.*
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.NotFoundException
 import team.marker.util.scanner.common.ScannerReaderException
+import team.marker.util.scanner.common.ScannerResult
 import team.marker.util.scanner.reader.ScannerQRCodeMultiReader
 import team.marker.util.scanner.reader.ScannerReader
 import java.util.*
@@ -13,36 +16,36 @@ class ScannerMultiFormatReader : ScannerReader {
     private var readers: Array<ScannerReader>? = null
 
     @Throws(NotFoundException::class)
-    override fun decode(image: BinaryBitmap): Result {
+    override fun decode(image: BinaryBitmap): ScannerResult {
         setHints(null)
         return decodeInternal(image)
     }
 
     @Throws(NotFoundException::class)
-    override fun decodeMultiple(image: BinaryBitmap): Array<Result?> {
+    override fun decodeMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         setHints(null)
         return decodeInternalMultiple(image)
     }
 
     @Throws(NotFoundException::class)
-    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Result {
+    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
         setHints(hints)
         return decodeInternal(image)
     }
 
-    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<Result?> {
+    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerResult?> {
         setHints(hints)
         return decodeInternalMultiple(image)
     }
 
     @Throws(NotFoundException::class)
-    fun decodeWithState(image: BinaryBitmap): Result {
+    fun decodeWithState(image: BinaryBitmap): ScannerResult {
         if (readers == null) setHints(null)
         return decodeInternal(image)
     }
 
     @Throws(NotFoundException::class)
-    fun decodeWithStateMultiple(image: BinaryBitmap): Array<Result?> {
+    fun decodeWithStateMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         if (readers == null) setHints(null)
         return decodeInternalMultiple(image)
     }
@@ -95,7 +98,7 @@ class ScannerMultiFormatReader : ScannerReader {
     }
 
     @Throws(NotFoundException::class)
-    private fun decodeInternal(image: BinaryBitmap): Result {
+    private fun decodeInternal(image: BinaryBitmap): ScannerResult {
         if (readers != null) {
             for (reader in readers!!) {
                 try {
@@ -107,7 +110,7 @@ class ScannerMultiFormatReader : ScannerReader {
     }
 
     @Throws(NotFoundException::class)
-    private fun decodeInternalMultiple(image: BinaryBitmap): Array<Result?> {
+    private fun decodeInternalMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         if (readers != null) {
             for (reader in readers!!) {
                 try {
