@@ -12,7 +12,6 @@ import com.journeyapps.barcodescanner.Util
 import com.journeyapps.barcodescanner.camera.CameraInstance
 import com.journeyapps.barcodescanner.camera.PreviewCallback
 import team.marker.R
-import team.marker.util.scanner.common.ScannerBarcodeResult
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.util.scanner.common.ScannerResult
 
@@ -82,13 +81,13 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
         if (rawResult != null) {
             val end = System.currentTimeMillis()
             Log.d(TAG, "Found barcode in " + (end - start) + " ms")
-            if (resultHandler != null) {
-                val barcodeResult = ScannerBarcodeResult(rawResult, sourceData)
-                val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
-                val bundle = Bundle()
-                message.data = bundle
-                message.sendToTarget()
-            }
+//            if (resultHandler != null) {
+//                val barcodeResult = ScannerBarcodeResult(rawResult, sourceData)
+//                val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
+//                val bundle = Bundle()
+//                message.data = bundle
+//                message.sendToTarget()
+//            }
         } else {
             if (resultHandler != null) {
                 val message = Message.obtain(resultHandler, R.id.zxing_decode_failed)
@@ -113,7 +112,7 @@ class ScannerDecoderThread(cameraInstance: CameraInstance?, decoder: ScannerDeco
             val end = System.currentTimeMillis()
             Log.d(TAG, "Found barcode in " + (end - start) + " ms")
             if (resultHandler != null) {
-                val barcodeResult = ScannerBarcodeResultMultiple(rawResult, sourceData)
+                val barcodeResult = ScannerBarcodeResultMultiple(rawResult)
                 val message = Message.obtain(resultHandler, R.id.zxing_decode_succeeded, barcodeResult)
                 val bundle = Bundle()
                 message.data = bundle

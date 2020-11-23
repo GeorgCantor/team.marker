@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.google.zxing.ResultMetadataType
-import com.journeyapps.barcodescanner.SourceData
 
 /**
  * This contains the result of a barcode scan.
@@ -16,7 +15,7 @@ class ScannerBarcodeResult(
     /**
      * @return wrapped [com.google.zxing.Result]
      */
-    var result: ScannerResult, protected var sourceData: SourceData
+    var result: ScannerResult, protected var sourceData: ScannerSourceData
 ) {
     /**
      *
