@@ -1,6 +1,9 @@
 package team.marker.util.scanner.reader
 
-import com.google.zxing.*
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.NotFoundException
+import com.google.zxing.ResultMetadataType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.Decoder
@@ -33,7 +36,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
 
         // If the code was mirrored: swap the bottom-left and the top-right points.
         if (decoderResult.other is QRCodeDecoderMetaData) (decoderResult.other as ScannerQRCodeDecoderMetaData).applyMirroredCorrection(points)
-        val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
+        val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
         val byteSegments = decoderResult.byteSegments
         if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
         val ecLevel = decoderResult.ecLevel

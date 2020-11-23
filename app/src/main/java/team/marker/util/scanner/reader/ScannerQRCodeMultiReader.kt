@@ -1,13 +1,9 @@
 package team.marker.util.scanner.reader
 
-import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
 import com.google.zxing.ResultMetadataType
-import team.marker.util.scanner.common.ScannerNotFoundException
-import team.marker.util.scanner.common.ScannerReaderException
-import team.marker.util.scanner.common.ScannerResult
-import team.marker.util.scanner.common.ScannerResultPoint
+import team.marker.util.scanner.common.*
 import team.marker.util.scanner.decoder.ScannerQRCodeDecoderMetaData
 import team.marker.util.scanner.detector.ScannerMultiDetector
 import team.marker.util.scanner.multi.ScannerMultipleBarcodeReader
@@ -33,7 +29,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                 if (decoderResult.other is ScannerQRCodeDecoderMetaData) {
                     (decoderResult.other as ScannerQRCodeDecoderMetaData).applyMirroredCorrection(points)
                 }
-                val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
+                val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
                 val byteSegments = decoderResult.byteSegments
                 if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
                 val ecLevel = decoderResult.ecLevel
@@ -112,7 +108,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                 }
             }
             val newResult = ScannerResult(concatedText.toString(), newRawBytes,
-                NO_POINTS, BarcodeFormat.QR_CODE)
+                NO_POINTS, ScannerBarcodeFormat.QR_CODE)
             if (byteSegmentLength > 0) {
                 val byteSegmentList: MutableCollection<ByteArray> = ArrayList()
                 byteSegmentList.add(newByteSegment)

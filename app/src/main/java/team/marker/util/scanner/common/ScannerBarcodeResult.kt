@@ -3,7 +3,6 @@ package team.marker.util.scanner.common
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultMetadataType
 import com.journeyapps.barcodescanner.SourceData
 
@@ -53,8 +52,8 @@ class ScannerBarcodeResult(
                     bitmapScaleFactor
                 )
             } else if (points.size == 4 &&
-                (result.barcodeFormat == BarcodeFormat.UPC_A ||
-                        result.barcodeFormat == BarcodeFormat.EAN_13)
+                (result.barcodeFormat == ScannerBarcodeFormat.UPC_A ||
+                        result.barcodeFormat == ScannerBarcodeFormat.EAN_13)
             ) {
                 // Hacky special case -- draw two lines, for the barcode and metadata
                 drawLine(
@@ -104,11 +103,7 @@ class ScannerBarcodeResult(
     val resultPoints: Array<ScannerResultPoint?>?
         get() = result.resultPoints
 
-    /**
-     * @return [BarcodeFormat] representing the format of the barcode that was decoded
-     * @see Result.getBarcodeFormat
-     */
-    val barcodeFormat: BarcodeFormat?
+    val barcodeFormat: ScannerBarcodeFormat?
         get() = result.barcodeFormat
 
     /**

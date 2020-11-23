@@ -1,6 +1,5 @@
 package team.marker.util.scanner.common
 
-import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultMetadataType
 import java.util.*
 
@@ -33,7 +32,7 @@ class ScannerResult(
     /**
      * @return [BarcodeFormat] representing the format of the barcode that was decoded
      */
-    val barcodeFormat: BarcodeFormat?,
+    val barcodeFormat: ScannerBarcodeFormat?,
     val timestamp: Long
 ) {
 
@@ -45,7 +44,7 @@ class ScannerResult(
         text: String,
         rawBytes: ByteArray?,
         resultPoints: Array<ScannerResultPoint?>?,
-        format: BarcodeFormat?,
+        format: ScannerBarcodeFormat?,
         timestamp: Long = System.currentTimeMillis()
     ) : this(
         text, rawBytes, if (rawBytes == null) 0 else 8 * rawBytes.size,
