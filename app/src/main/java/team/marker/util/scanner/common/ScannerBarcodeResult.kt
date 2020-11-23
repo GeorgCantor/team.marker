@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultMetadataType
-import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.SourceData
 
 /**
@@ -102,7 +101,7 @@ class ScannerBarcodeResult(
      * specific to the type of barcode that was decoded.
      * @see Result.getResultPoints
      */
-    val resultPoints: Array<ResultPoint?>?
+    val resultPoints: Array<ScannerResultPoint?>?
         get() = result.resultPoints
 
     /**
@@ -133,8 +132,8 @@ class ScannerBarcodeResult(
         private fun drawLine(
             canvas: Canvas,
             paint: Paint,
-            a: ResultPoint?,
-            b: ResultPoint?,
+            a: ScannerResultPoint?,
+            b: ScannerResultPoint?,
             scaleFactor: Int
         ) {
             if (a != null && b != null) {

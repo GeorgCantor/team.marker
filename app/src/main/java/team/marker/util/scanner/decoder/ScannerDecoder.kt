@@ -2,17 +2,17 @@ package team.marker.util.scanner.decoder
 
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.LuminanceSource
-import com.google.zxing.ResultPoint
-import com.google.zxing.ResultPointCallback
 import com.google.zxing.common.HybridBinarizer
 import team.marker.util.scanner.ScannerMultiFormatReader
 import team.marker.util.scanner.common.ScannerResult
+import team.marker.util.scanner.common.ScannerResultPoint
+import team.marker.util.scanner.common.ScannerResultPointCallback
 import team.marker.util.scanner.reader.ScannerReader
 import java.util.*
 
-open class ScannerDecoder (protected val reader: ScannerReader) : ResultPointCallback {
+open class ScannerDecoder (protected val reader: ScannerReader) : ScannerResultPointCallback {
 
-    val possibleResultPoints = ArrayList<ResultPoint>()
+    val possibleResultPoints = ArrayList<ScannerResultPoint>()
 
     fun decode(source: LuminanceSource): ScannerResult? {
         return decode(toBitmap(source))
@@ -40,12 +40,12 @@ open class ScannerDecoder (protected val reader: ScannerReader) : ResultPointCal
         finally { reader.reset() }
     }
 
-    fun getPossibleResultPoints(): List<ResultPoint> {
+    fun getPossibleResultPoints(): List<ScannerResultPoint> {
         return ArrayList(possibleResultPoints)
     }
 
-    override fun foundPossibleResultPoint(point: ResultPoint) {
-        possibleResultPoints.add(point)
+    override fun foundPossibleResultPoint(point: ScannerResultPoint?) {
+        possibleResultPoints.add(point!!)
     }
 
 }

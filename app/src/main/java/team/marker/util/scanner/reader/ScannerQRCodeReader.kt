@@ -5,11 +5,8 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.Decoder
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData
-import com.google.zxing.qrcode.detector.Detector
-import team.marker.util.scanner.common.ScannerChecksumException
-import team.marker.util.scanner.common.ScannerFormatException
-import team.marker.util.scanner.common.ScannerNotFoundException
-import team.marker.util.scanner.common.ScannerResult
+import team.marker.util.scanner.common.*
+import team.marker.util.scanner.detector.ScannerDetector
 import kotlin.math.roundToInt
 
 abstract class ScannerQRCodeReader : ScannerReader {
@@ -23,19 +20,19 @@ abstract class ScannerQRCodeReader : ScannerReader {
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
     override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
         val decoderResult: DecoderResult
-        val points: Array<ResultPoint?>
+        val points: Array<ScannerResultPoint?>
         if (hints != null && hints.containsKey(DecodeHintType.PURE_BARCODE)) {
             val bits = extractPureBits(image.blackMatrix)
             decoderResult = decoder.decode(bits, hints)
             points = NO_POINTS
         } else {
-            val detectorResult = Detector(image.blackMatrix).detect(hints)
+            val detectorResult = ScannerDetector(image.blackMatrix).detect(hints)
             decoderResult = decoder.decode(detectorResult.bits, hints)
-            points = detectorResult.points
+            points = detectorResult.points!!
         }
 
         // If the code was mirrored: swap the bottom-left and the top-right points.
-        if (decoderResult.other is QRCodeDecoderMetaData) (decoderResult.other as QRCodeDecoderMetaData).applyMirroredCorrection(points)
+        if (decoderResult.other is QRCodeDecoderMetaData) (decoderResult.other as ScannerQRCodeDecoderMetaData).applyMirroredCorrection(points)
         val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, BarcodeFormat.QR_CODE)
         val byteSegments = decoderResult.byteSegments
         if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
@@ -53,7 +50,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
     }
 
     companion object {
-        private val NO_POINTS = arrayOfNulls<ResultPoint>(0)
+        private val NO_POINTS = arrayOfNulls<ScannerResultPoint>(0)
 
         @Throws(NotFoundException::class)
         private fun extractPureBits(image: BitMatrix): BitMatrix {

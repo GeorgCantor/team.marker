@@ -2,41 +2,38 @@ package team.marker.util.scanner.detector
 
 import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
-import com.google.zxing.ResultPoint
-import com.google.zxing.ResultPointCallback
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.qrcode.detector.FinderPattern
-import com.google.zxing.qrcode.detector.FinderPatternFinder
-import com.google.zxing.qrcode.detector.FinderPatternInfo
+import team.marker.util.scanner.common.ScannerResultPoint
+import team.marker.util.scanner.common.ScannerResultPointCallback
 import java.io.Serializable
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sqrt
 
-internal class ScannerMultiFinderPatternFinder : FinderPatternFinder {
+internal class ScannerMultiFinderPatternFinder : ScannerFinderPatternFinder {
     /**
      * A comparator that orders FinderPatterns by their estimated module size.
      */
-    private class ModuleSizeComparator : Comparator<FinderPattern>, Serializable {
-        override fun compare(center1: FinderPattern, center2: FinderPattern): Int {
+    private class ModuleSizeComparator : Comparator<ScannerFinderPattern>, Serializable {
+        override fun compare(center1: ScannerFinderPattern, center2: ScannerFinderPattern): Int {
             val value = center2.estimatedModuleSize - center1.estimatedModuleSize
             return if (value < 0.0) -1 else if (value > 0.0) 1 else 0
         }
     }
 
-    constructor(image: BitMatrix?) : super(image)
-    constructor(image: BitMatrix?, resultPointCallback: ResultPointCallback?) : super(image, resultPointCallback)
+    constructor(image: BitMatrix?) : super(image!!)
+    constructor(image: BitMatrix?, resultPointCallback: ScannerResultPointCallback?) : super(image!!, resultPointCallback)
 
     @Throws(NotFoundException::class)
-    private fun selectMutipleBestPatterns(): Array<Array<FinderPattern>> {
+    private fun selectMutipleBestPatterns(): Array<Array<ScannerFinderPattern>> {
         val possibleCenters = possibleCenters
         val size = possibleCenters.size
         if (size < 3) throw NotFoundException.getNotFoundInstance()
         if (size == 3) return arrayOf(arrayOf(possibleCenters[0], possibleCenters[1], possibleCenters[2]))
         Collections.sort(possibleCenters, ModuleSizeComparator())
 
-        val results: MutableList<Array<FinderPattern>> = ArrayList()
+        val results: MutableList<Array<ScannerFinderPattern>> = ArrayList()
         for (i1 in 0 until size - 2) {
             val p1 = possibleCenters[i1] ?: continue
             for (i2 in i1 + 1 until size - 1) {
@@ -54,13 +51,13 @@ internal class ScannerMultiFinderPatternFinder : FinderPatternFinder {
                     val vModSize23A = abs(p2.estimatedModuleSize - p3.estimatedModuleSize)
                     if (vModSize23A > DIFF_MODSIZE_CUTOFF && vModSize23 >= DIFF_MODSIZE_CUTOFF_PERCENT) break
                     val test = arrayOf(p1, p2, p3)
-                    ResultPoint.orderBestPatterns(test)
+                    ScannerResultPoint.orderBestPatterns(test as Array<ScannerResultPoint>)
 
                     // Calculate the distances: a = topleft-bottomleft, b=topleft-topright, c = diagonal
-                    val info = FinderPatternInfo(test)
-                    val dA = ResultPoint.distance(info.topLeft, info.bottomLeft)
-                    val dC = ResultPoint.distance(info.topRight, info.bottomLeft)
-                    val dB = ResultPoint.distance(info.topLeft, info.topRight)
+                    val info = ScannerFinderPatternInfo(test)
+                    val dA = ScannerResultPoint.distance(info.topLeft, info.bottomLeft)
+                    val dC = ScannerResultPoint.distance(info.topRight, info.bottomLeft)
+                    val dB = ScannerResultPoint.distance(info.topLeft, info.topRight)
 
                     // Check the sizes
                     val estimatedModuleCount = (dA + dB) / (p1.estimatedModuleSize * 2.0f)
@@ -86,7 +83,7 @@ internal class ScannerMultiFinderPatternFinder : FinderPatternFinder {
     }
 
     @Throws(NotFoundException::class)
-    fun findMulti(hints: MutableMap<DecodeHintType, Any?>?): Array<FinderPatternInfo?> {
+    fun findMulti(hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerFinderPatternInfo?> {
         val tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER)
         val image = image
         val maxI = image.height
@@ -145,17 +142,17 @@ internal class ScannerMultiFinderPatternFinder : FinderPatternFinder {
         }
         val patternInfo =
             selectMutipleBestPatterns()
-        val result: MutableList<FinderPatternInfo> =
+        val result: MutableList<ScannerFinderPatternInfo> =
             ArrayList()
         for (pattern in patternInfo) {
-            ResultPoint.orderBestPatterns(pattern)
-            result.add(FinderPatternInfo(pattern))
+            ScannerResultPoint.orderBestPatterns(pattern as Array<ScannerResultPoint>)
+            result.add(ScannerFinderPatternInfo(pattern))
         }
         return if (result.isEmpty()) EMPTY_RESULT_ARRAY else result.toTypedArray()
     }
 
     companion object {
-        private val EMPTY_RESULT_ARRAY = arrayOfNulls<FinderPatternInfo>(0)
+        private val EMPTY_RESULT_ARRAY = arrayOfNulls<ScannerFinderPatternInfo>(0)
         private const val MAX_MODULE_COUNT_PER_EDGE = 180f
         private const val MIN_MODULE_COUNT_PER_EDGE = 9f
         private const val DIFF_MODSIZE_CUTOFF_PERCENT = 0.05f

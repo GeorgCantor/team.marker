@@ -3,26 +3,24 @@ package team.marker.util.scanner.detector
 import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
 import com.google.zxing.ReaderException
-import com.google.zxing.ResultPointCallback
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.common.DetectorResult
-import com.google.zxing.qrcode.detector.Detector
+import team.marker.util.scanner.common.ScannerResultPointCallback
 import java.util.*
 
 class ScannerMultiDetector(image: BitMatrix?) :
-    Detector(image) {
+    ScannerDetector(image!!) {
     @Throws(NotFoundException::class)
-    fun detectMulti(hints: MutableMap<DecodeHintType, Any?>?): Array<DetectorResult?> {
+    fun detectMulti(hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerDetectorResult?> {
         val image = image
         val resultPointCallback =
-            if (hints == null) null else hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK] as ResultPointCallback?
+            if (hints == null) null else hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK] as ScannerResultPointCallback?
         val finder = ScannerMultiFinderPatternFinder(image, resultPointCallback)
         val infos = finder.findMulti(hints)
         if (infos.isEmpty()) throw NotFoundException.getNotFoundInstance()
-        val result: MutableList<DetectorResult> = ArrayList()
+        val result: MutableList<ScannerDetectorResult> = ArrayList()
         for (info in infos) {
             try {
-                result.add(processFinderPatternInfo(info))
+                result.add(processFinderPatternInfo(info!!))
             } catch (e: ReaderException) {
                 // ignore
             }
@@ -31,6 +29,6 @@ class ScannerMultiDetector(image: BitMatrix?) :
     }
 
     companion object {
-        private val EMPTY_DETECTOR_RESULTS = arrayOfNulls<DetectorResult>(0)
+        private val EMPTY_DETECTOR_RESULTS = arrayOfNulls<ScannerDetectorResult>(0)
     }
 }

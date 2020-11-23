@@ -1,9 +1,13 @@
 package team.marker.util.scanner.reader
 
-import com.google.zxing.*
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
+import com.google.zxing.ResultMetadataType
 import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerReaderException
 import team.marker.util.scanner.common.ScannerResult
+import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.decoder.ScannerQRCodeDecoderMetaData
 import team.marker.util.scanner.detector.ScannerMultiDetector
 import team.marker.util.scanner.multi.ScannerMultipleBarcodeReader
@@ -59,7 +63,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
 
     companion object {
         private val EMPTY_RESULT_ARRAY = arrayOfNulls<ScannerResult>(0)
-        private val NO_POINTS = arrayOfNulls<ResultPoint>(0)
+        private val NO_POINTS = arrayOfNulls<ScannerResultPoint>(0)
         private fun processStructuredAppend(results: List<ScannerResult?>): List<ScannerResult?> {
             var hasSA = false
             // first, check, if there is at least on SA result in the list

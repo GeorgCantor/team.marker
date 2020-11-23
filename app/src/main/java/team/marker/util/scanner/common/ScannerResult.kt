@@ -2,7 +2,6 @@ package team.marker.util.scanner.common
 
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.ResultMetadataType
-import com.google.zxing.ResultPoint
 import java.util.*
 
 /**
@@ -30,7 +29,7 @@ class ScannerResult(
      * identifying finder patterns or the corners of the barcode. The exact meaning is
      * specific to the type of barcode that was decoded.
      */
-    var resultPoints: Array<ResultPoint?>?,
+    var resultPoints: Array<ScannerResultPoint?>?,
     /**
      * @return [BarcodeFormat] representing the format of the barcode that was decoded
      */
@@ -45,7 +44,7 @@ class ScannerResult(
     constructor(
         text: String,
         rawBytes: ByteArray?,
-        resultPoints: Array<ResultPoint?>?,
+        resultPoints: Array<ScannerResultPoint?>?,
         format: BarcodeFormat?,
         timestamp: Long = System.currentTimeMillis()
     ) : this(
@@ -81,12 +80,12 @@ class ScannerResult(
         }
     }
 
-    fun addResultPoints(newPoints: Array<ResultPoint?>?) {
+    fun addResultPoints(newPoints: Array<ScannerResultPoint?>?) {
         val oldPoints = resultPoints
         if (oldPoints == null) {
             resultPoints = newPoints
         } else if (newPoints != null && newPoints.size > 0) {
-            val allPoints = arrayOfNulls<ResultPoint>(oldPoints.size + newPoints.size)
+            val allPoints = arrayOfNulls<ScannerResultPoint>(oldPoints.size + newPoints.size)
             System.arraycopy(oldPoints, 0, allPoints, 0, oldPoints.size)
             System.arraycopy(newPoints, 0, allPoints, oldPoints.size, newPoints.size)
             resultPoints = allPoints

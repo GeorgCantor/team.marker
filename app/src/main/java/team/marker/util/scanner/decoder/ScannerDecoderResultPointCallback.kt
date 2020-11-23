@@ -1,9 +1,9 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.ResultPoint
-import com.google.zxing.ResultPointCallback
+import team.marker.util.scanner.common.ScannerResultPoint
+import team.marker.util.scanner.common.ScannerResultPointCallback
 
-class ScannerDecoderResultPointCallback : ResultPointCallback {
+class ScannerDecoderResultPointCallback : ScannerResultPointCallback {
     var decoder: ScannerDecoder? = null
 
     constructor(decoder: ScannerDecoder?) {
@@ -12,7 +12,7 @@ class ScannerDecoderResultPointCallback : ResultPointCallback {
 
     constructor() {}
 
-    override fun foundPossibleResultPoint(point: ResultPoint) {
+    override fun foundPossibleResultPoint(point: ScannerResultPoint?) {
         if (decoder != null) {
             decoder!!.foundPossibleResultPoint(point)
         }
