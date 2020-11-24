@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
@@ -59,21 +59,11 @@ class BreachCompleteFragment : Fragment() {
         add_photo_btn.setOnClickListener { findNavController().navigate(R.id.action_breachCompleteFragment_to_photoFragment) }
 
         viewModel.photos.observe(viewLifecycleOwner, Observer {
-            Glide.with(requireActivity())
-                .load(it.last())
-                .into(photo)
+            photos_recycler.setHasFixedSize(true)
+            photos_recycler.adapter = PhotosAdapter(it)
+            photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
         })
-
-        photo.rotation = 90F
     }
-
-    /*private fun products(view: View) {
-        val bundle = Bundle()
-        val productIdsStr = productIds.joinToString(",")
-        Log.e("productIdsStr", productIdsStr)
-        bundle.putString("product_ids", productIdsStr)
-        Navigation.findNavController(view).navigate(R.id.action_pickCompleteFragment_to_pickProductsFragment, bundle)
-    }*/
 
     private fun back(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_breachFragment)
