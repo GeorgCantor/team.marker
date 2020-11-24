@@ -13,6 +13,24 @@ import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
 class BreachFragment : Fragment() {
 
+    companion object {
+        private var productIds: MutableList<String> = mutableListOf()
+
+        fun sendResult(view: View, currentProductIds: MutableList<String>) {
+            for (currentProductId in currentProductIds) {
+                if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
+            }
+            Log.e("Breach productIds Size", productIds.size.toString())
+
+            val bundle = Bundle()
+            val array = arrayListOf<String>()
+            array.addAll(productIds)
+            bundle.putStringArrayList("product_ids", array)
+            productIds = mutableListOf()
+            Navigation.findNavController(view).navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
+        }
+    }
+
     private lateinit var capture: BreachCaptureManager
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
@@ -52,26 +70,6 @@ class BreachFragment : Fragment() {
                 }
             }
         }
-    }
-
-    companion object {
-
-        private var productIds: MutableList<String> = mutableListOf()
-
-        fun sendResult(view: View, currentProductIds: MutableList<String>) {
-            for (currentProductId in currentProductIds) {
-                if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
-            }
-            Log.e("Breach productIds Size", productIds.size.toString())
-
-            val bundle = Bundle()
-            val array = arrayListOf<String>()
-            array.addAll(productIds)
-            bundle.putStringArrayList("product_ids", array)
-            productIds = mutableListOf()
-            Navigation.findNavController(view).navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
-        }
-
     }
 
     override fun onResume() {

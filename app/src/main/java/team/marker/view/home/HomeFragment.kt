@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -32,10 +34,6 @@ class HomeFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
         }
-        //activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //view?.fitsSystemWindows = true
-        //view?.requestFitSystemWindows();
-        //accessToken = prefManager.getString(TOKEN) ?: ""
     }
 
     override fun onCreateView(
@@ -59,15 +57,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun scan(view: View) {
-        Navigation.findNavController(view).navigate(R.id.scanFragment)
+        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_scanFragment)
     }
 
     private fun pick(view: View) {
-        Navigation.findNavController(view).navigate(R.id.pickFragment)
+        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_pickFragment)
     }
 
     private fun breach(view: View) {
-        Navigation.findNavController(view).navigate(R.id.breachFragment)
+        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_breachFragment)
     }
 
     private fun logout() {
