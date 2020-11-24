@@ -444,7 +444,7 @@ open class ScannerCameraPreview : ViewGroup {
         } else if (textureView != null && Build.VERSION.SDK_INT >= 14) {
             if (textureView!!.isAvailable) {
                 surfaceTextureListener().onSurfaceTextureAvailable(
-                    textureView!!.surfaceTexture,
+                    textureView!!.surfaceTexture!!,
                     textureView!!.width,
                     textureView!!.height
                 )
@@ -572,7 +572,7 @@ open class ScannerCameraPreview : ViewGroup {
     private fun calculateFramingRect(container: Rect?, surface: Rect?): Rect {
         // intersection is the part of the container that is used for the preview
         val intersection = Rect(container)
-        val intersects = intersection.intersect(surface)
+        val intersects = intersection.intersect(surface!!)
         if (framingRectSize != null) {
             // Specific size is specified. Make sure it's not larger than the container or surface.
             val horizontalMargin = Math.max(0, (intersection.width() - framingRectSize!!.width) / 2)

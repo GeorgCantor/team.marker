@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
@@ -42,7 +43,16 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_breachCompleteFragment_to_photoFragment"
+            app:destination="@id/photoFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/photoFragment"
+        android:name="team.marker.view.breach.complete.photo.PhotoFragment"
+        android:label="PhotoFragment"
+        tools:layout="@layout/fragment_photo" />
 
     <fragment
         android:id="@+id/historyFragment"

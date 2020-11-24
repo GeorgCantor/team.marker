@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.model.requests.BreachRequest
-import team.marker.view.pick.PickFragment
 
 class BreachCompleteFragment : Fragment() {
 
@@ -22,7 +23,7 @@ class BreachCompleteFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel { parametersOf() }
+        viewModel = getSharedViewModel()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
         }
@@ -55,6 +56,13 @@ class BreachCompleteFragment : Fragment() {
         btn_products.setOnClickListener { products(view) }*/
         btn_back.setOnClickListener { back(view) }
         btn_send.setOnClickListener { send(view, productId) }
+        add_photo_btn.setOnClickListener { findNavController().navigate(R.id.action_breachCompleteFragment_to_photoFragment) }
+
+        viewModel.photos.observe(viewLifecycleOwner, Observer {
+            Glide.with(requireActivity())
+                .load(it.last())
+                .into(photo)
+        })
     }
 
     /*private fun products(view: View) {
