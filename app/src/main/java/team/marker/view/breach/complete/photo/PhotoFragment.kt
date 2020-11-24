@@ -32,6 +32,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     private lateinit var viewModel: BreachCompleteViewModel
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraExecutor: ExecutorService
+    private var isTorchEnable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,12 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 REQUEST_CODE_PERMISSIONS
             )
         }
+
+        flash_button.setOnClickListener {
+            isTorchEnable = !isTorchEnable
+            toggleTorch()
+        }
+        cancel_button.setOnClickListener { activity?.onBackPressed() }
         capture_button.setOnClickListener { takePhoto() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -123,5 +130,17 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                     activity?.onBackPressed()
                 }
             })
+    }
+
+    private fun toggleTorch() {
+        val cameraProcessFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProcessFuture.addListener(Runnable {
+            val cameraProvider = cameraProcessFuture.get()
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            val camera = cameraProvider.bindToLifecycle(viewLifecycleOwner, cameraSelector)
+            val cameraControl = camera.cameraControl
+            cameraControl.enableTorch(isTorchEnable)
+            flash_button.setImageResource(if (isTorchEnable) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
+        }, ContextCompat.getMainExecutor(context))
     }
 }

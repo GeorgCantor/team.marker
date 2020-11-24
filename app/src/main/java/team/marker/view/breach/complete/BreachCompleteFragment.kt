@@ -63,6 +63,8 @@ class BreachCompleteFragment : Fragment() {
                 .load(it.last())
                 .into(photo)
         })
+
+        photo.rotation = 90F
     }
 
     /*private fun products(view: View) {
