@@ -30,7 +30,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
     }
 
     fun addPhoto(file: File) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val list = mutableListOf<File>()
             photos.value?.map {
                 list.add(it)

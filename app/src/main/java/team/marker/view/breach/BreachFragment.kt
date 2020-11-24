@@ -35,7 +35,7 @@ class BreachFragment : Fragment() {
         capture = BreachCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
 
-        btn_scan_back.setOnClickListener { back(view) }
+        btn_scan_back.setOnClickListener { activity?.onBackPressed() }
 
         btn_scan_flash.setOnClickListener {
             barcodeScannerView?.setTorchOn()
@@ -52,10 +52,6 @@ class BreachFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun back(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_breachFragment_to_homeFragment)
     }
 
     companion object {

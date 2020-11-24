@@ -2,9 +2,7 @@ package team.marker.view.breach.complete
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -16,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.model.requests.BreachRequest
 
-class BreachCompleteFragment : Fragment() {
+class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     private lateinit var viewModel: BreachCompleteViewModel
     private val productIds: ArrayList<String> by lazy { arguments?.get("product_ids") as ArrayList<String> }
@@ -29,10 +27,6 @@ class BreachCompleteFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_breach_complete, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         for(productId in productIds) {
@@ -41,7 +35,7 @@ class BreachCompleteFragment : Fragment() {
         var productId = 0
         if (productIds.size > 0) productId = productIds[0].toInt()
 
-        btn_back.setOnClickListener { back(view) }
+        btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_send.setOnClickListener { send(view, productId) }
         add_photo_btn.setOnClickListener { findNavController().navigate(R.id.action_breachCompleteFragment_to_photoFragment) }
 
@@ -52,8 +46,9 @@ class BreachCompleteFragment : Fragment() {
         })
     }
 
-    private fun back(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_breachFragment)
+    override fun onDetach() {
+        viewModel.photos.value = mutableListOf()
+        super.onDetach()
     }
 
     private fun send(view: View, productId: Int) {
