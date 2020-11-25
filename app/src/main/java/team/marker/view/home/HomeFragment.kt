@@ -2,50 +2,34 @@ package team.marker.view.home
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.PreferenceManager
 import team.marker.view.MainActivity
 
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-class HomeFragment : Fragment() {
-
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel by inject<HomeViewModel>()
     private lateinit var prefManager: PreferenceManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel { parametersOf() }
         prefManager = PreferenceManager(requireActivity())
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // common
         super.onViewCreated(view, savedInstanceState)
         // buttons
         btn_scan.setOnClickListener { scan() }
@@ -82,11 +66,11 @@ class HomeFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED ||
+            ) != PERMISSION_GRANTED ||
             ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+            ) != PERMISSION_GRANTED
         ) {
             requestPermissions(
                 arrayOf(
@@ -105,11 +89,13 @@ class HomeFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) { return }
+            ) != PERMISSION_GRANTED
+        ) {
+            return
+        }
         fusedLocationClient
             .lastLocation
             .addOnSuccessListener(requireActivity()) { location ->
@@ -128,7 +114,7 @@ class HomeFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == 1) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED && requestCode == 1) {
             getLocationExecute()
         }
     }
