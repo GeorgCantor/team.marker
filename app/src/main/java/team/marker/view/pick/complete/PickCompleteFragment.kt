@@ -2,13 +2,9 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -16,9 +12,8 @@ import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.util.nameCase
-import team.marker.view.pick.PickFragment
 
-class PickCompleteFragment : Fragment() {
+class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     private lateinit var viewModel: PickCompleteViewModel
     private val products: ArrayList<PickProduct> by lazy { arguments?.get("products") as ArrayList<PickProduct> }
@@ -29,10 +24,6 @@ class PickCompleteFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pick_complete, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -48,24 +48,24 @@ class HomeFragment : Fragment() {
         // common
         super.onViewCreated(view, savedInstanceState)
         // buttons
-        btn_scan.setOnClickListener { scan(view) }
-        btn_pick.setOnClickListener { pick(view) }
-        btn_breach.setOnClickListener { breach(view) }
+        btn_scan.setOnClickListener { scan() }
+        btn_pick.setOnClickListener { pick() }
+        btn_breach.setOnClickListener { breach() }
         btn_logout.setOnClickListener { logout() }
         // geo
         getLocation()
     }
 
-    private fun scan(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_scanFragment)
+    private fun scan() {
+        findNavController().navigate(R.id.action_homeFragment_to_scanFragment)
     }
 
-    private fun pick(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_pickFragment)
+    private fun pick() {
+        findNavController().navigate(R.id.action_homeFragment_to_pickFragment)
     }
 
-    private fun breach(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_breachFragment)
+    private fun breach() {
+        findNavController().navigate(R.id.action_homeFragment_to_breachFragment)
     }
 
     private fun logout() {
