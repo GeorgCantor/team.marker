@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_product_file.view.*
-import kotlinx.android.synthetic.main.item_product_option.view.*
 import kotlinx.android.synthetic.main.item_product_option.view.title_tv
 import team.marker.R
 import team.marker.model.responses.ProductFile
@@ -28,8 +27,6 @@ class ProductFilesAdapter(
         val lp = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         rootView.layoutParams = lp
         return ProductOptionsViewHolder(rootView)
-
-        //return ProductOptionsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_product_option, null))
     }
 
     override fun getItemCount(): Int = files.size

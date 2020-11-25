@@ -26,8 +26,6 @@ class ProductOptionsAdapter(
         val lp = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         rootView.layoutParams = lp
         return ProductOptionsViewHolder(rootView)
-
-        //return ProductOptionsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_product_option, null))
     }
 
     override fun getItemCount(): Int = options.size

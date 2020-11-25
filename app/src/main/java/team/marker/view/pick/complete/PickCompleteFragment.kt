@@ -35,11 +35,10 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         val labelScan = nameCase(size, arrayOf("Отсканирован", "Отсканировано", "Отсканировано"))
         val labelCode = nameCase(size, arrayOf("код", "кода", "кодов"))
         if (size > 0) note_text.text = "$labelScan $size $labelCode, введите электронную почту для отправки отчета."
-        else note_text.text = "Отсканированных кодов нет. Выполните повторное сканирование перед отправкой отчета."
+        else note_text.text = getString(R.string.no_scanned_codes)
         if (size == 0) {
             input_email.visibility = View.GONE
-            btn_send.text = "Закрыть"
-            //btn_send.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_logout)
+            btn_send.text = getString(R.string.close)
             note_title.setImageResource(R.drawable.ic_empty)
             btn_products.visibility = View.GONE
             ic_email.visibility = View.GONE

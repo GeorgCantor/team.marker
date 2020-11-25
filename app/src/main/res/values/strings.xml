@@ -2,4 +2,12 @@
     <string name="app_name">МАСК.Маркер</string>
     <string name="login_message">Приложение для сканирования промышленных изделий</string>
     <string name="login_btn">Войти</string>
+
+    // pick
+    <string name="enter_number_accepted_units">Введите количество оприходуемых единиц (шт.)</string>
+    <string name="enter_product_length">Введите длину оприходуемой продукции (в погонных метрах)</string>
+    <string name="enter_product_weight">Введите вес оприходуемой продукции (в кг)</string>
+    <string name="enter_product_volume">Введите объем оприходуемой продукции (в метрах кубических)</string>
+    <string name="no_scanned_codes">Отсканированных кодов нет. Выполните повторное сканирование перед отправкой отчета.</string>
+    <string name="close">Закрыть</string>
 </resources>

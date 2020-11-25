@@ -145,12 +145,18 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 view.pick_window.visibility = View.VISIBLE
                 view.pick_bg.visibility = View.VISIBLE
                 view.pick_quantity.setText("")
-                // mode
-                if (pickMode == 1) view.pick_note.text = "Введите количество оприходуемых единиц (шт.)"
-                if (pickMode == 2) view.pick_note.text = "Введите длину оприходуемой продукции (в погонных метрах)"
-                if (pickMode == 3) view.pick_note.text = "Введите вес оприходуемой продукции (в кг)"
-                if (pickMode == 4) view.pick_note.text = "Введите объем оприходуемой продукции (в метрах кубических)"
-                if (pickMode == 1) view.pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+
+                with(view) {
+                    when (pickMode) {
+                        1 -> {
+                            pick_note.text = context.getString(R.string.enter_number_accepted_units)
+                            pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+                        }
+                        2 -> pick_note.text = context.getString(R.string.enter_product_length)
+                        3 -> pick_note.text = context.getString(R.string.enter_product_weight)
+                        4 -> pick_note.text = context.getString(R.string.enter_product_volume)
+                    }
+                }
             }
         }
 
