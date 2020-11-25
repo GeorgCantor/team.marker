@@ -88,7 +88,7 @@ class ProductFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner, Observer {
-            NavHostFragment.findNavController(this).navigate(R.id.scanErrorFragment)
+            NavHostFragment.findNavController(this).navigate(R.id.action_productFragment_to_scanErrorFragment)
         })
 
         // product info
