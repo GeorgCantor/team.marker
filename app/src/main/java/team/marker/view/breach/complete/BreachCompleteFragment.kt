@@ -29,7 +29,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for(productId in productIds) {
+        for (productId in productIds) {
             Log.e("Message", productId)
         }
         var productId = 0
@@ -48,6 +48,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onDetach() {
         viewModel.photos.value = mutableListOf()
+        context?.cacheDir?.deleteRecursively()
         super.onDetach()
     }
 
@@ -62,5 +63,4 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         viewModel.breach(BreachRequest(productId, reasonId, userReason, comment))
         Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
-
 }
