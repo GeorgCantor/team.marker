@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
         // common
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         // vars (access)
         access_sid = PreferenceManager(this).getString("sid") ?: ""
         access_token = PreferenceManager(this).getString("token") ?: ""

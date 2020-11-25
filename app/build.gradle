@@ -46,13 +46,13 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
-    implementation "org.koin:koin-android:2.1.5"
+    implementation "org.koin:koin-android:2.1.6"
     implementation "org.koin:koin-androidx-viewmodel:2.1.5"
     // api
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.google.code.gson:gson:2.8.6"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
