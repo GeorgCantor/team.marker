@@ -3,7 +3,7 @@ package team.marker.util.scanner
 import android.util.Log
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
-import com.google.zxing.NotFoundException
+import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerReaderException
 import team.marker.util.scanner.common.ScannerResult
 import team.marker.util.scanner.reader.ScannerQRCodeMultiReader
@@ -15,19 +15,19 @@ class ScannerMultiFormatReader : ScannerReader {
     private var hints: MutableMap<DecodeHintType, Any?>? = null
     private var readers: Array<ScannerReader>? = null
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     override fun decode(image: BinaryBitmap): ScannerResult {
         setHints(null)
         return decodeInternal(image)
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     override fun decodeMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         setHints(null)
         return decodeInternalMultiple(image)
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
         setHints(hints)
         return decodeInternal(image)
@@ -38,13 +38,13 @@ class ScannerMultiFormatReader : ScannerReader {
         return decodeInternalMultiple(image)
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     fun decodeWithState(image: BinaryBitmap): ScannerResult {
         if (readers == null) setHints(null)
         return decodeInternal(image)
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     fun decodeWithStateMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         if (readers == null) setHints(null)
         return decodeInternalMultiple(image)
@@ -97,7 +97,7 @@ class ScannerMultiFormatReader : ScannerReader {
         }
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     private fun decodeInternal(image: BinaryBitmap): ScannerResult {
         if (readers != null) {
             for (reader in readers!!) {
@@ -106,10 +106,10 @@ class ScannerMultiFormatReader : ScannerReader {
                 } catch (re: ScannerReaderException) { }
             }
         }
-        throw NotFoundException.getNotFoundInstance()
+        throw ScannerNotFoundException().getNotFoundInstance()!!
     }
 
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     private fun decodeInternalMultiple(image: BinaryBitmap): Array<ScannerResult?> {
         if (readers != null) {
             for (reader in readers!!) {
@@ -123,6 +123,6 @@ class ScannerMultiFormatReader : ScannerReader {
                 } catch (re: ScannerReaderException) { }
             }
         }
-        throw NotFoundException.getNotFoundInstance()
+        throw ScannerNotFoundException().getNotFoundInstance()!!
     }
 }
