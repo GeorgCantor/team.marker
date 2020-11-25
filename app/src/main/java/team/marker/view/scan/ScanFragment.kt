@@ -1,9 +1,7 @@
 package team.marker.view.scan
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_scan.*
@@ -11,7 +9,7 @@ import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
-class ScanFragment : Fragment() {
+class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     companion object {
         private var products: MutableList<PickProduct> = mutableListOf()
@@ -54,14 +52,6 @@ class ScanFragment : Fragment() {
 
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_scan, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

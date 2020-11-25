@@ -2,13 +2,10 @@ package team.marker.view.pick
 
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_pick.*
-import kotlinx.android.synthetic.main.fragment_pick.btn_scan_flash
 import kotlinx.android.synthetic.main.fragment_pick.view.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -18,7 +15,7 @@ import team.marker.util.PreferenceManager
 import team.marker.util.runDelayed
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
-class PickFragment : Fragment() {
+class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private lateinit var viewModel: PickViewModel
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
@@ -31,10 +28,6 @@ class PickFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pick, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

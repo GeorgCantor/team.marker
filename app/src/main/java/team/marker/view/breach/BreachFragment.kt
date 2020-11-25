@@ -2,16 +2,14 @@ package team.marker.view.breach
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_breach.*
 import team.marker.R
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
-class BreachFragment : Fragment() {
+class BreachFragment : Fragment(R.layout.fragment_breach) {
 
     companion object {
         private var productIds: MutableList<String> = mutableListOf()
@@ -40,10 +38,6 @@ class BreachFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_breach, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
