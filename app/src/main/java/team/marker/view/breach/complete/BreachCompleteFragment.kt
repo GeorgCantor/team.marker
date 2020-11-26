@@ -1,5 +1,7 @@
 package team.marker.view.breach.complete
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -47,7 +49,9 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onDetach() {
         viewModel.photos.value = mutableListOf()
-
+        val cw = ContextWrapper(requireContext())
+        val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+        directory.deleteRecursively()
         super.onDetach()
     }
 
