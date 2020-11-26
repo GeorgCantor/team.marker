@@ -8,8 +8,8 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import com.google.zxing.ResultPoint
 import team.marker.R
+import team.marker.util.scanner.common.ScannerResultPoint
 import java.util.*
 
 class ScannerViewfinderView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -21,8 +21,8 @@ class ScannerViewfinderView(context: Context?, attrs: AttributeSet?) : View(cont
     private val laserColor: Int
     private val resultPointColor: Int
     private var scannerAlpha: Int
-    private var possibleResultPoints: MutableList<ResultPoint>
-    private var lastPossibleResultPoints: List<ResultPoint>?
+    private var possibleResultPoints: MutableList<ScannerResultPoint>
+    private var lastPossibleResultPoints: List<ScannerResultPoint>?
     private var cameraPreview: ScannerCameraPreview? = null
     private var framingRect: Rect? = null
     private var previewFramingRect: Rect? = null
@@ -76,7 +76,7 @@ class ScannerViewfinderView(context: Context?, attrs: AttributeSet?) : View(cont
             canvas.drawRect(frame.left + 2.toFloat(), middle - 1.toFloat(), frame.right - 1.toFloat(), middle + 2.toFloat(), paint)
             val scaleX = frame.width() / previewFrame.width().toFloat()
             val scaleY = frame.height() / previewFrame.height().toFloat()
-            val currentPossible: List<ResultPoint> = possibleResultPoints
+            val currentPossible: List<ScannerResultPoint> = possibleResultPoints
             val currentLast = lastPossibleResultPoints
             val frameLeft = frame.left
             val frameTop = frame.top
@@ -114,7 +114,7 @@ class ScannerViewfinderView(context: Context?, attrs: AttributeSet?) : View(cont
         invalidate()
     }
 
-    fun addPossibleResultPoint(point: ResultPoint) {
+    fun addPossibleResultPoint(point: ScannerResultPoint) {
         val points = possibleResultPoints
         points.add(point)
         val size = points.size
