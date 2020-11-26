@@ -2,7 +2,6 @@ package team.marker.util.scanner.reader
 
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
-import com.google.zxing.ResultMetadataType
 import team.marker.util.scanner.common.*
 import team.marker.util.scanner.decoder.ScannerQRCodeDecoderMetaData
 import team.marker.util.scanner.detector.ScannerMultiDetector
@@ -31,12 +30,12 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                 }
                 val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
                 val byteSegments = decoderResult.byteSegments
-                if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
+                if (byteSegments != null) result.putMetadata(ScannerResultMetadataType.BYTE_SEGMENTS, byteSegments)
                 val ecLevel = decoderResult.ecLevel
-                if (ecLevel != null) result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
+                if (ecLevel != null) result.putMetadata(ScannerResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
                 if (decoderResult.hasStructuredAppend()) {
-                    result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)
-                    result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.structuredAppendParity)
+                    result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)
+                    result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.structuredAppendParity)
                 }
                 results.add(result)
             } catch (re: ScannerReaderException) { }
@@ -51,8 +50,8 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
 
     private class SAComparator : Comparator<ScannerResult>, Serializable {
         override fun compare(a: ScannerResult, b: ScannerResult): Int {
-            val aNumber = a.resultMetadata!![ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
-            val bNumber = b.resultMetadata!![ResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
+            val aNumber = a.resultMetadata!![ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
+            val bNumber = b.resultMetadata!![ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE] as Int
             return aNumber.compareTo(bNumber)
         }
     }
@@ -64,7 +63,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             var hasSA = false
             // first, check, if there is at least on SA result in the list
             for (result in results) {
-                if (result!!.resultMetadata!!.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) {
+                if (result!!.resultMetadata!!.containsKey(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) {
                     hasSA = true
                     break
                 }
@@ -75,7 +74,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             val saResults: MutableList<ScannerResult> = ArrayList()
             for (result in results) {
                 newResults.add(result!!)
-                if (result.resultMetadata!!.containsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) saResults.add(result)
+                if (result.resultMetadata!!.containsKey(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE)) saResults.add(result)
             }
             // sort and concatenate the SA list items
             Collections.sort(saResults, SAComparator())
@@ -85,8 +84,8 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             for (saResult in saResults) {
                 concatedText.append(saResult.text)
                 rawBytesLen += saResult.rawBytes!!.size
-                if (saResult.resultMetadata!!.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-                    val byteSegments = saResult.resultMetadata?.get(ResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
+                if (saResult.resultMetadata!!.containsKey(ScannerResultMetadataType.BYTE_SEGMENTS)) {
+                    val byteSegments = saResult.resultMetadata?.get(ScannerResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
                     for (segment in byteSegments!!) {
                         byteSegmentLength += segment.size
                     }
@@ -99,8 +98,8 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             for (saResult in saResults) {
                 System.arraycopy(saResult.rawBytes!!, 0, newRawBytes, newRawBytesIndex, saResult.rawBytes.size)
                 newRawBytesIndex += saResult.rawBytes.size
-                if (saResult.resultMetadata!!.containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-                    val byteSegments = saResult.resultMetadata?.get(ResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
+                if (saResult.resultMetadata!!.containsKey(ScannerResultMetadataType.BYTE_SEGMENTS)) {
+                    val byteSegments = saResult.resultMetadata?.get(ScannerResultMetadataType.BYTE_SEGMENTS) as Iterable<ByteArray>?
                     for (segment in byteSegments!!) {
                         System.arraycopy(segment, 0, newByteSegment, byteSegmentIndex, segment.size)
                         byteSegmentIndex += segment.size
@@ -112,7 +111,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
             if (byteSegmentLength > 0) {
                 val byteSegmentList: MutableCollection<ByteArray> = ArrayList()
                 byteSegmentList.add(newByteSegment)
-                newResult.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegmentList)
+                newResult.putMetadata(ScannerResultMetadataType.BYTE_SEGMENTS, byteSegmentList)
             }
             newResults.add(newResult)
             return newResults

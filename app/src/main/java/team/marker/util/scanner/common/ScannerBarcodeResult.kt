@@ -3,7 +3,6 @@ package team.marker.util.scanner.common
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.google.zxing.ResultMetadataType
 
 /**
  * This contains the result of a barcode scan.
@@ -105,13 +104,7 @@ class ScannerBarcodeResult(
     val barcodeFormat: ScannerBarcodeFormat?
         get() = result.barcodeFormat
 
-    /**
-     * @return [Map] mapping [ResultMetadataType] keys to values. May be
-     * `null`. This contains optional metadata about what was detected about the barcode,
-     * like orientation.
-     * @see Result.getResultMetadata
-     */
-    val resultMetadata: Map<ResultMetadataType, Any>?
+    val resultMetadata: Map<ScannerResultMetadataType, Any>?
         get() = result.resultMetadata
     val timestamp: Long
         get() = result.timestamp

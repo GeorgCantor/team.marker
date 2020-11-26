@@ -1,6 +1,5 @@
 package team.marker.util.scanner.common
 
-import com.google.zxing.ResultMetadataType
 import java.util.*
 
 /**
@@ -36,7 +35,7 @@ class ScannerResult(
     val timestamp: Long
 ) {
 
-    var resultMetadata: MutableMap<ResultMetadataType, Any>? =
+    var resultMetadata: MutableMap<ScannerResultMetadataType, Any>? =
         null
 
     @JvmOverloads
@@ -52,24 +51,19 @@ class ScannerResult(
     ) {
     }
 
-    /**
-     * @return [Map] mapping [ResultMetadataType] keys to values. May be
-     * `null`. This contains optional metadata about what was detected about the barcode,
-     * like orientation.
-     */
     @JvmName("getResultMetadata1")
-    fun getResultMetadata(): Map<ResultMetadataType, Any>? {
+    fun getResultMetadata(): Map<ScannerResultMetadataType, Any>? {
         return resultMetadata
     }
 
-    fun putMetadata(type: ResultMetadataType, value: Any) {
+    fun putMetadata(type: ScannerResultMetadataType, value: Any) {
         if (resultMetadata == null) {
-            resultMetadata = EnumMap(ResultMetadataType::class.java)
+            resultMetadata = EnumMap(ScannerResultMetadataType::class.java)
         }
         resultMetadata!![type] = value
     }
 
-    fun putAllMetadata(metadata: MutableMap<ResultMetadataType, Any>?) {
+    fun putAllMetadata(metadata: MutableMap<ScannerResultMetadataType, Any>?) {
         if (metadata != null) {
             if (resultMetadata == null) {
                 resultMetadata = metadata

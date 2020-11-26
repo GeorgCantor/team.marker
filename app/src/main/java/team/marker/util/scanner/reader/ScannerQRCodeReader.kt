@@ -3,7 +3,6 @@ package team.marker.util.scanner.reader
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
-import com.google.zxing.ResultMetadataType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.Decoder
@@ -38,12 +37,12 @@ abstract class ScannerQRCodeReader : ScannerReader {
         if (decoderResult.other is QRCodeDecoderMetaData) (decoderResult.other as ScannerQRCodeDecoderMetaData).applyMirroredCorrection(points)
         val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
         val byteSegments = decoderResult.byteSegments
-        if (byteSegments != null) result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments)
+        if (byteSegments != null) result.putMetadata(ScannerResultMetadataType.BYTE_SEGMENTS, byteSegments)
         val ecLevel = decoderResult.ecLevel
-        if (ecLevel != null) result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
+        if (ecLevel != null) result.putMetadata(ScannerResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
         if (decoderResult.hasStructuredAppend()) {
-            result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)
-            result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.structuredAppendParity)
+            result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)
+            result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.structuredAppendParity)
         }
         return result
     }
