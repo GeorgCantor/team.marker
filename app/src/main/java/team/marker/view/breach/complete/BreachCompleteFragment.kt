@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
-import team.marker.model.requests.BreachRequest
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -48,7 +47,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onDetach() {
         viewModel.photos.value = mutableListOf()
-        context?.cacheDir?.deleteRecursively()
+
         super.onDetach()
     }
 
@@ -60,7 +59,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         // validate
         if (comment == "") return
         // send
-        viewModel.breach(BreachRequest(productId, reasonId, userReason, comment))
+        viewModel.breach(productId, reasonId, userReason, comment)
         Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
 }

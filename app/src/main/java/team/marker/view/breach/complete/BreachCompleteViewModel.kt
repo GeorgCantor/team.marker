@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import team.marker.model.remote.ApiRepository
-import team.marker.model.requests.BreachRequest
 import team.marker.model.responses.ResponseMessage
 import java.io.File
 
@@ -20,9 +22,23 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
         error.postValue(throwable.message)
     }
 
-    fun breach(request: BreachRequest) {
+    fun breach(productId: Int, reasonId: Int, userReason: String, comment: String) {
         viewModelScope.launch(exceptionHandler) {
-            repository.breach(request).apply {
+            val files = mutableListOf<MultipartBody.Part>()
+            photos.value?.map {
+                val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), it)
+                val filePart = MultipartBody.Part.createFormData(
+                    "files", it.name, requestBody
+                )
+                files.add(filePart)
+            }
+            repository.breach(
+                productId,
+                reasonId,
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userReason),
+                RequestBody.create("text/plain".toMediaTypeOrNull(), comment),
+                files.toTypedArray()
+            ).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }

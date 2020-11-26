@@ -1,10 +1,8 @@
 package team.marker.model.remote
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
-import team.marker.model.requests.BreachRequest
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.*
 import team.marker.model.requests.LoginRequest
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.*
@@ -12,7 +10,6 @@ import team.marker.model.responses.*
 interface ApiService {
 
     // auth
-
     @POST("login")
     suspend fun getLogin(@Body request: LoginRequest?): ResponseAPI<Login?>?
 
@@ -23,9 +20,15 @@ interface ApiService {
     suspend fun getOwner(): ResponseAPI<User?>?
 
     // scan
-
+    @Multipart
     @POST("breach")
-    suspend fun breach(@Body request: BreachRequest?): ResponseAPI<ResponseMessage?>?
+    suspend fun breach(
+        @Part("product_id") product_id: Int?,
+        @Part("reason_id") reason_id: Int?,
+        @Part("user_reason") user_reason: RequestBody?,
+        @Part("comment") comment: RequestBody?,
+        @Part files: Array<MultipartBody.Part>?
+    ): ResponseAPI<ResponseMessage?>?
 
     @GET("history")
     suspend fun getHistory(@Query("offset") offset: Int?): ResponseAPI<History?>?

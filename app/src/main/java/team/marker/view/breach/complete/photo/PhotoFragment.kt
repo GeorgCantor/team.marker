@@ -1,6 +1,8 @@
 package team.marker.view.breach.complete.photo
 
 import android.Manifest
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
@@ -21,6 +23,7 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
@@ -113,8 +116,9 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
     private fun takePhoto() {
         val imageCapture = imageCapture
-
-        val photoFile = File(context?.cacheDir, "${UUID.randomUUID()}.jpg")
+        val cw = ContextWrapper(requireContext())
+        val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+        val photoFile = File(directory, "${UUID.randomUUID()}.jpg")
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
