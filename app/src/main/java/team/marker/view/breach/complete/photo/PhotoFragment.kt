@@ -24,7 +24,6 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
 class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
     companion object {

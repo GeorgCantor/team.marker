@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
@@ -37,14 +35,14 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         if (productIds.size > 0) productId = productIds[0].toInt()
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
-        btn_send.setOnClickListener { send(view, productId) }
+        btn_send.setOnClickListener { send(productId) }
         add_photo_btn.setOnClickListener { findNavController().navigate(R.id.action_breachCompleteFragment_to_photoFragment) }
 
-        viewModel.photos.observe(viewLifecycleOwner, Observer {
+        viewModel.photos.observe(viewLifecycleOwner) {
             photos_recycler.setHasFixedSize(true)
             photos_recycler.adapter = PhotosAdapter(it)
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
-        })
+        }
     }
 
     override fun onDetach() {
@@ -55,15 +53,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         super.onDetach()
     }
 
-    private fun send(view: View, productId: Int) {
-        // vars
+    private fun send(productId: Int) {
         val reasonId = 0
         val userReason = ""
         val comment = input_comment.text.toString()
-        // validate
         if (comment == "") return
-        // send
         viewModel.breach(productId, reasonId, userReason, comment)
-        Navigation.findNavController(view).navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+        findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
 }
