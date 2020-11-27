@@ -1,7 +1,7 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.FormatException
 import com.google.zxing.common.BitMatrix
+import team.marker.util.scanner.common.ScannerFormatException
 
 /**
  * @author Sean Owen
@@ -12,15 +12,7 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
     private var parsedFormatInfo: FormatInformation? = null
     private var mirror = false
 
-    /**
-     *
-     * Reads format information from one of its two locations within the QR Code.
-     *
-     * @return [FormatInformation] encapsulating the QR Code's format info
-     * @throws FormatException if both format information locations cannot be parsed as
-     * the valid encoding of format information
-     */
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     fun readFormatInformation(): FormatInformation {
         if (parsedFormatInfo != null) {
             return parsedFormatInfo as FormatInformation
@@ -55,18 +47,10 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
         if (parsedFormatInfo != null) {
             return parsedFormatInfo as FormatInformation
         }
-        throw FormatException.getFormatInstance()
+        throw ScannerFormatException.formatInstance
     }
 
-    /**
-     *
-     * Reads version information from one of its two locations within the QR Code.
-     *
-     * @return [Version] encapsulating the QR Code's version
-     * @throws FormatException if both version information locations cannot be parsed as
-     * the valid encoding of version information
-     */
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     fun readVersion(): Version {
         if (parsedVersion != null) {
             return parsedVersion as Version
@@ -103,7 +87,7 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
             parsedVersion = theParsedVersion
             return theParsedVersion
         }
-        throw FormatException.getFormatInstance()
+        throw ScannerFormatException.formatInstance
     }
 
     private fun copyBit(i: Int, j: Int, versionBits: Int): Int {
@@ -111,16 +95,7 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
         return if (bit) versionBits shl 1 or 0x1 else versionBits shl 1
     }
 
-    /**
-     *
-     * Reads the bits in the [BitMatrix] representing the finder pattern in the
-     * correct order in order to reconstruct the codewords bytes contained within the
-     * QR Code.
-     *
-     * @return bytes encoded within the QR Code
-     * @throws FormatException if the exact number of bytes expected is not read
-     */
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     fun readCodewords(): ByteArray {
         val formatInfo = readFormatInformation()
         val version = readVersion()
@@ -169,7 +144,7 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
             j -= 2
         }
         if (resultOffset != version.totalCodewords) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         return result
     }
@@ -212,14 +187,10 @@ internal class BitMatrixParser(bitMatrix: BitMatrix) {
         }
     }
 
-    /**
-     * @param bitMatrix [BitMatrix] to parse
-     * @throws FormatException if dimension is not >= 21 and 1 mod 4
-     */
     init {
         val dimension = bitMatrix.height
         if (dimension < 21 || dimension and 0x03 != 1) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         this.bitMatrix = bitMatrix
     }
