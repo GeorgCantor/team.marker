@@ -79,7 +79,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             if (grantedPermissions()) {
                 startCamera()
             } else {
-                context?.shortToast("Нет разрешений для камеры")
+                context?.shortToast(getString(R.string.no_camera_permissions))
                 activity?.onBackPressed()
             }
         }
