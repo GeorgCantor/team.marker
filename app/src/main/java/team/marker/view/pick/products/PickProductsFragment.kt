@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
+import team.marker.util.Constants.PRODUCTS_URL
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -38,10 +39,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
             history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
                 Handler().postDelayed({
                     val bundle = Bundle()
-                    bundle.putString(
-                        "product_url",
-                        "https://marker.team/products/" + item.id?.toString()
-                    )
+                    bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
                     NavHostFragment.findNavController(this)
                         .navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
                 }, 150)

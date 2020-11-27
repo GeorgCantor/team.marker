@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import team.marker.R
+import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.ExpandList
 import team.marker.util.PreferenceManager
 
@@ -65,7 +66,7 @@ class ProductFragment : Fragment() {
         // override
         super.onViewCreated(view, savedInstanceState)
         // common
-        val productId = productUrl.replace("https://marker.team/products/", "")
+        val productId = productUrl.replace(PRODUCTS_URL, "")
         val lat = prefManager.getString("lat") ?: ""
         val lng = prefManager.getString("lng") ?: ""
         viewModel.getProduct(productId, lat, lng)
@@ -77,7 +78,7 @@ class ProductFragment : Fragment() {
         list5 = ExpandList(expand_5, list_5_expand)
         list1.toggleList("force")
         // events
-        btn_back.setOnClickListener { back(view) }
+        btn_back.setOnClickListener { activity?.onBackPressed() }
         list_1.setOnClickListener { list1.toggleList() }
         list_2.setOnClickListener { list2.toggleList() }
         list_3.setOnClickListener { list3.toggleList() }
@@ -150,9 +151,7 @@ class ProductFragment : Fragment() {
 
             if (it.options?.size!! > 0) {
                 product_options_recycler.isNestedScrollingEnabled = false;
-                product_options_recycler.adapter = ProductOptionsAdapter(it.options ?: mutableListOf()) { }
-                //val dividerItemDecoration: ItemDecoration = DividerItemDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!)
-                //product_options_recycler.addItemDecoration(dividerItemDecoration)
+                product_options_recycler.adapter = ProductOptionsAdapter(it.options) { }
             } else {
                 expand_2_empty.visibility = View.VISIBLE
             }
@@ -204,11 +203,6 @@ class ProductFragment : Fragment() {
         return OnMapReadyCallback { googleMap ->
             customerMap = googleMap
         }
-    }
-
-    private fun back(view: View) {
-        activity?.onBackPressed()
-        //Navigation.findNavController(view).navigate(R.id.action_productFragment_to_homeFragment)
     }
 
     private fun share(url: String, title: String) {

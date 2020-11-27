@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
@@ -92,7 +93,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         val productIds = arrayListOf<String>()
         for(product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
-        bundle.putString("product_url", "https://marker.team/products/$productIdsStr")
+        bundle.putString("product_url", "$PRODUCTS_URL$productIdsStr")
         Navigation.findNavController(view).navigate(R.id.action_scanFragment_to_productFragment, bundle)
     }
 
