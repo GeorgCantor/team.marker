@@ -1,8 +1,8 @@
 package team.marker.util.scanner.reader
 
 import com.google.zxing.BinaryBitmap
-import com.google.zxing.DecodeHintType
 import team.marker.util.scanner.common.*
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import team.marker.util.scanner.decoder.ScannerQRCodeDecoderMetaData
 import team.marker.util.scanner.detector.ScannerMultiDetector
 import team.marker.util.scanner.multi.ScannerMultipleBarcodeReader
@@ -17,7 +17,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
     }
 
     @Throws(ScannerNotFoundException::class)
-    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerResult?> {
+    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<ScannerDecodeHintType?, Any?>?): Array<ScannerResult?> {
         var results: MutableList<ScannerResult?> = ArrayList()
         val detectorResults = ScannerMultiDetector(image.blackMatrix).detectMulti(hints)
         for (detectorResult in detectorResults) {

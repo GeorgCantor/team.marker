@@ -2,17 +2,17 @@ package team.marker.util.scanner
 
 import android.util.Log
 import com.google.zxing.BinaryBitmap
-import com.google.zxing.DecodeHintType
 import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerReaderException
 import team.marker.util.scanner.common.ScannerResult
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import team.marker.util.scanner.reader.ScannerQRCodeMultiReader
 import team.marker.util.scanner.reader.ScannerReader
 import java.util.*
 
 class ScannerMultiFormatReader : ScannerReader {
 
-    private var hints: MutableMap<DecodeHintType, Any?>? = null
+    private var hints: MutableMap<ScannerDecodeHintType?, Any?>? = null
     private var readers: Array<ScannerReader>? = null
 
     @Throws(ScannerNotFoundException::class)
@@ -28,12 +28,12 @@ class ScannerMultiFormatReader : ScannerReader {
     }
 
     @Throws(ScannerNotFoundException::class)
-    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
+    override fun decode(image: BinaryBitmap, hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerResult {
         setHints(hints)
         return decodeInternal(image)
     }
 
-    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerResult?> {
+    override fun decodeMultiple(image: BinaryBitmap, hints: MutableMap<ScannerDecodeHintType?, Any?>?): Array<ScannerResult?> {
         setHints(hints)
         return decodeInternalMultiple(image)
     }
@@ -50,7 +50,7 @@ class ScannerMultiFormatReader : ScannerReader {
         return decodeInternalMultiple(image)
     }
 
-    fun setHints(hints: MutableMap<DecodeHintType, Any?>?) {
+    fun setHints(hints: MutableMap<ScannerDecodeHintType?, Any?>?) {
         this.hints = hints
         val readers: MutableCollection<ScannerReader> = ArrayList()
 

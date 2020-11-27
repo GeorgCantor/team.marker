@@ -1,10 +1,10 @@
 package team.marker.util.scanner.detector
 
-import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
 import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.common.ScannerResultPointCallback
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import java.io.Serializable
 import java.util.*
 import kotlin.math.abs
@@ -83,8 +83,8 @@ internal class ScannerMultiFinderPatternFinder : ScannerFinderPatternFinder {
     }
 
     @Throws(NotFoundException::class)
-    fun findMulti(hints: MutableMap<DecodeHintType, Any?>?): Array<ScannerFinderPatternInfo?> {
-        val tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER)
+    fun findMulti(hints: MutableMap<ScannerDecodeHintType?, Any?>?): Array<ScannerFinderPatternInfo?> {
+        val tryHarder = hints != null && hints.containsKey(ScannerDecodeHintType.TRY_HARDER)
         val image = image
         val maxI = image.height
         val maxJ = image.width

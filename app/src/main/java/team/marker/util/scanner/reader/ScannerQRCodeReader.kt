@@ -1,13 +1,13 @@
 package team.marker.util.scanner.reader
 
 import com.google.zxing.BinaryBitmap
-import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
-import com.google.zxing.qrcode.decoder.Decoder
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData
 import team.marker.util.scanner.common.*
+import team.marker.util.scanner.decoder.Decoder
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import team.marker.util.scanner.detector.ScannerDetector
 import kotlin.math.roundToInt
 
@@ -20,10 +20,10 @@ abstract class ScannerQRCodeReader : ScannerReader {
     }
 
     @Throws(ScannerNotFoundException::class, ScannerChecksumException::class, ScannerFormatException::class)
-    override fun decode(image: BinaryBitmap, hints: MutableMap<DecodeHintType, Any?>?): ScannerResult {
+    override fun decode(image: BinaryBitmap, hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerResult {
         val decoderResult: DecoderResult
         val points: Array<ScannerResultPoint?>
-        if (hints != null && hints.containsKey(DecodeHintType.PURE_BARCODE)) {
+        if (hints != null && hints.containsKey(ScannerDecodeHintType.PURE_BARCODE)) {
             val bits = extractPureBits(image.blackMatrix)
             decoderResult = decoder.decode(bits, hints)
             points = NO_POINTS

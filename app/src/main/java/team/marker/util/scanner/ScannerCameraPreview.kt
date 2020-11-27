@@ -15,12 +15,12 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.*
 import android.view.TextureView.SurfaceTextureListener
-import com.google.zxing.client.android.R
 import com.journeyapps.barcodescanner.RotationCallback
 import com.journeyapps.barcodescanner.RotationListener
 import com.journeyapps.barcodescanner.Size
 import com.journeyapps.barcodescanner.Util
 import com.journeyapps.barcodescanner.camera.*
+import team.marker.R
 import java.util.*
 
 /**

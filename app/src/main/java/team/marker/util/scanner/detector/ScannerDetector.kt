@@ -1,6 +1,5 @@
 package team.marker.util.scanner.detector
 
-import com.google.zxing.DecodeHintType
 import com.google.zxing.FormatException
 import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
@@ -12,6 +11,7 @@ import com.google.zxing.qrcode.decoder.Version
 import com.google.zxing.qrcode.detector.AlignmentPattern
 import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.common.ScannerResultPointCallback
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 
 /**
  *
@@ -42,9 +42,9 @@ open class ScannerDetector(protected val image: BitMatrix) {
      */
     @JvmOverloads
     @Throws(NotFoundException::class, FormatException::class)
-    fun detect(hints: MutableMap<DecodeHintType, Any?>?): ScannerDetectorResult {
+    fun detect(hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerDetectorResult {
         resultPointCallback =
-            if (hints == null) null else hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK] as ScannerResultPointCallback?
+            if (hints == null) null else hints[ScannerDecodeHintType.NEED_RESULT_POINT_CALLBACK] as ScannerResultPointCallback?
         val finder = ScannerFinderPatternFinder(image, resultPointCallback)
         val info = finder.find(hints)
         return processFinderPatternInfo(info)

@@ -1,10 +1,10 @@
 package team.marker.util.scanner.detector
 
-import com.google.zxing.DecodeHintType
 import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
 import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.common.ScannerResultPointCallback
+import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import java.io.Serializable
 import java.util.*
 
@@ -32,8 +32,8 @@ open class ScannerFinderPatternFinder @JvmOverloads constructor(
     }
 
     @Throws(NotFoundException::class)
-    fun find(hints: MutableMap<DecodeHintType, Any?>?): ScannerFinderPatternInfo {
-        val tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER)
+    fun find(hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerFinderPatternInfo {
+        val tryHarder = hints != null && hints.containsKey(ScannerDecodeHintType.TRY_HARDER)
         val maxI = image.height
         val maxJ = image.width
         // We are looking for black/white/black/white/black modules in

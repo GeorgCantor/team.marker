@@ -3,7 +3,6 @@ package team.marker.util.scanner
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
-import com.google.zxing.DecodeHintType
 import com.journeyapps.barcodescanner.Util
 import team.marker.R
 import team.marker.util.scanner.common.ScannerBarcodeCallback
@@ -72,8 +71,8 @@ class ScannerBarcodeView : ScannerCameraPreview {
     private fun createDecoder(): ScannerDecoder {
         if (decoderFactory == null) decoderFactory = createDefaultDecoderFactory()
         val callback = ScannerDecoderResultPointCallback()
-        val hints: MutableMap<DecodeHintType, Any?> = HashMap()
-        hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK] = callback
+        val hints: MutableMap<ScannerDecodeHintType?, Any?> = HashMap()
+        hints[ScannerDecodeHintType.NEED_RESULT_POINT_CALLBACK] = callback
         val decoder = decoderFactory!!.createDecoder(hints)
         callback.decoder = decoder
         return decoder
