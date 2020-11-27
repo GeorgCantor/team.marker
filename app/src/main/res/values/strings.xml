@@ -2,7 +2,9 @@
     <string name="app_name">МАСК.Маркер</string>
     <string name="login_message">Приложение для сканирования промышленных изделий</string>
     <string name="login_btn">Войти</string>
-
+    <string name="not_specified">не указан</string>
+    <string name="not_specified2">не указано</string>
+    <string name="not_specified3">не указана</string>
     // pick
     <string name="enter_number_accepted_units">Введите количество оприходуемых единиц (шт.)</string>
     <string name="enter_product_length">Введите длину оприходуемой продукции (в погонных метрах)</string>

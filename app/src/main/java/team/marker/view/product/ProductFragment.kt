@@ -100,20 +100,20 @@ class ProductFragment : Fragment() {
             val contract = it.contract
             val productCode = it.code.toString()
             val productTitle = it.title.toString()
-            val customerTitle = if (customer?.title.isNullOrBlank()) "не указан" else customer?.title
-            val customerAddress = if (customer?.address.isNullOrBlank()) "не указан" else customer?.address
+            val customerTitle = if (customer?.title.isNullOrBlank()) getString(R.string.not_specified) else customer?.title
+            val customerAddress = if (customer?.address.isNullOrBlank()) getString(R.string.not_specified) else customer?.address
             val customerLat = customer?.address_lat
             val customerLng = customer?.address_lng
-            val customerContract = if (contract?.title.isNullOrBlank()) "не указан" else contract?.title.toString() + " от " + contract?.date.toString()
-            val customerAnnex = if (contract?.annex_number.isNullOrBlank()) "не указано" else "№" + contract?.annex_number.toString() + " от " + contract?.annex_date.toString()
-            val consigneeTitle = if (consignee?.title.isNullOrBlank()) "не указан" else consignee?.title
-            val consigneeAddress = if (consignee?.address.isNullOrBlank()) "не указан" else consignee?.address
-            val consigneeDestination = if (it.destination.isNullOrBlank()) "не указан" else it.destination.toString()
+            val customerContract = if (contract?.title.isNullOrBlank()) getString(R.string.not_specified) else "${contract?.title.toString()} от ${contract?.date.toString()}"
+            val customerAnnex = if (contract?.annex_number.isNullOrBlank()) getString(R.string.not_specified2) else "№${contract?.annex_number.toString()} от ${contract?.annex_date.toString()}"
+            val consigneeTitle = if (consignee?.title.isNullOrBlank()) getString(R.string.not_specified) else consignee?.title
+            val consigneeAddress = if (consignee?.address.isNullOrBlank()) getString(R.string.not_specified) else consignee?.address
+            val consigneeDestination = if (it.destination.isNullOrBlank()) getString(R.string.not_specified) else it.destination.toString()
             val manufacturerTitle = manufacturer?.title
             val manufacturerLat = manufacturer?.address_lat
             val manufacturerLng = manufacturer?.address_lng
-            val producedDate = if (it.produced.isNullOrBlank()) "не указана" else it.produced.toString()
-            val shippedDate = if (it.shipped.isNullOrBlank()) "не указана" else it.shipped.toString()
+            val producedDate = if (it.produced.isNullOrBlank()) getString(R.string.not_specified3) else it.produced.toString()
+            val shippedDate = if (it.shipped.isNullOrBlank()) getString(R.string.not_specified3) else it.shipped.toString()
             // texts
             product_title_info.text = productTitle
             product_code_info.text = productCode
@@ -130,9 +130,9 @@ class ProductFragment : Fragment() {
             produced_info.text = producedDate
             shipped_info.text = shippedDate
             // hide empty
-            if (productCode == "не указан") product_code.visibility = View.GONE
-            if (producedDate == "не указана") produced.visibility = View.GONE
-            if (shippedDate == "не указана") shipped.visibility = View.GONE
+            if (productCode == getString(R.string.not_specified)) product_code.visibility = View.GONE
+            if (producedDate == getString(R.string.not_specified3)) produced.visibility = View.GONE
+            if (shippedDate == getString(R.string.not_specified3)) shipped.visibility = View.GONE
             // map (manufacturer)
             val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
             manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
