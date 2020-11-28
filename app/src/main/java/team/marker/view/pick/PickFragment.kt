@@ -5,10 +5,9 @@ import android.text.InputType
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick.*
 import kotlinx.android.synthetic.main.fragment_pick.view.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.PreferenceManager
@@ -17,13 +16,11 @@ import team.marker.util.scanner.ScannerDecoratedBarcodeView
 
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
-    private lateinit var viewModel: PickViewModel
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel { parametersOf() }
         pickMode = PreferenceManager(requireActivity()).getInt("mode") ?: 0
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
@@ -37,21 +34,20 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
         // listeners
-        btn_scan_back.setOnClickListener { finish(view) }
+        btn_scan_back.setOnClickListener { finish() }
         btn_scan_flash.setOnClickListener { toggleFlash() }
         btn_settings.setOnClickListener { settings(view) }
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
     }
 
-    private fun finish(view: View) {
-        //Log.e("productIds", productIds.toString())
+    private fun finish() {
         val bundle = Bundle()
         val array = arrayListOf<PickProduct>()
         array.addAll(products)
         bundle.putParcelableArrayList("products", array)
         products = mutableListOf()
-        Navigation.findNavController(view).navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
+        findNavController().navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
     }
 
     private fun toggleFlash() {
@@ -126,17 +122,17 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 if (products.size >= 1) {
                     //PickFragment.sendResult(productIds)
                     view.pick_success.visibility = View.VISIBLE
-                    view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-                    runDelayed(1000) { view.pick_success.visibility = View.GONE }
+                    view.pick_success_text.text = "Распознано ${productIds.size} из $rawResultSize"
+                    1000L.runDelayed { view.pick_success.visibility = View.GONE }
                 }
                 // fail
                 else if (rawResultSize >= 1) {
                     view.pick_fail.visibility = View.VISIBLE
-                    view.pick_fail_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-                    runDelayed(1000) { view.pick_fail.visibility = View.GONE }
+                    view.pick_fail_text.text = "Распознано ${productIds.size} из $rawResultSize"
+                    1000L.runDelayed { view.pick_fail.visibility = View.GONE }
                 }
                 // resume
-                runDelayed(700) { capture.barcodeView.resume() }
+                700L.runDelayed { capture.barcodeView.resume() }
             } else {
                 // current product
                 currentProductId = "0"

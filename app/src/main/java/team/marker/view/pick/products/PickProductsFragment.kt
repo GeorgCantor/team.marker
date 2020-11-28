@@ -5,7 +5,7 @@ import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -40,8 +40,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
                 Handler().postDelayed({
                     val bundle = Bundle()
                     bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
-                    NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
+                    findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
                 }, 150)
             }
         })

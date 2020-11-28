@@ -69,8 +69,6 @@ class BreachCaptureManager(private val activity: FragmentActivity, val barcodeVi
         } else if (!askedPermission) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), cameraPermissionReqCode)
             askedPermission = true
-        } else {
-            // Wait for permission result
         }
     }
 
@@ -103,7 +101,6 @@ class BreachCaptureManager(private val activity: FragmentActivity, val barcodeVi
         if (barcodeView.barcodeView!!.isCameraClosed) finish()
         else finishWhenClosed = true
         barcodeView.pause()
-        //barcodeView.pauseAndWait()
         inactivityTimer.cancel()
     }
 
@@ -132,26 +129,6 @@ class BreachCaptureManager(private val activity: FragmentActivity, val barcodeVi
         }
         // success
         BreachFragment.sendResult(view, productIds)
-        /*if (productIds.size >= 1) {
-            PickFragment.sendResult(productIds)
-            view.pick_success.visibility = View.VISIBLE
-            view.pick_success_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-            runDelayed(1000) {
-                view.pick_success.visibility = View.GONE
-            }
-        }
-        // fail
-        else if (rawResultSize >= 1) {
-            view.pick_fail.visibility = View.VISIBLE
-            view.pick_fail_text.text = "Распознано " + productIds.size + " из " + rawResultSize
-            runDelayed(1000) {
-                view.pick_fail.visibility = View.GONE
-            }
-        }
-        // resume
-        runDelayed(700) {
-            barcodeView.resume()
-        }*/
     }
 
     private fun displayFrameworkBugMessageAndExit() {

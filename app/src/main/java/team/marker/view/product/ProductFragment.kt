@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,7 +21,6 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.ExpandList
 import team.marker.util.PreferenceManager
-
 
 class ProductFragment : Fragment() {
 
@@ -63,7 +61,6 @@ class ProductFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // override
         super.onViewCreated(view, savedInstanceState)
         // common
         val productId = productUrl.replace(PRODUCTS_URL, "")
@@ -88,12 +85,12 @@ class ProductFragment : Fragment() {
             list5.toggleList()
         }
 
-        viewModel.error.observe(viewLifecycleOwner, Observer {
-            NavHostFragment.findNavController(this).navigate(R.id.action_productFragment_to_scanErrorFragment)
+        viewModel.error.observe(viewLifecycleOwner, {
+            findNavController().navigate(R.id.action_productFragment_to_scanErrorFragment)
         })
 
         // product info
-        viewModel.response.observe(viewLifecycleOwner, Observer {
+        viewModel.response.observe(viewLifecycleOwner, {
             // vars
             val manufacturer = it.manufacturer
             val customer = it.customer
