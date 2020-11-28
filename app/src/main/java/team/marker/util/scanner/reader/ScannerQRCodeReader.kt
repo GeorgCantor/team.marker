@@ -1,7 +1,6 @@
 package team.marker.util.scanner.reader
 
 import com.google.zxing.BinaryBitmap
-import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData
@@ -54,11 +53,11 @@ abstract class ScannerQRCodeReader : ScannerReader {
     companion object {
         private val NO_POINTS = arrayOfNulls<ScannerResultPoint>(0)
 
-        @Throws(NotFoundException::class)
+        @Throws(ScannerNotFoundException::class)
         private fun extractPureBits(image: BitMatrix): BitMatrix {
             val leftTopBlack = image.topLeftOnBit
             val rightBottomBlack = image.bottomRightOnBit
-            if (leftTopBlack == null || rightBottomBlack == null) throw NotFoundException.getNotFoundInstance()
+            if (leftTopBlack == null || rightBottomBlack == null) throw ScannerNotFoundException().INSTANCE
             val moduleSize: Float = moduleSize(leftTopBlack, image)
             var top = leftTopBlack[1]
             val bottom = rightBottomBlack[1]
@@ -66,15 +65,15 @@ abstract class ScannerQRCodeReader : ScannerReader {
             var right = rightBottomBlack[0]
 
             // Sanity check!
-            if (left >= right || top >= bottom) throw NotFoundException.getNotFoundInstance()
+            if (left >= right || top >= bottom) throw ScannerNotFoundException().INSTANCE
             if (bottom - top != right - left) {
                 right = left + (bottom - top)
-                if (right >= image.width) throw NotFoundException.getNotFoundInstance()
+                if (right >= image.width) throw ScannerNotFoundException().INSTANCE
             }
             val matrixWidth = ((right - left + 1) / moduleSize).roundToInt()
             val matrixHeight = ((bottom - top + 1) / moduleSize).roundToInt()
-            if (matrixWidth <= 0 || matrixHeight <= 0) throw NotFoundException.getNotFoundInstance()
-            if (matrixHeight != matrixWidth) throw NotFoundException.getNotFoundInstance()
+            if (matrixWidth <= 0 || matrixHeight <= 0) throw ScannerNotFoundException().INSTANCE
+            if (matrixHeight != matrixWidth) throw ScannerNotFoundException().INSTANCE
 
             val nudge = (moduleSize / 2.0f).toInt()
             top += nudge
@@ -82,13 +81,13 @@ abstract class ScannerQRCodeReader : ScannerReader {
 
             val nudgedTooFarRight = left + ((matrixWidth - 1) * moduleSize).toInt() - right
             if (nudgedTooFarRight > 0) {
-                if (nudgedTooFarRight > nudge) throw NotFoundException.getNotFoundInstance()
+                if (nudgedTooFarRight > nudge) throw ScannerNotFoundException().INSTANCE
                 left -= nudgedTooFarRight
             }
             // See logic above
             val nudgedTooFarDown = top + ((matrixHeight - 1) * moduleSize).toInt() - bottom
             if (nudgedTooFarDown > 0) {
-                if (nudgedTooFarDown > nudge) throw NotFoundException.getNotFoundInstance()
+                if (nudgedTooFarDown > nudge) throw ScannerNotFoundException().INSTANCE
                 top -= nudgedTooFarDown
             }
 
@@ -102,7 +101,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
             return bits
         }
 
-        @Throws(NotFoundException::class)
+        @Throws(ScannerNotFoundException::class)
         private fun moduleSize(leftTopBlack: IntArray, image: BitMatrix): Float {
             val height = image.height
             val width = image.width
@@ -118,7 +117,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
                 x++
                 y++
             }
-            if (x == width || y == height) throw NotFoundException.getNotFoundInstance()
+            if (x == width || y == height) throw ScannerNotFoundException().INSTANCE
             return (x - leftTopBlack[0]) / 7.0f
         }
     }

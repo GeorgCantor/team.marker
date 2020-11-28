@@ -1,14 +1,12 @@
 package team.marker.util.scanner.detector
 
 import com.google.zxing.FormatException
-import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.common.DetectorResult
 import com.google.zxing.common.GridSampler
 import com.google.zxing.common.PerspectiveTransform
 import com.google.zxing.common.detector.MathUtils
 import com.google.zxing.qrcode.decoder.Version
-import com.google.zxing.qrcode.detector.AlignmentPattern
+import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.common.ScannerResultPointCallback
 import team.marker.util.scanner.decoder.ScannerDecodeHintType
@@ -23,25 +21,8 @@ import team.marker.util.scanner.decoder.ScannerDecodeHintType
 open class ScannerDetector(protected val image: BitMatrix) {
     protected var resultPointCallback: ScannerResultPointCallback? = null
         private set
-    /**
-     *
-     * Detects a QR Code in an image.
-     *
-     * @param hints optional hints to detector
-     * @return [DetectorResult] encapsulating results of detecting a QR Code
-     * @throws NotFoundException if QR Code cannot be found
-     * @throws FormatException if a QR Code cannot be decoded
-     */
-    /**
-     *
-     * Detects a QR Code in an image.
-     *
-     * @return [DetectorResult] encapsulating results of detecting a QR Code
-     * @throws NotFoundException if QR Code cannot be found
-     * @throws FormatException if a QR Code cannot be decoded
-     */
-    @JvmOverloads
-    @Throws(NotFoundException::class, FormatException::class)
+
+    @Throws(ScannerNotFoundException::class, FormatException::class)
     fun detect(hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerDetectorResult {
         resultPointCallback =
             if (hints == null) null else hints[ScannerDecodeHintType.NEED_RESULT_POINT_CALLBACK] as ScannerResultPointCallback?
@@ -50,14 +31,14 @@ open class ScannerDetector(protected val image: BitMatrix) {
         return processFinderPatternInfo(info)
     }
 
-    @Throws(NotFoundException::class, FormatException::class)
+    @Throws(ScannerNotFoundException::class, FormatException::class)
     protected fun processFinderPatternInfo(info: ScannerFinderPatternInfo): ScannerDetectorResult {
         val topLeft = info.topLeft
         val topRight = info.topRight
         val bottomLeft = info.bottomLeft
         val moduleSize = calculateModuleSize(topLeft, topRight, bottomLeft)
         if (moduleSize < 1.0f) {
-            throw NotFoundException.getNotFoundInstance()
+            throw ScannerNotFoundException().INSTANCE
         }
         val dimension = computeDimension(topLeft, topRight, bottomLeft, moduleSize)
         val provisionalVersion = Version.getProvisionalVersionForDimension(dimension)
@@ -89,7 +70,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
                         i.toFloat()
                     )
                     break
-                } catch (re: NotFoundException) {
+                } catch (re: ScannerNotFoundException) {
                     // try next round
                 }
                 i = i shl 1
@@ -262,19 +243,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
         // else we didn't find even black-white-black; no estimate is really possible
     }
 
-    /**
-     *
-     * Attempts to locate an alignment pattern in a limited region of the image, which is
-     * guessed to contain it. This method uses [AlignmentPattern].
-     *
-     * @param overallEstModuleSize estimated module size so far
-     * @param estAlignmentX x coordinate of center of area probably containing alignment pattern
-     * @param estAlignmentY y coordinate of above
-     * @param allowanceFactor number of pixels in all directions to search from the center
-     * @return [AlignmentPattern] if found, or null otherwise
-     * @throws NotFoundException if an unexpected error occurs during detection
-     */
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     protected fun findAlignmentInRegion(
         overallEstModuleSize: Float,
         estAlignmentX: Int,
@@ -287,12 +256,12 @@ open class ScannerDetector(protected val image: BitMatrix) {
         val alignmentAreaLeftX = Math.max(0, estAlignmentX - allowance)
         val alignmentAreaRightX = Math.min(image.width - 1, estAlignmentX + allowance)
         if (alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3) {
-            throw NotFoundException.getNotFoundInstance()
+            throw ScannerNotFoundException().INSTANCE
         }
         val alignmentAreaTopY = Math.max(0, estAlignmentY - allowance)
         val alignmentAreaBottomY = Math.min(image.height - 1, estAlignmentY + allowance)
         if (alignmentAreaBottomY - alignmentAreaTopY < overallEstModuleSize * 3) {
-            throw NotFoundException.getNotFoundInstance()
+            throw ScannerNotFoundException().INSTANCE
         }
         val alignmentFinder = ScannerAlignmentPatternFinder(
             image,
@@ -351,7 +320,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
             )
         }
 
-        @Throws(NotFoundException::class)
+        @Throws(ScannerNotFoundException::class)
         private fun sampleGrid(
             image: BitMatrix,
             transform: PerspectiveTransform,
@@ -366,7 +335,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
          * Computes the dimension (number of modules on a size) of the QR Code based on the position
          * of the finder patterns and estimated module size.
          */
-        @Throws(NotFoundException::class)
+        @Throws(ScannerNotFoundException::class)
         private fun computeDimension(
             topLeft: ScannerResultPoint,
             topRight: ScannerResultPoint,
@@ -381,7 +350,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
             when (dimension and 0x03) {
                 0 -> dimension++
                 2 -> dimension--
-                3 -> throw NotFoundException.getNotFoundInstance()
+                3 -> throw ScannerNotFoundException().INSTANCE
             }
             return dimension
         }

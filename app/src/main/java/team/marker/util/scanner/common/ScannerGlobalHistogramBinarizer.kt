@@ -1,6 +1,5 @@
 package team.marker.util.scanner.common
 
-import com.google.zxing.NotFoundException
 import com.google.zxing.common.BitArray
 import com.google.zxing.common.BitMatrix
 import okhttp3.internal.and
@@ -11,7 +10,7 @@ open class ScannerGlobalHistogramBinarizer(source: ScannerLuminanceSource?) :
     private val buckets: IntArray
 
     // Applies simple sharpening to the row data to improve performance of the 1D Readers.
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     override fun getBlackRow(y: Int, row: BitArray?): BitArray? {
         var row: BitArray? = row
         val source = luminanceSource
@@ -55,7 +54,7 @@ open class ScannerGlobalHistogramBinarizer(source: ScannerLuminanceSource?) :
         get() = getMatrix()
 
     // Does not sharpen the data, as this call is intended to only be used by 2D Readers.
-    @Throws(NotFoundException::class)
+    @Throws(ScannerNotFoundException::class)
     private fun getMatrix(): BitMatrix {
         val source = luminanceSource
         val width = source.width
@@ -112,7 +111,7 @@ open class ScannerGlobalHistogramBinarizer(source: ScannerLuminanceSource?) :
         private const val LUMINANCE_BUCKETS = 1 shl LUMINANCE_BITS
         private val EMPTY = ByteArray(0)
 
-        @Throws(NotFoundException::class)
+        @Throws(ScannerNotFoundException::class)
         private fun estimateBlackPoint(buckets: IntArray): Int {
             // Find the tallest peak in the histogram.
             val numBuckets = buckets.size
@@ -152,7 +151,7 @@ open class ScannerGlobalHistogramBinarizer(source: ScannerLuminanceSource?) :
             // If there is too little contrast in the image to pick a meaningful black point, throw rather
             // than waste time trying to decode the image, and risk false positives.
             if (secondPeak - firstPeak <= numBuckets / 16) {
-                throw NotFoundException.getNotFoundInstance()
+                throw ScannerNotFoundException().INSTANCE
             }
 
             // Find a valley between them that is low and closer to the white peak.
