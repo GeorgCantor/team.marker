@@ -1,13 +1,13 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.ChecksumException
-import com.google.zxing.FormatException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.common.reedsolomon.GenericGF
 import com.google.zxing.common.reedsolomon.ReedSolomonDecoder
 import com.google.zxing.common.reedsolomon.ReedSolomonException
 import okhttp3.internal.and
+import team.marker.util.scanner.common.ScannerChecksumException
+import team.marker.util.scanner.common.ScannerFormatException
 
 /**
  *
@@ -19,19 +19,8 @@ import okhttp3.internal.and
 class Decoder {
     private val rsDecoder: ReedSolomonDecoder
 
-    /**
-     *
-     * Convenience method that can decode a QR Code represented as a 2D array of booleans.
-     * "true" is taken to mean a black module.
-     *
-     * @param image booleans representing white/black QR Code modules
-     * @param hints decoding hints that should be used to influence decoding
-     * @return text and bytes encoded within the QR Code
-     * @throws FormatException if the QR Code cannot be decoded
-     * @throws ChecksumException if error correction fails
-     */
     @JvmOverloads
-    @Throws(ChecksumException::class, FormatException::class)
+    @Throws(ScannerChecksumException::class, ScannerFormatException::class)
     fun decode(
         image: Array<BooleanArray?>?,
         hints: Map<ScannerDecodeHintType?, Any?>?
@@ -39,29 +28,19 @@ class Decoder {
         return decode(BitMatrix.parse(image), hints)
     }
 
-    /**
-     *
-     * Decodes a QR Code represented as a [BitMatrix]. A 1 or "true" is taken to mean a black module.
-     *
-     * @param bits booleans representing white/black QR Code modules
-     * @param hints decoding hints that should be used to influence decoding
-     * @return text and bytes encoded within the QR Code
-     * @throws FormatException if the QR Code cannot be decoded
-     * @throws ChecksumException if error correction fails
-     */
     @JvmOverloads
-    @Throws(FormatException::class, ChecksumException::class)
+    @Throws(ScannerFormatException::class, ScannerChecksumException::class)
     fun decode(bits: BitMatrix?, hints: Map<ScannerDecodeHintType?, Any?>?): DecoderResult {
 
         // Construct a parser and read version, error-correction level
         val parser = BitMatrixParser(bits!!)
-        var fe: FormatException? = null
-        var ce: ChecksumException? = null
+        var fe: ScannerFormatException? = null
+        var ce: ScannerChecksumException? = null
         try {
             return decode(parser, hints!!)
-        } catch (e: FormatException) {
+        } catch (e: ScannerFormatException) {
             fe = e
-        } catch (e: ChecksumException) {
+        } catch (e: ScannerChecksumException) {
             ce = e
         }
         return try {
@@ -91,13 +70,13 @@ class Decoder {
             // Success! Notify the caller that the code was mirrored.
             result.other = QRCodeDecoderMetaData(true)
             result
-        } catch (e: FormatException) {
+        } catch (e: ScannerFormatException) {
             // Throw the exception from the original reading
             if (fe != null) {
                 throw fe
             }
             throw ce!! // If fe is null, this can't be
-        } catch (e: ChecksumException) {
+        } catch (e: ScannerChecksumException) {
             if (fe != null) {
                 throw fe
             }
@@ -105,7 +84,7 @@ class Decoder {
         }
     }
 
-    @Throws(FormatException::class, ChecksumException::class)
+    @Throws(ScannerFormatException::class, ScannerChecksumException::class)
     private fun decode(parser: BitMatrixParser, hints: Map<ScannerDecodeHintType?, Any?>?): DecoderResult {
         val version = parser.readVersion()
         val ecLevel = parser.readFormatInformation().errorCorrectionLevel
@@ -137,16 +116,7 @@ class Decoder {
         return DecodedBitStreamParser.decode(resultBytes, version, ecLevel, hints)
     }
 
-    /**
-     *
-     * Given data and error-correction codewords received, possibly corrupted by errors, attempts to
-     * correct the errors in-place using Reed-Solomon error correction.
-     *
-     * @param codewordBytes data and error correction codewords
-     * @param numDataCodewords number of codewords that are data bytes
-     * @throws ChecksumException if error correction fails
-     */
-    @Throws(ChecksumException::class)
+    @Throws(ScannerChecksumException::class)
     private fun correctErrors(codewordBytes: ByteArray, numDataCodewords: Int) {
         val numCodewords = codewordBytes.size
         // First read into an array of ints
@@ -157,7 +127,7 @@ class Decoder {
         try {
             rsDecoder.decode(codewordsInts, codewordBytes.size - numDataCodewords)
         } catch (ignored: ReedSolomonException) {
-            throw ChecksumException.getChecksumInstance()
+            throw ScannerChecksumException.checksumInstance
         }
         // Copy back into array of bytes -- only need to worry about the bytes that were data
         // We don't care about errors in the error-correction codewords

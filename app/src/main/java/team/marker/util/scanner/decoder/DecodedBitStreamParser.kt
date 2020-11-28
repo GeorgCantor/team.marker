@@ -1,10 +1,10 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.FormatException
 import com.google.zxing.common.BitSource
 import com.google.zxing.common.CharacterSetECI
 import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import team.marker.util.scanner.common.ScannerFormatException
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.util.*
@@ -25,7 +25,7 @@ internal object DecodedBitStreamParser {
      */
     private val ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray()
     private const val GB2312_SUBSET = 1
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     fun decode(
         bytes: ByteArray?,
         version: Version?,
@@ -56,7 +56,7 @@ internal object DecodedBitStreamParser {
                         fc1InEffect = true
                     Mode.STRUCTURED_APPEND -> {
                         if (bits.available() < 16) {
-                            throw FormatException.getFormatInstance()
+                            throw ScannerFormatException.formatInstance
                         }
                         // sequence number and parity is added later to the result metadata
                         // Read next 8 bits (symbol sequence #) and 8 bits (parity data), then continue
@@ -68,7 +68,7 @@ internal object DecodedBitStreamParser {
                         val value = parseECIValue(bits)
                         currentCharacterSetECI = CharacterSetECI.getCharacterSetECIByValue(value)
                         if (currentCharacterSetECI == null) {
-                            throw FormatException.getFormatInstance()
+                            throw ScannerFormatException.formatInstance
                         }
                     }
                     Mode.HANZI -> {
@@ -101,14 +101,14 @@ internal object DecodedBitStreamParser {
                                 hints
                             )
                             Mode.KANJI -> decodeKanjiSegment(bits, result, count)
-                            else -> throw FormatException.getFormatInstance()
+                            else -> throw ScannerFormatException.formatInstance
                         }
                     }
                 }
             } while (mode != Mode.TERMINATOR)
         } catch (iae: IllegalArgumentException) {
             // from readBits() calls
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         return DecoderResult(
             bytes,
@@ -123,7 +123,7 @@ internal object DecodedBitStreamParser {
     /**
      * See specification GBT 18284-2000
      */
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun decodeHanziSegment(
         bits: BitSource,
         result: StringBuilder,
@@ -132,7 +132,7 @@ internal object DecodedBitStreamParser {
         // Don't crash trying to read more bits than we have available.
         var count = count
         if (count * 13 > bits.available()) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
 
         // Each character will require 2 bytes. Read the characters as 2-byte pairs
@@ -158,11 +158,11 @@ internal object DecodedBitStreamParser {
         try {
             result.append(String(buffer, Charset.forName(StringUtils.GB2312)))
         } catch (ignored: UnsupportedEncodingException) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun decodeKanjiSegment(
         bits: BitSource,
         result: StringBuilder,
@@ -171,7 +171,7 @@ internal object DecodedBitStreamParser {
         // Don't crash trying to read more bits than we have available.
         var count = count
         if (count * 13 > bits.available()) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
 
         // Each character will require 2 bytes. Read the characters as 2-byte pairs
@@ -198,11 +198,11 @@ internal object DecodedBitStreamParser {
         try {
             result.append(String(buffer, Charset.forName(StringUtils.SHIFT_JIS)))
         } catch (ignored: UnsupportedEncodingException) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun decodeByteSegment(
         bits: BitSource,
         result: StringBuilder,
@@ -213,7 +213,7 @@ internal object DecodedBitStreamParser {
     ) {
         // Don't crash trying to read more bits than we have available.
         if (8 * count > bits.available()) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         val readBytes = ByteArray(count)
         for (i in 0 until count) {
@@ -230,20 +230,20 @@ internal object DecodedBitStreamParser {
         try {
             result.append(String(readBytes, Charset.forName(encoding)))
         } catch (ignored: UnsupportedEncodingException) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         byteSegments.add(readBytes)
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun toAlphaNumericChar(value: Int): Char {
         if (value >= ALPHANUMERIC_CHARS.size) {
-            throw FormatException.getFormatInstance()
+            throw ScannerFormatException.formatInstance
         }
         return ALPHANUMERIC_CHARS[value]
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun decodeAlphanumericSegment(
         bits: BitSource,
         result: StringBuilder,
@@ -255,7 +255,7 @@ internal object DecodedBitStreamParser {
         val start = result.length
         while (count > 1) {
             if (bits.available() < 11) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             val nextTwoCharsBits = bits.readBits(11)
             result.append(toAlphaNumericChar(nextTwoCharsBits / 45))
@@ -265,7 +265,7 @@ internal object DecodedBitStreamParser {
         if (count == 1) {
             // special case: one character left
             if (bits.available() < 6) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             result.append(toAlphaNumericChar(bits.readBits(6)))
         }
@@ -286,7 +286,7 @@ internal object DecodedBitStreamParser {
         }
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun decodeNumericSegment(
         bits: BitSource,
         result: StringBuilder,
@@ -297,11 +297,11 @@ internal object DecodedBitStreamParser {
         while (count >= 3) {
             // Each 10 bits encodes three digits
             if (bits.available() < 10) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             val threeDigitsBits = bits.readBits(10)
             if (threeDigitsBits >= 1000) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             result.append(toAlphaNumericChar(threeDigitsBits / 100))
             result.append(toAlphaNumericChar(threeDigitsBits / 10 % 10))
@@ -311,28 +311,28 @@ internal object DecodedBitStreamParser {
         if (count == 2) {
             // Two digits left over to read, encoded in 7 bits
             if (bits.available() < 7) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             val twoDigitsBits = bits.readBits(7)
             if (twoDigitsBits >= 100) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             result.append(toAlphaNumericChar(twoDigitsBits / 10))
             result.append(toAlphaNumericChar(twoDigitsBits % 10))
         } else if (count == 1) {
             // One digit left over to read
             if (bits.available() < 4) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             val digitBits = bits.readBits(4)
             if (digitBits >= 10) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             result.append(toAlphaNumericChar(digitBits))
         }
     }
 
-    @Throws(FormatException::class)
+    @Throws(ScannerFormatException::class)
     private fun parseECIValue(bits: BitSource): Int {
         val firstByte = bits.readBits(8)
         if (firstByte and 0x80 == 0) {
@@ -349,6 +349,6 @@ internal object DecodedBitStreamParser {
             val secondThirdBytes = bits.readBits(16)
             return firstByte and 0x1F shl 16 or secondThirdBytes
         }
-        throw FormatException.getFormatInstance()
+        throw ScannerFormatException.formatInstance
     }
 }

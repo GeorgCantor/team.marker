@@ -1,17 +1,17 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.BarcodeFormat
 import team.marker.util.scanner.ScannerMultiFormatReader
+import team.marker.util.scanner.common.ScannerBarcodeFormat
 import java.util.*
 
 class ScannerDefaultDecoderFactory : ScannerDecoderFactory {
-    private var decodeFormats: Collection<BarcodeFormat>? = null
+    private var decodeFormats: Collection<ScannerBarcodeFormat>? = null
     private var hints: Map<ScannerDecodeHintType, *>? = null
     private var characterSet: String? = null
     private var inverted = false
 
     constructor()
-    constructor(decodeFormats: Collection<BarcodeFormat>?, hints: Map<ScannerDecodeHintType, *>?, characterSet: String?, inverted: Boolean) {
+    constructor(decodeFormats: Collection<ScannerBarcodeFormat>?, hints: Map<ScannerDecodeHintType, *>?, characterSet: String?, inverted: Boolean) {
         this.decodeFormats = decodeFormats
         this.hints = hints
         this.characterSet = characterSet

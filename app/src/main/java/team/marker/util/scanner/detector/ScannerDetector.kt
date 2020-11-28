@@ -1,11 +1,11 @@
 package team.marker.util.scanner.detector
 
-import com.google.zxing.FormatException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.GridSampler
 import com.google.zxing.common.PerspectiveTransform
 import com.google.zxing.common.detector.MathUtils
 import com.google.zxing.qrcode.decoder.Version
+import team.marker.util.scanner.common.ScannerFormatException
 import team.marker.util.scanner.common.ScannerNotFoundException
 import team.marker.util.scanner.common.ScannerResultPoint
 import team.marker.util.scanner.common.ScannerResultPointCallback
@@ -22,7 +22,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
     protected var resultPointCallback: ScannerResultPointCallback? = null
         private set
 
-    @Throws(ScannerNotFoundException::class, FormatException::class)
+    @Throws(ScannerNotFoundException::class, ScannerFormatException::class)
     fun detect(hints: MutableMap<ScannerDecodeHintType?, Any?>?): ScannerDetectorResult {
         resultPointCallback =
             if (hints == null) null else hints[ScannerDecodeHintType.NEED_RESULT_POINT_CALLBACK] as ScannerResultPointCallback?
@@ -31,7 +31,7 @@ open class ScannerDetector(protected val image: BitMatrix) {
         return processFinderPatternInfo(info)
     }
 
-    @Throws(ScannerNotFoundException::class, FormatException::class)
+    @Throws(ScannerNotFoundException::class, ScannerFormatException::class)
     protected fun processFinderPatternInfo(info: ScannerFinderPatternInfo): ScannerDetectorResult {
         val topLeft = info.topLeft
         val topRight = info.topRight

@@ -1,8 +1,8 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.FormatException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import team.marker.util.scanner.common.ScannerFormatException
 
 /**
  * See ISO 18004:2006 Annex D
@@ -116,23 +116,15 @@ class Version private constructor(
         )
         private val VERSIONS = buildVersions()
 
-        /**
-         *
-         * Deduces version information purely from QR Code dimensions.
-         *
-         * @param dimension dimension in modules
-         * @return Version for a QR Code of that dimension
-         * @throws FormatException if dimension is not 1 mod 4
-         */
-        @Throws(FormatException::class)
+        @Throws(ScannerFormatException::class)
         fun getProvisionalVersionForDimension(dimension: Int): Version {
             if (dimension % 4 != 1) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
             return try {
                 getVersionForNumber((dimension - 17) / 4)
             } catch (ignored: IllegalArgumentException) {
-                throw FormatException.getFormatInstance()
+                throw ScannerFormatException.formatInstance
             }
         }
 
