@@ -1,6 +1,5 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.common.CharacterSetECI
 import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
 import team.marker.util.scanner.common.ScannerFormatException
 import java.io.UnsupportedEncodingException
@@ -36,7 +35,7 @@ internal object DecodedBitStreamParser {
         var symbolSequence = -1
         var parityData = -1
         try {
-            var currentCharacterSetECI: CharacterSetECI? = null
+            var currentCharacterSetECI: ScannerCharacterSetECI? = null
             var fc1InEffect = false
             var mode: Mode
             do {
@@ -64,7 +63,7 @@ internal object DecodedBitStreamParser {
                     Mode.ECI -> {
                         // Count doesn't apply to ECI
                         val value = parseECIValue(bits)
-                        currentCharacterSetECI = CharacterSetECI.getCharacterSetECIByValue(value)
+                        currentCharacterSetECI = ScannerCharacterSetECI.getCharacterSetECIByValue(value)
                         if (currentCharacterSetECI == null) {
                             throw ScannerFormatException.formatInstance
                         }
@@ -205,7 +204,7 @@ internal object DecodedBitStreamParser {
         bits: ScannerBitSource,
         result: StringBuilder,
         count: Int,
-        currentCharacterSetECI: CharacterSetECI?,
+        currentCharacterSetECI: ScannerCharacterSetECI?,
         byteSegments: MutableCollection<ByteArray>,
         hints: Map<ScannerDecodeHintType?, *>?
     ) {
