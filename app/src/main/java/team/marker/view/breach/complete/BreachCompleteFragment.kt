@@ -5,6 +5,8 @@ import android.content.ContextWrapper
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
+import team.marker.util.shortToast
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -43,6 +46,16 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             photos_recycler.adapter = PhotosAdapter(it)
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
         }
+
+        viewModel.isProgressVisible.observe(viewLifecycleOwner) {
+            progress_bar.visibility = if (it) VISIBLE else GONE
+        }
+        viewModel.isSend.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+        }
+        viewModel.error.observe(viewLifecycleOwner) {
+            it?.let { context?.shortToast(it) }
+        }
     }
 
     override fun onDetach() {
@@ -59,6 +72,5 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         val comment = input_comment.text.toString()
         if (comment == "") return
         viewModel.breach(productId, reasonId, userReason, comment)
-        findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
 }

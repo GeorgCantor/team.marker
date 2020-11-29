@@ -17,6 +17,8 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
     val photos = MutableLiveData<MutableList<File>>()
+    val isProgressVisible = MutableLiveData<Boolean>()
+    val isSend = MutableLiveData<Boolean>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -24,6 +26,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
 
     fun breach(productId: Int, reasonId: Int, userReason: String, comment: String) {
         viewModelScope.launch(exceptionHandler) {
+            isProgressVisible.postValue(true)
             val files = mutableListOf<MultipartBody.Part>()
             photos.value?.map {
                 val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), it)
@@ -39,9 +42,11 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
                 RequestBody.create("text/plain".toMediaTypeOrNull(), comment),
                 files.toTypedArray()
             ).apply {
+                isSend.postValue(this?.success)
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }
+            isProgressVisible.postValue(false)
         }
     }
 
