@@ -1,6 +1,5 @@
 package team.marker.util.scanner.decoder
 
-import com.google.zxing.common.BitSource
 import com.google.zxing.common.CharacterSetECI
 import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
 import team.marker.util.scanner.common.ScannerFormatException
@@ -31,7 +30,7 @@ internal object DecodedBitStreamParser {
         ecLevel: ScannerErrorCorrectionLevel?,
         hints: Map<ScannerDecodeHintType?, *>?
     ): DecoderResult {
-        val bits = BitSource(bytes)
+        val bits = ScannerBitSource(bytes!!)
         val result = StringBuilder(50)
         val byteSegments: MutableList<ByteArray> = ArrayList(1)
         var symbolSequence = -1
@@ -124,7 +123,7 @@ internal object DecodedBitStreamParser {
      */
     @Throws(ScannerFormatException::class)
     private fun decodeHanziSegment(
-        bits: BitSource,
+        bits: ScannerBitSource,
         result: StringBuilder,
         count: Int
     ) {
@@ -163,7 +162,7 @@ internal object DecodedBitStreamParser {
 
     @Throws(ScannerFormatException::class)
     private fun decodeKanjiSegment(
-        bits: BitSource,
+        bits: ScannerBitSource,
         result: StringBuilder,
         count: Int
     ) {
@@ -203,7 +202,7 @@ internal object DecodedBitStreamParser {
 
     @Throws(ScannerFormatException::class)
     private fun decodeByteSegment(
-        bits: BitSource,
+        bits: ScannerBitSource,
         result: StringBuilder,
         count: Int,
         currentCharacterSetECI: CharacterSetECI?,
@@ -244,7 +243,7 @@ internal object DecodedBitStreamParser {
 
     @Throws(ScannerFormatException::class)
     private fun decodeAlphanumericSegment(
-        bits: BitSource,
+        bits: ScannerBitSource,
         result: StringBuilder,
         count: Int,
         fc1InEffect: Boolean
@@ -287,7 +286,7 @@ internal object DecodedBitStreamParser {
 
     @Throws(ScannerFormatException::class)
     private fun decodeNumericSegment(
-        bits: BitSource,
+        bits: ScannerBitSource,
         result: StringBuilder,
         count: Int
     ) {
@@ -332,7 +331,7 @@ internal object DecodedBitStreamParser {
     }
 
     @Throws(ScannerFormatException::class)
-    private fun parseECIValue(bits: BitSource): Int {
+    private fun parseECIValue(bits: ScannerBitSource): Int {
         val firstByte = bits.readBits(8)
         if (firstByte and 0x80 == 0) {
             // just one byte
