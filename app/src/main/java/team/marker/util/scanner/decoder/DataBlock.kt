@@ -1,6 +1,6 @@
 package team.marker.util.scanner.decoder
 
-import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 
 /**
  *
@@ -28,7 +28,7 @@ internal class DataBlock private constructor(val numDataCodewords: Int, val code
         fun getDataBlocks(
             rawCodewords: ByteArray,
             version: Version,
-            ecLevel: ScannerErrorCorrectionLevel?
+            ecLevel: ErrorCorrectionLevel?
         ): Array<DataBlock?> {
             require(rawCodewords.size == version.totalCodewords)
 

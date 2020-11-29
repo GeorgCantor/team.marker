@@ -1,8 +1,8 @@
 package team.marker.util.scanner.decoder
 
+import com.google.zxing.FormatException
 import com.google.zxing.common.BitMatrix
-import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
-import team.marker.util.scanner.common.ScannerFormatException
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 
 /**
  * See ISO 18004:2006 Annex D
@@ -19,7 +19,7 @@ class Version private constructor(
     val dimensionForVersion: Int
         get() = 17 + 4 * versionNumber
 
-    fun getECBlocksForLevel(ecLevel: ScannerErrorCorrectionLevel): ECBlocks {
+    fun getECBlocksForLevel(ecLevel: ErrorCorrectionLevel): ECBlocks {
         return ecBlocks[ecLevel.ordinal]
     }
 
@@ -116,15 +116,23 @@ class Version private constructor(
         )
         private val VERSIONS = buildVersions()
 
-        @Throws(ScannerFormatException::class)
+        /**
+         *
+         * Deduces version information purely from QR Code dimensions.
+         *
+         * @param dimension dimension in modules
+         * @return Version for a QR Code of that dimension
+         * @throws FormatException if dimension is not 1 mod 4
+         */
+        @Throws(FormatException::class)
         fun getProvisionalVersionForDimension(dimension: Int): Version {
             if (dimension % 4 != 1) {
-                throw ScannerFormatException.formatInstance
+                throw FormatException.getFormatInstance()
             }
             return try {
                 getVersionForNumber((dimension - 17) / 4)
             } catch (ignored: IllegalArgumentException) {
-                throw ScannerFormatException.formatInstance
+                throw FormatException.getFormatInstance()
             }
         }
 

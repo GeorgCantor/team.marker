@@ -1,5 +1,7 @@
 package team.marker.util.scanner.common
 
+import com.google.zxing.Result
+
 /**
  * Represents some type of metadata about the result of the decoding that the decoder
  * wishes to communicate back to the caller.

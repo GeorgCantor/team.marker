@@ -1,9 +1,19 @@
 package team.marker.util.scanner.decoder
 
-import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 
+/**
+ *
+ * Encapsulates a QR Code's format information, including the data mask used and
+ * error correction level.
+ *
+ * @author Sean Owen
+ * @see DataMask
+ *
+ * @see ErrorCorrectionLevel
+ */
 internal class FormatInformation private constructor(formatInfo: Int) {
-    val errorCorrectionLevel: ScannerErrorCorrectionLevel
+    val errorCorrectionLevel: ErrorCorrectionLevel
     val dataMask: Byte
 
     override fun hashCode(): Int {
@@ -123,7 +133,7 @@ internal class FormatInformation private constructor(formatInfo: Int) {
 
     init {
         // Bits 3,4
-        errorCorrectionLevel = ScannerErrorCorrectionLevel.forBits(formatInfo shr 3 and 0x03)
+        errorCorrectionLevel = ErrorCorrectionLevel.forBits(formatInfo shr 3 and 0x03)
         // Bottom 3 bits
         dataMask = (formatInfo and 0x07).toByte()
     }
