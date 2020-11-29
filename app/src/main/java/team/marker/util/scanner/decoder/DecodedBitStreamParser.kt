@@ -2,7 +2,6 @@ package team.marker.util.scanner.decoder
 
 import com.google.zxing.common.BitSource
 import com.google.zxing.common.CharacterSetECI
-import com.google.zxing.common.DecoderResult
 import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
 import team.marker.util.scanner.common.ScannerFormatException
 import java.io.UnsupportedEncodingException
@@ -113,8 +112,8 @@ internal object DecodedBitStreamParser {
         return DecoderResult(
             bytes,
             result.toString(),
-            if (byteSegments.isEmpty()) null else byteSegments,
-            ecLevel?.toString(),
+            (if (byteSegments.isEmpty()) null else byteSegments)!!,
+            ecLevel?.toString()!!,
             symbolSequence,
             parityData
         )

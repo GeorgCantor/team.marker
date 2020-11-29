@@ -2,10 +2,10 @@ package team.marker.util.scanner.reader
 
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.common.DecoderResult
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData
 import team.marker.util.scanner.common.*
 import team.marker.util.scanner.decoder.Decoder
+import team.marker.util.scanner.decoder.DecoderResult
 import team.marker.util.scanner.decoder.ScannerDecodeHintType
 import team.marker.util.scanner.detector.ScannerDetector
 import kotlin.math.roundToInt
@@ -37,7 +37,7 @@ abstract class ScannerQRCodeReader : ScannerReader {
         val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
         val byteSegments = decoderResult.byteSegments
         if (byteSegments != null) result.putMetadata(ScannerResultMetadataType.BYTE_SEGMENTS, byteSegments)
-        val ecLevel = decoderResult.ecLevel
+        val ecLevel = decoderResult.eCLevel
         if (ecLevel != null) result.putMetadata(ScannerResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
         if (decoderResult.hasStructuredAppend()) {
             result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)

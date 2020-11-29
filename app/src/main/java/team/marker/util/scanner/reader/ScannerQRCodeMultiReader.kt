@@ -31,7 +31,7 @@ class ScannerQRCodeMultiReader : ScannerQRCodeReader(), ScannerMultipleBarcodeRe
                 val result = ScannerResult(decoderResult.text, decoderResult.rawBytes, points, ScannerBarcodeFormat.QR_CODE)
                 val byteSegments = decoderResult.byteSegments
                 if (byteSegments != null) result.putMetadata(ScannerResultMetadataType.BYTE_SEGMENTS, byteSegments)
-                val ecLevel = decoderResult.ecLevel
+                val ecLevel = decoderResult.eCLevel
                 if (ecLevel != null) result.putMetadata(ScannerResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel)
                 if (decoderResult.hasStructuredAppend()) {
                     result.putMetadata(ScannerResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.structuredAppendSequenceNumber)
