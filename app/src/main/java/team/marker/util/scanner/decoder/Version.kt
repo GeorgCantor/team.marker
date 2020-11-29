@@ -1,7 +1,7 @@
 package team.marker.util.scanner.decoder
 
 import com.google.zxing.common.BitMatrix
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
 import team.marker.util.scanner.common.ScannerFormatException
 
 /**
@@ -19,7 +19,7 @@ class Version private constructor(
     val dimensionForVersion: Int
         get() = 17 + 4 * versionNumber
 
-    fun getECBlocksForLevel(ecLevel: ErrorCorrectionLevel): ECBlocks {
+    fun getECBlocksForLevel(ecLevel: ScannerErrorCorrectionLevel): ECBlocks {
         return ecBlocks[ecLevel.ordinal]
     }
 

@@ -3,7 +3,7 @@ package team.marker.util.scanner.decoder
 import com.google.zxing.common.BitSource
 import com.google.zxing.common.CharacterSetECI
 import com.google.zxing.common.DecoderResult
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import team.marker.util.scanner.common.ScannerErrorCorrectionLevel
 import team.marker.util.scanner.common.ScannerFormatException
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
@@ -29,7 +29,7 @@ internal object DecodedBitStreamParser {
     fun decode(
         bytes: ByteArray?,
         version: Version?,
-        ecLevel: ErrorCorrectionLevel?,
+        ecLevel: ScannerErrorCorrectionLevel?,
         hints: Map<ScannerDecodeHintType?, *>?
     ): DecoderResult {
         val bits = BitSource(bytes)
