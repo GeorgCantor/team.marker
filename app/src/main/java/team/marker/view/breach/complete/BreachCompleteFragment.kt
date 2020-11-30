@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,9 +25,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getSharedViewModel()
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +54,11 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         viewModel.error.observe(viewLifecycleOwner) {
             it?.let { context?.shortToast(it) }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
     override fun onDetach() {

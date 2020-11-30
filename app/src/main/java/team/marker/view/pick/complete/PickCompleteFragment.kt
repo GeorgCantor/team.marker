@@ -2,6 +2,7 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
@@ -15,13 +16,6 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products: ArrayList<PickProduct> by lazy { arguments?.get("products") as ArrayList<PickProduct> }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +32,11 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         }
         btn_products.setOnClickListener { products() }
         btn_send.setOnClickListener { send(size) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
     private fun products() {

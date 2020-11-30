@@ -6,9 +6,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import kotlinx.android.synthetic.main.activity_webview.*
 import kotlinx.android.synthetic.main.toolbar_file.*
 import team.marker.R
@@ -28,7 +26,7 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_webview)
         // status bar
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = resources.getColor(team.marker.R.color.dark_gray)
+            window.statusBarColor = resources.getColor(team.marker.R.color.dark_blue)
         }
         // vars
         val filePath = intent.getStringExtra("path")

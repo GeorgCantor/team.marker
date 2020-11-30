@@ -20,7 +20,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
+        activity?.window?.statusBarColor = resources.getColor(R.color.dark_blue)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

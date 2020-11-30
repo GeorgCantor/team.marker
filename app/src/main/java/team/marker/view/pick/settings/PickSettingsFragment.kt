@@ -15,7 +15,7 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
+            activity?.window?.statusBarColor = resources.getColor(R.color.dark_blue)
         }
     }
 

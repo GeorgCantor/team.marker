@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,21 +24,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var prefManager: PreferenceManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        prefManager = PreferenceManager(requireActivity())
-        activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // buttons
+        prefManager = PreferenceManager(requireActivity())
+
         btn_scan.setOnClickListener { scan() }
         btn_pick.setOnClickListener { pick() }
         btn_breach.setOnClickListener { breach() }
         btn_logout.setOnClickListener { logout() }
         // geo
         getLocation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
     private fun scan() {

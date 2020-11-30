@@ -3,6 +3,7 @@ package team.marker.view.breach
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_breach.*
@@ -33,13 +34,6 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,6 +62,7 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
 
     override fun onResume() {
         super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.blackText)
         capture.onResume()
     }
 

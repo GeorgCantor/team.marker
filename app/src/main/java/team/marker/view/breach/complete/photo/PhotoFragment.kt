@@ -13,6 +13,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
@@ -39,6 +40,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getSharedViewModel()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.blackText)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

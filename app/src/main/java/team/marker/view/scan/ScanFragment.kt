@@ -2,6 +2,7 @@ package team.marker.view.scan
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_scan.*
@@ -66,6 +67,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     override fun onResume() {
         super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.blackText)
         capture.onResume()
     }
 

@@ -3,6 +3,7 @@ package team.marker.view.pick
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -19,21 +20,14 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        pickMode = PreferenceManager(requireActivity()).getInt("mode") ?: 0
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.blackText)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // scanner
+        pickMode = PreferenceManager(requireActivity()).getInt("mode") ?: 0
+
         barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
         capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
-        // listeners
+
         btn_scan_back.setOnClickListener { finish() }
         btn_scan_flash.setOnClickListener { toggleFlash() }
         btn_settings.setOnClickListener { settings(view) }
@@ -179,6 +173,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     override fun onResume() {
         super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.blackText)
         capture.onResume()
     }
 

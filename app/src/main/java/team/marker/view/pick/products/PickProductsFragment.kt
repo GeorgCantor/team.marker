@@ -3,28 +3,20 @@ package team.marker.view.pick.products
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.toolbar_history.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
-    private lateinit var viewModel: PickProductsViewModel
+    private val viewModel by inject<PickProductsViewModel>()
     private val productIds: String by lazy { arguments?.get("product_ids") as String }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getViewModel { parametersOf() }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = resources.getColor(R.color.dark_gray)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +38,11 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
         })
 
         btn_back.setOnClickListener { back() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
     private fun back() {
