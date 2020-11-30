@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Size
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -101,7 +102,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 it.setSurfaceProvider(preview_view.surfaceProvider)
             }
 
-            imageCapture = ImageCapture.Builder().build()
+            imageCapture = ImageCapture.Builder().setTargetResolution(Size(1024, 1024)).build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             CameraSelector.LENS_FACING_BACK
