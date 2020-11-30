@@ -46,10 +46,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         }
 
         viewModel.isProgressVisible.observe(viewLifecycleOwner) {
-            progress_bar.visibility = if (it) VISIBLE else GONE
-        }
-        viewModel.isSend.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+            if (it) {
+                progress_bar.visibility = VISIBLE
+            } else {
+                progress_bar.visibility = GONE
+                findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+            }
         }
         viewModel.error.observe(viewLifecycleOwner) {
             it?.let { context?.shortToast(it) }
