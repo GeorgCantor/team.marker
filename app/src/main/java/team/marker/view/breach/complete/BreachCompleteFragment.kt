@@ -46,12 +46,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         }
 
         viewModel.isProgressVisible.observe(viewLifecycleOwner) {
-            if (it) {
-                progress_bar.visibility = VISIBLE
-            } else {
-                progress_bar.visibility = GONE
-                findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
-            }
+            progress_bar.visibility = if (it) VISIBLE else GONE
         }
         viewModel.error.observe(viewLifecycleOwner) {
             it?.let { context?.shortToast(it) }
@@ -77,5 +72,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         val comment = input_comment.text.toString()
         if (comment == "") return
         viewModel.breach(productId, reasonId, userReason, comment)
+        findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }
 }
