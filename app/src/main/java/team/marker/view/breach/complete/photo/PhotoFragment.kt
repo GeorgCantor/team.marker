@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
-import android.util.Size
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -21,7 +23,10 @@ import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
+import java.io.BufferedOutputStream
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -102,7 +107,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 it.setSurfaceProvider(preview_view.surfaceProvider)
             }
 
-            imageCapture = ImageCapture.Builder().setTargetResolution(Size(1024, 1024)).build()
+            imageCapture = ImageCapture.Builder().build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             CameraSelector.LENS_FACING_BACK
@@ -132,7 +137,15 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    viewModel.addPhoto(photoFile)
+                    val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+                    val resized = getResizedBitmap(bitmap)
+
+                    val file = File(directory, "${UUID.randomUUID()}.jpg")
+                    val outputStream: OutputStream = BufferedOutputStream(FileOutputStream(file))
+                    resized?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    outputStream.close()
+
+                    viewModel.addPhoto(file)
                     activity?.onBackPressed()
                 }
             })
@@ -148,5 +161,22 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             cameraControl.enableTorch(isTorchEnable)
             flash_button.setImageResource(if (isTorchEnable) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
         }, ContextCompat.getMainExecutor(context))
+    }
+
+    private fun getResizedBitmap(bm: Bitmap): Bitmap? {
+        val width = bm.width
+        val height = bm.height
+        val scaleWidth = 1024.toFloat() / width
+        val scaleHeight = 1024.toFloat() / height
+
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+
+        val resizedBitmap = Bitmap.createBitmap(
+            bm, 0, 0, width, height, matrix, false
+        )
+        bm.recycle()
+
+        return resizedBitmap
     }
 }
