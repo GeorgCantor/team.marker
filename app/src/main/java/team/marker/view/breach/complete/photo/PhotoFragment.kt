@@ -129,14 +129,12 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
         val orientationEventListener = object : OrientationEventListener(requireContext()) {
             override fun onOrientationChanged(orientation: Int) {
-                val rotation : Int = when (orientation) {
+                orient = when (orientation) {
                     in 45..134 -> Surface.ROTATION_270
                     in 135..224 -> Surface.ROTATION_180
                     in 225..314 -> Surface.ROTATION_90
                     else -> Surface.ROTATION_0
                 }
-
-                orient = rotation
             }
         }
         orientationEventListener.enable()
@@ -156,12 +154,11 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-                    val resized = getResizedBitmap(bitmap)
-                    val rotated = rotateBitmap(resized!!)
+                    val resized = getResizedRotatedBitmap(bitmap)
 
                     val file = File(directory, "${UUID.randomUUID()}.jpg")
                     val outputStream: OutputStream = BufferedOutputStream(FileOutputStream(file))
-                    rotated?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    resized?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.close()
 
                     viewModel.addPhoto(file)
@@ -182,26 +179,13 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         }, ContextCompat.getMainExecutor(context))
     }
 
-    private fun getResizedBitmap(bm: Bitmap): Bitmap? {
+    private fun getResizedRotatedBitmap(bm: Bitmap): Bitmap? {
         val width = bm.width
         val height = bm.height
         val scaleWidth = 1024.toFloat() / width
         val scaleHeight = 1024.toFloat() / height
 
-        val matrix = Matrix()
-        matrix.postScale(scaleWidth, scaleHeight)
-
-        val resizedBitmap = Bitmap.createBitmap(
-            bm, 0, 0, width, height, matrix, false
-        )
-        bm.recycle()
-
-        return resizedBitmap
-    }
-
-    fun rotateBitmap(b: Bitmap): Bitmap? {
         var rotate = 0
-        var bitmap = b
 
         when (orient) {
             0 -> rotate = 90
@@ -211,9 +195,12 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         }
 
         val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
         matrix.postRotate(rotate.toFloat())
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, false)
 
-        return bitmap
+        val resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false)
+        bm.recycle()
+
+        return resizedBitmap
     }
 }

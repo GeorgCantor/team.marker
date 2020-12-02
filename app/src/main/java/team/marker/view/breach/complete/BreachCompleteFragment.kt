@@ -5,8 +5,6 @@ import android.content.ContextWrapper
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
-import team.marker.util.shortToast
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -43,13 +40,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             photos_recycler.setHasFixedSize(true)
             photos_recycler.adapter = PhotosAdapter(it)
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
-        }
-
-        viewModel.isProgressVisible.observe(viewLifecycleOwner) {
-            progress_bar.visibility = if (it) VISIBLE else GONE
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            it?.let { context?.shortToast(it) }
         }
     }
 
