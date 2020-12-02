@@ -8,6 +8,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
+import android.view.OrientationEventListener
+import android.view.Surface
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -42,6 +44,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraExecutor: ExecutorService
     private var isTorchEnable = false
+    private var orient = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +126,21 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
     private fun takePhoto() {
         val imageCapture = imageCapture
+
+        val orientationEventListener = object : OrientationEventListener(requireContext()) {
+            override fun onOrientationChanged(orientation: Int) {
+                val rotation : Int = when (orientation) {
+                    in 45..134 -> Surface.ROTATION_270
+                    in 135..224 -> Surface.ROTATION_180
+                    in 225..314 -> Surface.ROTATION_90
+                    else -> Surface.ROTATION_0
+                }
+
+                orient = rotation
+            }
+        }
+        orientationEventListener.enable()
+
         val cw = ContextWrapper(requireContext())
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
         val photoFile = File(directory, "${UUID.randomUUID()}.jpg")
@@ -139,10 +157,11 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
                     val resized = getResizedBitmap(bitmap)
+                    val rotated = rotateBitmap(resized!!)
 
                     val file = File(directory, "${UUID.randomUUID()}.jpg")
                     val outputStream: OutputStream = BufferedOutputStream(FileOutputStream(file))
-                    resized?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    rotated?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.close()
 
                     viewModel.addPhoto(file)
@@ -178,5 +197,23 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         bm.recycle()
 
         return resizedBitmap
+    }
+
+    fun rotateBitmap(b: Bitmap): Bitmap? {
+        var rotate = 0
+        var bitmap = b
+
+        when (orient) {
+            0 -> rotate = 90
+            1 -> rotate = 0
+            2 -> rotate = 270
+            3 -> rotate = 180
+        }
+
+        val matrix = Matrix()
+        matrix.postRotate(rotate.toFloat())
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, false)
+
+        return bitmap
     }
 }

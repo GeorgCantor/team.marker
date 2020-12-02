@@ -24,8 +24,6 @@ class PhotosAdapter(
             Glide.with(itemView.context)
                 .load(file)
                 .into(photo)
-
-            photo.rotation = 90F
         }
     }
 
