@@ -43,7 +43,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         })
         // error
         viewModel.error.observe(viewLifecycleOwner, Observer {
-            showError(context, error_login, "неправильный логин или пароль", 5000, 0)
+            context?.showError(error_login, "неправильный логин или пароль", 5000)
         })
     }
 

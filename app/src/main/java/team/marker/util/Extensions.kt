@@ -4,8 +4,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
+import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import team.marker.R
 import java.util.concurrent.TimeUnit
 
 // common
@@ -31,3 +34,20 @@ fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVIC
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false
 
 fun Context.shortToast(message: String) = Toast.makeText(this, message, LENGTH_SHORT).show()
+
+fun Context.showError(textView: TextView, message: String?, hide: Int) {
+    textView.text = message
+    val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+    animation.reset()
+    textView.clearAnimation()
+    textView.startAnimation(animation)
+    if (hide > 0) {
+        3000L.runDelayed {
+            val a = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+            a.reset()
+            textView.clearAnimation()
+            textView.startAnimation(a)
+        }
+        3350L.runDelayed { textView.text = "" }
+    }
+}

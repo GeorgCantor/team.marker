@@ -2,25 +2,17 @@ package team.marker.util
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.view.animation.RotateAnimation
-import kotlin.math.roundToLong
-
 
 class ExpandList(val view: View, val icon: View) {
 
     var isCollapsed = true
     var inProgress = false
-
-    init {
-        val view = view
-        val icon = icon
-    }
 
     fun toggleList(mode: String? = "default") {
         if (inProgress) return
