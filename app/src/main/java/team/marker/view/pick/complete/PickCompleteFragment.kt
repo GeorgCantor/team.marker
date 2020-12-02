@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
+import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
@@ -30,6 +31,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
             btn_products.visibility = View.GONE
             ic_email.visibility = View.GONE
         }
+        btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
         btn_send.setOnClickListener { send(size) }
     }
