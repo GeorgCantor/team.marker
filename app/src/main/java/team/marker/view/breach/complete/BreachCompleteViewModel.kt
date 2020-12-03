@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import team.marker.model.remote.ApiRepository
 import team.marker.model.responses.ResponseMessage
 import java.io.File
@@ -26,7 +27,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
         viewModelScope.launch(exceptionHandler) {
             val files = mutableListOf<MultipartBody.Part>()
             photos.value?.map {
-                val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), it)
+                val requestBody = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData(
                     "files", it.name, requestBody
                 )

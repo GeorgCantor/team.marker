@@ -3,7 +3,6 @@ package team.marker.view.breach.complete
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -26,9 +25,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        for (productId in productIds) {
-            Log.e("Message", productId)
-        }
         var productId = 0
         if (productIds.size > 0) productId = productIds[0].toInt()
 
