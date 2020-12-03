@@ -1,7 +1,6 @@
 package team.marker.view.breach
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -19,14 +18,17 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
             for (currentProductId in currentProductIds) {
                 if (!productIds.contains(currentProductId)) productIds.add(currentProductId)
             }
-            Log.e("Breach productIds Size", productIds.size.toString())
 
-            val bundle = Bundle()
-            val array = arrayListOf<String>()
-            array.addAll(productIds)
-            bundle.putStringArrayList("product_ids", array)
-            productIds = mutableListOf()
-            Navigation.findNavController(view).navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
+            if (productIds.isNotEmpty()) {
+                val bundle = Bundle()
+                val array = arrayListOf<String>()
+                array.addAll(productIds)
+                bundle.putStringArrayList("product_ids", array)
+                productIds = mutableListOf()
+                Navigation.findNavController(view).navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
+            } else {
+                Navigation.findNavController(view).navigate(R.id.action_breachFragment_self)
+            }
         }
     }
 
