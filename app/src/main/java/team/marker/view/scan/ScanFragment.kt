@@ -15,7 +15,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     companion object {
         private var products: MutableList<PickProduct> = mutableListOf()
-        private lateinit var capture: PickCaptureManager
+        private lateinit var capture: ScanCaptureManager
 
         fun addProduct(view: View, rawResultSize: Int, currentProductIds: MutableList<String>) {
             val productIds = arrayListOf<String>()
@@ -58,7 +58,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
-        capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
+        capture = ScanCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
 
         btn_scan_flash.setOnClickListener { toggleFlash() }

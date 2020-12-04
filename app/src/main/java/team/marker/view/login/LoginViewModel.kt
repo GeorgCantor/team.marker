@@ -11,7 +11,6 @@ import team.marker.model.responses.Login
 
 class LoginViewModel(private val repository: ApiRepository) : ViewModel() {
 
-    val isLoggedIn = MutableLiveData<Boolean>()
     val response = MutableLiveData<Login>()
     val error = MutableLiveData<String>()
 
@@ -22,7 +21,6 @@ class LoginViewModel(private val repository: ApiRepository) : ViewModel() {
     fun login(request: LoginRequest) {
         viewModelScope.launch(exceptionHandler) {
             repository.login(request).apply {
-                isLoggedIn.postValue(this?.success)
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }

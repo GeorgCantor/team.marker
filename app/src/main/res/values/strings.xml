@@ -6,6 +6,7 @@
     <string name="not_specified2">не указано</string>
     <string name="not_specified3">не указана</string>
     <string name="no_camera_permissions">Нет разрешений для камеры</string>
+    <string name="wrong_login_password">неправильный логин или пароль</string>
     // pick
     <string name="enter_number_accepted_units">Введите количество оприходуемых единиц (шт.)</string>
     <string name="enter_product_length">Введите длину оприходуемой продукции (в погонных метрах)</string>

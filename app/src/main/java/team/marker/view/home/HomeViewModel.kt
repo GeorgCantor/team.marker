@@ -10,7 +10,6 @@ import team.marker.model.responses.ResponseMessage
 
 class HomeViewModel(private val repository: ApiRepository) : ViewModel() {
 
-    val success = MutableLiveData<Boolean>()
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
 
@@ -21,7 +20,6 @@ class HomeViewModel(private val repository: ApiRepository) : ViewModel() {
     fun logout() {
         viewModelScope.launch(exceptionHandler) {
             repository.logout().apply {
-                success.postValue(this?.success)
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }

@@ -3,7 +3,6 @@ package team.marker.view.login
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
@@ -28,7 +27,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         // buttons
         btn_login.setOnClickListener { apply() }
         // success
-        viewModel.response.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.response.observe(viewLifecycleOwner, { response ->
             // vars
             val sid = response?.sid
             val token = response?.token
@@ -42,8 +41,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         })
         // error
-        viewModel.error.observe(viewLifecycleOwner, Observer {
-            context?.showError(error_login, "неправильный логин или пароль", 5000)
+        viewModel.error.observe(viewLifecycleOwner, {
+            context?.showError(error_login, getString(R.string.wrong_login_password), 5000)
         })
     }
 

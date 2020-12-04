@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getColor
@@ -105,7 +104,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     val lng = location.longitude.toString()
                     prefManager.saveString("lat", lat)
                     prefManager.saveString("lng", lng)
-                    Log.e("Message", "$lat:$lng")
                 }
             }
     }

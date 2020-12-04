@@ -23,7 +23,7 @@ import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.util.scanner.common.ScannerResultPoint
 
-class PickCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
+class ScanCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
 
     private var destroyed = false
     private val inactivityTimer: InactivityTimer
@@ -145,7 +145,7 @@ class PickCaptureManager(private val activity: FragmentActivity, val barcodeView
     }
 
     companion object {
-        private val TAG = PickCaptureManager::class.java.simpleName
+        private val TAG = ScanCaptureManager::class.java.simpleName
         private var cameraPermissionReqCode = 250
         private const val SAVED_ORIENTATION_LOCK = "SAVED_ORIENTATION_LOCK"
 
