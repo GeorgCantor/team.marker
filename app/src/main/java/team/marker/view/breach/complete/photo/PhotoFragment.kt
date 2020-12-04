@@ -182,8 +182,8 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     private fun getResizedRotatedBitmap(bm: Bitmap): Bitmap? {
         val width = bm.width
         val height = bm.height
-        val scaleWidth = 1024.toFloat() / width
-        val scaleHeight = 1024.toFloat() / height
+        val scaleWidth = 512.toFloat() / width
+        val scaleHeight = 512.toFloat() / height
 
         var rotate = 0
 

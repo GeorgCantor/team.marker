@@ -7,8 +7,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import team.marker.model.remote.ApiRepository
 import team.marker.model.responses.ResponseMessage
 import java.io.File
@@ -36,8 +36,8 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
             repository.breach(
                 productId,
                 reasonId,
-                RequestBody.create("text/plain".toMediaTypeOrNull(), userReason),
-                RequestBody.create("text/plain".toMediaTypeOrNull(), comment),
+                userReason.toRequestBody("text/plain".toMediaTypeOrNull()),
+                comment.toRequestBody("text/plain".toMediaTypeOrNull()),
                 files.toTypedArray()
             ).apply {
                 response.postValue(this?.response)
