@@ -22,8 +22,14 @@ import team.marker.util.scanner.ScannerDecoratedBarcodeView
 import team.marker.util.scanner.common.ScannerBarcodeCallback
 import team.marker.util.scanner.common.ScannerBarcodeResultMultiple
 import team.marker.util.scanner.common.ScannerResultPoint
+import team.marker.view.pick.products.PickProductsViewModel
 
-class PickCaptureManager(private val activity: FragmentActivity, val barcodeView: ScannerDecoratedBarcodeView, private val view: View) {
+class PickCaptureManager(
+    private val activity: FragmentActivity,
+    private val viewModel: PickProductsViewModel,
+    val barcodeView: ScannerDecoratedBarcodeView,
+    private val view: View
+) {
 
     private var destroyed = false
     private val inactivityTimer: InactivityTimer
@@ -132,6 +138,7 @@ class PickCaptureManager(private val activity: FragmentActivity, val barcodeView
         }
         // update
         PickFragment.addProduct(view, rawResultSize, productIds)
+        viewModel.getProducts(productIds.joinToString(","))
     }
 
     private fun displayFrameworkBugMessageAndExit() {

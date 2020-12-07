@@ -9,14 +9,17 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick.*
 import kotlinx.android.synthetic.main.fragment_pick.view.*
+import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.PreferenceManager
 import team.marker.util.runDelayed
 import team.marker.util.scanner.ScannerDecoratedBarcodeView
+import team.marker.view.pick.products.PickProductsViewModel
 
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
+    private val viewModel by inject<PickProductsViewModel>()
     private var barcodeScannerView: ScannerDecoratedBarcodeView? = null
     private var torchOn: Boolean = false
 
@@ -25,7 +28,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         pickMode = PreferenceManager(requireActivity()).getInt("mode") ?: 0
 
         barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
-        capture = PickCaptureManager(requireActivity(), barcodeScannerView!!, view)
+        capture = PickCaptureManager(requireActivity(), viewModel, barcodeScannerView!!, view)
         capture.decode()
 
         btn_scan_back.setOnClickListener { finish() }
@@ -33,6 +36,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         btn_settings.setOnClickListener { settings(view) }
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
+
+        viewModel.response.observe(viewLifecycleOwner) {
+            val names = mutableListOf<String>()
+            it.info?.map { names.add(it.title!!) }
+            names_text.text = names.joinToString()
+        }
     }
 
     private fun finish() {
@@ -48,12 +57,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         barcodeScannerView?.setTorchOn()
         when(torchOn) {
             false -> {
-                barcodeScannerView?.setTorchOn();
+                barcodeScannerView?.setTorchOn()
                 torchOn = true
                 btn_scan_flash.setImageResource(R.drawable.ic_flash_off_2)
             }
             true -> {
-                barcodeScannerView?.setTorchOff();
+                barcodeScannerView?.setTorchOff()
                 torchOn = false
                 btn_scan_flash.setImageResource(R.drawable.ic_flash_2)
             }
@@ -114,7 +123,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                     updateProducts(product)
                 }
                 if (products.size >= 1) {
-                    //PickFragment.sendResult(productIds)
                     view.pick_success.visibility = View.VISIBLE
                     view.pick_success_text.text = "Распознано ${productIds.size} из $rawResultSize"
                     1000L.runDelayed { view.pick_success.visibility = View.GONE }

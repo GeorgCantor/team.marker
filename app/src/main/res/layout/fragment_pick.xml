@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true"
@@ -13,55 +13,55 @@
         android:id="@+id/scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <team.marker.util.scanner.ScannerDecoratedBarcodeView
+            android:id="@+id/zxing_barcode_scanner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/zxing_barcode_scanner"
             app:zxing_preview_scaling_strategy="centerCrop"
             app:zxing_use_texture_view="false" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/pick_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pick_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pick_window"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
             android:layout_marginStart="35dp"
             android:layout_marginEnd="35dp"
+            android:background="@color/white"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
-            app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
             <TextView
                 android:id="@+id/pick_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
+                android:gravity="center"
                 android:text="Введите длину оприходуемого изделия в погонных метрах"
                 android:textColor="#9919194D"
                 android:textSize="14sp"
                 android:textStyle="normal"
-                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,8 +76,8 @@
                 android:cursorVisible="true"
                 android:ems="10"
                 android:fontFamily="sans-serif"
-                android:hint="0"
                 android:gravity="center"
+                android:hint="0"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:maxLength="100"
@@ -88,43 +88,57 @@
                 android:textSize="28sp"
                 android:textStyle="normal"
                 android:theme="@style/CustomTheme"
-                app:layout_constraintTop_toBottomOf="@id/pick_note"/>
+                app:layout_constraintTop_toBottomOf="@id/pick_note" />
 
             <Button
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="30dp"
-                android:paddingHorizontal="10dp"
                 android:background="@drawable/btn_home"
                 android:fontFamily="sans-serif-medium"
                 android:letterSpacing="0.05"
+                android:paddingHorizontal="10dp"
                 android:stateListAnimator="@null"
                 android:text="Добавить"
                 android:textAllCaps="true"
                 android:textColor="#19194D"
                 android:textSize="15sp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/pick_quantity"/>
+                app:layout_constraintTop_toBottomOf="@id/pick_quantity" />
 
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="15dp"
-                android:paddingHorizontal="10dp"
                 android:background="@drawable/btn_home"
                 android:fontFamily="sans-serif-medium"
                 android:letterSpacing="0.05"
+                android:paddingHorizontal="10dp"
                 android:stateListAnimator="@null"
                 android:text="Отмена"
                 android:textAllCaps="true"
                 android:textColor="#19194D"
                 android:textSize="15sp"
                 android:textStyle="normal"
-                app:layout_constraintTop_toBottomOf="@id/btn_add"/>
+                app:layout_constraintTop_toBottomOf="@id/btn_add" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/names_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toTopOf="@+id/pick_success"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Труба 157" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pick_success"
@@ -133,21 +147,22 @@
             android:background="@color/scan_pick_success"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/pick_success_text"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Распознано"
-                android:textColor="#fff"
-                android:textAllCaps="true"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="Распознано"
+                android:textAllCaps="true"
+                android:textColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -158,21 +173,21 @@
             android:background="@color/scan_pick_fail"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/pick_fail_text"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Не распознано"
-                android:textColor="#fff"
-                android:textAllCaps="true"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="Не распознано"
+                android:textAllCaps="true"
+                android:textColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -183,35 +198,35 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#55000000"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btn_scan_flash"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="Вспышка"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_flash_2"
-            android:contentDescription="Вспышка" />
+            app:srcCompat="@drawable/ic_flash_2" />
 
         <ImageView
             android:id="@+id/btn_settings"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="0dp"
+            android:contentDescription="Настройки"
             app:layout_constraintStart_toEndOf="@id/btn_scan_flash"
             app:layout_constraintTop_toTopOf="@id/btn_scan_flash"
             app:srcCompat="@drawable/ic_settings"
-            app:tint="@color/white"
-            android:contentDescription="Настройки" />
+            app:tint="@color/white" />
 
         <Button
             android:id="@+id/btn_scan_back"
@@ -219,14 +234,14 @@
             android:layout_height="36dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
+            android:background="#000"
+            android:letterSpacing="0.05"
             android:paddingHorizontal="10dp"
             android:text="Завершить"
-            android:textSize="12sp"
             android:textColor="#fff"
-            android:letterSpacing="0.05"
-            android:background="#000"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
