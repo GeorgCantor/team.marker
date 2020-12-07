@@ -129,16 +129,18 @@
         <TextView
             android:id="@+id/names_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8dp"
+            android:layout_height="50dp"
+            android:background="#3377F17C"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="#fff"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/pick_success"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Труба 157" />
+            tools:text="Труба 157"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pick_success"

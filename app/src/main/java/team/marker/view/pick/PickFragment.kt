@@ -3,6 +3,7 @@ package team.marker.view.pick
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -38,9 +39,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         btn_cancel.setOnClickListener { cancelProduct() }
 
         viewModel.response.observe(viewLifecycleOwner) {
-            val names = mutableListOf<String>()
-            it.info?.map { names.add(it.title!!) }
-            names_text.text = names.joinToString()
+            if (it.info?.isNotEmpty() == true) {
+                names_text.visibility = VISIBLE
+                val names = mutableListOf<String>()
+                it.info.map { names.add(it.title!!) }
+                names_text.text = names.joinToString()
+            }
         }
     }
 
