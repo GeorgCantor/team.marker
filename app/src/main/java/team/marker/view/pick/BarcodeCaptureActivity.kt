@@ -132,7 +132,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay, this)
+        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this)
         barcodeDetector.setProcessor(
             MultiProcessor.Builder(barcodeFactory).build()
         )
@@ -297,7 +297,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
         var bestDistance = Float.MAX_VALUE
         for (graphic in mGraphicOverlay!!.graphics) {
             val barcode = (graphic as BarcodeGraphic).barcode
-            if (barcode.boundingBox.contains(x.toInt(), y.toInt())) {
+            if (barcode!!.boundingBox.contains(x.toInt(), y.toInt())) {
                 // Exact hit, no need to keep looking.
                 best = barcode
                 break
@@ -377,7 +377,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
         }
     }
 
-    override fun onBarcodeDetected(barcode: Barcode) {
+    override fun onBarcodeDetected(barcode: Barcode?) {
         //do something with barcode data returned
     }
 
