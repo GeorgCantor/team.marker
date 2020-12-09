@@ -18,6 +18,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
+import android.view.View.GONE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -28,11 +29,17 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.barcode_capture.*
+import org.koin.android.ext.android.inject
 import team.marker.R
+import team.marker.model.requests.PickProduct
+import team.marker.util.openFragment
 import team.marker.view.pick.BarcodeGraphicTracker.BarcodeUpdateListener
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.CameraSourcePreview
 import team.marker.view.pick.camera.GraphicOverlay
+import team.marker.view.pick.complete.PickCompleteFragment
+import team.marker.view.pick.complete.PickCompleteViewModel
 import java.io.IOException
 
 /**
@@ -41,6 +48,9 @@ import java.io.IOException
  * size, and ID of each barcode.
  */
 class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
+
+    private val viewModel by inject<PickCompleteViewModel>()
+    private val products = arrayListOf<PickProduct>()
     private var mCameraSource: CameraSource? = null
     private var mPreview: CameraSourcePreview? = null
     private var mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>? = null
@@ -74,6 +84,20 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
             Snackbar.LENGTH_LONG
         )
             .show()
+
+        viewModel.products.observe(this) {
+            products.addAll(it)
+        }
+
+        topLayout.setOnClickListener {
+            preview.visibility = GONE
+            graphicOverlay.visibility = GONE
+            val bundle = Bundle()
+            bundle.putParcelableArrayList("products", products)
+            openFragment(PickCompleteFragment().apply {
+                arguments = bundle
+            })
+        }
     }
 
     /**
@@ -132,7 +156,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this)
+        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this, viewModel)
         barcodeDetector.setProcessor(
             MultiProcessor.Builder(barcodeFactory).build()
         )

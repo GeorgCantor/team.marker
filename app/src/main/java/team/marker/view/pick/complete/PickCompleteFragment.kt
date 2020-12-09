@@ -2,9 +2,11 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.barcode_capture.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.android.ext.android.inject
@@ -12,6 +14,8 @@ import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.util.nameCase
+import team.marker.util.openFragment
+import team.marker.view.pick.products.PickProductsFragment
 
 class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
@@ -41,13 +45,21 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().preview?.visibility = View.VISIBLE
+        requireActivity().graphicOverlay?.visibility = View.VISIBLE
+    }
+
     private fun products() {
         val bundle = Bundle()
         val productIds = arrayListOf<String>()
         for (product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
         bundle.putString("product_ids", productIdsStr)
-        findNavController().navigate(R.id.action_pickCompleteFragment_to_pickProductsFragment, bundle)
+        (requireActivity() as AppCompatActivity).openFragment(PickProductsFragment().apply {
+            arguments = bundle
+        })
     }
 
     private fun send(size: Int) {

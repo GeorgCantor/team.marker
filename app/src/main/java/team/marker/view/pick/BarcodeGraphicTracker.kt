@@ -5,7 +5,9 @@ import androidx.annotation.UiThread
 import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.barcode.Barcode
+import team.marker.model.requests.PickProduct
 import team.marker.view.pick.camera.GraphicOverlay
+import team.marker.view.pick.complete.PickCompleteViewModel
 
 /**
  * Generic tracker which is used for tracking or reading a barcode (and can really be used for
@@ -16,7 +18,8 @@ import team.marker.view.pick.camera.GraphicOverlay
 class BarcodeGraphicTracker internal constructor(
     private val mOverlay: GraphicOverlay<BarcodeGraphic?>,
     private val mGraphic: BarcodeGraphic,
-    context: Context?
+    context: Context?,
+    private val viewModel: PickCompleteViewModel
 ) : Tracker<Barcode?>() {
     private var mBarcodeUpdateListener: BarcodeUpdateListener? = null
 
@@ -43,6 +46,13 @@ class BarcodeGraphicTracker internal constructor(
     override fun onUpdate(detectionResults: Detections<Barcode?>, item: Barcode?) {
         mOverlay.add(mGraphic)
         mGraphic.updateItem(item)
+        viewModel.addProduct(
+            PickProduct(
+                item?.rawValue?.takeLastWhile { it.isDigit() }?.toInt(),
+                1.toDouble(),
+                0
+            )
+        )
     }
 
     /**

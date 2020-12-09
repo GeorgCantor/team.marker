@@ -8,6 +8,8 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import team.marker.R
 import java.util.concurrent.TimeUnit
 
@@ -26,6 +28,13 @@ fun Int.nameCase(names: Array<String>): String {
     if (a1 == 1 && (a2 <= 10 || a2 > 20)) return names[0]
     if (a1 in 2..4 && (a2 <= 10 || a2 > 20)) return names[1]
     return names[2]
+}
+
+fun AppCompatActivity.openFragment(fragment: Fragment) {
+    val transaction = supportFragmentManager.beginTransaction()
+    transaction.add(R.id.frame_container, fragment)
+    transaction.addToBackStack(null)
+    transaction.commit()
 }
 
 // context
