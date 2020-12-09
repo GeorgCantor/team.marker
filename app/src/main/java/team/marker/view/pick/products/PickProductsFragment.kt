@@ -1,17 +1,18 @@
 package team.marker.view.pick.products
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
+import team.marker.util.openFragment
+import team.marker.view.product.ProductFragment
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -29,11 +30,11 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
         viewModel.response.observe(viewLifecycleOwner, Observer {
             history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
-                Handler().postDelayed({
-                    val bundle = Bundle()
-                    bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
-                    findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
-                }, 150)
+                val bundle = Bundle()
+                bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
+                (requireActivity() as AppCompatActivity).openFragment(ProductFragment().apply {
+                    arguments = bundle
+                })
             }
         })
 
