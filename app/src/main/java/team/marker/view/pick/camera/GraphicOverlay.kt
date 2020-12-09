@@ -158,8 +158,8 @@ class GraphicOverlay<T : Graphic?>(context: Context?, attrs: AttributeSet?) : Vi
         super.onDraw(canvas)
         synchronized(mLock) {
             if (mPreviewWidth != 0 && mPreviewHeight != 0) {
-                widthScaleFactor = canvas.width.toFloat() / mPreviewWidth.toFloat()
-                heightScaleFactor = canvas.height.toFloat() / mPreviewHeight.toFloat()
+                widthScaleFactor = width.toFloat() / mPreviewWidth.toFloat()
+                heightScaleFactor = height.toFloat() / mPreviewHeight.toFloat()
             }
             for (graphic in mGraphics) {
                 graphic!!.draw(canvas)

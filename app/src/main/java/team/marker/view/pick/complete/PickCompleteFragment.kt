@@ -47,6 +47,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        requireActivity().pick_toolbar?.visibility = View.VISIBLE
         requireActivity().preview?.visibility = View.VISIBLE
         requireActivity().graphicOverlay?.visibility = View.VISIBLE
     }

@@ -46,7 +46,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun pick() {
-//        findNavController().navigate(R.id.action_homeFragment_to_pickFragment)
         startActivity(Intent(requireContext(), BarcodeCaptureActivity::class.java))
     }
 

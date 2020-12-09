@@ -871,7 +871,7 @@ private constructor() {
          */
         @SuppressLint("Assert")
         fun release() {
-            assert(mProcessingThread!!.state == Thread.State.TERMINATED)
+            if (mProcessingThread != null) assert(mProcessingThread!!.state == Thread.State.TERMINATED)
             mDetector!!.release()
             mDetector = null
         }

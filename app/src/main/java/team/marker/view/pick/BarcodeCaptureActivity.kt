@@ -86,10 +86,13 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
             .show()
 
         viewModel.products.observe(this) {
-            products.addAll(it)
+            it.map {
+                if (!products.contains(it)) products.add(it)
+            }
         }
 
         topLayout.setOnClickListener {
+            pick_toolbar.visibility = GONE
             preview.visibility = GONE
             graphicOverlay.visibility = GONE
             val bundle = Bundle()
