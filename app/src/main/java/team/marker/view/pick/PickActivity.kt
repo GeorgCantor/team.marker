@@ -29,7 +29,7 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.barcode_capture.*
+import kotlinx.android.synthetic.main.activity_pick.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
@@ -47,7 +47,7 @@ import java.io.IOException
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
+class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
@@ -64,7 +64,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
      */
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
-        setContentView(R.layout.barcode_capture)
+        setContentView(R.layout.activity_pick)
         mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
         mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
         val useFlash = intent.getBooleanExtra(UseFlash, false)
@@ -79,11 +79,6 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
         }
         gestureDetector = GestureDetector(this, CaptureGestureListener())
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
-        Snackbar.make(
-            mGraphicOverlay!!, "Tap to capture. Pinch/Stretch to zoom",
-            Snackbar.LENGTH_LONG
-        )
-            .show()
 
         viewModel.products.observe(this) {
             it.map {
@@ -91,7 +86,7 @@ class BarcodeCaptureActivity : AppCompatActivity(), BarcodeUpdateListener {
             }
         }
 
-        topLayout.setOnClickListener {
+        btn_scan_back.setOnClickListener {
             pick_toolbar.visibility = GONE
             preview.visibility = GONE
             graphicOverlay.visibility = GONE

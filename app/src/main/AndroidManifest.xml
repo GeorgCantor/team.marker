@@ -57,7 +57,7 @@
         </activity>
 
         <activity
-            android:name=".view.pick.BarcodeCaptureActivity"
+            android:name=".view.pick.PickActivity"
             android:screenOrientation="portrait" />
 
         <activity

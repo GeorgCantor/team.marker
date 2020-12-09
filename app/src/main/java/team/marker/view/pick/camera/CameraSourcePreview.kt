@@ -118,7 +118,7 @@ class CameraSourcePreview(
 
         // Computes height and width for potentially doing fit width.
         var childWidth = layoutWidth
-        var childHeight = (layoutWidth.toFloat() / width.toFloat() * height).toInt()
+        var childHeight = layoutHeight
 
         // If height is too tall using fit width, does fit height instead.
         if (childHeight > layoutHeight) {

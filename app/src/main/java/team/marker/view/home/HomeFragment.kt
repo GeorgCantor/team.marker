@@ -16,7 +16,7 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.PreferenceManager
 import team.marker.view.MainActivity
-import team.marker.view.pick.BarcodeCaptureActivity
+import team.marker.view.pick.PickActivity
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -46,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun pick() {
-        startActivity(Intent(requireContext(), BarcodeCaptureActivity::class.java))
+        startActivity(Intent(requireContext(), PickActivity::class.java))
     }
 
     private fun breach() {

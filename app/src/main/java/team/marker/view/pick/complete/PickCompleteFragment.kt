@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.barcode_capture.*
+import kotlinx.android.synthetic.main.activity_pick.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.android.ext.android.inject
