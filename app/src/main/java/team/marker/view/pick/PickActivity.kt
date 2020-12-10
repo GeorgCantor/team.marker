@@ -41,6 +41,7 @@ import team.marker.view.pick.camera.CameraSourcePreview
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.complete.PickCompleteFragment
 import team.marker.view.pick.complete.PickCompleteViewModel
+import team.marker.view.pick.settings.PickSettingsFragment
 import java.io.IOException
 
 /**
@@ -111,6 +112,13 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.putExtra(UseFlash, false)
             startActivity(intent)
+        }
+
+        btn_settings.setOnClickListener {
+            pick_toolbar.visibility = GONE
+            preview.visibility = GONE
+            graphicOverlay.visibility = GONE
+            openFragment(PickSettingsFragment())
         }
 
         btn_scan_back.setOnClickListener {

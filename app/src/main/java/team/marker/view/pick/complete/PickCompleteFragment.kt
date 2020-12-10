@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.activity_pick.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
@@ -67,7 +66,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         val email = input_email.text.toString()
         if (size > 0 && email.isEmpty()) return
         if (size > 0) viewModel.pick(PickRequest(products, email))
-        findNavController().navigate(R.id.action_pickCompleteFragment_to_homeFragment)
+        activity?.onBackPressed()
     }
 
 }
