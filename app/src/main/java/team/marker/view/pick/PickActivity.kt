@@ -23,6 +23,7 @@ import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -35,6 +36,7 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.PreferenceManager
+import team.marker.util.hideKeyboard
 import team.marker.util.openFragment
 import team.marker.util.runDelayed
 import team.marker.view.pick.BarcodeGraphicTracker.BarcodeUpdateListener
@@ -72,6 +74,7 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         setContentView(R.layout.activity_pick)
+        window?.statusBarColor = ContextCompat.getColor(this, R.color.dark_blue)
         pickMode = prefManager.getInt("mode") ?: 0
 
         btn_add.setOnClickListener { addProductQuantity() }
@@ -88,8 +91,6 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
             btn_scan_flash.visibility = VISIBLE
         }
 
-        // Check for the camera permission before accessing the camera.  If the
-        // permission is not granted yet, request permission.
         val rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
             createCameraSource(true, useFlash)
@@ -118,7 +119,7 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
                     lastId = it.id ?: 0
                     products.add(it)
                     pick_success_text.visibility = VISIBLE
-                    3000L.runDelayed { pick_success_text.visibility = GONE }
+                    2000L.runDelayed { pick_success_text.visibility = GONE }
                 }
             }
             pick_success_text.text = "Распознано ${it.size} из ${it.size}"
@@ -174,6 +175,7 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
     }
 
     private fun goToComplete() {
+        window.decorView.hideKeyboard()
         pick_toolbar.visibility = GONE
         preview.visibility = GONE
         graphicOverlay.visibility = GONE
@@ -343,9 +345,8 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source")
             // we have permission, so create the camerasource
-            val autoFocus = intent.getBooleanExtra(AutoFocus, false)
             val useFlash = intent.getBooleanExtra(UseFlash, false)
-            createCameraSource(autoFocus, useFlash)
+            createCameraSource(true, useFlash)
             return
         }
         Log.e(

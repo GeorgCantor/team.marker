@@ -1,10 +1,14 @@
 package team.marker.util
 
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
+import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
@@ -36,6 +40,9 @@ fun AppCompatActivity.openFragment(fragment: Fragment) {
     transaction.addToBackStack(null)
     transaction.commit()
 }
+
+fun View.hideKeyboard() = (context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+    .hideSoftInputFromWindow(windowToken, HIDE_NOT_ALWAYS)
 
 // context
 
