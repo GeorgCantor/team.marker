@@ -36,6 +36,12 @@ fun Int.nameCase(names: Array<String>): String {
 
 fun AppCompatActivity.openFragment(fragment: Fragment) {
     val transaction = supportFragmentManager.beginTransaction()
+    transaction.setCustomAnimations(
+        R.anim.slide_in_right,
+        R.anim.slide_out_left,
+        R.anim.slide_in_left,
+        R.anim.slide_out_right
+    )
     transaction.add(R.id.frame_container, fragment)
     transaction.addToBackStack(null)
     transaction.commit()

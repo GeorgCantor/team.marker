@@ -47,6 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun pick() {
         startActivity(Intent(requireContext(), PickActivity::class.java))
+        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
     private fun breach() {
