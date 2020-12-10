@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
@@ -33,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_pick.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.PreferenceManager
 import team.marker.util.openFragment
 import team.marker.util.runDelayed
 import team.marker.view.pick.BarcodeGraphicTracker.BarcodeUpdateListener
@@ -53,9 +55,12 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
+    private val prefManager: PreferenceManager by lazy { PreferenceManager(this) }
     private var mCameraSource: CameraSource? = null
     private var mPreview: CameraSourcePreview? = null
     private var mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>? = null
+    private var pickMode = 0
+    private var lastId = 0
 
     // helper objects for detecting taps and pinches.
     private var scaleGestureDetector: ScaleGestureDetector? = null
@@ -67,6 +72,11 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         setContentView(R.layout.activity_pick)
+        pickMode = prefManager.getInt("mode") ?: 0
+
+        btn_add.setOnClickListener { addProductQuantity() }
+        btn_cancel.setOnClickListener { cancelProduct() }
+
         mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
         mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
         val useFlash = intent.getBooleanExtra(UseFlash, false)
@@ -92,6 +102,20 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         viewModel.products.observe(this) {
             it.map {
                 if (!products.contains(it)) {
+                    if (pickMode != 0) {
+                        pick_window.visibility = VISIBLE
+                        when (pickMode) {
+                            1 -> {
+                                pick_note.text = getString(R.string.enter_number_accepted_units)
+                                pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+                            }
+                            2 -> pick_note.text = getString(R.string.enter_product_length)
+                            3 -> pick_note.text = getString(R.string.enter_product_weight)
+                            4 -> pick_note.text = getString(R.string.enter_product_volume)
+                        }
+                    }
+
+                    lastId = it.id ?: 0
                     products.add(it)
                     pick_success_text.visibility = VISIBLE
                     3000L.runDelayed { pick_success_text.visibility = GONE }
@@ -121,16 +145,43 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
             openFragment(PickSettingsFragment())
         }
 
-        btn_scan_back.setOnClickListener {
-            pick_toolbar.visibility = GONE
-            preview.visibility = GONE
-            graphicOverlay.visibility = GONE
-            val bundle = Bundle()
-            bundle.putParcelableArrayList("products", products)
-            openFragment(PickCompleteFragment().apply {
-                arguments = bundle
-            })
-        }
+        btn_scan_back.setOnClickListener { goToComplete() }
+    }
+
+    private fun addProductQuantity() {
+        pick_window.visibility = GONE
+        pick_bg.visibility = GONE
+
+        val quantityRaw = pick_quantity.text.toString()
+        val quantity = if (quantityRaw.isEmpty()) 0.0 else quantityRaw.toDouble()
+        if (quantity <= 0) return
+
+        val product = PickProduct()
+        product.id = lastId
+        product.quantity = quantity
+        product.type = pickMode
+        products.add(product)
+
+        goToComplete()
+    }
+
+    private fun cancelProduct() {
+        prefManager.saveInt("mode", 0)
+        val intent = Intent(this, PickActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.putExtra(UseFlash, false)
+        startActivity(intent)
+    }
+
+    private fun goToComplete() {
+        pick_toolbar.visibility = GONE
+        preview.visibility = GONE
+        graphicOverlay.visibility = GONE
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("products", products)
+        openFragment(PickCompleteFragment().apply {
+            arguments = bundle
+        })
     }
 
     /**
