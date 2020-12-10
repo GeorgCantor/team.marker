@@ -18,8 +18,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -70,6 +69,13 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
         mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
         val useFlash = intent.getBooleanExtra(UseFlash, false)
+        if (useFlash) {
+            btn_scan_flash_off.visibility = VISIBLE
+            btn_scan_flash.visibility = INVISIBLE
+        } else {
+            btn_scan_flash_off.visibility = INVISIBLE
+            btn_scan_flash.visibility = VISIBLE
+        }
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -91,6 +97,20 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
                 }
             }
             pick_success_text.text = "Распознано ${it.size} из ${it.size}"
+        }
+
+        btn_scan_flash.setOnClickListener {
+            val intent = Intent(this, PickActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.putExtra(UseFlash, true)
+            startActivity(intent)
+        }
+
+        btn_scan_flash_off.setOnClickListener {
+            val intent = Intent(this, PickActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.putExtra(UseFlash, false)
+            startActivity(intent)
         }
 
         btn_scan_back.setOnClickListener {
