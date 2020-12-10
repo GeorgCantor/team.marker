@@ -19,6 +19,7 @@ import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,6 +35,7 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.openFragment
+import team.marker.util.runDelayed
 import team.marker.view.pick.BarcodeGraphicTracker.BarcodeUpdateListener
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.CameraSourcePreview
@@ -82,8 +84,13 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
 
         viewModel.products.observe(this) {
             it.map {
-                if (!products.contains(it)) products.add(it)
+                if (!products.contains(it)) {
+                    products.add(it)
+                    pick_success_text.visibility = VISIBLE
+                    3000L.runDelayed { pick_success_text.visibility = GONE }
+                }
             }
+            pick_success_text.text = "Распознано ${it.size} из ${it.size}"
         }
 
         btn_scan_back.setOnClickListener {
