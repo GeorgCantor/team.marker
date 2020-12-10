@@ -1,4 +1,4 @@
-package team.marker.view.pick
+package team.marker.view.pick.camera.barcode
 
 import android.content.Context
 import com.google.android.gms.vision.MultiProcessor

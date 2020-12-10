@@ -39,10 +39,12 @@ import team.marker.util.PreferenceManager
 import team.marker.util.hideKeyboard
 import team.marker.util.openFragment
 import team.marker.util.runDelayed
-import team.marker.view.pick.BarcodeGraphicTracker.BarcodeUpdateListener
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.CameraSourcePreview
 import team.marker.view.pick.camera.GraphicOverlay
+import team.marker.view.pick.camera.barcode.BarcodeGraphic
+import team.marker.view.pick.camera.barcode.BarcodeGraphicTracker.BarcodeUpdateListener
+import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
 import team.marker.view.pick.complete.PickCompleteFragment
 import team.marker.view.pick.complete.PickCompleteViewModel
 import team.marker.view.pick.settings.PickSettingsFragment
