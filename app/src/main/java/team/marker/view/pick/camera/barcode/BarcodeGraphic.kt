@@ -20,8 +20,9 @@ class BarcodeGraphic internal constructor(
     private val lifecycleOwner: LifecycleOwner
 ) : Graphic(overlay!!) {
     var id = 0
-    private val mRectPaint: Paint = Paint()
-    private val mTextPaint: Paint
+    private val rectPaint: Paint = Paint()
+    private val textPaint: Paint
+    private val backgroundPaint: Paint
     private var prodName = ""
 
     @Volatile
@@ -37,9 +38,6 @@ class BarcodeGraphic internal constructor(
         postInvalidate()
     }
 
-    /**
-     * Draws the barcode annotations for position, size, and raw value on the supplied canvas.
-     */
     override fun draw(canvas: Canvas?) {
         val barcode = barcode ?: return
         val rect = RectF(barcode.boundingBox)
@@ -47,7 +45,7 @@ class BarcodeGraphic internal constructor(
         rect.top = translateY(rect.top)
         rect.right = translateX(rect.right)
         rect.bottom = translateY(rect.bottom)
-        canvas!!.drawRect(rect, mRectPaint)
+        canvas!!.drawRect(rect, rectPaint)
 
         viewModel.products.observe(lifecycleOwner) {
             viewModel.getProduct(barcode.rawValue?.takeLastWhile { it.isDigit() })
@@ -55,16 +53,23 @@ class BarcodeGraphic internal constructor(
                 if (prodName != it) prodName = it
             }
         }
-        canvas.drawText(prodName, rect.right, rect.bottom, mTextPaint)
+
+        canvas.drawText("_", rect.right, rect.bottom - 50, backgroundPaint)
+        canvas.drawText(prodName, rect.right + 6, rect.bottom, textPaint)
     }
 
     init {
-        mRectPaint.color = Color.GREEN
-        mRectPaint.style = Paint.Style.FILL
-        mRectPaint.alpha = 50
-        mRectPaint.strokeWidth = 4.0f
-        mTextPaint = Paint()
-        mTextPaint.color = Color.BLACK
-        mTextPaint.textSize = 36.0f
+        rectPaint.color = Color.GREEN
+        rectPaint.style = Paint.Style.FILL
+        rectPaint.alpha = 50
+        rectPaint.strokeWidth = 4.0f
+
+        textPaint = Paint()
+        textPaint.color = Color.BLACK
+        textPaint.textSize = 36.0f
+
+        backgroundPaint = Paint()
+        backgroundPaint.color = Color.WHITE
+        backgroundPaint.textSize = 906.0f
     }
 }
