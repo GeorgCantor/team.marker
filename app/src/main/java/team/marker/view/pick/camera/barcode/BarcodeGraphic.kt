@@ -20,7 +20,7 @@ class BarcodeGraphic internal constructor(
     private val lifecycleOwner: LifecycleOwner
 ) : Graphic(overlay!!) {
     var id = 0
-    private val mRectPaint: Paint
+    private val mRectPaint: Paint = Paint()
     private val mTextPaint: Paint
     private var prodName = ""
 
@@ -42,8 +42,6 @@ class BarcodeGraphic internal constructor(
      */
     override fun draw(canvas: Canvas?) {
         val barcode = barcode ?: return
-
-        // Draws the bounding box around the barcode.
         val rect = RectF(barcode.boundingBox)
         rect.left = translateX(rect.left)
         rect.top = translateY(rect.top)
@@ -51,38 +49,22 @@ class BarcodeGraphic internal constructor(
         rect.bottom = translateY(rect.bottom)
         canvas!!.drawRect(rect, mRectPaint)
 
-        // Draws a label at the bottom of the barcode indicate the barcode value that was detected.
         viewModel.products.observe(lifecycleOwner) {
-            if (it.size > 1) {
-                prodName = ""
-            } else {
-                viewModel.getProduct(barcode.rawValue?.takeLastWhile { it.isDigit() })
-                viewModel.product.observe(lifecycleOwner) {
-                    if (prodName != it) prodName = it
-                }
+            viewModel.getProduct(barcode.rawValue?.takeLastWhile { it.isDigit() })
+            viewModel.product.observe(lifecycleOwner) {
+                if (prodName != it) prodName = it
             }
         }
         canvas.drawText(prodName, rect.right, rect.bottom, mTextPaint)
     }
 
-    companion object {
-        private val COLOR_CHOICES = intArrayOf(
-            Color.BLUE
-//            Color.CYAN,
-//            Color.GREEN
-        )
-        private var mCurrentColorIndex = 0
-    }
-
     init {
-        mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.size
-        val selectedColor = COLOR_CHOICES[mCurrentColorIndex]
-        mRectPaint = Paint()
-        mRectPaint.color = selectedColor
-        mRectPaint.style = Paint.Style.STROKE
+        mRectPaint.color = Color.GREEN
+        mRectPaint.style = Paint.Style.FILL
+        mRectPaint.alpha = 50
         mRectPaint.strokeWidth = 4.0f
         mTextPaint = Paint()
-        mTextPaint.color = selectedColor
+        mTextPaint.color = Color.BLACK
         mTextPaint.textSize = 36.0f
     }
 }
