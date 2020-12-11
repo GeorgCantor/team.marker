@@ -15,6 +15,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
     val products = MutableLiveData<ArrayList<PickProduct>>()
+    val product = MutableLiveData<String>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -29,14 +30,26 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
         }
     }
 
+    fun getProduct(productId: String? = null) {
+        viewModelScope.launch(exceptionHandler) {
+            repository.products(productId).apply {
+                product.postValue(this?.response?.info?.firstOrNull()?.title)
+            }
+        }
+    }
+
     fun addProduct(product: PickProduct) {
         viewModelScope.launch {
+            getProduct(product.id.toString())
+
             val prods = mutableListOf<PickProduct>()
             products.value?.map {
                 prods.add(it)
             }
-            if (!prods.contains(product)) prods.add(product)
-            products.postValue(prods as ArrayList<PickProduct>?)
+            if (!prods.contains(product)) {
+                prods.add(product)
+                products.postValue(prods as ArrayList<PickProduct>?)
+            }
         }
     }
 }

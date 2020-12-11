@@ -244,7 +244,7 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this, viewModel)
+        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this, viewModel, this)
         barcodeDetector.setProcessor(
             MultiProcessor.Builder(barcodeFactory).build()
         )
