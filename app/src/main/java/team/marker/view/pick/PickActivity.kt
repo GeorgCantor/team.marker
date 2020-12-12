@@ -12,7 +12,6 @@ import android.hardware.Camera
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -26,7 +25,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
@@ -65,7 +63,6 @@ class PickActivity : AppCompatActivity() {
     private var pickMode = 0
     private var lastId = 0
 
-    // helper objects for detecting taps and pinches.
     private var scaleGestureDetector: ScaleGestureDetector? = null
     private var gestureDetector: GestureDetector? = null
 
@@ -83,7 +80,7 @@ class PickActivity : AppCompatActivity() {
 
         mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
         mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
-        val useFlash = intent.getBooleanExtra(UseFlash, false)
+        val useFlash = intent.getBooleanExtra(USE_FLASH, false)
         if (useFlash) {
             btn_scan_flash_off.visibility = VISIBLE
             btn_scan_flash.visibility = INVISIBLE
@@ -129,14 +126,14 @@ class PickActivity : AppCompatActivity() {
         btn_scan_flash.setOnClickListener {
             val intent = Intent(this, PickActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.putExtra(UseFlash, true)
+            intent.putExtra(USE_FLASH, true)
             startActivity(intent)
         }
 
         btn_scan_flash_off.setOnClickListener {
             val intent = Intent(this, PickActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.putExtra(UseFlash, false)
+            intent.putExtra(USE_FLASH, false)
             startActivity(intent)
         }
 
@@ -171,7 +168,7 @@ class PickActivity : AppCompatActivity() {
         prefManager.saveInt("mode", 0)
         val intent = Intent(this, PickActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        intent.putExtra(UseFlash, false)
+        intent.putExtra(USE_FLASH, false)
         startActivity(intent)
     }
 
@@ -193,7 +190,6 @@ class PickActivity : AppCompatActivity() {
      * sending the request.
      */
     private fun requestCameraPermission() {
-        Log.w(TAG, "Camera permission is not granted. Requesting permission")
         val permissions = arrayOf(Manifest.permission.CAMERA)
         if (!ActivityCompat.shouldShowRequestPermissionRationale(
                 this,
@@ -257,7 +253,6 @@ class PickActivity : AppCompatActivity() {
             // isOperational() can be used to check if the required native libraries are currently
             // available.  The detectors will automatically become operational once the library
             // downloads complete on device.
-            Log.w(TAG, "Detector dependencies are not yet available.")
 
             // Check for low storage.  If there is low storage, the native library will not be
             // downloaded, so detection will not become operational.
@@ -339,21 +334,14 @@ class PickActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: $requestCode")
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source")
-            // we have permission, so create the camerasource
-            val useFlash = intent.getBooleanExtra(UseFlash, false)
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            val useFlash = intent.getBooleanExtra(USE_FLASH, false)
             createCameraSource(true, useFlash)
             return
         }
-        Log.e(
-            TAG, "Permission not granted: results len = " + grantResults.size +
-                    " Result code = " + if (grantResults.size > 0) grantResults[0] else "(empty)"
-        )
         val listener = DialogInterface.OnClickListener { dialog, id -> finish() }
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Multitracker sample")
@@ -381,7 +369,6 @@ class PickActivity : AppCompatActivity() {
             try {
                 mPreview!!.start(mCameraSource, mGraphicOverlay)
             } catch (e: IOException) {
-                Log.e(TAG, "Unable to start camera source.", e)
                 mCameraSource!!.release()
                 mCameraSource = null
             }
@@ -420,13 +407,7 @@ class PickActivity : AppCompatActivity() {
                 bestDistance = distance
             }
         }
-        if (best != null) {
-            val data = Intent()
-            data.putExtra(BarcodeObject, best)
-            setResult(CommonStatusCodes.SUCCESS, data)
-            finish()
-            return true
-        }
+
         return false
     }
 
@@ -488,17 +469,11 @@ class PickActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "Barcode-reader"
-
         // intent request code to handle updating play services if needed.
         private const val RC_HANDLE_GMS = 9001
-
         // permission request codes need to be < 256
         private const val RC_HANDLE_CAMERA_PERM = 2
-
         // constants used to pass extra data in the intent
-        const val AutoFocus = "AutoFocus"
-        const val UseFlash = "UseFlash"
-        const val BarcodeObject = "Barcode"
+        const val USE_FLASH = "UseFlash"
     }
 }
