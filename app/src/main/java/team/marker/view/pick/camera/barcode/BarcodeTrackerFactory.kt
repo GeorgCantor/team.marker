@@ -1,6 +1,5 @@
 package team.marker.view.pick.camera.barcode
 
-import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
@@ -13,7 +12,6 @@ import team.marker.view.pick.complete.PickCompleteViewModel
  */
 internal class BarcodeTrackerFactory(
     private val mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>,
-    private val mContext: Context,
     private val viewModel: PickCompleteViewModel,
     private val lifecycleOwner: LifecycleOwner
 ) : MultiProcessor.Factory<Barcode> {
@@ -21,6 +19,6 @@ internal class BarcodeTrackerFactory(
     override fun create(barcode: Barcode): BarcodeGraphicTracker {
         val graphic = BarcodeGraphic(mGraphicOverlay, viewModel, lifecycleOwner)
 
-        return BarcodeGraphicTracker(mGraphicOverlay, graphic, mContext, viewModel)
+        return BarcodeGraphicTracker(mGraphicOverlay, graphic, viewModel)
     }
 }

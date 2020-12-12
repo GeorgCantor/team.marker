@@ -1,7 +1,5 @@
 package team.marker.view.pick.camera.barcode
 
-import android.content.Context
-import androidx.annotation.UiThread
 import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.barcode.Barcode
@@ -18,26 +16,14 @@ import team.marker.view.pick.complete.PickCompleteViewModel
 class BarcodeGraphicTracker internal constructor(
     private val mOverlay: GraphicOverlay<BarcodeGraphic?>,
     private val mGraphic: BarcodeGraphic,
-    context: Context?,
     private val viewModel: PickCompleteViewModel
 ) : Tracker<Barcode?>() {
-    private var mBarcodeUpdateListener: BarcodeUpdateListener? = null
-
-    /**
-     * Consume the item instance detected from an Activity or Fragment level by implementing the
-     * BarcodeUpdateListener interface method onBarcodeDetected.
-     */
-    interface BarcodeUpdateListener {
-        @UiThread
-        fun onBarcodeDetected(barcode: Barcode?)
-    }
 
     /**
      * Start tracking the detected item instance within the item overlay.
      */
     override fun onNewItem(id: Int, item: Barcode?) {
         mGraphic.id = id
-        mBarcodeUpdateListener!!.onBarcodeDetected(item)
     }
 
     /**
@@ -70,13 +56,5 @@ class BarcodeGraphicTracker internal constructor(
      */
     override fun onDone() {
         mOverlay.remove(mGraphic)
-    }
-
-    init {
-        if (context is BarcodeUpdateListener) {
-            mBarcodeUpdateListener = context
-        } else {
-            throw RuntimeException("Hosting activity must implement BarcodeUpdateListener")
-        }
     }
 }

@@ -43,7 +43,6 @@ import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.CameraSourcePreview
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
-import team.marker.view.pick.camera.barcode.BarcodeGraphicTracker.BarcodeUpdateListener
 import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
 import team.marker.view.pick.complete.PickCompleteFragment
 import team.marker.view.pick.complete.PickCompleteViewModel
@@ -55,7 +54,7 @@ import java.io.IOException
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
+class PickActivity : AppCompatActivity() {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
@@ -244,7 +243,7 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, this, viewModel, this)
+        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, viewModel, this)
         barcodeDetector.setProcessor(
             MultiProcessor.Builder(barcodeFactory).build()
         )
@@ -486,10 +485,6 @@ class PickActivity : AppCompatActivity(), BarcodeUpdateListener {
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             mCameraSource!!.doZoom(detector.scaleFactor)
         }
-    }
-
-    override fun onBarcodeDetected(barcode: Barcode?) {
-        //do something with barcode data returned
     }
 
     companion object {
