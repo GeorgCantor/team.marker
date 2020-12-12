@@ -85,13 +85,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_homeFragment_to_pickFragment"
-            app:destination="@id/pickFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_homeFragment_to_scanFragment"
             app:destination="@id/scanFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -166,27 +159,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/pickFragment"
-        android:name="team.marker.view.pick.PickFragment"
-        android:label="PickFragment"
-        tools:layout="@layout/fragment_pick">
-        <action
-            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
-            app:destination="@id/pickCompleteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_pickFragment_to_pickSettingsFragment"
-            app:destination="@id/pickSettingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <fragment
         android:id="@+id/pickCompleteFragment"
         android:name="team.marker.view.pick.complete.PickCompleteFragment"
         android:label="PickCompleteFragment"
@@ -233,15 +205,6 @@
         android:id="@+id/pickSettingsFragment"
         android:name="team.marker.view.pick.settings.PickSettingsFragment"
         android:label="PickSettingsFragment"
-        tools:layout="@layout/fragment_pick_settings">
-        <action
-            android:id="@+id/action_pickSettingsFragment_to_pickFragment"
-            app:destination="@id/pickFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_pick_settings" />
 
 </navigation>
