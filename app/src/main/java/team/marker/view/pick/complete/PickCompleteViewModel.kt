@@ -9,6 +9,7 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.ResponseMessage
+import java.util.*
 
 class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel() {
 
@@ -16,6 +17,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
     val error = MutableLiveData<String>()
     val products = MutableLiveData<ArrayList<PickProduct>>()
     val product = MutableLiveData<String>()
+    private var lastTime: Date? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -46,9 +48,18 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             products.value?.map {
                 prods.add(it)
             }
+
             if (!prods.contains(product)) {
+                lastTime = Date()
                 prods.add(product)
                 products.postValue(prods as ArrayList<PickProduct>?)
+            } else {
+                val seconds: Long = (Date().time - lastTime!!.time) / 1000
+                if (seconds > 4) {
+                    lastTime = Date()
+                    prods.add(product)
+                    products.postValue(prods as ArrayList<PickProduct>?)
+                }
             }
         }
     }

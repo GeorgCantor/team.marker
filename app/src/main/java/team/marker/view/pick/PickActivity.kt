@@ -91,8 +91,11 @@ class PickActivity : AppCompatActivity() {
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         viewModel.products.observe(this) {
-            it.map {
-                if (!products.contains(it)) {
+            if (it.isNotEmpty()) {
+                products.clear()
+                products.addAll(it)
+
+                it.map {
                     if (pickMode != 0) {
                         pick_window.visibility = VISIBLE
                         when (pickMode) {
@@ -107,12 +110,11 @@ class PickActivity : AppCompatActivity() {
                     }
 
                     lastId = it.id ?: 0
-                    products.add(it)
                     pick_success_text.visibility = VISIBLE
                     2000L.runDelayed { pick_success_text.visibility = GONE }
                 }
+                pick_success_text.text = "Распознано ${it.size} из ${it.size}"
             }
-            pick_success_text.text = "Распознано ${it.size} из ${it.size}"
         }
 
         btn_scan_flash.setOnClickListener {
