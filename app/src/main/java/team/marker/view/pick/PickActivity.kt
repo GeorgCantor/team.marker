@@ -9,7 +9,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.GestureDetector
@@ -47,11 +46,6 @@ import team.marker.view.pick.complete.PickCompleteViewModel
 import team.marker.view.pick.settings.PickSettingsFragment
 import java.io.IOException
 
-/**
- * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
- * rear facing camera. During detection overlay graphics are drawn to indicate the position,
- * size, and ID of each barcode.
- */
 class PickActivity : AppCompatActivity() {
 
     private val viewModel by inject<PickCompleteViewModel>()
@@ -66,9 +60,6 @@ class PickActivity : AppCompatActivity() {
     private var scaleGestureDetector: ScaleGestureDetector? = null
     private var gestureDetector: GestureDetector? = null
 
-    /**
-     * Initializes the UI and creates the detector pipeline.
-     */
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         setContentView(R.layout.activity_pick)
@@ -80,6 +71,7 @@ class PickActivity : AppCompatActivity() {
 
         mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
         mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
+
         val useFlash = intent.getBooleanExtra(USE_FLASH, false)
         if (useFlash) {
             btn_scan_flash_off.visibility = VISIBLE
@@ -184,11 +176,6 @@ class PickActivity : AppCompatActivity() {
         })
     }
 
-    /**
-     * Handles the requesting of the camera permission.  This includes
-     * showing a "Snackbar" message of why the permission is needed then
-     * sending the request.
-     */
     private fun requestCameraPermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA)
         if (!ActivityCompat.shouldShowRequestPermissionRationale(
@@ -271,44 +258,27 @@ class PickActivity : AppCompatActivity() {
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
 
-        // make sure that auto focus is an available option
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            builder = builder.setFocusMode(
-                if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null
-            )
-        }
+        builder = builder.setFocusMode(
+            if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null
+        )
         mCameraSource = builder
             .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
             .build()
     }
 
-    /**
-     * Restarts the camera.
-     */
     override fun onResume() {
         super.onResume()
         startCameraSource()
     }
 
-    /**
-     * Stops the camera.
-     */
     override fun onPause() {
         super.onPause()
-        if (mPreview != null) {
-            mPreview!!.stop()
-        }
+        if (mPreview != null) mPreview?.stop()
     }
 
-    /**
-     * Releases the resources associated with the camera source, the associated detectors, and the
-     * rest of the processing pipeline.
-     */
     override fun onDestroy() {
         super.onDestroy()
-        if (mPreview != null) {
-            mPreview!!.release()
-        }
+        if (mPreview != null) mPreview?.release()
     }
 
     /**
@@ -357,7 +327,6 @@ class PickActivity : AppCompatActivity() {
      */
     @Throws(SecurityException::class)
     private fun startCameraSource() {
-        // check that the device has play services available.
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
             applicationContext
         )
@@ -471,8 +440,10 @@ class PickActivity : AppCompatActivity() {
     companion object {
         // intent request code to handle updating play services if needed.
         private const val RC_HANDLE_GMS = 9001
+
         // permission request codes need to be < 256
         private const val RC_HANDLE_CAMERA_PERM = 2
+
         // constants used to pass extra data in the intent
         const val USE_FLASH = "UseFlash"
     }
