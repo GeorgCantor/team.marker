@@ -55,7 +55,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
                 products.postValue(prods as ArrayList<PickProduct>?)
             } else {
                 val seconds: Long = (Date().time - lastTime!!.time) / 1000
-                if (seconds > 4) {
+                if (seconds > 3) {
                     lastTime = Date()
                     prods.add(product)
                     products.postValue(prods as ArrayList<PickProduct>?)

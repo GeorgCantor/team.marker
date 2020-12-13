@@ -9,6 +9,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.Camera
+import android.media.AudioManager.STREAM_MUSIC
+import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
 import android.view.GestureDetector
@@ -113,6 +116,7 @@ class PickActivity : AppCompatActivity() {
                     pick_success_text.visibility = VISIBLE
                     2000L.runDelayed { pick_success_text.visibility = GONE }
                 }
+                ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                 pick_success_text.text = "Распознано ${it.size} из ${it.size}"
             }
         }
