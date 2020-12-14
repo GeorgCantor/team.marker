@@ -2,7 +2,9 @@ package team.marker.view.scan
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.hardware.Camera
 import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
@@ -23,12 +25,14 @@ import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.util.Constants
 import team.marker.util.shortToast
+import java.lang.reflect.Field
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
     private val products = mutableListOf<String>()
+    private var torchOn: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,6 +89,11 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             }
         })
 
+        btn_scan_flash.setOnClickListener {
+            toggleTorch(torchOn)
+            torchOn = !torchOn
+            btn_scan_flash.setImageResource(if (torchOn) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
+        }
         btn_cancel.setOnClickListener { activity?.onBackPressed() }
     }
 
@@ -109,6 +118,33 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         barcodeDetector.release()
         cameraSource.stop()
         cameraSource.release()
+    }
+
+    @SuppressLint("MissingPermission")
+    fun toggleTorch(torchOn: Boolean) {
+        requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+        cameraSource.start(sv_barcode.holder)
+        val camera: Camera? = getCamera(cameraSource)
+        val parameters: Camera.Parameters = camera!!.parameters
+        parameters.flashMode = if (torchOn) Camera.Parameters.FLASH_MODE_OFF else Camera.Parameters.FLASH_MODE_TORCH
+        camera.parameters = parameters
+        camera.startPreview()
+    }
+
+    private fun getCamera(cameraSource: CameraSource?): Camera? {
+        val declaredFields: Array<Field> = CameraSource::class.java.declaredFields
+        for (field in declaredFields) {
+            if (field.type === Camera::class.java) {
+                field.isAccessible = true
+                try {
+                    return field.get(cameraSource) as Camera
+                } catch (e: IllegalAccessException) {
+                    e.printStackTrace()
+                }
+                break
+            }
+        }
+        return null
     }
 
     fun openProduct() {
