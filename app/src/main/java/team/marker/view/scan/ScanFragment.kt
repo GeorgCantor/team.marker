@@ -19,12 +19,12 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import kotlinx.android.synthetic.main.fragment_scann.*
+import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.util.Constants
 import team.marker.util.shortToast
 
-class ScannFragment : Fragment(R.layout.fragment_scann) {
+class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
