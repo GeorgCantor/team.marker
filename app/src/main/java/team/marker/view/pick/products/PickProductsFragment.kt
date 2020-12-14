@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
@@ -31,9 +32,14 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
             history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
                 val bundle = Bundle()
                 bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
-                (requireActivity() as AppCompatActivity).openFragment(ProductFragment().apply {
-                    arguments = bundle
-                })
+
+                try {
+                    findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
+                } catch (e: IllegalStateException) {
+                    (requireActivity() as AppCompatActivity).openFragment(ProductFragment().apply {
+                        arguments = bundle
+                    })
+                }
             }
         })
 

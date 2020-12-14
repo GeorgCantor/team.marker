@@ -85,8 +85,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_homeFragment_to_scanFragment"
-            app:destination="@id/scanFragment"
+            android:id="@+id/action_homeFragment_to_scannFragment"
+            app:destination="@id/scannFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -130,17 +130,26 @@
     </fragment>
 
     <fragment
-        android:id="@+id/scanFragment"
-        android:name="team.marker.view.scan.ScanFragment"
-        android:label="ScanFragment"
-        tools:layout="@layout/fragment_scan">
+        android:id="@+id/scannFragment"
+        android:name="team.marker.view.scan.ScannFragment"
+        android:label="ScannFragment"
+        tools:layout="@layout/fragment_scann">
         <action
-            android:id="@+id/action_scanFragment_to_productFragment"
+            android:id="@+id/action_scannFragment_to_productFragment"
             app:destination="@id/productFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/scannFragment" />
+        <action
+            android:id="@+id/action_scannFragment_to_pickProductsFragment"
+            app:destination="@id/pickProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/scannFragment" />
     </fragment>
 
     <fragment

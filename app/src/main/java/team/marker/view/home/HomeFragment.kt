@@ -42,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun scan() {
-        findNavController().navigate(R.id.action_homeFragment_to_scanFragment)
+        findNavController().navigate(R.id.action_homeFragment_to_scannFragment)
     }
 
     private fun pick() {
