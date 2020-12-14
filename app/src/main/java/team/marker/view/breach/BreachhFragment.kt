@@ -3,7 +3,6 @@ package team.marker.view.breach
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.FEATURE_CAMERA_FLASH
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera
@@ -28,7 +27,7 @@ import team.marker.R
 import team.marker.util.shortToast
 import java.lang.reflect.Field
 
-class BreachhFragment:Fragment(R.layout.fragment_breach) {
+class BreachhFragment : Fragment(R.layout.fragment_breach) {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
@@ -82,7 +81,7 @@ class BreachhFragment:Fragment(R.layout.fragment_breach) {
             }
 
             override fun surfaceCreated(holder: SurfaceHolder) {
-                if (checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
                     cameraSource.start(holder)
                 } else {
                     requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 89)

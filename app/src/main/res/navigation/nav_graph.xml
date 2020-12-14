@@ -6,24 +6,6 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/breachFragment"
-        android:name="team.marker.view.breach.BreachFragment"
-        android:label="BreachFragment"
-        tools:layout="@layout/fragment_breach">
-        <action
-            android:id="@+id/action_breachFragment_to_breachCompleteFragment"
-            app:destination="@id/breachCompleteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_breachFragment_self"
-            app:destination="@id/breachFragment"
-            app:popUpTo="@id/homeFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/breachhFragment"
         android:name="team.marker.view.breach.BreachhFragment"
         android:label="BreachhFragment"
@@ -87,13 +69,6 @@
         <action
             android:id="@+id/action_homeFragment_to_historyFragment"
             app:destination="@id/historyFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_breachFragment"
-            app:destination="@id/breachFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
