@@ -39,11 +39,11 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
+//        barcodeScannerView = zxing_barcode_scanner as ScannerDecoratedBarcodeView
         capture = BreachCaptureManager(requireActivity(), barcodeScannerView!!, view)
         capture.decode()
 
-        btn_scan_back.setOnClickListener { activity?.onBackPressed() }
+        btn_cancel.setOnClickListener { activity?.onBackPressed() }
 
         btn_scan_flash.setOnClickListener {
             barcodeScannerView?.setTorchOn()

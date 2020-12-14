@@ -51,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun breach() {
-        findNavController().navigate(R.id.action_homeFragment_to_breachFragment)
+        findNavController().navigate(R.id.action_homeFragment_to_breachhFragment)
     }
 
     private fun logout() {
