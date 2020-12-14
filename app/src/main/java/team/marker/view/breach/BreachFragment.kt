@@ -8,6 +8,9 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FLASH_MODE_OFF
 import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
+import android.media.AudioManager.STREAM_MUSIC
+import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
@@ -27,7 +30,7 @@ import team.marker.R
 import team.marker.util.shortToast
 import java.lang.reflect.Field
 
-class BreachhFragment : Fragment(R.layout.fragment_breach) {
+class BreachFragment : Fragment(R.layout.fragment_breach) {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
@@ -60,6 +63,7 @@ class BreachhFragment : Fragment(R.layout.fragment_breach) {
                         products.add(value.rawValue?.takeLastWhile { it.isDigit() } ?: "")
                     }
                     bundle.putStringArrayList("product_ids", products)
+                    if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                     findNavController().navigate(R.id.action_breachhFragment_to_breachCompleteFragment, bundle)
                 }
             }
