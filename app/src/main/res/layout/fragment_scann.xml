@@ -49,16 +49,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <TextView
-        android:id="@+id/tv_barcode"
-        android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginBottom="20sp"
-        android:background="#60000000"
-        android:gravity="center"
-        android:textColor="#9acd32"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

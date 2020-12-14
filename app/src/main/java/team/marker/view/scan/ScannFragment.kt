@@ -3,6 +3,9 @@ package team.marker.view.scan
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.media.AudioManager.STREAM_MUSIC
+import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
@@ -55,22 +58,6 @@ class ScannFragment : Fragment(R.layout.fragment_scann) {
                     1 -> openProduct()
                     in 2..Int.MAX_VALUE -> openProducts()
                 }
-
-//                if (barcodes!!.size() > 0) {
-//                    tv_barcode.post {
-//                        val valueholder = barcodes.valueAt(0).displayValue
-//                        tv_barcode.text = valueholder
-//                        val isValid = URLUtil.isValidUrl(tv_barcode.text.toString())
-//
-//                        if (isValid) {
-//                            tv_barcode.setTextColor(Color.parseColor("#9acd32"))
-//                            tv_barcode.isClickable = true
-//                        } else {
-//                            tv_barcode.setTextColor(Color.WHITE)
-//                            tv_barcode.isClickable = false
-//                        }
-//                    }
-//                }
             }
         })
 
@@ -125,6 +112,7 @@ class ScannFragment : Fragment(R.layout.fragment_scann) {
     }
 
     fun openProduct() {
+        if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val bundle = Bundle()
         val productIdsStr = products.joinToString(",")
         bundle.putString("product_url", "${Constants.PRODUCTS_URL}$productIdsStr")
@@ -133,6 +121,7 @@ class ScannFragment : Fragment(R.layout.fragment_scann) {
     }
 
     fun openProducts() {
+        if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val bundle = Bundle()
         val productIdsStr = products.joinToString(",")
         bundle.putString("product_ids", productIdsStr)
