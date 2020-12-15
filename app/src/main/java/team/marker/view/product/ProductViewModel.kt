@@ -10,12 +10,13 @@ import team.marker.model.responses.Product
 
 class ProductViewModel(private val repository: ApiRepository) : ViewModel() {
 
-    val success = MutableLiveData<Boolean>()
+    val progressIsVisible = MutableLiveData<Boolean>().apply { value = true }
     val response = MutableLiveData<Product>()
     val error = MutableLiveData<String>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
+        progressIsVisible.postValue(false)
     }
 
     fun getProduct(product_id: String, lat: String, lng: String) {
@@ -24,6 +25,7 @@ class ProductViewModel(private val repository: ApiRepository) : ViewModel() {
                 response?.let { this@ProductViewModel.response.postValue(it) }
                 error?.let { this@ProductViewModel.error.postValue(it.error_msg) }
             }
+            progressIsVisible.postValue(false)
         }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -22,6 +24,7 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.ExpandList
 import team.marker.util.PreferenceManager
+import team.marker.util.runDelayed
 
 class ProductFragment : Fragment() {
 
@@ -190,6 +193,11 @@ class ProductFragment : Fragment() {
 
             btn_share.setOnClickListener { share(productUrl, productTitle) }
         })
+
+        viewModel.progressIsVisible.observe(viewLifecycleOwner) {
+            root_layout.visibility = if (it) GONE else VISIBLE
+            200L.runDelayed { progress_bar.visibility = if (it) VISIBLE else GONE }
+        }
     }
 
     private fun onMapReadyCallback1(): OnMapReadyCallback? {
