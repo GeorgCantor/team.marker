@@ -58,7 +58,8 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 barcodes?.forEach { key, value ->
-                    products.add(value.rawValue?.takeLastWhile { it.isDigit() } ?: "")
+                    val product = value.rawValue?.takeLastWhile { it.isDigit() }
+                    if (product != null && product != "") products.add(product)
                 }
 
                 when (products.size) {

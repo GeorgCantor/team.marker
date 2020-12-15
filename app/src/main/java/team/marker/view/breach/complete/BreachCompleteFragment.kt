@@ -27,7 +27,10 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var productId = 0
-        if (productIds.size > 0 && productIds[0] != "") productId = productIds[0].toInt()
+        try {
+            if (productIds.size > 0 && productIds[0] != "") productId = productIds[0].toInt()
+        } catch (e: NumberFormatException) {
+        }
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_send.setOnClickListener { send(productId) }

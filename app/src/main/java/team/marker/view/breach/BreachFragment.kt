@@ -60,9 +60,10 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
                 if (barcodes?.isNotEmpty() == true) {
                     val products = arrayListOf<String>()
                     barcodes.forEach { key, value ->
-                        products.add(value.rawValue?.takeLastWhile { it.isDigit() } ?: "")
+                        val product = value.rawValue?.takeLastWhile { it.isDigit() }
+                        if (product != null && product != "") products.add(product)
                     }
-                    if (products.first() != "") {
+                    if (products.isNotEmpty()) {
                         val bundle = Bundle()
                         if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                         bundle.putStringArrayList(PRODUCT_IDS, products)
