@@ -11,13 +11,14 @@ import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
+import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.openFragment
 import team.marker.view.product.ProductFragment
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
     private val viewModel by inject<PickProductsViewModel>()
-    private val productIds: String by lazy { arguments?.get("product_ids") as String }
+    private val productIds: String by lazy { arguments?.get(PRODUCT_IDS) as String }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_pick.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.PRODUCTS
 import team.marker.util.PreferenceManager
 import team.marker.util.hideKeyboard
 import team.marker.util.openFragment
@@ -180,7 +181,7 @@ class PickActivity : AppCompatActivity() {
         preview.visibility = GONE
         graphicOverlay.visibility = GONE
         val bundle = Bundle()
-        bundle.putParcelableArrayList("products", products)
+        bundle.putParcelableArrayList(PRODUCTS, products)
         openFragment(PickCompleteFragment().apply {
             arguments = bundle
         })

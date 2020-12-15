@@ -6,6 +6,8 @@ import retrofit2.http.*
 import team.marker.model.requests.LoginRequest
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.*
+import team.marker.util.Constants.PRODUCTS
+import team.marker.util.Constants.PRODUCT_IDS
 
 interface ApiService {
 
@@ -43,6 +45,6 @@ interface ApiService {
         @Query("lng") lng: String?
     ): ResponseAPI<Product?>?
 
-    @GET("products")
-    suspend fun getProducts(@Query("product_ids") product_ids: String?): ResponseAPI<Products?>?
+    @GET(PRODUCTS)
+    suspend fun getProducts(@Query(PRODUCT_IDS) product_ids: String?): ResponseAPI<Products?>?
 }

@@ -12,6 +12,8 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
+import team.marker.util.Constants.PRODUCTS
+import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.nameCase
 import team.marker.util.openFragment
 import team.marker.view.pick.products.PickProductsFragment
@@ -19,7 +21,7 @@ import team.marker.view.pick.products.PickProductsFragment
 class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private val products: ArrayList<PickProduct> by lazy { arguments?.get("products") as ArrayList<PickProduct> }
+    private val products: ArrayList<PickProduct> by lazy { arguments?.get(PRODUCTS) as ArrayList<PickProduct> }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +58,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         val productIds = arrayListOf<String>()
         for (product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
-        bundle.putString("product_ids", productIdsStr)
+        bundle.putString(PRODUCT_IDS, productIdsStr)
         (requireActivity() as AppCompatActivity).openFragment(PickProductsFragment().apply {
             arguments = bundle
         })
