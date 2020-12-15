@@ -58,14 +58,16 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 if (barcodes?.isNotEmpty() == true) {
-                    val bundle = Bundle()
                     val products = arrayListOf<String>()
                     barcodes.forEach { key, value ->
                         products.add(value.rawValue?.takeLastWhile { it.isDigit() } ?: "")
                     }
-                    bundle.putStringArrayList(PRODUCT_IDS, products)
-                    if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                    findNavController().navigate(R.id.action_breachhFragment_to_breachCompleteFragment, bundle)
+                    if (products.first() != "") {
+                        val bundle = Bundle()
+                        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                        bundle.putStringArrayList(PRODUCT_IDS, products)
+                        findNavController().navigate(R.id.action_breachhFragment_to_breachCompleteFragment, bundle)
+                    }
                 }
             }
         })
