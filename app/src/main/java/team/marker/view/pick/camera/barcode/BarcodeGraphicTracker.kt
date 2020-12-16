@@ -14,7 +14,7 @@ import team.marker.view.pick.complete.PickCompleteViewModel
  * goes away.
  */
 class BarcodeGraphicTracker internal constructor(
-    private val mOverlay: GraphicOverlay<BarcodeGraphic?>,
+    private val mOverlay: GraphicOverlay<BarcodeGraphic?>?,
     private val mGraphic: BarcodeGraphic,
     private val viewModel: PickCompleteViewModel
 ) : Tracker<Barcode?>() {
@@ -30,7 +30,7 @@ class BarcodeGraphicTracker internal constructor(
      * Update the position/characteristics of the item within the overlay.
      */
     override fun onUpdate(detectionResults: Detections<Barcode?>, item: Barcode?) {
-        mOverlay.add(mGraphic)
+        mOverlay?.add(mGraphic)
         mGraphic.updateItem(item)
         viewModel.addProduct(
             PickProduct(
@@ -47,7 +47,7 @@ class BarcodeGraphicTracker internal constructor(
      * view.
      */
     override fun onMissing(detectionResults: Detections<Barcode?>) {
-        mOverlay.remove(mGraphic)
+        mOverlay?.remove(mGraphic)
     }
 
     /**
@@ -55,6 +55,6 @@ class BarcodeGraphicTracker internal constructor(
      * the overlay.
      */
     override fun onDone() {
-        mOverlay.remove(mGraphic)
+        mOverlay?.remove(mGraphic)
     }
 }

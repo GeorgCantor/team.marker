@@ -13,7 +13,6 @@ import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
-import android.view.View
 import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +22,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_pick.*
 import org.koin.android.ext.android.inject
@@ -34,7 +34,6 @@ import team.marker.util.hideKeyboard
 import team.marker.util.openFragment
 import team.marker.util.runDelayed
 import team.marker.view.pick.camera.CameraSource
-import team.marker.view.pick.camera.CameraSourcePreview
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
 import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
@@ -48,9 +47,7 @@ class PickActivity : AppCompatActivity() {
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
     private val prefManager: PreferenceManager by lazy { PreferenceManager(this) }
-    private var mCameraSource: CameraSource? = null
-    private var mPreview: CameraSourcePreview? = null
-    private var mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>? = null
+    private var cameraSource: CameraSource? = null
     private var pickMode = 0
     private var lastId = 0
 
@@ -62,9 +59,6 @@ class PickActivity : AppCompatActivity() {
 
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
-
-        mPreview = findViewById<View>(R.id.preview) as CameraSourcePreview
-        mGraphicOverlay = findViewById<View>(R.id.graphicOverlay) as GraphicOverlay<BarcodeGraphic?>
 
         val useFlash = intent.getBooleanExtra(USE_FLASH, false)
         if (useFlash) {
@@ -126,8 +120,8 @@ class PickActivity : AppCompatActivity() {
 
         btn_settings.setOnClickListener {
             pick_toolbar.visibility = GONE
-            preview.visibility = GONE
-            graphicOverlay.visibility = GONE
+            preview?.visibility = GONE
+            graphicOverlay?.visibility = GONE
             openFragment(PickSettingsFragment())
         }
 
@@ -184,11 +178,8 @@ class PickActivity : AppCompatActivity() {
         val listener = OnClickListener {
             ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
         }
-        findViewById<View>(R.id.topLayout).setOnClickListener(listener)
-        Snackbar.make(
-            mGraphicOverlay!!, R.string.permission_camera_rationale,
-            Snackbar.LENGTH_INDEFINITE
-        )
+        topLayout.setOnClickListener(listener)
+        Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
             .setAction("OK", listener)
             .show()
     }
@@ -206,7 +197,11 @@ class PickActivity : AppCompatActivity() {
     private fun createCameraSource(autoFocus: Boolean, useFlash: Boolean) {
         val context = applicationContext
         val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(mGraphicOverlay!!, viewModel, this)
+        val barcodeFactory = BarcodeTrackerFactory(
+            graphicOverlay as GraphicOverlay<BarcodeGraphic?>,
+            viewModel,
+            this
+        )
         barcodeDetector.setProcessor(MultiProcessor.Builder(barcodeFactory).build())
         if (!barcodeDetector.isOperational) {
             val lowstorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
@@ -224,7 +219,7 @@ class PickActivity : AppCompatActivity() {
         builder = builder.setFocusMode(
             if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null
         )
-        mCameraSource = builder
+        cameraSource = builder
             .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
             .build()
     }
@@ -236,31 +231,14 @@ class PickActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (mPreview != null) mPreview?.stop()
+        if (preview != null) preview?.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mPreview != null) mPreview?.release()
+        if (preview != null) preview?.release()
     }
 
-    /**
-     * Callback for the result from requesting permissions. This method
-     * is invoked for every call on [.requestPermissions].
-     *
-     *
-     * **Note:** It is possible that the permissions request interaction
-     * with the user is interrupted. In this case you will receive empty permissions
-     * and results arrays which should be treated as a cancellation.
-     *
-     *
-     * @param requestCode  The request code passed in [.requestPermissions].
-     * @param permissions  The requested permissions. Never null.
-     * @param grantResults The grant results for the corresponding permissions
-     * which is either [PackageManager.PERMISSION_GRANTED]
-     * or [PackageManager.PERMISSION_DENIED]. Never null.
-     * @see .requestPermissions
-     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -275,19 +253,16 @@ class PickActivity : AppCompatActivity() {
             createCameraSource(true, useFlash)
             return
         }
-        val listener = DialogInterface.OnClickListener { dialog, id -> finish() }
+        val listener = DialogInterface.OnClickListener { _, _ ->
+            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
+        }
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Multitracker sample")
-            .setMessage(R.string.no_camera_permissions)
+        builder.setTitle(R.string.app_name)
+            .setMessage(R.string.permission_camera_rationale)
             .setPositiveButton("OK", listener)
             .show()
     }
 
-    /**
-     * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
-     * (e.g., because onResume was called before the camera source was created), this will be called
-     * again when the camera source is created.
-     */
     @Throws(SecurityException::class)
     private fun startCameraSource() {
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
@@ -297,12 +272,12 @@ class PickActivity : AppCompatActivity() {
             val dlg = GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS)
             dlg.show()
         }
-        if (mCameraSource != null) {
+        if (cameraSource != null) {
             try {
-                mPreview!!.start(mCameraSource, mGraphicOverlay)
+                preview!!.start(cameraSource, graphicOverlay)
             } catch (e: IOException) {
-                mCameraSource!!.release()
-                mCameraSource = null
+                cameraSource!!.release()
+                cameraSource = null
             }
         }
     }
