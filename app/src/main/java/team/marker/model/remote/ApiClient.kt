@@ -14,6 +14,8 @@ import team.marker.model.remote.interceptor.OfflineResponseCacheInterceptor
 import team.marker.util.Constants.API_VERSION
 import team.marker.util.Constants.APP_KEY
 import team.marker.util.Constants.BASE_URL
+import team.marker.util.Constants.SID
+import team.marker.util.Constants.TOKEN
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import java.io.File
@@ -33,8 +35,8 @@ object ApiClient {
                 .addHeader("Accept", "application/json")
                 .addHeader("v", API_VERSION)
                 .addHeader("app-key", APP_KEY)
-                .addHeader("sid", access_sid)
-                .addHeader("token", access_token)
+                .addHeader(SID, access_sid)
+                .addHeader(TOKEN, access_token)
                 .build()
             chain.proceed(request)
         }

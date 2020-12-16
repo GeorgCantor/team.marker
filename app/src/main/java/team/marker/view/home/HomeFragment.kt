@@ -14,6 +14,8 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import team.marker.R
+import team.marker.util.Constants.SID
+import team.marker.util.Constants.TOKEN
 import team.marker.util.PreferenceManager
 import team.marker.view.MainActivity
 import team.marker.view.pick.PickActivity
@@ -56,8 +58,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun logout() {
         // pref manager
-        prefManager.saveString("sid", "")
-        prefManager.saveString("token", "")
+        prefManager.saveString(SID, "")
+        prefManager.saveString(TOKEN, "")
         viewModel.logout()
         // restart
         activity?.finish()

@@ -8,6 +8,8 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.LoginRequest
+import team.marker.util.Constants.SID
+import team.marker.util.Constants.TOKEN
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.PreferenceManager
@@ -33,8 +35,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val token = response?.token
             // update
             if (sid != null && token != null) {
-                PreferenceManager(requireActivity()).saveString("sid", sid)
-                PreferenceManager(requireActivity()).saveString("token", token)
+                with(PreferenceManager(requireActivity())) {
+                    saveString(SID, sid)
+                    saveString(TOKEN, token)
+                }
                 access_sid = sid
                 access_token = token
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)

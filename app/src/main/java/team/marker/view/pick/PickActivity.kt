@@ -265,9 +265,9 @@ class PickActivity : AppCompatActivity() {
         }
         if (cameraSource != null) {
             try {
-                preview!!.start(cameraSource, graphicOverlay)
+                preview?.start(cameraSource, graphicOverlay)
             } catch (e: IOException) {
-                cameraSource!!.release()
+                cameraSource?.release()
                 cameraSource = null
             }
         }

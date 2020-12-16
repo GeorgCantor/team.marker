@@ -25,8 +25,9 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
-import team.marker.util.Constants
+import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.shortToast
 import java.lang.reflect.Field
 
@@ -155,7 +156,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val bundle = Bundle()
         val productIdsStr = products.joinToString(",")
-        bundle.putString("product_url", "${Constants.PRODUCTS_URL}$productIdsStr")
+        bundle.putString(PRODUCT_URL, "${PRODUCTS_URL}$productIdsStr")
         products.clear()
         findNavController(this).navigate(R.id.action_scannFragment_to_productFragment, bundle)
     }

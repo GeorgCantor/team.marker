@@ -12,6 +12,7 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.openFragment
 import team.marker.view.product.ProductFragment
 
@@ -32,7 +33,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
         viewModel.response.observe(viewLifecycleOwner, {
             history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
                 val bundle = Bundle()
-                bundle.putString("product_url", PRODUCTS_URL + item.id?.toString())
+                bundle.putString(PRODUCT_URL, PRODUCTS_URL + item.id?.toString())
 
                 try {
                     findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)

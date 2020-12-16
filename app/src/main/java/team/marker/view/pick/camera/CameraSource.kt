@@ -316,15 +316,8 @@ private constructor() {
             }
             mCamera = createCamera()
 
-            // SurfaceTexture was introduced in Honeycomb (11), so if we are running and
-            // old version of Android. fall back to use SurfaceView.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                mDummySurfaceTexture = SurfaceTexture(DUMMY_TEXTURE_NAME)
-                mCamera!!.setPreviewTexture(mDummySurfaceTexture)
-            } else {
-                mDummySurfaceView = SurfaceView(mContext)
-                mCamera!!.setPreviewDisplay(mDummySurfaceView!!.holder)
-            }
+            mDummySurfaceTexture = SurfaceTexture(DUMMY_TEXTURE_NAME)
+            mCamera!!.setPreviewTexture(mDummySurfaceTexture)
             mCamera!!.startPreview()
             mProcessingThread = Thread(mFrameProcessor)
             mFrameProcessor!!.setActive(true)
@@ -389,15 +382,7 @@ private constructor() {
                 mCamera!!.stopPreview()
                 mCamera!!.setPreviewCallbackWithBuffer(null)
                 try {
-                    // We want to be compatible back to Gingerbread, but SurfaceTexture
-                    // wasn't introduced until Honeycomb.  Since the interface cannot use a SurfaceTexture, if the
-                    // developer wants to display a preview we must use a SurfaceHolder.  If the developer doesn't
-                    // want to display a preview we use a SurfaceTexture if we are running at least Honeycomb.
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                        mCamera!!.setPreviewTexture(null)
-                    } else {
-                        mCamera!!.setPreviewDisplay(null)
-                    }
+                    mCamera!!.setPreviewTexture(null)
                 } catch (e: Exception) {
                     Log.e(TAG, "Failed to clear camera preview: $e")
                 }
