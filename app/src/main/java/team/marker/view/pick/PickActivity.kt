@@ -2,7 +2,6 @@ package team.marker.view.pick
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -178,20 +177,12 @@ class PickActivity : AppCompatActivity() {
 
     private fun requestCameraPermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA)
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.CAMERA
-            )
-        ) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
             return
         }
-        val thisActivity: Activity = this
-        val listener = View.OnClickListener {
-            ActivityCompat.requestPermissions(
-                thisActivity, permissions,
-                RC_HANDLE_CAMERA_PERM
-            )
+        val listener = OnClickListener {
+            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
         }
         findViewById<View>(R.id.topLayout).setOnClickListener(listener)
         Snackbar.make(
