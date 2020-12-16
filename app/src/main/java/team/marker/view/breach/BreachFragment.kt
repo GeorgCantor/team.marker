@@ -59,9 +59,9 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
                 val barcodes = detections?.detectedItems
                 if (barcodes?.isNotEmpty() == true) {
                     val products = arrayListOf<String>()
-                    barcodes.forEach { key, value ->
-                        val product = value.rawValue?.takeLastWhile { it.isDigit() }
-                        if (product != null && product != "") products.add(product)
+                    barcodes.forEach { _, value ->
+                        val product = value.rawValue.takeLastWhile { it.isDigit() }
+                        if (product != "") products.add(product)
                     }
                     if (products.isNotEmpty()) {
                         val bundle = Bundle()

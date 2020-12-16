@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.media.AudioManager.STREAM_MUSIC
@@ -14,7 +13,6 @@ import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
 import android.view.View.*
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -100,7 +98,7 @@ class PickActivity : AppCompatActivity() {
                     2000L.runDelayed { pick_success_text.visibility = GONE }
                 }
                 ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                pick_success_text.text = "Распознано ${it.size} из ${it.size}"
+                pick_success_text.text = getString(R.string.recognized, it.size, it.size)
             }
         }
 
@@ -180,7 +178,7 @@ class PickActivity : AppCompatActivity() {
         }
         topLayout.setOnClickListener(listener)
         Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
-            .setAction("OK", listener)
+            .setAction(getString(R.string.ok), listener)
             .show()
     }
 
@@ -203,13 +201,6 @@ class PickActivity : AppCompatActivity() {
             this
         )
         barcodeDetector.setProcessor(MultiProcessor.Builder(barcodeFactory).build())
-        if (!barcodeDetector.isOperational) {
-            val lowstorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
-            val hasLowStorage = registerReceiver(null, lowstorageFilter) != null
-            if (hasLowStorage) {
-                Toast.makeText(this, "Мало памяти", Toast.LENGTH_LONG).show()
-            }
-        }
 
         var builder = CameraSource.Builder(applicationContext, barcodeDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
@@ -259,7 +250,7 @@ class PickActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.app_name)
             .setMessage(R.string.permission_camera_rationale)
-            .setPositiveButton("OK", listener)
+            .setPositiveButton(getString(R.string.ok), listener)
             .show()
     }
 
