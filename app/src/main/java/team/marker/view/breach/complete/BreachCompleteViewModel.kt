@@ -56,4 +56,12 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
             photos.postValue(list)
         }
     }
+
+    fun removePhoto(file: File) {
+        viewModelScope.launch(exceptionHandler) {
+            val list = photos.value
+            list?.remove(file)
+            photos.postValue(list)
+        }
+    }
 }

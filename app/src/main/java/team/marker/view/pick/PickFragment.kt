@@ -83,7 +83,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
                     lastId = it.id ?: 0
                     pick_success_text.visibility = View.VISIBLE
-                    2000L.runDelayed { pick_success_text.visibility = GONE }
+                    2000L.runDelayed { pick_success_text?.visibility = GONE }
                 }
                 ToneGenerator(AudioManager.STREAM_MUSIC, 100).startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 150)
                 pick_success_text.text = getString(R.string.recognized, it.size, it.size)

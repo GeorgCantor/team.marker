@@ -4,15 +4,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
-import kotlinx.android.synthetic.main.toolbar_common.*
+import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.loadPhoto
+import team.marker.view.breach.complete.BreachCompleteViewModel
 import java.io.File
 
 class PhotoDetailFragment : Fragment(R.layout.fragment_photo_detail) {
 
+    private lateinit var viewModel: BreachCompleteViewModel
     private val file: File by lazy { arguments?.get(PHOTO_DETAIL) as File }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = getSharedViewModel()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,5 +27,10 @@ class PhotoDetailFragment : Fragment(R.layout.fragment_photo_detail) {
         context?.loadPhoto(file, image)
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
+
+        btn_remove.setOnClickListener {
+            viewModel.removePhoto(file)
+            activity?.onBackPressed()
+        }
     }
 }
