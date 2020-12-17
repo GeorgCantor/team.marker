@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.hardware.Camera
+import android.hardware.Camera.Parameters.FLASH_MODE_OFF
+import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
@@ -236,9 +238,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    fun toggleTorch(torchOn: Boolean) {
-
+    private fun toggleTorch(torchOn: Boolean) {
+        cameraSource?.setFlashMode(if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH)
     }
 
     companion object {
