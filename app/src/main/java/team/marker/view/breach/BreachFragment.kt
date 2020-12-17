@@ -64,10 +64,12 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
                         if (product != "") products.add(product)
                     }
                     if (products.isNotEmpty()) {
-                        val bundle = Bundle()
-                        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                        bundle.putStringArrayList(PRODUCT_IDS, products)
-                        findNavController().navigate(R.id.action_breachhFragment_to_breachCompleteFragment, bundle)
+                        if (isResumed) {
+                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                            val bundle = Bundle()
+                            bundle.putStringArrayList(PRODUCT_IDS, products)
+                            findNavController().navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
+                        }
                     }
                 }
             }
