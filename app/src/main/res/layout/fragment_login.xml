@@ -1,149 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     app:statusBarBackground="@android:color/transparent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_home"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent">
 
-                <EditText
-                    android:id="@+id/input_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_primary"
-                    android:cursorVisible="true"
-                    android:ems="10"
-                    android:fontFamily="sans-serif"
-                    android:hint="email"
-                    android:imeOptions="actionDone"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="100"
-                    android:maxLines="1"
-                    android:textColor="@color/input_text"
-                    android:textColorHint="#5519194D"
-                    android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:theme="@style/CustomTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/ic_email"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="@+id/input_login"
-                    app:layout_constraintTop_toTopOf="@+id/input_login"
-                    app:srcCompat="@drawable/ic_email" />
-
-                <EditText
-                    android:id="@+id/input_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="10dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_primary"
-                    android:cursorVisible="true"
-                    android:ems="10"
-                    android:fontFamily="sans-serif"
-                    android:hint="пароль"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLength="32"
-                    android:maxLines="1"
-                    android:textColor="@color/input_text"
-                    android:textColorHint="#5519194D"
-                    android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:theme="@style/CustomTheme"
-                    app:layout_constraintTop_toBottomOf="@+id/input_login" />
-
-                <ImageView
-                    android:id="@+id/ic_password"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="@+id/input_password"
-                    app:layout_constraintTop_toTopOf="@+id/input_password"
-                    app:srcCompat="@drawable/ic_lock" />
-
-                <TextView
-                    android:id="@+id/error_login"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_password" />
-
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/btn_home"
-                    android:fontFamily="sans-serif-medium"
-                    android:letterSpacing="0.05"
-                    android:stateListAnimator="@null"
-                    android:text="@string/login_btn"
-                    android:textAllCaps="true"
-                    android:textColor="#19194D"
-                    android:textSize="15sp"
-                    android:textStyle="normal"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toBottomOf="@+id/error_login" />
-
-        <TextView
-            android:id="@+id/login_note"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:fontFamily="sans-serif"
-            android:text="Осуществляя вход вы выражаете согласие с нашими Условиями обслуживания и Политикой конфиденциальности"
-            android:textAlignment="center"
-            android:textColor="#9919194D"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_home"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <EditText
+                android:id="@+id/input_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:autofillHints=""
+                android:background="@drawable/input_primary"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:textColor="@color/input_text"
+                android:textColorHint="#5519194D"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:theme="@style/CustomTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_email"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/input_login"
+                app:layout_constraintTop_toTopOf="@+id/input_login"
+                app:srcCompat="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints=""
+                android:background="@drawable/input_primary"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="пароль"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLength="32"
+                android:maxLines="1"
+                android:textColor="@color/input_text"
+                android:textColorHint="#5519194D"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:theme="@style/CustomTheme"
+                app:layout_constraintTop_toBottomOf="@+id/input_login" />
+
+            <ImageView
+                android:id="@+id/ic_password"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/input_password"
+                app:layout_constraintTop_toTopOf="@+id/input_password"
+                app:srcCompat="@drawable/ic_lock" />
+
+            <TextView
+                android:id="@+id/error_login"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="#9919194D"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_password" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_home"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:stateListAnimator="@null"
+                android:text="@string/login_btn"
+                android:textAllCaps="true"
+                android:textColor="#19194D"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/error_login" />
+
+            <TextView
+                android:id="@+id/login_note"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="sans-serif"
+                android:text="Осуществляя вход вы выражаете согласие с нашими Условиями обслуживания и Политикой конфиденциальности"
+                android:textAlignment="center"
+                android:textColor="#9919194D"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

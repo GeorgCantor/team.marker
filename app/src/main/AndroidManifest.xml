@@ -57,10 +57,6 @@
         </activity>
 
         <activity
-            android:name=".view.pick.PickActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".view.product.WebViewActivity"
             android:screenOrientation="portrait" />
 

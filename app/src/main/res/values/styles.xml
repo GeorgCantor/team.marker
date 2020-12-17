@@ -4,7 +4,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,9 +15,6 @@
         <item name="android:textSelectHandleLeft">@drawable/transparent</item>
         <item name="android:textSelectHandleRight">@drawable/transparent</item>
         <item name="android:textSelectHandle">@drawable/transparent</item>
-    </style>
-
-    <style name="BtnTheme" parent="Theme.MaterialComponents.Light.Bridge">
     </style>
 
 </resources>

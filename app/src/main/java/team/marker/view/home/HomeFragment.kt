@@ -18,7 +18,6 @@ import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
 import team.marker.util.PreferenceManager
 import team.marker.view.MainActivity
-import team.marker.view.pick.PickActivity
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -48,8 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun pick() {
-        startActivity(Intent(requireContext(), PickActivity::class.java))
-        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        findNavController().navigate(R.id.action_homeFragment_to_pickFragment)
     }
 
     private fun breach() {

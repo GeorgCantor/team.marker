@@ -2,7 +2,6 @@ package team.marker.view.pick.products
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,8 +12,6 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
-import team.marker.util.openFragment
-import team.marker.view.product.ProductFragment
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -35,26 +32,15 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
                 val bundle = Bundle()
                 bundle.putString(PRODUCT_URL, PRODUCTS_URL + item.id?.toString())
 
-                try {
-                    findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
-                } catch (e: IllegalStateException) {
-                    (requireActivity() as AppCompatActivity).openFragment(ProductFragment().apply {
-                        arguments = bundle
-                    })
-                }
+                findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
             }
         })
 
-        btn_back.setOnClickListener { back() }
+        btn_back.setOnClickListener { activity?.onBackPressed() }
     }
 
     override fun onResume() {
         super.onResume()
         activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
-
-    private fun back() {
-        activity?.onBackPressed()
-    }
-
 }

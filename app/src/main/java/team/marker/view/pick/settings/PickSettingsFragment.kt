@@ -1,6 +1,5 @@
 package team.marker.view.pick.settings
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -10,7 +9,6 @@ import kotlinx.android.synthetic.main.fragment_pick_settings.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import team.marker.R
 import team.marker.util.PreferenceManager
-import team.marker.view.pick.PickActivity
 
 class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
@@ -53,9 +51,9 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
     }
 
     private fun back() {
-        val intent = Intent(requireContext(), PickActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
+//        val intent = Intent(requireContext(), PickActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        startActivity(intent)
     }
 
 }

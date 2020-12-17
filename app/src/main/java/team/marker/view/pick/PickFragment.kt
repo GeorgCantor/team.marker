@@ -4,84 +4,78 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.media.AudioManager.STREAM_MUSIC
+import android.media.AudioManager
 import android.media.ToneGenerator
-import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
-import android.view.View.*
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.View.GONE
+import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_pick.*
+import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.PreferenceManager
-import team.marker.util.hideKeyboard
-import team.marker.util.openFragment
 import team.marker.util.runDelayed
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
 import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
-import team.marker.view.pick.complete.PickCompleteFragment
 import team.marker.view.pick.complete.PickCompleteViewModel
-import team.marker.view.pick.settings.PickSettingsFragment
 import java.io.IOException
 
-class PickActivity : AppCompatActivity() {
+class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
-    private val prefManager: PreferenceManager by lazy { PreferenceManager(this) }
+    private val prefManager: PreferenceManager by lazy { PreferenceManager(requireActivity()) }
     private var cameraSource: CameraSource? = null
     private var pickMode = 0
     private var lastId = 0
 
-    public override fun onCreate(icicle: Bundle?) {
-        super.onCreate(icicle)
-        setContentView(R.layout.activity_pick)
-        window?.statusBarColor = ContextCompat.getColor(this, R.color.dark_blue)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         pickMode = prefManager.getInt("mode") ?: 0
 
-        btn_add.setOnClickListener { addProductQuantity() }
-        btn_cancel.setOnClickListener { cancelProduct() }
+//        btn_add.setOnClickListener { addProductQuantity() }
+//        btn_cancel.setOnClickListener { cancelProduct() }
 
-        val useFlash = intent.getBooleanExtra(USE_FLASH, false)
-        if (useFlash) {
-            btn_scan_flash_off.visibility = VISIBLE
-            btn_scan_flash.visibility = INVISIBLE
-        } else {
-            btn_scan_flash_off.visibility = INVISIBLE
-            btn_scan_flash.visibility = VISIBLE
-        }
+//        val useFlash = intent.getBooleanExtra(USE_FLASH, false)
+//        if (useFlash) {
+//            btn_scan_flash_off.visibility = VISIBLE
+//            btn_scan_flash.visibility = INVISIBLE
+//        } else {
+//            btn_scan_flash_off.visibility = INVISIBLE
+//            btn_scan_flash.visibility = VISIBLE
+//        }
 
-        val rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(true, useFlash)
+            createCameraSource(true, false)
         } else {
             requestCameraPermission()
         }
 
-        viewModel.products.observe(this) {
+        viewModel.products.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 products.clear()
                 products.addAll(it)
 
                 it.map {
                     if (pickMode != 0) {
-                        pick_window.visibility = VISIBLE
+                        pick_window.visibility = View.VISIBLE
                         when (pickMode) {
                             1 -> {
                                 pick_note.text = getString(R.string.enter_number_accepted_units)
@@ -94,33 +88,27 @@ class PickActivity : AppCompatActivity() {
                     }
 
                     lastId = it.id ?: 0
-                    pick_success_text.visibility = VISIBLE
+                    pick_success_text.visibility = View.VISIBLE
                     2000L.runDelayed { pick_success_text.visibility = GONE }
                 }
-                ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                ToneGenerator(AudioManager.STREAM_MUSIC, 100).startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 150)
                 pick_success_text.text = getString(R.string.recognized, it.size, it.size)
             }
         }
 
         btn_scan_flash.setOnClickListener {
-            val intent = Intent(this, PickActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.putExtra(USE_FLASH, true)
-            startActivity(intent)
+
         }
 
         btn_scan_flash_off.setOnClickListener {
-            val intent = Intent(this, PickActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.putExtra(USE_FLASH, false)
-            startActivity(intent)
+
         }
 
         btn_settings.setOnClickListener {
-            pick_toolbar.visibility = GONE
-            preview?.visibility = GONE
-            graphicOverlay?.visibility = GONE
-            openFragment(PickSettingsFragment())
+//            pick_toolbar.visibility = GONE
+//            preview?.visibility = GONE
+//            graphicOverlay?.visibility = GONE
+//            openFragment(PickSettingsFragment())
         }
 
         btn_scan_back.setOnClickListener { goToComplete() }
@@ -148,33 +136,36 @@ class PickActivity : AppCompatActivity() {
     }
 
     private fun cancelProduct() {
-        prefManager.saveInt("mode", 0)
-        val intent = Intent(this, PickActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        intent.putExtra(USE_FLASH, false)
-        startActivity(intent)
+//        prefManager.saveInt("mode", 0)
+//        val intent = Intent(this, PickActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        intent.putExtra(USE_FLASH, false)
+//        startActivity(intent)
     }
 
     private fun goToComplete() {
-        window.decorView.hideKeyboard()
-        pick_toolbar.visibility = GONE
-        preview.visibility = GONE
-        graphicOverlay.visibility = GONE
+//        window.decorView.hideKeyboard()
+//        pick_toolbar.visibility = GONE
+//        preview.visibility = GONE
+//        graphicOverlay.visibility = GONE
+//        val bundle = Bundle()
+//        bundle.putParcelableArrayList(PRODUCTS, products)
+//        openFragment(PickCompleteFragment().apply {
+//            arguments = bundle
+//        })
         val bundle = Bundle()
         bundle.putParcelableArrayList(PRODUCTS, products)
-        openFragment(PickCompleteFragment().apply {
-            arguments = bundle
-        })
+        findNavController().navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
     }
 
     private fun requestCameraPermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA)
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
+            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
             return
         }
         val listener = OnClickListener {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
+            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
         }
         topLayout.setOnClickListener(listener)
         Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
@@ -193,7 +184,7 @@ class PickActivity : AppCompatActivity() {
      */
     @SuppressLint("InlinedApi")
     private fun createCameraSource(autoFocus: Boolean, useFlash: Boolean) {
-        val context = applicationContext
+        val context = requireActivity().applicationContext
         val barcodeDetector = BarcodeDetector.Builder(context).build()
         val barcodeFactory = BarcodeTrackerFactory(
             graphicOverlay as GraphicOverlay<BarcodeGraphic?>,
@@ -202,7 +193,7 @@ class PickActivity : AppCompatActivity() {
         )
         barcodeDetector.setProcessor(MultiProcessor.Builder(barcodeFactory).build())
 
-        var builder = CameraSource.Builder(applicationContext, barcodeDetector)
+        var builder = CameraSource.Builder(requireActivity().applicationContext, barcodeDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
@@ -240,14 +231,14 @@ class PickActivity : AppCompatActivity() {
             return
         }
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val useFlash = intent.getBooleanExtra(USE_FLASH, false)
-            createCameraSource(true, useFlash)
+//            val useFlash = intent.getBooleanExtra(USE_FLASH, false)
+            createCameraSource(true, false)
             return
         }
         val listener = DialogInterface.OnClickListener { _, _ ->
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM)
+            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
         }
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.app_name)
             .setMessage(R.string.permission_camera_rationale)
             .setPositiveButton(getString(R.string.ok), listener)
@@ -257,7 +248,7 @@ class PickActivity : AppCompatActivity() {
     @Throws(SecurityException::class)
     private fun startCameraSource() {
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
-            applicationContext
+            requireActivity().applicationContext
         )
         if (code != ConnectionResult.SUCCESS) {
             val dlg = GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS)

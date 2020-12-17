@@ -20,6 +20,21 @@
     </fragment>
 
     <fragment
+        android:id="@+id/pickFragment"
+        android:name="team.marker.view.pick.PickFragment"
+        android:label="PickFragment"
+        tools:layout="@layout/fragment_pick">
+        <action
+            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
+            app:destination="@id/pickCompleteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/breachCompleteFragment"
         android:name="team.marker.view.breach.complete.BreachCompleteFragment"
         android:label="BreachCompleteFragment"
@@ -83,6 +98,13 @@
         <action
             android:id="@+id/action_homeFragment_to_breachFragment"
             app:destination="@id/breachFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_pickFragment"
+            app:destination="@id/pickFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -169,14 +191,6 @@
         android:label="PickCompleteFragment"
         tools:layout="@layout/fragment_pick_complete">
         <action
-            android:id="@+id/action_pickCompleteFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/nav_graph" />
-        <action
             android:id="@+id/action_pickCompleteFragment_to_pickProductsFragment"
             app:destination="@id/pickProductsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -190,13 +204,6 @@
         android:name="team.marker.view.pick.products.PickProductsFragment"
         android:label="PickProductsFragment"
         tools:layout="@layout/fragment_pick_products">
-        <action
-            android:id="@+id/action_pickProductsFragment_to_pickCompleteFragment"
-            app:destination="@id/pickCompleteFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_pickProductsFragment_to_productFragment"
             app:destination="@id/productFragment"
