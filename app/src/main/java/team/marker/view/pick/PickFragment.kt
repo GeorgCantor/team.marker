@@ -44,6 +44,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private var cameraSource: CameraSource? = null
     private var pickMode = 0
     private var lastId = 0
+    private var torchOn: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +55,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(true, false)
+            createCameraSource()
         } else {
             requestCameraPermission()
         }
@@ -88,11 +89,9 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         }
 
         btn_scan_flash.setOnClickListener {
-
-        }
-
-        btn_scan_flash_off.setOnClickListener {
-
+            toggleTorch(torchOn)
+            torchOn = !torchOn
+            btn_scan_flash.setImageResource(if (torchOn) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
         }
 
         btn_settings.setOnClickListener {
@@ -124,11 +123,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun cancelProduct() {
-//        prefManager.saveInt("mode", 0)
-//        val intent = Intent(this, PickActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        intent.putExtra(USE_FLASH, false)
-//        startActivity(intent)
+        prefManager.saveInt("mode", 0)
+        pick_window.visibility = GONE
     }
 
     private fun goToComplete() {
@@ -140,11 +136,11 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private fun requestCameraPermission() {
         val permissions = arrayOf(Manifest.permission.CAMERA)
         if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
+            requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
             return
         }
         val listener = OnClickListener {
-            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
+            requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
         }
         topLayout.setOnClickListener(listener)
         Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
@@ -162,7 +158,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
      * the constant.
      */
     @SuppressLint("InlinedApi")
-    private fun createCameraSource(autoFocus: Boolean, useFlash: Boolean) {
+    private fun createCameraSource() {
         val context = requireActivity().applicationContext
         val barcodeDetector = BarcodeDetector.Builder(context).build()
         val barcodeFactory = BarcodeTrackerFactory(
@@ -177,11 +173,9 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
 
-        builder = builder.setFocusMode(
-            if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null
-        )
+        builder = builder.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
         cameraSource = builder
-            .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
+            .setFlashMode(null)
             .build()
     }
 
@@ -210,11 +204,11 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             return
         }
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource(true, false)
+            createCameraSource()
             return
         }
         val listener = DialogInterface.OnClickListener { _, _ ->
-            ActivityCompat.requestPermissions(requireActivity(), permissions, RC_HANDLE_CAMERA_PERM)
+            requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
         }
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.app_name)
@@ -240,6 +234,11 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 cameraSource = null
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun toggleTorch(torchOn: Boolean) {
+
     }
 
     companion object {
