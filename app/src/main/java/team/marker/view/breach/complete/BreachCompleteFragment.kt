@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
+import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.Constants.PRODUCT_IDS
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
@@ -38,7 +39,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
         viewModel.photos.observe(viewLifecycleOwner) {
             photos_recycler.setHasFixedSize(true)
-            photos_recycler.adapter = PhotosAdapter(it)
+            photos_recycler.adapter = PhotosAdapter(it) { file ->
+                findNavController().navigate(
+                    R.id.action_breachCompleteFragment_to_photoDetailFragment,
+                    Bundle().apply { putSerializable(PHOTO_DETAIL, file) }
+                )
+            }
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
         }
     }

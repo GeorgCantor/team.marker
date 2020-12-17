@@ -21,28 +21,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/pickFragment"
-        android:name="team.marker.view.pick.PickFragment"
-        android:label="PickFragment"
-        tools:layout="@layout/fragment_pick">
-        <action
-            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
-            app:destination="@id/pickCompleteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/homeFragment" />
-        <action
-            android:id="@+id/action_pickFragment_to_pickSettingsFragment"
-            app:destination="@id/pickSettingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-
-    <fragment
         android:id="@+id/breachCompleteFragment"
         android:name="team.marker.view.breach.complete.BreachCompleteFragment"
         android:label="BreachCompleteFragment"
@@ -62,7 +40,20 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_breachCompleteFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="team.marker.view.breach.complete.photo.PhotoDetailFragment"
+        android:label="PhotoDetailFragment"
+        tools:layout="@layout/fragment_photo_detail" />
 
     <fragment
         android:id="@+id/photoFragment"
@@ -189,6 +180,28 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pickFragment"
+        android:name="team.marker.view.pick.PickFragment"
+        android:label="PickFragment"
+        tools:layout="@layout/fragment_pick">
+        <action
+            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
+            app:destination="@id/pickCompleteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_pickFragment_to_pickSettingsFragment"
+            app:destination="@id/pickSettingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
