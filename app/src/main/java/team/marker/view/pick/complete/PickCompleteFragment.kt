@@ -2,21 +2,26 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.activity_pick.*
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
+import team.marker.util.Constants.PRODUCTS
+import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.nameCase
+import team.marker.util.openFragment
+import team.marker.view.pick.products.PickProductsFragment
 
 class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private val products: ArrayList<PickProduct> by lazy { arguments?.get("products") as ArrayList<PickProduct> }
+    private val products: ArrayList<PickProduct> by lazy { arguments?.get(PRODUCTS) as ArrayList<PickProduct> }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,20 +46,29 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().pick_toolbar?.visibility = View.VISIBLE
+        requireActivity().preview?.visibility = View.VISIBLE
+        requireActivity().graphicOverlay?.visibility = View.VISIBLE
+    }
+
     private fun products() {
         val bundle = Bundle()
         val productIds = arrayListOf<String>()
         for (product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
-        bundle.putString("product_ids", productIdsStr)
-        findNavController().navigate(R.id.action_pickCompleteFragment_to_pickProductsFragment, bundle)
+        bundle.putString(PRODUCT_IDS, productIdsStr)
+        (requireActivity() as AppCompatActivity).openFragment(PickProductsFragment().apply {
+            arguments = bundle
+        })
     }
 
     private fun send(size: Int) {
         val email = input_email.text.toString()
         if (size > 0 && email.isEmpty()) return
         if (size > 0) viewModel.pick(PickRequest(products, email))
-        findNavController().navigate(R.id.action_pickCompleteFragment_to_homeFragment)
+        activity?.onBackPressed()
     }
 
 }

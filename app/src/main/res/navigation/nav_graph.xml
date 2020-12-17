@@ -11,16 +11,12 @@
         android:label="BreachFragment"
         tools:layout="@layout/fragment_breach">
         <action
-            android:id="@+id/action_breachFragment_to_breachCompleteFragment"
+            android:id="@+id/action_breachhFragment_to_breachCompleteFragment"
             app:destination="@id/breachCompleteFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_breachFragment_self"
-            app:destination="@id/breachFragment"
-            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -78,22 +74,15 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
+            android:id="@+id/action_homeFragment_to_scannFragment"
+            app:destination="@id/scanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_homeFragment_to_breachFragment"
             app:destination="@id/breachFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_pickFragment"
-            app:destination="@id/pickFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_scanFragment"
-            app:destination="@id/scanFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -130,10 +119,10 @@
         <action
             android:id="@+id/action_productFragment_to_scanErrorFragment"
             app:destination="@id/scanErrorFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -142,12 +131,21 @@
         android:label="ScanFragment"
         tools:layout="@layout/fragment_scan">
         <action
-            android:id="@+id/action_scanFragment_to_productFragment"
+            android:id="@+id/action_scannFragment_to_productFragment"
             app:destination="@id/productFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/scanFragment" />
+        <action
+            android:id="@+id/action_scannFragment_to_pickProductsFragment"
+            app:destination="@id/pickProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/scanFragment" />
     </fragment>
 
     <fragment
@@ -163,27 +161,6 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/pickFragment"
-        android:name="team.marker.view.pick.PickFragment"
-        android:label="PickFragment"
-        tools:layout="@layout/fragment_pick">
-        <action
-            android:id="@+id/action_pickFragment_to_pickCompleteFragment"
-            app:destination="@id/pickCompleteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_pickFragment_to_pickSettingsFragment"
-            app:destination="@id/pickSettingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -233,15 +210,6 @@
         android:id="@+id/pickSettingsFragment"
         android:name="team.marker.view.pick.settings.PickSettingsFragment"
         android:label="PickSettingsFragment"
-        tools:layout="@layout/fragment_pick_settings">
-        <action
-            android:id="@+id/action_pickSettingsFragment_to_pickFragment"
-            app:destination="@id/pickFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_pick_settings" />
 
 </navigation>

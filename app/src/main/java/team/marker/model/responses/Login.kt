@@ -1,8 +1,10 @@
 package team.marker.model.responses
 
 import com.google.gson.annotations.SerializedName
+import team.marker.util.Constants.SID
+import team.marker.util.Constants.TOKEN
 
 data class Login(
-    @SerializedName("sid") val sid: String? = null,
-    @SerializedName("token") val token: String? = null
+    @SerializedName(SID) val sid: String? = null,
+    @SerializedName(TOKEN) val token: String? = null
 )

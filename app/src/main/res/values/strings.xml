@@ -15,6 +15,9 @@
     <string name="no_scanned_codes">Отсканированных кодов нет. Выполните повторное сканирование перед отправкой отчета.</string>
     <string name="close">Закрыть</string>
     <string name="enter_email">введите электронную почту для отправки отчета.</string>
+    <string name="permission_camera_rationale">Необходимы разрешения</string>
+    <string name="recognized">Распознано %d из %d</string>
+    <string name="ok">OK</string>
 
     <string-array name="scan_array">
         <item>Отсканирован</item>

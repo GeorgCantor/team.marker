@@ -12,11 +12,12 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
+import team.marker.util.Constants.PRODUCT_IDS
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     private lateinit var viewModel: BreachCompleteViewModel
-    private val productIds: ArrayList<String> by lazy { arguments?.get("product_ids") as ArrayList<String> }
+    private val productIds: ArrayList<String> by lazy { arguments?.get(PRODUCT_IDS) as ArrayList<String> }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +27,10 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var productId = 0
-        if (productIds.size > 0) productId = productIds[0].toInt()
+        try {
+            if (productIds.size > 0 && productIds[0] != "") productId = productIds[0].toInt()
+        } catch (e: NumberFormatException) {
+        }
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_send.setOnClickListener { send(productId) }

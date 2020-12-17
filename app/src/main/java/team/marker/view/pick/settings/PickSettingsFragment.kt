@@ -1,14 +1,16 @@
 package team.marker.view.pick.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_settings.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import team.marker.R
 import team.marker.util.PreferenceManager
+import team.marker.view.pick.PickActivity
 
 class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
@@ -21,6 +23,13 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                back()
+            }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
+
         // mode
         when(PreferenceManager(requireActivity()).getInt("mode") ?: 0) {
             0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.blue_gray), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -44,7 +53,9 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
     }
 
     private fun back() {
-        findNavController().navigate(R.id.action_pickSettingsFragment_to_pickFragment)
+        val intent = Intent(requireContext(), PickActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
     }
 
 }
