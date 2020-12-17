@@ -49,17 +49,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         super.onViewCreated(view, savedInstanceState)
         pickMode = prefManager.getInt("mode") ?: 0
 
-//        btn_add.setOnClickListener { addProductQuantity() }
-//        btn_cancel.setOnClickListener { cancelProduct() }
-
-//        val useFlash = intent.getBooleanExtra(USE_FLASH, false)
-//        if (useFlash) {
-//            btn_scan_flash_off.visibility = VISIBLE
-//            btn_scan_flash.visibility = INVISIBLE
-//        } else {
-//            btn_scan_flash_off.visibility = INVISIBLE
-//            btn_scan_flash.visibility = VISIBLE
-//        }
+        btn_add.setOnClickListener { addProductQuantity() }
+        btn_cancel.setOnClickListener { cancelProduct() }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
@@ -105,10 +96,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         }
 
         btn_settings.setOnClickListener {
-//            pick_toolbar.visibility = GONE
-//            preview?.visibility = GONE
-//            graphicOverlay?.visibility = GONE
-//            openFragment(PickSettingsFragment())
+            findNavController().navigate(R.id.action_pickFragment_to_pickSettingsFragment)
         }
 
         btn_scan_back.setOnClickListener { goToComplete() }
@@ -144,15 +132,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun goToComplete() {
-//        window.decorView.hideKeyboard()
-//        pick_toolbar.visibility = GONE
-//        preview.visibility = GONE
-//        graphicOverlay.visibility = GONE
-//        val bundle = Bundle()
-//        bundle.putParcelableArrayList(PRODUCTS, products)
-//        openFragment(PickCompleteFragment().apply {
-//            arguments = bundle
-//        })
         val bundle = Bundle()
         bundle.putParcelableArrayList(PRODUCTS, products)
         findNavController().navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
@@ -231,7 +210,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             return
         }
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            val useFlash = intent.getBooleanExtra(USE_FLASH, false)
             createCameraSource(true, false)
             return
         }
@@ -270,8 +248,5 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
         // permission request codes need to be < 256
         private const val RC_HANDLE_CAMERA_PERM = 2
-
-        // constants used to pass extra data in the intent
-        const val USE_FLASH = "UseFlash"
     }
 }

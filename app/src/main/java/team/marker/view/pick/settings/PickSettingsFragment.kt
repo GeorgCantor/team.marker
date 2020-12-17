@@ -2,7 +2,6 @@ package team.marker.view.pick.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_pick_settings.*
@@ -21,12 +20,6 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                back()
-            }
-        }
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
 
         // mode
         when(PreferenceManager(requireActivity()).getInt("mode") ?: 0) {
@@ -42,18 +35,11 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
         btn_update_2.setOnClickListener { update(2) }
         btn_update_3.setOnClickListener { update(3) }
         btn_update_4.setOnClickListener { update(4) }
-        btn_back.setOnClickListener { back() }
+        btn_back.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun update(mode: Int) {
         PreferenceManager(requireActivity()).saveInt("mode", mode)
-        back()
+        activity?.onBackPressed()
     }
-
-    private fun back() {
-//        val intent = Intent(requireContext(), PickActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        startActivity(intent)
-    }
-
 }
