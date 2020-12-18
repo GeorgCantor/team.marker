@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.PreferenceManager
 import team.marker.util.runDelayed
@@ -50,7 +51,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickMode = prefManager.getInt("mode") ?: 0
+        pickMode = prefManager.getInt(MODE) ?: 0
 
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
@@ -125,7 +126,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun cancelProduct() {
-        prefManager.saveInt("mode", 0)
+        prefManager.saveInt(MODE, 0)
         pick_window.visibility = GONE
     }
 

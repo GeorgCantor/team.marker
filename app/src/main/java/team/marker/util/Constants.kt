@@ -14,4 +14,5 @@ object Constants {
     const val PRODUCT_IDS = "product_ids"
     const val PRODUCTS = "products"
     const val PHOTO_DETAIL = "photo_detail"
+    const val MODE = "mode"
 }

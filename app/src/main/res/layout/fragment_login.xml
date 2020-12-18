@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:fontFamily="sans-serif"
-                android:text="Осуществляя вход вы выражаете согласие с нашими Условиями обслуживания и Политикой конфиденциальности"
+                android:text="@string/terms_conditions"
                 android:textAlignment="center"
                 android:textColor="#9919194D"
                 android:textSize="12sp"

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_pick_settings.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import team.marker.R
+import team.marker.util.Constants.MODE
 import team.marker.util.PreferenceManager
 
 class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
@@ -22,7 +23,7 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         // mode
-        when(PreferenceManager(requireActivity()).getInt("mode") ?: 0) {
+        when(PreferenceManager(requireActivity()).getInt(MODE) ?: 0) {
             0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.blue_gray), android.graphics.PorterDuff.Mode.SRC_IN)
             1 -> ic_update_1.setColorFilter(getColor(requireContext(), R.color.blue_gray), android.graphics.PorterDuff.Mode.SRC_IN)
             2 -> ic_update_2.setColorFilter(getColor(requireContext(), R.color.blue_gray), android.graphics.PorterDuff.Mode.SRC_IN)
@@ -39,7 +40,7 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
     }
 
     private fun update(mode: Int) {
-        PreferenceManager(requireActivity()).saveInt("mode", mode)
+        PreferenceManager(requireActivity()).saveInt(MODE, mode)
         activity?.onBackPressed()
     }
 }
