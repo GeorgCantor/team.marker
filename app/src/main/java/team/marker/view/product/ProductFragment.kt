@@ -134,9 +134,9 @@ class ProductFragment : Fragment() {
             produced_info.text = producedDate
             shipped_info.text = shippedDate
             // hide empty
-            if (productCode == getString(R.string.not_specified)) product_code.visibility = View.GONE
-            if (producedDate == getString(R.string.not_specified3)) produced.visibility = View.GONE
-            if (shippedDate == getString(R.string.not_specified3)) shipped.visibility = View.GONE
+            if (productCode == getString(R.string.not_specified)) product_code.visibility = GONE
+            if (producedDate == getString(R.string.not_specified3)) produced.visibility = GONE
+            if (shippedDate == getString(R.string.not_specified3)) shipped.visibility = GONE
             // map (manufacturer)
             val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
             manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
@@ -144,7 +144,7 @@ class ProductFragment : Fragment() {
             manufacturerMap.uiSettings.isScrollGesturesEnabled = false
             // map (customer)
             if (customerLat.toString() == "0.0") {
-                customer_map_wrap.visibility = View.GONE
+                customer_map_wrap.visibility = GONE
             } else {
                 val customerMarker = LatLng(customerLat!!, customerLng!!)
                 customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
@@ -156,7 +156,7 @@ class ProductFragment : Fragment() {
                 product_options_recycler.isNestedScrollingEnabled = false;
                 product_options_recycler.adapter = ProductOptionsAdapter(it.options) { }
             } else {
-                expand_2_empty.visibility = View.VISIBLE
+                expand_2_empty.visibility = VISIBLE
             }
 
             if (it.files?.size!! > 0) {
@@ -171,7 +171,7 @@ class ProductFragment : Fragment() {
                     }
                 }
             } else {
-                expand_5_empty.visibility = View.VISIBLE
+                expand_5_empty.visibility = VISIBLE
             }
 
             product_options_recycler.measure(

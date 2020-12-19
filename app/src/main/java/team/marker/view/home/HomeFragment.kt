@@ -1,11 +1,12 @@
 package team.marker.view.home
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.View
-import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,7 +34,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         btn_pick.setOnClickListener { pick() }
         btn_breach.setOnClickListener { breach() }
         btn_logout.setOnClickListener { logout() }
-        // geo
+
         getLocation()
     }
 
@@ -55,32 +56,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun logout() {
-        // pref manager
         prefManager.saveString(SID, "")
         prefManager.saveString(TOKEN, "")
         viewModel.logout()
-        // restart
         activity?.finish()
         startActivity(Intent(requireActivity(), MainActivity::class.java))
     }
 
     private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PERMISSION_GRANTED ||
-            ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PERMISSION_GRANTED
+        if (checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED ||
+            checkSelfPermission(requireContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED
         ) {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                1
-            )
+            requestPermissions(arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION), 1)
         } else {
             getLocationExecute()
         }
@@ -88,14 +75,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun getLocationExecute() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PERMISSION_GRANTED
-        ) {
+        if (checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED &&
+            checkSelfPermission(requireContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             return
         }
         fusedLocationClient
@@ -119,5 +100,4 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             getLocationExecute()
         }
     }
-
 }

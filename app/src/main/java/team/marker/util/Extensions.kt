@@ -1,20 +1,14 @@
 package team.marker.util
 
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
-import android.view.View
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
-import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import team.marker.R
 import java.io.File
@@ -36,22 +30,6 @@ fun Int.nameCase(names: Array<String>): String {
     if (a1 in 2..4 && (a2 <= 10 || a2 > 20)) return names[1]
     return names[2]
 }
-
-fun AppCompatActivity.openFragment(fragment: Fragment) {
-    val transaction = supportFragmentManager.beginTransaction()
-    transaction.setCustomAnimations(
-        R.anim.slide_in_right,
-        R.anim.slide_out_left,
-        R.anim.slide_in_left,
-        R.anim.slide_out_right
-    )
-    transaction.add(R.id.frame_container, fragment)
-    transaction.addToBackStack(null)
-    transaction.commit()
-}
-
-fun View.hideKeyboard() = (context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
-    .hideSoftInputFromWindow(windowToken, HIDE_NOT_ALWAYS)
 
 // context
 
