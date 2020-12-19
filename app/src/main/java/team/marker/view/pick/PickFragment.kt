@@ -16,6 +16,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
@@ -131,9 +132,10 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun goToComplete() {
-        val bundle = Bundle()
-        bundle.putParcelableArrayList(PRODUCTS, products)
-        findNavController().navigate(R.id.action_pickFragment_to_pickCompleteFragment, bundle)
+        findNavController().navigate(
+            R.id.action_pickFragment_to_pickCompleteFragment,
+            bundleOf(PRODUCTS to products)
+        )
     }
 
     private fun requestCameraPermission() {

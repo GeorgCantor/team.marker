@@ -3,6 +3,7 @@ package team.marker.view.pick.products
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_history.*
@@ -29,10 +30,10 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
         viewModel.response.observe(viewLifecycleOwner, {
             history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
-                val bundle = Bundle()
-                bundle.putString(PRODUCT_URL, PRODUCTS_URL + item.id?.toString())
-
-                findNavController().navigate(R.id.action_pickProductsFragment_to_productFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_pickProductsFragment_to_productFragment,
+                    bundleOf(PRODUCT_URL to "$PRODUCTS_URL${item.id?.toString()}")
+                )
             }
         })
 

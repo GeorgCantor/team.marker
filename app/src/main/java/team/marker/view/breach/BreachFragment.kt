@@ -17,6 +17,7 @@ import android.view.SurfaceHolder
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.os.bundleOf
 import androidx.core.util.forEach
 import androidx.core.util.isNotEmpty
 import androidx.fragment.app.Fragment
@@ -66,9 +67,10 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
                     if (products.isNotEmpty()) {
                         if (isResumed) {
                             ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                            val bundle = Bundle()
-                            bundle.putStringArrayList(PRODUCT_IDS, products)
-                            findNavController().navigate(R.id.action_breachFragment_to_breachCompleteFragment, bundle)
+                            findNavController().navigate(
+                                R.id.action_breachFragment_to_breachCompleteFragment,
+                                bundleOf(PRODUCT_IDS to products)
+                            )
                         }
                     }
                 }

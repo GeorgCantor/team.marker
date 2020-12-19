@@ -3,6 +3,7 @@ package team.marker.view.pick.complete
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
@@ -44,12 +45,13 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
     }
 
     private fun products() {
-        val bundle = Bundle()
         val productIds = arrayListOf<String>()
         for (product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
-        bundle.putString(PRODUCT_IDS, productIdsStr)
-        findNavController().navigate(R.id.action_pickCompleteFragment_to_pickProductsFragment, bundle)
+        findNavController().navigate(
+            R.id.action_pickCompleteFragment_to_pickProductsFragment,
+            bundleOf(PRODUCT_IDS to productIdsStr)
+        )
     }
 
     private fun send(size: Int) {

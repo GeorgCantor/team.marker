@@ -16,6 +16,7 @@ import android.view.SurfaceHolder
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.os.bundleOf
 import androidx.core.util.forEach
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -154,19 +155,21 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     fun openProduct() {
         if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-        val bundle = Bundle()
         val productIdsStr = products.joinToString(",")
-        bundle.putString(PRODUCT_URL, "${PRODUCTS_URL}$productIdsStr")
         products.clear()
-        findNavController(this).navigate(R.id.action_scannFragment_to_productFragment, bundle)
+        findNavController(this).navigate(
+            R.id.action_scannFragment_to_productFragment,
+            bundleOf(PRODUCT_URL to "${PRODUCTS_URL}$productIdsStr")
+        )
     }
 
     fun openProducts() {
         if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-        val bundle = Bundle()
         val productIdsStr = products.joinToString(",")
-        bundle.putString(PRODUCT_IDS, productIdsStr)
         products.clear()
-        findNavController(this).navigate(R.id.action_scannFragment_to_pickProductsFragment, bundle)
+        findNavController(this).navigate(
+            R.id.action_scannFragment_to_pickProductsFragment,
+            bundleOf(PRODUCT_IDS to productIdsStr)
+        )
     }
 }
