@@ -26,7 +26,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
     fun breach(productId: Int, reasonId: Int, userReason: String, comment: String) {
         viewModelScope.launch(exceptionHandler) {
             val files = mutableListOf<MultipartBody.Part>()
-            photos.value?.map {
+            photos.value?.forEach {
                 val requestBody = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData(
                     "files", it.name, requestBody
@@ -49,9 +49,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
     fun addPhoto(file: File) {
         viewModelScope.launch(exceptionHandler) {
             val list = mutableListOf<File>()
-            photos.value?.map {
-                list.add(it)
-            }
+            photos.value?.forEach { list.add(it) }
             list.add(file)
             photos.postValue(list)
         }

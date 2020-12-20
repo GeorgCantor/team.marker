@@ -45,9 +45,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             getProduct(product.id.toString())
 
             val prods = mutableListOf<PickProduct>()
-            products.value?.map {
-                prods.add(it)
-            }
+            products.value?.forEach { prods.add(it) }
 
             if (!prods.contains(product)) {
                 lastTime = Date()

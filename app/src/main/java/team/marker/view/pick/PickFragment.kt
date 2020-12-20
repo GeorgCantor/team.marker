@@ -74,7 +74,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 products.clear()
                 products.addAll(it)
 
-                it.map {
+                it.forEach {
                     if (pickMode != 0) {
                         pick_window.visibility = View.VISIBLE
                         when (pickMode) {
