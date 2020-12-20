@@ -3,6 +3,7 @@ package team.marker.view.home
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.View
@@ -14,21 +15,22 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.util.Constants
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
-import team.marker.util.PreferenceManager
+import team.marker.util.putAny
 import team.marker.view.MainActivity
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel by inject<HomeViewModel>()
-    private lateinit var prefManager: PreferenceManager
+    private val preferences: SharedPreferences by inject(named(Constants.MAIN_STORAGE))
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prefManager = PreferenceManager(requireActivity())
 
         btn_scan.setOnClickListener { scan() }
         btn_pick.setOnClickListener { pick() }
@@ -56,8 +58,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun logout() {
-        prefManager.saveString(SID, "")
-        prefManager.saveString(TOKEN, "")
+        preferences.putAny(SID, "")
+        preferences.putAny(TOKEN, "")
         viewModel.logout()
         activity?.finish()
         startActivity(Intent(requireActivity(), MainActivity::class.java))
@@ -85,8 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 if (location != null) {
                     val lat = location.latitude.toString()
                     val lng = location.longitude.toString()
-                    prefManager.saveString("lat", lat)
-                    prefManager.saveString("lng", lng)
+                    preferences.putAny("lat", lat)
+                    preferences.putAny("lng", lng)
                 }
             }
     }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FLASH_MODE_OFF
@@ -27,11 +28,14 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
-import team.marker.util.PreferenceManager
+import team.marker.util.getAny
+import team.marker.util.putAny
 import team.marker.util.runDelayed
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
@@ -44,7 +48,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
-    private val prefManager: PreferenceManager by lazy { PreferenceManager(requireActivity()) }
+    private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var cameraSource: CameraSource? = null
     private var pickMode = 0
     private var lastId = 0
@@ -52,7 +56,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickMode = prefManager.getInt(MODE) ?: 0
+
+        pickMode = preferences.getAny(0, MODE) as Int
 
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
@@ -127,7 +132,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun cancelProduct() {
-        prefManager.saveInt(MODE, 0)
+        preferences.putAny(MODE, 0)
         pick_window.visibility = GONE
     }
 

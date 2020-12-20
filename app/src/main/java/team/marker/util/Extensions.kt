@@ -1,6 +1,7 @@
 package team.marker.util
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -13,8 +14,6 @@ import com.bumptech.glide.Glide
 import team.marker.R
 import java.io.File
 import java.util.concurrent.TimeUnit
-
-// common
 
 fun Long.runDelayed(action: () -> Unit) {
     Handler(getMainLooper()).postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
@@ -31,7 +30,19 @@ fun Int.nameCase(names: Array<String>): String {
     return names[2]
 }
 
-// context
+fun SharedPreferences.putAny(key: String, any: Any) {
+    when (any) {
+        is String -> edit().putString(key, any).apply()
+        is Int -> edit().putInt(key, any).apply()
+    }
+}
+
+fun SharedPreferences.getAny(type: Any, key: String): Any {
+    return when (type) {
+        is String -> getString(key, "") as Any
+        else -> getInt(key, 0)
+    }
+}
 
 fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false

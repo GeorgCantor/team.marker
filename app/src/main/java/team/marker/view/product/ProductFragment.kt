@@ -1,6 +1,7 @@
 package team.marker.view.product
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,20 +19,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_product.*
 import kotlinx.android.synthetic.main.toolbar_product.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.ExpandList
-import team.marker.util.PreferenceManager
+import team.marker.util.getAny
 import team.marker.util.runDelayed
 
 class ProductFragment : Fragment() {
 
     private lateinit var viewModel: ProductViewModel
-    private lateinit var prefManager: PreferenceManager
     private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
+    private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
 
     private lateinit var list1: ExpandList
     private lateinit var list2: ExpandList
@@ -46,7 +50,6 @@ class ProductFragment : Fragment() {
         super.onCreate(savedInstanceState)
         activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
         viewModel = getViewModel { parametersOf() }
-        prefManager = PreferenceManager(requireActivity())
     }
 
     override fun onCreateView(
@@ -54,33 +57,31 @@ class ProductFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // inflate
         val v = inflater.inflate(R.layout.fragment_product, container, false)
-        // map (manufacturer)
         val manufacturer = childFragmentManager.findFragmentById(R.id.manufacturer_map) as SupportMapFragment
         manufacturer.getMapAsync(onMapReadyCallback1())
-        // map (customer)
         val customer = childFragmentManager.findFragmentById(R.id.customer_map) as SupportMapFragment
         customer.getMapAsync(onMapReadyCallback2())
-        // output
+
         return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // common
         val productId = productUrl.replace(PRODUCTS_URL, "")
-        val lat = prefManager.getString("lat") ?: ""
-        val lng = prefManager.getString("lng") ?: ""
+
+        val lat = preferences.getAny("", "lat") as String
+        val lng = preferences.getAny("", "lng") as String
+
         viewModel.getProduct(productId, lat, lng)
-        // vars
+
         list1 = ExpandList(expand_1, list_1_expand)
         list2 = ExpandList(expand_2, list_2_expand)
         list3 = ExpandList(expand_3, list_3_expand)
         list4 = ExpandList(expand_4, list_4_expand)
         list5 = ExpandList(expand_5, list_5_expand)
         list1.toggleList("force")
-        // events
+
         btn_back.setOnClickListener { activity?.onBackPressed() }
         list_1.setOnClickListener { list1.toggleList() }
         list_2.setOnClickListener { list2.toggleList() }
@@ -95,9 +96,7 @@ class ProductFragment : Fragment() {
             findNavController().navigate(R.id.action_productFragment_to_scanErrorFragment)
         })
 
-        // product info
         viewModel.response.observe(viewLifecycleOwner, {
-            // vars
             val manufacturer = it.manufacturer
             val customer = it.customer
             val consignee = it.consignee
@@ -118,7 +117,7 @@ class ProductFragment : Fragment() {
             val manufacturerLng = manufacturer?.address_lng
             val producedDate = if (it.produced.isNullOrBlank()) getString(R.string.not_specified3) else it.produced.toString()
             val shippedDate = if (it.shipped.isNullOrBlank()) getString(R.string.not_specified3) else it.shipped.toString()
-            // texts
+
             product_title_info.text = productTitle
             product_code_info.text = productCode
             company_title_info.text = manufacturerTitle
@@ -133,16 +132,16 @@ class ProductFragment : Fragment() {
             customer_annex_info.text = customerAnnex
             produced_info.text = producedDate
             shipped_info.text = shippedDate
-            // hide empty
+
             if (productCode == getString(R.string.not_specified)) product_code.visibility = GONE
             if (producedDate == getString(R.string.not_specified3)) produced.visibility = GONE
             if (shippedDate == getString(R.string.not_specified3)) shipped.visibility = GONE
-            // map (manufacturer)
+
             val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
             manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
             manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
             manufacturerMap.uiSettings.isScrollGesturesEnabled = false
-            // map (customer)
+
             if (customerLat.toString() == "0.0") {
                 customer_map_wrap.visibility = GONE
             } else {
@@ -220,5 +219,4 @@ class ProductFragment : Fragment() {
         i.putExtra(Intent.EXTRA_TEXT, url)
         startActivity(Intent.createChooser(i, "Поделиться URL"))
     }
-
 }

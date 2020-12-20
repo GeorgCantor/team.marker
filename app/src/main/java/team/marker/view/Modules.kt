@@ -1,9 +1,13 @@
 package team.marker.view
 
+import android.content.Context.MODE_PRIVATE
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import team.marker.model.remote.ApiClient
 import team.marker.model.remote.ApiRepository
+import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marker.view.history.HistoryViewModel
 import team.marker.view.home.HomeViewModel
@@ -28,4 +32,8 @@ val viewModelModule = module {
 
 val apiModule = module {
     single { ApiClient.create(get()) }
+}
+
+val preferenceModule = module {
+    single(named(MAIN_STORAGE)) { androidApplication().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE) }
 }
