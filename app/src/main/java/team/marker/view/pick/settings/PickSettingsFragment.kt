@@ -2,10 +2,10 @@ package team.marker.view.pick.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_settings.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.android.ext.android.inject
@@ -15,12 +15,10 @@ import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.getAny
 import team.marker.util.putAny
-import team.marker.view.pick.complete.PickCompleteViewModel
 
 class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
-    private val viewModel by inject<PickCompleteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +46,6 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     private fun update(mode: Int) {
         preferences.putAny(MODE, mode)
-        activity?.onBackPressed()
+        findNavController().navigate(R.id.action_pickSettingsFragment_to_pickFragment)
     }
 }

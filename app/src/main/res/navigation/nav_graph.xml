@@ -202,6 +202,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_pickFragment_self"
+            app:destination="@id/pickFragment" />
     </fragment>
 
     <fragment
@@ -236,6 +239,15 @@
         android:id="@+id/pickSettingsFragment"
         android:name="team.marker.view.pick.settings.PickSettingsFragment"
         android:label="PickSettingsFragment"
-        tools:layout="@layout/fragment_pick_settings" />
+        tools:layout="@layout/fragment_pick_settings">
+        <action
+            android:id="@+id/action_pickSettingsFragment_to_pickFragment"
+            app:destination="@id/pickFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
 
 </navigation>

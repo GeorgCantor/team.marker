@@ -13,7 +13,6 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
@@ -36,7 +35,7 @@ import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.getAny
-import team.marker.util.putAny
+import team.marker.util.hideKeyboard
 import team.marker.util.runDelayed
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
@@ -108,10 +107,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private fun addProductQuantity() {
         pick_window.visibility = GONE
         pick_bg.visibility = GONE
+        requireView().hideKeyboard()
 
         val quantityRaw = pick_quantity.text.toString()
         val quantity = if (quantityRaw.isEmpty()) 0.0 else quantityRaw.toDouble()
         if (quantity <= 0) return
+        pick_quantity.setText("")
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             products.removeIf { it.id == lastId }
@@ -125,8 +126,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun cancelProduct() {
-        preferences.putAny(MODE, 0)
-        pick_window.visibility = GONE
+        findNavController().navigate(R.id.action_pickFragment_self)
     }
 
     private fun goToComplete() {
