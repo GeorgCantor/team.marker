@@ -3,7 +3,8 @@ package team.marker.view.breach.complete
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -11,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
-import org.apache.commons.io.FileUtils
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
@@ -49,11 +49,27 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             }
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
         }
+
+        input_comment.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(chars: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(chars: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                when (chars?.isBlank()) {
+                    true -> comment_input_view.error = getString(R.string.write_details)
+                    false -> comment_input_view.error = null
+                }
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
         activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
+        comment_input_view.error = null
     }
 
     override fun onDetach() {
@@ -76,7 +92,10 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         val reasonId = 0
         val userReason = ""
         val comment = input_comment.text.toString()
-        if (comment == "") return
+        if (comment == "") {
+            comment_input_view.error = getString(R.string.write_details)
+            return
+        }
         viewModel.breach(productId, reasonId, userReason, comment)
         findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
     }

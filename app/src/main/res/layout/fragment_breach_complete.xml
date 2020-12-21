@@ -32,33 +32,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <EditText
-                android:id="@+id/input_comment"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/comment_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:autofillHints=""
-                android:background="@drawable/input_primary"
-                android:cursorVisible="true"
-                android:ems="10"
-                android:fontFamily="sans-serif"
-                android:gravity="top|start"
-                android:hint="Напишите подробности ..."
-                android:imeOptions="actionDone"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:maxLines="10"
-                android:minLines="5"
-                android:scrollbars="vertical"
-                android:textColor="@color/input_text"
-                android:textColorHint="#5519194D"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="18sp"
-                android:textStyle="normal"
-                android:theme="@style/CustomTheme"
+                app:hintTextColor="@color/input_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:autofillHints=""
+                    android:background="@drawable/input_primary"
+                    android:cursorVisible="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif"
+                    android:gravity="top|start"
+                    android:hint="@string/write_details"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:maxLines="10"
+                    android:minLines="5"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/input_text"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:theme="@style/CustomTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photos_recycler"
@@ -69,7 +80,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/add_photo_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_comment"
+                app:layout_constraintTop_toBottomOf="@+id/comment_input_view"
                 tools:listitem="@layout/item_photo" />
 
             <Button
