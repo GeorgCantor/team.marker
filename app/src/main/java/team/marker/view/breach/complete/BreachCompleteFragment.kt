@@ -76,22 +76,14 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         viewModel.photos.value = mutableListOf()
         val cw = ContextWrapper(requireContext())
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
-        /*val files = directory.listFiles()
-        files.forEach {
-            Log.e("file", it.name)
-            //it.delete()
-        }*/
-        //directory.delete()
-        //FileUtils.deleteDirectory(directory)
-        //directory.deleteRecursively()
-        //FileUtils.cleanDirectory(directory)
+        directory.deleteRecursively()
         super.onDetach()
     }
 
     private fun send(productId: Int) {
         val reasonId = 0
         val userReason = ""
-        val comment = input_comment.text.toString()
+        val comment = input_comment.text.toString().trim()
         if (comment == "") {
             comment_input_view.error = getString(R.string.write_details)
             return
