@@ -1,5 +1,9 @@
 package team.marker.view.breach.complete
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,10 +32,9 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
             val files = mutableListOf<MultipartBody.Part>()
             photos.value?.forEach {
                 val requestBody = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData(
-                    "files", it.name, requestBody
-                )
+                val filePart = MultipartBody.Part.createFormData("files[]", it.name, requestBody)
                 files.add(filePart)
+                Log.e("My Tag", "add " + it.name)
             }
             repository.breach(
                 productId,
@@ -40,6 +43,7 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
                 comment.toRequestBody("text/plain".toMediaTypeOrNull()),
                 files.toTypedArray()
             ).apply {
+                Log.e("My Tag", "response: " + this?.response.toString())
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }

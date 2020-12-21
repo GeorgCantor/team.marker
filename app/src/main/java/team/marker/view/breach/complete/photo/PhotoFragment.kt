@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Log
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
@@ -25,10 +26,8 @@ import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
+import java.io.*
+import java.lang.Math.ceil
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -143,6 +142,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
         val photoFile = File(directory, "${UUID.randomUUID()}.jpg")
 
+
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
@@ -158,10 +158,13 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
                     val file = File(directory, "${UUID.randomUUID()}.jpg")
                     val outputStream: OutputStream = BufferedOutputStream(FileOutputStream(file))
-                    resized?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                    outputStream.close()
+                    resized.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
 
+                    outputStream.flush()
+                    outputStream.close()
+                    resized.recycle()
                     viewModel.addPhoto(file)
+
                     activity?.onBackPressed()
                 }
             })
@@ -179,28 +182,34 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         }, ContextCompat.getMainExecutor(context))
     }
 
-    private fun getResizedRotatedBitmap(bm: Bitmap): Bitmap? {
+    private fun getResizedRotatedBitmap(bm: Bitmap): Bitmap {
+        // vars
         val width = bm.width
         val height = bm.height
-        val scaleWidth = 512.toFloat() / width
-        val scaleHeight = 512.toFloat() / height
-
+        val scaleWidth = 1600.toFloat() / width
+        val scaleHeight = 1600.toFloat() / height
+        val ratio = if (scaleWidth > scaleHeight) scaleHeight else scaleWidth
+        val x = if (width > height) (width - height) / 2 else 0
+        val y = if (width > height) 0 else (height - width) / 2
+        val size = if (width > height) height else width
+        // rotate
         var rotate = 0
-
+        Log.e("My Tag", orient.toString() + ", " + bm.width + ", " + bm.height + ", x: " + x.toInt() + ", y: " + y.toInt())
         when (orient) {
-            0 -> rotate = 90
-            1 -> rotate = 0
-            2 -> rotate = 270
-            3 -> rotate = 180
+            0 -> rotate = 0
+            1 -> rotate = 90
+            2 -> rotate = 180
+            3 -> rotate = 270
         }
-
+        // matrix
         val matrix = Matrix()
-        matrix.postScale(scaleWidth, scaleHeight)
-        matrix.postRotate(rotate.toFloat())
-
-        val resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false)
+        matrix.postScale(ratio, ratio)
+        Log.e("scaleWidth", scaleWidth.toString() + ", " + scaleHeight.toString())
+        //matrix.postRotate(rotate.toFloat())
+        // create
+        val resizedBitmap = Bitmap.createBitmap(bm, 0, y.toInt(), size, size, matrix, true)
         bm.recycle()
-
+        // output
         return resizedBitmap
     }
 }

@@ -1,14 +1,18 @@
 package team.marker.view.pick.camera.barcode
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.R.attr.x
+import android.R.attr.y
+import android.graphics.*
+import android.text.TextPaint
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.barcode.Barcode
+import kotlinx.android.synthetic.main.fragment_pick.*
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.GraphicOverlay.Graphic
 import team.marker.view.pick.complete.PickCompleteViewModel
+import java.util.*
+
 
 /**
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic
@@ -24,6 +28,8 @@ class BarcodeGraphic internal constructor(
     private val textPaint: Paint
     private val backgroundPaint: Paint
     private var prodName = ""
+    private var lastTime: Date? = null
+    private var lastProductId = "0"
 
     @Volatile
     var barcode: Barcode? = null
@@ -46,16 +52,42 @@ class BarcodeGraphic internal constructor(
         rect.right = translateX(rect.right)
         rect.bottom = translateY(rect.bottom)
         canvas!!.drawRect(rect, rectPaint)
-
+        val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 1000 else 100
+        //Log.e("seconds 2", seconds.toString())
+        val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
         viewModel.products.observe(lifecycleOwner) {
-            viewModel.getProduct(barcode.rawValue?.takeLastWhile { it.isDigit() })
+            if (seconds > 3 && productId != lastProductId) {
+                //Log.e("new product 2", productId + ":" + lastProductId)
+                //Log.e("time", lastTime?.time.toString())
+                lastTime = Date()
+                lastProductId = productId
+                viewModel.getProduct(productId)
+            }
             viewModel.product.observe(lifecycleOwner) {
+                //val newProdName = if (!viewModel.productIds.contains(productId)) it else "[добавлен] " + it
                 if (prodName != it) prodName = it
             }
         }
 
-        canvas.drawText("_", rect.right, rect.bottom - 50, backgroundPaint)
-        canvas.drawText(prodName, rect.right + 6, rect.bottom, textPaint)
+        //canvas.drawText("_", rect.left, rect.bottom + 50, backgroundPaint)
+        if (prodName.isNotEmpty()) {
+            val background: Rect = getTextBackgroundSize(rect.left, rect.bottom + 100, prodName, textPaint)
+            canvas.drawRect(background, backgroundPaint)
+            val halfTextLength = textPaint.measureText(prodName) / 2 + 5
+            canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
+        }
+    }
+
+    private fun getTextBackgroundSize(x: Float, y: Float, text: String, paint: Paint): Rect {
+        val fontMetrics = paint.fontMetrics
+        val halfTextLength = paint.measureText(text) / 2 + 5
+        val margin = 20
+        return Rect(
+            (x - halfTextLength - margin).toInt(),
+            (y + fontMetrics.top - margin).toInt(),
+            (x + halfTextLength + margin).toInt(),
+            (y + fontMetrics.bottom + margin).toInt()
+        )
     }
 
     init {
@@ -66,7 +98,7 @@ class BarcodeGraphic internal constructor(
 
         textPaint = Paint()
         textPaint.color = Color.BLACK
-        textPaint.textSize = 36.0f
+        textPaint.textSize = 42.0f
 
         backgroundPaint = Paint()
         backgroundPaint.color = Color.WHITE

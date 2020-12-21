@@ -13,6 +13,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
@@ -63,37 +64,31 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         btn_cancel.setOnClickListener { cancelProduct() }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-        if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource()
-        } else {
-            requestCameraPermission()
-        }
+        if (rc == PackageManager.PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
-        viewModel.products.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                products.clear()
-                products.addAll(it)
-
-                it.forEach {
-                    if (pickMode != 0) {
-                        pick_window.visibility = View.VISIBLE
-                        when (pickMode) {
-                            1 -> {
-                                pick_note.text = getString(R.string.enter_number_accepted_units)
-                                pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
-                            }
-                            2 -> pick_note.text = getString(R.string.enter_product_length)
-                            3 -> pick_note.text = getString(R.string.enter_product_weight)
-                            4 -> pick_note.text = getString(R.string.enter_product_volume)
+        viewModel.currentProduct.observe(viewLifecycleOwner) {
+            if (it != null) {
+                if (pickMode != 0) {
+                    pick_window.visibility = View.VISIBLE
+                    when (pickMode) {
+                        1 -> {
+                            pick_note.text = getString(R.string.enter_number_accepted_units)
+                            pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
                         }
+                        2 -> pick_note.text = getString(R.string.enter_product_length)
+                        3 -> pick_note.text = getString(R.string.enter_product_weight)
+                        4 -> pick_note.text = getString(R.string.enter_product_volume)
                     }
-
-                    lastId = it.id ?: 0
-                    pick_success_text.visibility = View.VISIBLE
-                    2000L.runDelayed { pick_success_text?.visibility = GONE }
+                } else {
+                    products.add(it)
                 }
+
+                lastId = it.id ?: 0
+                pick_success_text.visibility = View.VISIBLE
+                2000L.runDelayed { pick_success_text?.visibility = GONE }
+                //Log.e("products", products.toString())
                 ToneGenerator(AudioManager.STREAM_MUSIC, 100).startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 150)
-                pick_success_text.text = getString(R.string.recognized, it.size, it.size)
+                pick_success_text.text = getString(R.string.recognized, products.size, products.size)
             }
         }
 
@@ -127,8 +122,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         product.quantity = quantity
         product.type = pickMode
         products.add(product)
-
-        goToComplete()
     }
 
     private fun cancelProduct() {
@@ -158,15 +151,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             .show()
     }
 
-    /**
-     * Creates and starts the camera.  Note that this uses a higher resolution in comparison
-     * to other detection examples to enable the barcode detector to detect small barcodes
-     * at long distances.
-     *
-     *
-     * Suppressing InlinedApi since there is a check that the minimum version is met before using
-     * the constant.
-     */
     @SuppressLint("InlinedApi")
     private fun createCameraSource() {
         val context = requireActivity().applicationContext

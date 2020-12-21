@@ -17,6 +17,8 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
     val error = MutableLiveData<String>()
     val products = MutableLiveData<ArrayList<PickProduct>>()
     val product = MutableLiveData<String>()
+    val productIds = ArrayList<String>()
+    val currentProduct = MutableLiveData<PickProduct>()
     private var lastTime: Date? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -50,15 +52,23 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             if (!prods.contains(product)) {
                 lastTime = Date()
                 prods.add(product)
+                productIds.add(product.id.toString())
+                currentProduct.postValue(product)
                 products.postValue(prods as ArrayList<PickProduct>?)
-            } else {
+            } /*else {
                 val seconds: Long = (Date().time - lastTime!!.time) / 1000
                 if (seconds > 3) {
                     lastTime = Date()
                     prods.add(product)
                     products.postValue(prods as ArrayList<PickProduct>?)
                 }
-            }
+            }*/
+        }
+    }
+
+    fun clearCurrentProduct() {
+        viewModelScope.launch {
+            currentProduct.postValue(null)
         }
     }
 }

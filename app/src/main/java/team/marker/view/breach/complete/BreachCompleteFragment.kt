@@ -3,6 +3,7 @@ package team.marker.view.breach.complete
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
+import org.apache.commons.io.FileUtils
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
@@ -58,7 +60,15 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         viewModel.photos.value = mutableListOf()
         val cw = ContextWrapper(requireContext())
         val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
-        directory.deleteRecursively()
+        /*val files = directory.listFiles()
+        files.forEach {
+            Log.e("file", it.name)
+            //it.delete()
+        }*/
+        //directory.delete()
+        //FileUtils.deleteDirectory(directory)
+        //directory.deleteRecursively()
+        //FileUtils.cleanDirectory(directory)
         super.onDetach()
     }
 

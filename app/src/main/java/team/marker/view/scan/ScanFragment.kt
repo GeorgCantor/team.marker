@@ -43,8 +43,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         super.onViewCreated(view, savedInstanceState)
 
         val displayMetrics = DisplayMetrics()
-        val wm =
-            requireActivity().applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = requireActivity().applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         wm.defaultDisplay.getMetrics(displayMetrics)
 
         val screenWidth = displayMetrics.widthPixels
@@ -60,7 +59,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 barcodes?.forEach { key, value ->
-                    val product = value.rawValue?.takeLastWhile { it.isDigit() }
+                    val product = value.rawValue.takeLastWhile { it.isDigit() }
                     if (product != null && product != "") products.add(product)
                 }
 

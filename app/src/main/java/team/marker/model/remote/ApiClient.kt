@@ -45,7 +45,7 @@ object ApiClient {
             .addInterceptor(OfflineResponseCacheInterceptor(context))
             .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
-            .cache(Cache(File(context.cacheDir, "ResponsesCache"), (10 * 1024 * 1024).toLong()))
+            .cache(Cache(File(context.cacheDir, "ResponsesCache"), (30 * 1024 * 1024).toLong()))
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)

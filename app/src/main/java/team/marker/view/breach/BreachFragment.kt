@@ -42,15 +42,13 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
         super.onViewCreated(view, savedInstanceState)
 
         val displayMetrics = DisplayMetrics()
-        val wm =
-            requireActivity().applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = requireActivity().applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         wm.defaultDisplay.getMetrics(displayMetrics)
 
         val screenWidth = displayMetrics.widthPixels
         val screenHeight = displayMetrics.heightPixels
 
-        barcodeDetector =
-            BarcodeDetector.Builder(requireContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build()
+        barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build()
 
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
