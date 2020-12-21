@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,13 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+            }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, callback)
+
         var productId = 0
         try {
             if (productIds.size > 0 && productIds[0] != "") productId = productIds[0].toInt()
@@ -89,6 +97,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             return
         }
         viewModel.breach(productId, reasonId, userReason, comment)
-        findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)
+        activity?.onBackPressed()
     }
 }
