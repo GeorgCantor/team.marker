@@ -1,11 +1,10 @@
 package team.marker.view.breach.complete
 
+import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
-import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -17,7 +16,10 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.responses.ResponseMessage
 import java.io.File
 
-class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel() {
+class BreachCompleteViewModel(
+    private val app: Application,
+    private val repository: ApiRepository
+) : AndroidViewModel(app) {
 
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
@@ -34,7 +36,6 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
                 val requestBody = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val filePart = MultipartBody.Part.createFormData("files[]", it.name, requestBody)
                 files.add(filePart)
-                Log.e("My Tag", "add " + it.name)
             }
             repository.breach(
                 productId,
@@ -43,9 +44,13 @@ class BreachCompleteViewModel(private val repository: ApiRepository) : ViewModel
                 comment.toRequestBody("text/plain".toMediaTypeOrNull()),
                 files.toTypedArray()
             ).apply {
-                Log.e("My Tag", "response: " + this?.response.toString())
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
+
+                photos.value = mutableListOf()
+                val cw = ContextWrapper(app.baseContext)
+                val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+                directory.deleteRecursively()
             }
         }
     }
