@@ -26,8 +26,10 @@ import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import team.marker.R
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
-import java.io.*
-import java.lang.Math.ceil
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -196,16 +198,16 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         var rotate = 0
         Log.e("My Tag", orient.toString() + ", " + bm.width + ", " + bm.height + ", x: " + x.toInt() + ", y: " + y.toInt())
         when (orient) {
-            0 -> rotate = 0
-            1 -> rotate = 90
-            2 -> rotate = 180
-            3 -> rotate = 270
+            0 -> rotate = 90
+            1 -> rotate = 0
+            2 -> rotate = 270
+            3 -> rotate = 180
         }
         // matrix
         val matrix = Matrix()
         matrix.postScale(ratio, ratio)
         Log.e("scaleWidth", scaleWidth.toString() + ", " + scaleHeight.toString())
-        //matrix.postRotate(rotate.toFloat())
+        matrix.postRotate(rotate.toFloat())
         // create
         val resizedBitmap = Bitmap.createBitmap(bm, 0, y.toInt(), size, size, matrix, true)
         bm.recycle()
