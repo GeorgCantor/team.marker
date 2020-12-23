@@ -18,6 +18,7 @@ import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
+import team.marker.util.runDelayed
 import team.marker.util.slideAnim
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +49,11 @@ class MainActivity : AppCompatActivity() {
         navHostFragment.navController.graph = graph
 
         getNetworkLiveData(applicationContext).observe(this) { isConnected ->
-            no_internet_warning.slideAnim(root_layout, !isConnected)
+            if (isConnected) {
+                no_internet_warning.slideAnim(root_layout, false)
+            } else {
+                5000L.runDelayed { no_internet_warning.slideAnim(root_layout, true) }
+            }
         }
     }
 }
