@@ -1,18 +1,12 @@
 package team.marker.view.pick.camera.barcode
 
-import android.R.attr.x
-import android.R.attr.y
 import android.graphics.*
-import android.text.TextPaint
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.barcode.Barcode
-import kotlinx.android.synthetic.main.fragment_pick.*
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.GraphicOverlay.Graphic
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.util.*
-
 
 /**
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic
@@ -53,23 +47,18 @@ class BarcodeGraphic internal constructor(
         rect.bottom = translateY(rect.bottom)
         canvas!!.drawRect(rect, rectPaint)
         val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 1000 else 100
-        //Log.e("seconds 2", seconds.toString())
         val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
         viewModel.products.observe(lifecycleOwner) {
             if (seconds > 3 && productId != lastProductId) {
-                //Log.e("new product 2", productId + ":" + lastProductId)
-                //Log.e("time", lastTime?.time.toString())
                 lastTime = Date()
                 lastProductId = productId
                 viewModel.getProduct(productId)
             }
             viewModel.product.observe(lifecycleOwner) {
-                //val newProdName = if (!viewModel.productIds.contains(productId)) it else "[добавлен] " + it
                 if (prodName != it) prodName = it
             }
         }
 
-        //canvas.drawText("_", rect.left, rect.bottom + 50, backgroundPaint)
         if (prodName.isNotEmpty()) {
             val background: Rect = getTextBackgroundSize(rect.left, rect.bottom + 100, prodName, textPaint)
             canvas.drawRect(background, backgroundPaint)

@@ -1,11 +1,9 @@
 package team.marker.view.pick.camera.barcode
 
-import android.util.Log
 import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.barcode.Barcode
 import team.marker.model.requests.PickProduct
-import team.marker.util.runDelayed
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.util.*
@@ -38,15 +36,11 @@ class BarcodeGraphicTracker internal constructor(
     override fun onUpdate(detectionResults: Detections<Barcode?>, item: Barcode?) {
         mOverlay?.add(mGraphic)
         mGraphic.updateItem(item)
-        //Log.e("time 1", (Date().time).toString())
-        //Log.e("time 2", lastTime!!.time.toString())
         val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 1000 else 100
-        //Log.e("seconds", seconds.toString())
         if (seconds < 5) return
         lastTime = Date()
         val productId = item?.rawValue?.takeLastWhile { it.isDigit() }?.toIntOrNull() ?: return
         if (productId == lastProductId) return
-        //Log.e("new product", item.toString())
         viewModel.addProduct(
             PickProduct(
                 productId,
