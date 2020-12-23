@@ -645,13 +645,10 @@ private constructor() {
         parameters.previewFormat = ImageFormat.NV21
         setRotation(camera, parameters, requestedCameraId)
         if (focusMode != null) {
-            if (parameters.supportedFocusModes.contains(
-                    focusMode
-                )
-            ) {
+            if (parameters.supportedFocusModes.contains(focusMode)) {
                 parameters.focusMode = focusMode
             } else {
-                Log.i(TAG, "Camera focus mode: " + focusMode + " is not supported on this device.")
+                Log.i(TAG, "Camera focus mode: $focusMode is not supported on this device.")
             }
         }
 
@@ -665,10 +662,7 @@ private constructor() {
                 ) {
                     parameters.flashMode = flashMode
                 } else {
-                    Log.i(
-                        TAG,
-                        "Camera flash mode: " + flashMode + " is not supported on this device."
-                    )
+                    Log.i(TAG, "Camera flash mode: $flashMode is not supported on this device.")
                 }
             }
         }

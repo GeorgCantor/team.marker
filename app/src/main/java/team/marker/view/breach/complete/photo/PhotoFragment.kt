@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
-import android.util.Log
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
@@ -196,7 +195,6 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         val size = if (width > height) height else width
         // rotate
         var rotate = 0
-        Log.e("My Tag", orient.toString() + ", " + bm.width + ", " + bm.height + ", x: " + x.toInt() + ", y: " + y.toInt())
         when (orient) {
             0 -> rotate = 90
             1 -> rotate = 0
@@ -206,7 +204,6 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         // matrix
         val matrix = Matrix()
         matrix.postScale(ratio, ratio)
-        Log.e("scaleWidth", scaleWidth.toString() + ", " + scaleHeight.toString())
         matrix.postRotate(rotate.toFloat())
         // create
         val resizedBitmap = Bitmap.createBitmap(bm, 0, y.toInt(), size, size, matrix, true)

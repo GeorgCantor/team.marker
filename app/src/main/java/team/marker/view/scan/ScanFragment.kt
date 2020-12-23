@@ -23,6 +23,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.Barcode.ALL_FORMATS
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
@@ -49,18 +50,16 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         val screenWidth = displayMetrics.widthPixels
         val screenHeight = displayMetrics.heightPixels
 
-        barcodeDetector =
-            BarcodeDetector.Builder(requireContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build()
+        barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(ALL_FORMATS).build()
 
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
             }
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
-                val barcodes = detections?.detectedItems
-                barcodes?.forEach { key, value ->
+                detections?.detectedItems?.forEach { _, value ->
                     val product = value.rawValue.takeLastWhile { it.isDigit() }
-                    if (product != null && product != "") products.add(product)
+                    if (product != "") products.add(product)
                 }
 
                 when (products.size) {
@@ -139,7 +138,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     private fun getCamera(cameraSource: CameraSource?): Camera? {
         val declaredFields: Array<Field> = CameraSource::class.java.declaredFields
         for (field in declaredFields) {
-            if (field.type === Camera::class.java) {
+            if (field.type == Camera::class.java) {
                 field.isAccessible = true
                 try {
                     return field.get(cameraSource) as Camera
