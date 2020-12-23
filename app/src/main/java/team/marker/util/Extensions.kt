@@ -5,13 +5,18 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
+import android.transition.Slide
+import android.transition.TransitionManager.beginDelayedTransition
+import android.view.Gravity.BOTTOM
 import android.view.View
+import android.view.View.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import team.marker.R
 import java.io.File
@@ -45,6 +50,25 @@ fun SharedPreferences.getAny(type: Any, key: String): Any {
         else -> getInt(key, 0)
     }
 }
+
+fun View.slideAnim(rootLayout: ConstraintLayout, show: Boolean) {
+    Slide(BOTTOM).apply {
+        duration = 600
+        addTarget(this@slideAnim)
+        beginDelayedTransition(rootLayout, this)
+    }
+    setVisibility(show)
+}
+
+fun View.setVisibility(visible: Boolean) {
+    visibility = if (visible) VISIBLE else GONE
+}
+
+fun View.visible() { visibility = VISIBLE }
+
+fun View.invisible() { visibility = INVISIBLE }
+
+fun View.gone() { visibility = GONE }
 
 fun View.hideKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)

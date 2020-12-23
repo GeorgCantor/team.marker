@@ -16,7 +16,9 @@ import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
+import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
+import team.marker.util.slideAnim
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,5 +46,9 @@ class MainActivity : AppCompatActivity() {
             graph.startDestination = R.id.homeFragment
         }
         navHostFragment.navController.graph = graph
+
+        getNetworkLiveData(applicationContext).observe(this) { isConnected ->
+            no_internet_warning.slideAnim(root_layout, !isConnected)
+        }
     }
 }
