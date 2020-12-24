@@ -21,6 +21,7 @@ import team.marker.util.Constants
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
 import team.marker.util.putAny
+import team.marker.util.showDialog
 import team.marker.view.MainActivity
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -35,7 +36,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         btn_scan.setOnClickListener { scan() }
         btn_pick.setOnClickListener { pick() }
         btn_breach.setOnClickListener { breach() }
-        btn_logout.setOnClickListener { logout() }
+        btn_logout.setOnClickListener { context?.showDialog { logout() } }
 
         getLocation()
     }

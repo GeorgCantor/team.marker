@@ -19,6 +19,9 @@
     <string name="breach">Некондиция</string>
     <string name="send_breach_request">Отправить отчет о некондиционных изделиях</string>
     <string name="exit">Выход</string>
+    <string name="logout_dialog_title">Выйти из профиля?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     // pick
     <string name="enter_number_accepted_units">Введите количество оприходуемых единиц (шт.)</string>
     <string name="enter_product_length">Введите длину оприходуемой продукции (в погонных метрах)</string>

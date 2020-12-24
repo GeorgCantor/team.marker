@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import team.marker.R
@@ -97,4 +98,11 @@ fun Context.showError(textView: TextView, message: String?, hide: Int) {
         }
         3350L.runDelayed { textView.text = "" }
     }
+}
+
+fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
+    setTitle(getString(R.string.logout_dialog_title))
+    setPositiveButton(getString(R.string.yes)) { _, _ -> action() }
+    setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
+    create().show()
 }
