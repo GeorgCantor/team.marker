@@ -65,7 +65,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
             override fun onTextChanged(chars: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 when (chars?.isBlank()) {
-                    true -> comment_input_view.error = getString(R.string.write_details)
+                    true -> comment_input_view.error = getString(R.string.enter_description)
                     false -> comment_input_view.error = null
                 }
             }
@@ -83,7 +83,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         val userReason = ""
         val comment = input_comment.text.toString().trim()
         if (comment == "") {
-            comment_input_view.error = getString(R.string.write_details)
+            comment_input_view.error = getString(R.string.enter_description)
             return
         }
         viewModel.breach(productId, reasonId, userReason, comment)

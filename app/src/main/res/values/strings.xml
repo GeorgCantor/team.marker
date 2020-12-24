@@ -10,6 +10,7 @@
     <string name="terms_conditions">Осуществляя вход вы выражаете согласие с нашими Условиями обслуживания и Политикой конфиденциальности</string>
     <string name="back">Назад</string>
     <string name="write_details">Напишите подробности …</string>
+    <string name="enter_description">Введите описание</string>
     <string name="internet_unavailable">интернет недоступен</string>
     // home
     <string name="get_product_info">Получение подробной информации об изделии</string>
