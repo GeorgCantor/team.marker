@@ -55,7 +55,7 @@ class BarcodeGraphic internal constructor(
                 viewModel.getProduct(productId)
             }
             viewModel.product.observe(lifecycleOwner) {
-                if (prodName != it) prodName = it
+                it?.let { if (prodName != it) prodName = it }
             }
         }
 
