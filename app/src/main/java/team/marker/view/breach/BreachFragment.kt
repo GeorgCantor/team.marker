@@ -18,25 +18,32 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.os.bundleOf
+import androidx.core.text.isDigitsOnly
 import androidx.core.util.forEach
 import androidx.core.util.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.MultiDetector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.gms.vision.text.TextBlock
+import com.google.android.gms.vision.text.TextRecognizer
 import kotlinx.android.synthetic.main.fragment_breach.*
 import team.marker.R
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.shortToast
 import java.lang.reflect.Field
+import kotlin.properties.Delegates
 
 class BreachFragment : Fragment(R.layout.fragment_breach) {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
+    private val products = mutableListOf<String>()
     private var torchOn: Boolean = false
+    private var textRecognizer by Delegates.notNull<TextRecognizer>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +56,6 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
         val screenHeight = displayMetrics.heightPixels
 
         barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build()
-
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
             }
@@ -57,25 +63,43 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 if (barcodes?.isNotEmpty() == true) {
-                    val products = arrayListOf<String>()
                     barcodes.forEach { _, value ->
                         val product = value.rawValue.takeLastWhile { it.isDigit() }
                         if (product != "") products.add(product)
                     }
-                    if (products.isNotEmpty()) {
-                        if (isResumed) {
-                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                            findNavController().navigate(
-                                R.id.action_breachFragment_to_breachCompleteFragment,
-                                bundleOf(PRODUCT_IDS to products)
-                            )
-                        }
-                    }
+                    if (products.isNotEmpty()) openBreachComplete()
                 }
             }
         })
 
-        cameraSource = CameraSource.Builder(requireContext(), barcodeDetector)
+        textRecognizer = TextRecognizer.Builder(requireContext()).build()
+        textRecognizer.setProcessor(object : Detector.Processor<TextBlock> {
+            override fun release() {}
+
+            override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
+                val items = detections.detectedItems
+                if (items.size() <= 0) return
+
+                val builder = StringBuilder()
+                for (i in 0 until items.size()) {
+                    val item = items.valueAt(i)
+                    if (item.value.isDigitsOnly()) builder.append(item.value)
+                }
+
+                if (builder.length == 13) {
+                    val id = builder.trimStart('0').dropLast(1)
+                    products.add(id.toString())
+                    openBreachComplete()
+                }
+            }
+        })
+
+        val multiDetector = MultiDetector.Builder()
+            .add(barcodeDetector)
+            .add(textRecognizer)
+            .build()
+
+        cameraSource = CameraSource.Builder(requireContext(), multiDetector)
             .setRequestedPreviewSize(screenHeight, screenWidth).setRequestedFps(60f)
             .setAutoFocusEnabled(true).build()
 
@@ -155,5 +179,15 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
             }
         }
         return null
+    }
+
+    private fun openBreachComplete() {
+        if (isResumed) {
+            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+            findNavController().navigate(
+                R.id.action_breachFragment_to_breachCompleteFragment,
+                bundleOf(PRODUCT_IDS to products)
+            )
+        }
     }
 }
