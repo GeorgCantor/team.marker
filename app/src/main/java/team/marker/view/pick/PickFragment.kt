@@ -165,7 +165,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         val barcodeFactory = BarcodeTrackerFactory(
             graphicOverlay as GraphicOverlay<BarcodeGraphic?>,
             viewModel,
-            this
+            viewLifecycleOwner
         )
         barcodeDetector.setProcessor(MultiProcessor.Builder(barcodeFactory).build())
 
