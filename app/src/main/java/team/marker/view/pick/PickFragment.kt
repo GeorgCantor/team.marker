@@ -9,8 +9,9 @@ import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FLASH_MODE_OFF
 import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
-import android.media.AudioManager
+import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -18,12 +19,17 @@ import android.view.View.GONE
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.MultiDetector
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.gms.vision.text.TextBlock
+import com.google.android.gms.vision.text.TextRecognizer
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_pick.*
@@ -43,12 +49,14 @@ import team.marker.view.pick.camera.barcode.BarcodeGraphic
 import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.io.IOException
+import kotlin.properties.Delegates
 
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private val products = arrayListOf<PickProduct>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
+    private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
     private var pickMode = 0
     private var lastId = 0
@@ -79,13 +87,13 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         4 -> pick_note.text = getString(R.string.enter_product_volume)
                     }
                 } else {
-                    products.add(it)
+                    if (lastId != it.id) products.add(it)
                 }
 
                 lastId = it.id ?: 0
                 pick_success_text.visibility = View.VISIBLE
                 2000L.runDelayed { pick_success_text?.visibility = GONE }
-                ToneGenerator(AudioManager.STREAM_MUSIC, 100).startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 150)
+                ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                 pick_success_text.text = getString(R.string.recognized, products.size, products.size)
             }
         }
@@ -161,7 +169,42 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         )
         barcodeDetector.setProcessor(MultiProcessor.Builder(barcodeFactory).build())
 
-        var builder = CameraSource.Builder(requireActivity().applicationContext, barcodeDetector)
+        textRecognizer = TextRecognizer.Builder(requireContext()).build()
+        textRecognizer.setProcessor(object : Detector.Processor<TextBlock> {
+            override fun release() {}
+
+            override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
+                val items = detections.detectedItems
+                if (items.size() <= 0) return
+
+                val builder = StringBuilder()
+                for (i in 0 until items.size()) {
+                    val item = items.valueAt(i)
+                    if (item.value.isDigitsOnly()) builder.append(item.value)
+                }
+
+                if (builder.length == 13) {
+                    val id = builder.trimStart('0').dropLast(1).toString().toInt()
+                    if (lastId != id) {
+                        products.add(PickProduct(id, 1.toDouble(), 0))
+                        lastId = id
+                        pick_toolbar.post {
+                            pick_success_text.visibility = View.VISIBLE
+                            2000L.runDelayed { pick_success_text?.visibility = GONE }
+                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                            pick_success_text.text = getString(R.string.recognized, products.size, products.size)
+                        }
+                    }
+                }
+            }
+        })
+
+        val multiDetector = MultiDetector.Builder()
+            .add(barcodeDetector)
+            .add(textRecognizer)
+            .build()
+
+        var builder = CameraSource.Builder(requireActivity().applicationContext, multiDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
