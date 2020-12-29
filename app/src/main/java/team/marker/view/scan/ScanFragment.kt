@@ -17,14 +17,18 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.os.bundleOf
+import androidx.core.text.isDigitsOnly
 import androidx.core.util.forEach
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.MultiDetector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.Barcode.ALL_FORMATS
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.gms.vision.text.TextBlock
+import com.google.android.gms.vision.text.TextRecognizer
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
@@ -32,6 +36,7 @@ import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.shortToast
 import java.lang.reflect.Field
+import kotlin.properties.Delegates
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
 
@@ -39,6 +44,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     private lateinit var cameraSource: CameraSource
     private val products = mutableListOf<String>()
     private var torchOn: Boolean = false
+    private var textRecognizer by Delegates.notNull<TextRecognizer>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +57,6 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         val screenHeight = displayMetrics.heightPixels
 
         barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(ALL_FORMATS).build()
-
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
             }
@@ -69,7 +74,34 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             }
         })
 
-        cameraSource = CameraSource.Builder(requireContext(), barcodeDetector)
+        textRecognizer = TextRecognizer.Builder(requireContext()).build()
+        textRecognizer.setProcessor(object : Detector.Processor<TextBlock> {
+            override fun release() {}
+
+            override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
+                val items = detections.detectedItems
+                if (items.size() <= 0) return
+
+                val builder = StringBuilder()
+                for (i in 0 until items.size()) {
+                    val item = items.valueAt(i)
+                    if (item.value.isDigitsOnly()) builder.append(item.value)
+                }
+
+                if (builder.length == 13) {
+                    val id = builder.trimStart('0').dropLast(1)
+                    products.add(id.toString())
+                    openProduct()
+                }
+            }
+        })
+
+        val multiDetector = MultiDetector.Builder()
+            .add(barcodeDetector)
+            .add(textRecognizer)
+            .build()
+
+        cameraSource = CameraSource.Builder(requireContext(), multiDetector)
             .setRequestedPreviewSize(screenHeight, screenWidth).setRequestedFps(60f)
             .setAutoFocusEnabled(true).build()
 

@@ -65,37 +65,4 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             }*/
         }
     }
-
-    fun calculateBarcode(value: String) {
-        viewModelScope.launch {
-            var code = value
-
-            while (code.length < 12) {
-                code = "0${code}"
-            }
-
-            var evenSum = 0
-            var oddSum = 0
-            var counter = 0
-
-            code.toList().forEach {
-                if (counter % 2 == 0) {
-                    evenSum += it.toString().toInt()
-                } else {
-                    oddSum += it.toString().toInt()
-                }
-                counter++
-            }
-
-            var sum = evenSum + (oddSum * 3)
-            if (sum > 9) sum = sum.toString().takeLast(1).toInt()
-
-            var result = 0
-            if (sum != 0) {
-                result = 10 - sum
-            }
-
-            val resultCode = "$code$result"
-        }
-    }
 }
