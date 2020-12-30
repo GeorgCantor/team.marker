@@ -8,7 +8,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,8 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_product.*
 import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.util.*
@@ -34,9 +31,9 @@ import team.marker.util.Constants.TITLE
 
 class ProductFragment : Fragment() {
 
-    private lateinit var viewModel: ProductViewModel
-    private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
+    private val viewModel by inject<ProductViewModel>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
+    private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
 
     private lateinit var list1: ExpandList
     private lateinit var list2: ExpandList
@@ -46,12 +43,6 @@ class ProductFragment : Fragment() {
 
     private lateinit var manufacturerMap: GoogleMap
     private lateinit var customerMap: GoogleMap
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
-        viewModel = getViewModel { parametersOf() }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

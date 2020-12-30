@@ -2,7 +2,6 @@ package team.marker.view.pick.products
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -39,10 +38,5 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
         })
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 }

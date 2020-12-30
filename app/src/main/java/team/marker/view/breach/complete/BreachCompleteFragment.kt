@@ -74,7 +74,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onResume() {
         super.onResume()
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
         comment_input_view.error = null
     }
 

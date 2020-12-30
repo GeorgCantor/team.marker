@@ -8,7 +8,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -33,29 +32,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_scan.setOnClickListener { scan() }
-        btn_pick.setOnClickListener { pick() }
-        btn_breach.setOnClickListener { breach() }
+        btn_scan.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_scannFragment) }
+        btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
+        btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
         btn_logout.setOnClickListener { context?.showDialog { logout() } }
 
         getLocation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
-    }
-
-    private fun scan() {
-        findNavController().navigate(R.id.action_homeFragment_to_scannFragment)
-    }
-
-    private fun pick() {
-        findNavController().navigate(R.id.action_homeFragment_to_pickFragment)
-    }
-
-    private fun breach() {
-        findNavController().navigate(R.id.action_homeFragment_to_breachFragment)
     }
 
     private fun logout() {

@@ -20,11 +20,6 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.android.synthetic.main.toolbar_file.*
@@ -28,7 +27,6 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
 
         class PdfStream : AsyncTask<String?, Void?, InputStream?>() {
             override fun doInBackground(vararg strings: String?): InputStream? {

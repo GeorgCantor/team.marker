@@ -2,7 +2,6 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -37,11 +36,6 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
         btn_send.setOnClickListener { send(size) }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.statusBarColor = getColor(requireContext(), R.color.dark_blue)
     }
 
     private fun products() {

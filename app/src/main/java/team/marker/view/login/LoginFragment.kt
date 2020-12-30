@@ -23,11 +23,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel by inject<LoginViewModel>()
     private val preferences: SharedPreferences by inject(named(Constants.MAIN_STORAGE))
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.window?.statusBarColor = resources.getColor(R.color.dark_blue)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
