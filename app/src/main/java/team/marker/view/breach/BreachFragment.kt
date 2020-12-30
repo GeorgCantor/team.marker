@@ -33,8 +33,8 @@ import com.google.android.gms.vision.text.TextRecognizer
 import kotlinx.android.synthetic.main.fragment_breach.*
 import team.marker.R
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.getCamera
 import team.marker.util.shortToast
-import java.lang.reflect.Field
 import kotlin.properties.Delegates
 
 class BreachFragment : Fragment(R.layout.fragment_breach) {
@@ -158,27 +158,11 @@ class BreachFragment : Fragment(R.layout.fragment_breach) {
     fun toggleTorch(torchOn: Boolean) {
         requireActivity().packageManager.hasSystemFeature(FEATURE_CAMERA_FLASH)
         cameraSource.start(sv_barcode.holder)
-        val camera: Camera? = getCamera(cameraSource)
+        val camera: Camera? = cameraSource.getCamera()
         val parameters: Camera.Parameters = camera!!.parameters
         parameters.flashMode = if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH
         camera.parameters = parameters
         camera.startPreview()
-    }
-
-    private fun getCamera(cameraSource: CameraSource?): Camera? {
-        val declaredFields: Array<Field> = CameraSource::class.java.declaredFields
-        for (field in declaredFields) {
-            if (field.type === Camera::class.java) {
-                field.isAccessible = true
-                try {
-                    return field.get(cameraSource) as Camera
-                } catch (e: IllegalAccessException) {
-                    e.printStackTrace()
-                }
-                break
-            }
-        }
-        return null
     }
 
     private fun openBreachComplete() {

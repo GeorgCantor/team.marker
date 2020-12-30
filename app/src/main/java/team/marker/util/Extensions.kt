@@ -2,6 +2,7 @@ package team.marker.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.hardware.Camera
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -19,6 +20,8 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
+import com.google.android.gms.vision.CameraSource
+import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -50,6 +53,20 @@ fun SharedPreferences.getAny(type: Any, key: String): Any {
         is String -> getString(key, "") as Any
         else -> getInt(key, 0)
     }
+}
+
+fun CameraSource.getCamera(): Camera? {
+    for (field in CameraSource::class.java.declaredFields) {
+        if (field.type == Camera::class.java) {
+            field.isAccessible = true
+            try {
+                return field.get(this) as Camera
+            } catch (e: IllegalAccessException) {
+            }
+            break
+        }
+    }
+    return null
 }
 
 fun View.slideAnim(rootLayout: ConstraintLayout, show: Boolean) {

@@ -34,8 +34,8 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.getCamera
 import team.marker.util.shortToast
-import java.lang.reflect.Field
 import kotlin.properties.Delegates
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
@@ -160,31 +160,15 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     fun toggleTorch(torchOn: Boolean) {
         requireActivity().packageManager.hasSystemFeature(FEATURE_CAMERA_FLASH)
         cameraSource.start(sv_barcode.holder)
-        val camera: Camera? = getCamera(cameraSource)
+        val camera: Camera? = cameraSource.getCamera()
         val parameters: Camera.Parameters = camera!!.parameters
         parameters.flashMode = if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH
         camera.parameters = parameters
         camera.startPreview()
     }
 
-    private fun getCamera(cameraSource: CameraSource?): Camera? {
-        val declaredFields: Array<Field> = CameraSource::class.java.declaredFields
-        for (field in declaredFields) {
-            if (field.type == Camera::class.java) {
-                field.isAccessible = true
-                try {
-                    return field.get(cameraSource) as Camera
-                } catch (e: IllegalAccessException) {
-                    e.printStackTrace()
-                }
-                break
-            }
-        }
-        return null
-    }
-
     fun openProduct() {
-        if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val productIdsStr = products.joinToString(",")
         products.clear()
         findNavController(this).navigate(
@@ -194,7 +178,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     }
 
     fun openProducts() {
-        if (this.isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val productIdsStr = products.joinToString(",")
         products.clear()
         findNavController(this).navigate(
