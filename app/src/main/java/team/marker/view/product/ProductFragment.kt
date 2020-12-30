@@ -9,6 +9,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,8 +27,10 @@ import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
+import team.marker.util.Constants.PATH
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.Constants.TITLE
 
 class ProductFragment : Fragment() {
 
@@ -156,15 +159,14 @@ class ProductFragment : Fragment() {
                 expand_2_empty.visible()
             }
 
-            if (it.files?.size!! > 0) {
+            if (it.files?.isNotEmpty() == true) {
                 product_files_recycler.isNestedScrollingEnabled = false;
                 product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
                     if (file.type == 1) {
-                        val intent = Intent(activity, WebViewActivity::class.java)
-                        intent.putExtra("path", file.path)
-                        intent.putExtra("title", file.title)
-                        startActivity(intent)
-                        activity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        findNavController().navigate(
+                            R.id.action_productFragment_to_webViewFragment,
+                            bundleOf(PATH to file.path, TITLE to file.title)
+                        )
                     }
                 }
             } else {
