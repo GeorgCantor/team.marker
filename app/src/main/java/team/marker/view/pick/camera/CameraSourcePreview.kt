@@ -9,6 +9,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
 import androidx.annotation.RequiresPermission
+import com.google.android.gms.common.images.Size
 import java.io.IOException
 
 class CameraSourcePreview(
@@ -61,9 +62,9 @@ class CameraSourcePreview(
         if (mStartRequested && mSurfaceAvailable) {
             mCameraSource!!.start(mSurfaceView.holder)
             if (mOverlay != null) {
-                val size = mCameraSource!!.previewSize
-                val min = Math.min(size!!.width, size.height)
-                val max = Math.max(size.width, size.height)
+                val size: Size? = mCameraSource!!.previewSize
+                val min = size!!.width.coerceAtMost(size.height)
+                val max = size.width.coerceAtLeast(size.height)
                 if (isPortraitMode) {
                     // Swap width and height sizes when in portrait, since it will be rotated by
                     // 90 degrees
@@ -97,36 +98,51 @@ class CameraSourcePreview(
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        var width = 320
-        var height = 240
+        var previewWidth = 320
+        var previewHeight = 240
         if (mCameraSource != null) {
-            val size = mCameraSource!!.previewSize
+            val size: Size? = mCameraSource!!.previewSize
             if (size != null) {
-                width = size.width
-                height = size.height
+                previewWidth = size.width
+                previewHeight = size.height
             }
         }
 
         // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
         if (isPortraitMode) {
-            val tmp = width
-            width = height
-            height = tmp
+            val tmp = previewWidth
+            previewWidth = previewHeight
+            previewHeight = tmp
         }
-        val layoutWidth = right - left
-        val layoutHeight = bottom - top
+        val viewWidth = right - left
+        val viewHeight = bottom - top
+        val childWidth: Int
+        val childHeight: Int
+        var childXOffset = 0
+        var childYOffset = 0
+        val widthRatio = viewWidth.toFloat() / previewWidth.toFloat()
+        val heightRatio = viewHeight.toFloat() / previewHeight.toFloat()
 
-        // Computes height and width for potentially doing fit width.
-        var childWidth = layoutWidth
-        var childHeight = layoutHeight
-
-        // If height is too tall using fit width, does fit height instead.
-        if (childHeight > layoutHeight) {
-            childHeight = layoutHeight
-            childWidth = (layoutHeight.toFloat() / height.toFloat() * width) as Int
+        // To fill the view with the camera preview, while also preserving the correct aspect ratio,
+        // it is usually necessary to slightly oversize the child and to crop off portions along one
+        // of the dimensions.  We scale up based on the dimension requiring the most correction, and
+        // compute a crop offset for the other dimension.
+        if (widthRatio > heightRatio) {
+            childWidth = viewWidth
+            childHeight = (previewHeight.toFloat() * widthRatio).toInt()
+            childYOffset = (childHeight - viewHeight) / 2
+        } else {
+            childWidth = (previewWidth.toFloat() * heightRatio).toInt()
+            childHeight = viewHeight
+            childXOffset = (childWidth - viewWidth) / 2
         }
         for (i in 0 until childCount) {
-            getChildAt(i).layout(0, 0, childWidth, childHeight)
+            // One dimension will be cropped.  We shift child over or up by this offset and adjust
+            // the size to maintain the proper aspect ratio.
+            getChildAt(i).layout(
+                -1 * childXOffset, -1 * childYOffset,
+                childWidth - childXOffset, childHeight - childYOffset
+            )
         }
         try {
             startIfReady()
