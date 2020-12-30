@@ -84,8 +84,6 @@ fun View.setVisibility(visible: Boolean) {
 
 fun View.visible() { visibility = VISIBLE }
 
-fun View.invisible() { visibility = INVISIBLE }
-
 fun View.gone() { visibility = GONE }
 
 fun View.hideKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

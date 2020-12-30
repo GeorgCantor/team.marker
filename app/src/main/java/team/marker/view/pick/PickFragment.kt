@@ -37,12 +37,10 @@ import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.model.requests.PickProduct
+import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
-import team.marker.util.getAny
-import team.marker.util.hideKeyboard
-import team.marker.util.runDelayed
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
@@ -76,7 +74,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         viewModel.currentProduct.observe(viewLifecycleOwner) {
             if (it != null) {
                 if (pickMode != 0) {
-                    pick_window.visibility = View.VISIBLE
+                    pick_window.visible()
                     when (pickMode) {
                         1 -> {
                             pick_note.text = getString(R.string.enter_number_accepted_units)
@@ -91,8 +89,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 }
 
                 lastId = it.id ?: 0
-                pick_success_text.visibility = View.VISIBLE
-                2000L.runDelayed { pick_success_text?.visibility = GONE }
+                pick_success_text.visible()
+                2000L.runDelayed { pick_success_text?.gone() }
                 ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                 pick_success_text.text = getString(R.string.recognized, products.size, products.size)
             }
@@ -112,8 +110,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun addProductQuantity() {
-        pick_window.visibility = GONE
-        pick_bg.visibility = GONE
+        pick_window.gone()
+        pick_bg.gone()
         requireView().hideKeyboard()
 
         val quantityRaw = pick_quantity.text.toString()

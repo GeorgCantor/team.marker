@@ -6,13 +6,14 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.android.synthetic.main.fragment_pick_products.*
 import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.setVisibility
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -24,8 +25,8 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
         viewModel.getProducts(productIds)
 
-        viewModel.progressIsVisible.observe(viewLifecycleOwner, { visible ->
-            progress_bar.visibility = if (visible) View.VISIBLE else View.GONE
+        viewModel.progressIsVisible.observe(viewLifecycleOwner, {
+            progress_bar.setVisibility(it)
         })
 
         viewModel.response.observe(viewLifecycleOwner, {
