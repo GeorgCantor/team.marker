@@ -6,11 +6,9 @@ import android.hardware.Camera
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
-import android.transition.Slide
-import android.transition.TransitionManager.beginDelayedTransition
-import android.view.Gravity.BOTTOM
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -18,10 +16,8 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.google.android.gms.vision.CameraSource
-import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -67,15 +63,6 @@ fun CameraSource.getCamera(): Camera? {
         }
     }
     return null
-}
-
-fun View.slideAnim(rootLayout: ConstraintLayout, show: Boolean) {
-    Slide(BOTTOM).apply {
-        duration = 600
-        addTarget(this@slideAnim)
-        beginDelayedTransition(rootLayout, this)
-        setVisibility(show)
-    }
 }
 
 fun View.setVisibility(visible: Boolean) {

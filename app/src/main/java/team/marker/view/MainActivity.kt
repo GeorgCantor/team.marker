@@ -19,7 +19,7 @@ import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
-import team.marker.util.slideAnim
+import team.marker.util.setVisibility
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         }
         navHostFragment.navController.graph = graph
 
-        getNetworkLiveData(applicationContext).observe(this) { isConnected ->
-            no_internet_warning.slideAnim(root_layout, !isConnected)
+        getNetworkLiveData(applicationContext).observe(this) {
+            no_internet_warning.setVisibility(!it)
         }
     }
 }
