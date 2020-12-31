@@ -18,8 +18,7 @@
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_back"
-        tools:targetApi="lollipop" />
+        app:srcCompat="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/toolbar_text"

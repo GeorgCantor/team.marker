@@ -56,8 +56,7 @@
                 android:stateListAnimator="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_description"
-                tools:targetApi="lollipop">
+                app:layout_constraintTop_toBottomOf="@id/text_description">
 
                 <ImageView
                     android:id="@+id/ic_update_0"
@@ -120,8 +119,7 @@
                 android:stateListAnimator="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_update_0"
-                tools:targetApi="lollipop">
+                app:layout_constraintTop_toBottomOf="@id/btn_update_0">
 
                 <ImageView
                     android:id="@+id/ic_update_1"
@@ -184,8 +182,7 @@
                 android:stateListAnimator="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_update_1"
-                tools:targetApi="lollipop">
+                app:layout_constraintTop_toBottomOf="@id/btn_update_1">
 
                 <ImageView
                     android:id="@+id/ic_update_2"
@@ -248,8 +245,7 @@
                 android:stateListAnimator="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_update_2"
-                tools:targetApi="lollipop">
+                app:layout_constraintTop_toBottomOf="@id/btn_update_2">
 
                 <ImageView
                     android:id="@+id/ic_update_3"
@@ -312,8 +308,7 @@
                 android:stateListAnimator="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_update_3"
-                tools:targetApi="lollipop">
+                app:layout_constraintTop_toBottomOf="@id/btn_update_3">
 
                 <ImageView
                     android:id="@+id/ic_update_4"
