@@ -74,8 +74,8 @@ fun View.slideAnim(rootLayout: ConstraintLayout, show: Boolean) {
         duration = 600
         addTarget(this@slideAnim)
         beginDelayedTransition(rootLayout, this)
+        setVisibility(show)
     }
-    setVisibility(show)
 }
 
 fun View.setVisibility(visible: Boolean) {
