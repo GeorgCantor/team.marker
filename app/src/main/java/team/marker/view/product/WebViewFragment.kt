@@ -20,7 +20,6 @@ import java.io.BufferedInputStream
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.Objects.requireNonNull
 
 class WebViewFragment : Fragment(R.layout.fragment_web_view) {
 
@@ -48,15 +47,14 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
             }
         }
 
-        btn_download.setOnClickListener { downloadFile(filePath, fileTitle) }
+        btn_download.setOnClickListener { downloadFile() }
         btn_back.setOnClickListener { activity?.onBackPressed() }
     }
 
-    private fun downloadFile(url: String, file_title: String?) {
-        val downloadUrl: String = url
-        val filename = "$file_title.pdf"
+    private fun downloadFile() {
+        val filename = "$fileTitle.pdf"
 
-        val request = DownloadManager.Request(Uri.parse(downloadUrl)).apply {
+        val request = DownloadManager.Request(Uri.parse(filePath)).apply {
             setDescription("Document File")
             setTitle(filename)
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -64,6 +62,6 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         }
 
         val manager = activity?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        requireNonNull(manager).enqueue(request)
+        manager.enqueue(request)
     }
 }
