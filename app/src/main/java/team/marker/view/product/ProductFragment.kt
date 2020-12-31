@@ -155,7 +155,7 @@ class ProductFragment : Fragment() {
                 product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
                     if (file.type == 1) {
                         findNavController().navigate(
-                            R.id.action_productFragment_to_webViewFragment,
+                            R.id.action_productFragment_to_documentsFragment,
                             bundleOf(PATH to file.path, TITLE to file.title)
                         )
                     }

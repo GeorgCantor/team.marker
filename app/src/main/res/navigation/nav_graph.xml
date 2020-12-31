@@ -144,8 +144,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_productFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment"
+            android:id="@+id/action_productFragment_to_documentsFragment"
+            app:destination="@id/documentsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -153,10 +153,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/webViewFragment"
-        android:name="team.marker.view.product.WebViewFragment"
-        android:label="WebViewFragment"
-        tools:layout="@layout/fragment_web_view" />
+        android:id="@+id/documentsFragment"
+        android:name="team.marker.view.product.DocumentsFragment"
+        android:label="DocumentsFragment"
+        tools:layout="@layout/fragment_documents" />
 
     <fragment
         android:id="@+id/scanFragment"

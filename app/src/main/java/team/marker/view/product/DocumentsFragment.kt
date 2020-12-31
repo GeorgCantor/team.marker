@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_web_view.*
+import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.toolbar_file.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -21,7 +21,7 @@ import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-class WebViewFragment : Fragment(R.layout.fragment_web_view) {
+class DocumentsFragment : Fragment(R.layout.fragment_documents) {
 
     private val filePath: String by lazy { arguments?.get(PATH) as String }
     private val fileTitle: String by lazy { arguments?.get(TITLE) as String }
