@@ -6,10 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.toolbar_file.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import team.marker.R
@@ -29,8 +29,8 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalScope.launch(Dispatchers.IO) {
-            var inputStream: InputStream? = null
+        lifecycleScope.launch(Dispatchers.IO) {
+            val inputStream: InputStream?
             val uri = URL(filePath)
             val urlConnection = uri.openConnection() as HttpURLConnection
             if (urlConnection.responseCode == 200) {
