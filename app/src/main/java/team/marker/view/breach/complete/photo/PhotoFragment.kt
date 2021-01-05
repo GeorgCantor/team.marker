@@ -20,7 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
-import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
@@ -39,16 +39,11 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    private lateinit var viewModel: BreachCompleteViewModel
+    private val viewModel by sharedViewModel<BreachCompleteViewModel>()
     private lateinit var imageCapture: ImageCapture
     private lateinit var cameraExecutor: ExecutorService
     private var isTorchEnable = false
     private var orient = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getSharedViewModel()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

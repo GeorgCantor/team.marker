@@ -5,26 +5,20 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
-import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.Constants.PRODUCT_IDS
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
-    private lateinit var viewModel: BreachCompleteViewModel
+    private val viewModel by sharedViewModel<BreachCompleteViewModel>()
     private val productIds: ArrayList<String> by lazy { arguments?.get(PRODUCT_IDS) as ArrayList<String> }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = getSharedViewModel()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
