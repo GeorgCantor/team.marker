@@ -9,17 +9,14 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.ResponseMessage
-import java.util.*
 
 class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel() {
 
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
-    val products = MutableLiveData<ArrayList<PickProduct>>()
     val product = MutableLiveData<String>()
-    val productIds = ArrayList<String>()
     val currentProduct = MutableLiveData<PickProduct>()
-    private var lastTime: Date? = null
+    private var lastProdId = "0"
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -34,35 +31,20 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
         }
     }
 
-    fun getProduct(productId: String? = null) {
+    fun getProduct(productId: String) {
         viewModelScope.launch(exceptionHandler) {
-            repository.products(productId).apply {
-                product.postValue(this?.response?.info?.firstOrNull()?.title)
+            if (productId != lastProdId) {
+                lastProdId = productId
+                repository.products(productId).apply {
+                    product.postValue(this?.response?.info?.firstOrNull()?.title)
+                }
             }
         }
     }
 
     fun addProduct(product: PickProduct) {
-        viewModelScope.launch {
-            getProduct(product.id.toString())
-
-            val prods = mutableListOf<PickProduct>()
-            products.value?.forEach { prods.add(it) }
-
-            if (!prods.contains(product)) {
-                lastTime = Date()
-                prods.add(product)
-                productIds.add(product.id.toString())
-                currentProduct.postValue(product)
-                products.postValue(prods as ArrayList<PickProduct>?)
-            } /*else {
-                val seconds: Long = (Date().time - lastTime!!.time) / 1000
-                if (seconds > 3) {
-                    lastTime = Date()
-                    prods.add(product)
-                    products.postValue(prods as ArrayList<PickProduct>?)
-                }
-            }*/
+        viewModelScope.launch(exceptionHandler) {
+            if (currentProduct.value != product) currentProduct.postValue(product)
         }
     }
 }

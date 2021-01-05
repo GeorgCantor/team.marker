@@ -6,7 +6,6 @@ import com.google.android.gms.vision.barcode.Barcode
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.GraphicOverlay.Graphic
 import team.marker.view.pick.complete.PickCompleteViewModel
-import java.util.*
 
 /**
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic
@@ -22,8 +21,6 @@ class BarcodeGraphic internal constructor(
     private val textPaint: Paint
     private val backgroundPaint: Paint
     private var prodName = ""
-    private var lastTime: Date? = null
-    private var lastProductId = "0"
 
     @Volatile
     var barcode: Barcode? = null
@@ -46,17 +43,11 @@ class BarcodeGraphic internal constructor(
         rect.right = translateX(rect.right)
         rect.bottom = translateY(rect.bottom)
         canvas!!.drawRect(rect, rectPaint)
-        val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 1000 else 100
+
         val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
-        viewModel.products.observe(lifecycleOwner) {
-            if (seconds > 3 && productId != lastProductId) {
-                lastTime = Date()
-                lastProductId = productId
-                viewModel.getProduct(productId)
-            }
-            viewModel.product.observe(lifecycleOwner) {
-                it?.let { if (prodName != it) prodName = it }
-            }
+        viewModel.getProduct(productId)
+        viewModel.product.observe(lifecycleOwner) {
+            it?.let { if (prodName != it) prodName = it }
         }
 
         if (prodName.isNotEmpty()) {

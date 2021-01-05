@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
-import team.marker.util.Constants
+import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
 import team.marker.util.putAny
@@ -26,7 +26,7 @@ import team.marker.view.MainActivity
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel by inject<HomeViewModel>()
-    private val preferences: SharedPreferences by inject(named(Constants.MAIN_STORAGE))
+    private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
