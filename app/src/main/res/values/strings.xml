@@ -12,6 +12,7 @@
     <string name="write_details">Напишите подробности …</string>
     <string name="enter_description">Введите описание</string>
     <string name="internet_unavailable">интернет недоступен</string>
+    <string name="result_of_checking">Результат проверки</string>
     // home
     <string name="get_product_info">Получение подробной информации об изделии</string>
     <string name="recognize">Распознать</string>
@@ -34,6 +35,35 @@
     <string name="permission_camera_rationale">Необходимы разрешения</string>
     <string name="recognized">Распознано %d из %d</string>
     <string name="ok">OK</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отмена</string>
+    <string name="not_recognized">Не распознано</string>
+    <string name="end">Завершить</string>
+    <string name="send_report">Отправить отчет</string>
+    <string name="product_ist">Список изделий</string>
+    <string name="select_pick_mode">Выберите режим, по которому будет выполняться оприходование изделий. Режим по умолчанию позволяет выполнять множественное сканирование QR-кодов.</string>
+    <string name="by_default">По умолчанию</string>
+    <string name="quantity">Количество</string>
+    <string name="simple_pick">Простое оприходование изделий</string>
+    <string name="pick_by_quantity">Оприходование изделий по количеству</string>
+    <string name="pick_by_length">Оприходование изделий по длине</string>
+    <string name="pick_by_weight">Оприходование изделий по весу</string>
+    <string name="pick_by_volume">Оприходование изделий по объему</string>
+    <string name="length">Длина</string>
+    <string name="weight">Вес</string>
+    <string name="volume">Объем</string>
+    <string name="description">Описание</string>
+    <string name="name">Наименование</string>
+    <string name="product_name">Название изделия</string>
+    <string name="factory_number">Заводской номер</string>
+    <string name="manufacturing_date">Дата изготовления</string>
+    <string name="shipping_date">Дата отгрузки</string>
+    <string name="specifications">Характеристики</string>
+    <string name="characteristics_not_specified">Характеристики не указаны</string>
+    <string name="provider">Поставщик</string>
+    <string name="manufacturer">Изготовитель</string>
+    <string name="manufacturer_name">Наименование изготовителя</string>
+    <string name="manufacturer_address">Адрес изготовителя</string>
 
     <string-array name="scan_array">
         <item>Отсканирован</item>
