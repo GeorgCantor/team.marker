@@ -1,4 +1,4 @@
-package team.marker.view
+package team.marker.di
 
 import android.content.Context.MODE_PRIVATE
 import org.koin.android.ext.koin.androidApplication
