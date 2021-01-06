@@ -71,6 +71,11 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         comment_input_view.error = null
     }
 
+    override fun onDetach() {
+        viewModel.photos.value = mutableListOf()
+        super.onDetach()
+    }
+
     private fun send(productId: Int) {
         val reasonId = 0
         val userReason = ""
