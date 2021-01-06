@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/input_new_selected" android:state_focused="true"/>
-    <item android:drawable="@drawable/input_new_normal"/>
-</selector>
