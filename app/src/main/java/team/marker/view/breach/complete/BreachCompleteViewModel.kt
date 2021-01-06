@@ -1,7 +1,7 @@
 package team.marker.view.breach.complete
 
 import android.app.Application
-import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.ContextWrapper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +14,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import team.marker.model.remote.ApiRepository
 import team.marker.model.responses.ResponseMessage
+import team.marker.util.Constants.IMAGE_DIR
 import java.io.File
 
 class BreachCompleteViewModel(
@@ -46,11 +47,7 @@ class BreachCompleteViewModel(
             ).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
-
-                photos.value = mutableListOf()
-                val cw = ContextWrapper(app.baseContext)
-                val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
-                directory.deleteRecursively()
+                removeFiles()
             }
         }
     }
@@ -70,5 +67,12 @@ class BreachCompleteViewModel(
             list?.remove(file)
             photos.postValue(list)
         }
+    }
+
+    fun removeFiles() {
+        photos.value = mutableListOf()
+        val cw = ContextWrapper(app.baseContext)
+        val directory = cw.getDir(IMAGE_DIR, MODE_PRIVATE)
+        directory.deleteRecursively()
     }
 }

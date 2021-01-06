@@ -72,7 +72,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     }
 
     override fun onDetach() {
-        viewModel.photos.value = mutableListOf()
+        viewModel.removeFiles()
         super.onDetach()
     }
 

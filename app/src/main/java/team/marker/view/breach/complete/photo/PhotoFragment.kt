@@ -1,7 +1,7 @@
 package team.marker.view.breach.complete.photo
 
 import android.Manifest
-import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_photo.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
+import team.marker.util.Constants.IMAGE_DIR
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import java.io.BufferedOutputStream
@@ -133,9 +134,8 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
         orientationEventListener.enable()
 
         val cw = ContextWrapper(requireContext())
-        val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+        val directory = cw.getDir(IMAGE_DIR, MODE_PRIVATE)
         val photoFile = File(directory, "${UUID.randomUUID()}.jpg")
-
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
@@ -177,31 +177,28 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
     }
 
     private fun getResizedRotatedBitmap(bm: Bitmap): Bitmap {
-        // vars
         val width = bm.width
         val height = bm.height
         val scaleWidth = 1600.toFloat() / width
         val scaleHeight = 1600.toFloat() / height
         val ratio = if (scaleWidth > scaleHeight) scaleHeight else scaleWidth
-        val x = if (width > height) (width - height) / 2 else 0
         val y = if (width > height) 0 else (height - width) / 2
         val size = if (width > height) height else width
-        // rotate
         var rotate = 0
+
         when (orient) {
             0 -> rotate = 90
             1 -> rotate = 0
             2 -> rotate = 270
             3 -> rotate = 180
         }
-        // matrix
+
         val matrix = Matrix()
         matrix.postScale(ratio, ratio)
         matrix.postRotate(rotate.toFloat())
-        // create
-        val resizedBitmap = Bitmap.createBitmap(bm, 0, y.toInt(), size, size, matrix, true)
+        val resizedBitmap = Bitmap.createBitmap(bm, 0, y, size, size, matrix, true)
         bm.recycle()
-        // output
+
         return resizedBitmap
     }
 }
