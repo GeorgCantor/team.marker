@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">МАСК.Маркер</string>
+    <string name="mask">МАСК</string>
     <string name="login_message">Приложение для сканирования промышленных изделий</string>
     <string name="login_btn">Войти</string>
     <string name="not_specified">не указан</string>
@@ -13,6 +14,10 @@
     <string name="enter_description">Введите описание</string>
     <string name="internet_unavailable">интернет недоступен</string>
     <string name="result_of_checking">Результат проверки</string>
+    <string name="product_not_found">изделие не найдено, проверьте код</string>
+    <string name="make_photo">Сделать фото</string>
+    <string name="send">Отправить</string>
+    <string name="password">пароль</string>
     // home
     <string name="get_product_info">Получение подробной информации об изделии</string>
     <string name="recognize">Распознать</string>
@@ -52,6 +57,8 @@
     <string name="length">Длина</string>
     <string name="weight">Вес</string>
     <string name="volume">Объем</string>
+    <string name="email">email</string>
+    // product
     <string name="description">Описание</string>
     <string name="name">Наименование</string>
     <string name="product_name">Название изделия</string>
@@ -64,6 +71,16 @@
     <string name="manufacturer">Изготовитель</string>
     <string name="manufacturer_name">Наименование изготовителя</string>
     <string name="manufacturer_address">Адрес изготовителя</string>
+    <string name="purchasing_department">Отдел закупки</string>
+    <string name="customer">Заказчик</string>
+    <string name="customer_address">Адрес заказчика</string>
+    <string name="consignee">Грузополучатель</string>
+    <string name="consignee_address">Адрес грузополучателя</string>
+    <string name="destination">Пункт назначения</string>
+    <string name="delivery_contract">Договор поставки</string>
+    <string name="application">Приложение</string>
+    <string name="documentation">Документация</string>
+    <string name="documents_not_loaded">Документы не загружены</string>
 
     <string-array name="scan_array">
         <item>Отсканирован</item>

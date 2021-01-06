@@ -69,7 +69,7 @@
                 android:cursorVisible="true"
                 android:ems="10"
                 android:fontFamily="sans-serif"
-                android:hint="email"
+                android:hint="@string/email"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:maxLength="100"
