@@ -14,6 +14,7 @@ import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
@@ -36,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.model.Product
 import team.marker.model.requests.PickProduct
 import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
@@ -60,8 +62,27 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private var lastId = 0
     private var torchOn: Boolean = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.setOnTouchListener { v, event ->
+            val x = event.x.toInt()
+            val y = event.y.toInt()
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                viewModel.products.observe(viewLifecycleOwner) { products ->
+                    products.forEach {
+                        if (it.rect?.contains(x, y) == true) {
+                            viewModel.setClickStatus(
+                                Product(it.id, it.name, it.rect, if (it.clickStatus == 0) 1 else 0)
+                            )
+                            return@observe
+                        }
+                    }
+                }
+            }
+            true
+        }
 
         pickMode = preferences.getAny(0, MODE) as Int
 

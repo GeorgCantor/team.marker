@@ -20,7 +20,10 @@ class BarcodeGraphic internal constructor(
     private val rectPaint: Paint = Paint()
     private val textPaint: Paint
     private val backgroundPaint: Paint
+    private val buttonPaint: Paint
+    private val buttonPaint2: Paint
     private var prodName = ""
+    private var isClick = false
 
     @Volatile
     var barcode: Barcode? = null
@@ -49,7 +52,10 @@ class BarcodeGraphic internal constructor(
         viewModel.products.observe(lifecycleOwner) {
             it?.let {
                 it.forEach {
-                    if (it.id == productId.toInt()) prodName = it.name
+                    if (it.id == productId.toInt()) {
+                        prodName = it.name
+                        isClick = it.clickStatus == 1
+                    }
                 }
             }
         }
@@ -57,6 +63,14 @@ class BarcodeGraphic internal constructor(
         if (prodName.isNotEmpty()) {
             val background: Rect = getTextBackgroundSize(rect.left, rect.bottom + 100, prodName, textPaint)
             canvas.drawRect(background, backgroundPaint)
+            val buttonRect: Rect = getTextBackgroundSize(rect.left, rect.bottom + 200, prodName, textPaint)
+            if (isClick) {
+                canvas.drawRect(buttonRect, buttonPaint)
+            } else {
+                canvas.drawRect(buttonRect, buttonPaint2)
+            }
+
+            viewModel.setRect(background, prodName)
             val halfTextLength = textPaint.measureText(prodName) / 2 + 5
             canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
         }
@@ -87,5 +101,13 @@ class BarcodeGraphic internal constructor(
         backgroundPaint = Paint()
         backgroundPaint.color = Color.WHITE
         backgroundPaint.textSize = 906.0f
+
+        buttonPaint = Paint()
+        buttonPaint.color = Color.RED
+        buttonPaint.textSize = 906.0f
+
+        buttonPaint2 = Paint()
+        buttonPaint2.color = Color.GREEN
+        buttonPaint2.textSize = 906.0f
     }
 }
