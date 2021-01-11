@@ -46,8 +46,12 @@ class BarcodeGraphic internal constructor(
 
         val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
         viewModel.getProduct(productId)
-        viewModel.product.observe(lifecycleOwner) {
-            it?.let { if (prodName != it) prodName = it }
+        viewModel.products.observe(lifecycleOwner) {
+            it?.let {
+                it.forEach {
+                    if (it.id == productId.toInt()) prodName = it.name
+                }
+            }
         }
 
         if (prodName.isNotEmpty()) {

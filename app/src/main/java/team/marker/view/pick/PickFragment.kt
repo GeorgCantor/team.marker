@@ -52,7 +52,7 @@ import kotlin.properties.Delegates
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private val products = arrayListOf<PickProduct>()
+    private val products = mutableListOf<PickProduct>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
@@ -71,8 +71,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
-        viewModel.currentProduct.observe(viewLifecycleOwner) {
-            if (it != null) {
+        viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
+            if (product != null) {
                 if (pickMode != 0) {
                     pick_window.visible()
                     when (pickMode) {
@@ -85,10 +85,10 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         4 -> pick_note.text = getString(R.string.enter_product_volume)
                     }
                 } else {
-                    if (lastId != it.id) products.add(it)
+                    if (products.isEmpty() || products.all { it.id != product.id }) products.add(product)
                 }
 
-                lastId = it.id ?: 0
+                lastId = product.id ?: 0
                 pick_success_text.visible()
                 2000L.runDelayed { pick_success_text?.gone() }
                 ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
@@ -183,7 +183,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
                 if (builder.length == 13) {
                     val id = builder.trimStart('0').dropLast(1).toString().toInt()
-                    if (lastId != id) {
+                    if (products.all { it.id != id }) {
                         products.add(PickProduct(id, 1.toDouble(), 0))
                         lastId = id
                         pick_toolbar.post {
