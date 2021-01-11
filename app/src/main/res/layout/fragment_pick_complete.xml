@@ -44,7 +44,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_success_2"
-                app:tint="@color/blue_gray" />
+                app:tint="@color/dark_blue" />
 
             <TextView
                 android:id="@+id/note_text"

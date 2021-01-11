@@ -4,20 +4,16 @@
     <color name="colorPrimaryDark">#2e2d32</color>
     <color name="colorAccent">#424242</color>
     <color name="blackText">#000000</color>
-    <color name="dark_blue">#19194D</color>
     <color name="white_code_text">#EEEEEE</color>
     <color name="gray">#CAD0D2</color>
-    <color name="gray_intro_text">#CAD0D2</color>
-    <color name="grayText">#646464</color>
     <color name="input_text">#222222</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#F1C46E</color>
 
     <color name="black_primary">#737373</color>
     <color name="blue_primary">#04368f</color>
-    <color name="blue_gray">#19194D</color>
+    <color name="dark_blue">#19194D</color>
 
-    <color name="scan_viewfinder_laser">#0241B3</color>
     <color name="scan_pick_success">#4CAF50</color>
     <color name="scan_pick_fail">#F44336</color>
 </resources>

@@ -53,7 +53,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_qr_code"
-                    app:tint="@color/blue_gray" />
+                    app:tint="@color/dark_blue" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_box_3"
-                    app:tint="@color/blue_gray" />
+                    app:tint="@color/dark_blue" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,7 +179,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_breach_2"
-                    app:tint="@color/blue_gray" />
+                    app:tint="@color/dark_blue" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
