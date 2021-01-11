@@ -52,9 +52,12 @@ class BarcodeGraphic internal constructor(
         viewModel.products.observe(lifecycleOwner) {
             it?.let {
                 it.forEach {
-                    if (it.id == productId.toInt()) {
-                        prodName = it.name
-                        isClick = it.clickStatus == 1
+                    try {
+                        if (it.id == productId.toInt()) {
+                            prodName = it.name
+                            isClick = it.clickStatus == 1
+                        }
+                    } catch (e: NumberFormatException) {
                     }
                 }
             }

@@ -16,6 +16,9 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.gms.vision.CameraSource
 import team.marker.R
@@ -107,4 +110,13 @@ fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
     setPositiveButton(getString(R.string.yes)) { _, _ -> action() }
     setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
     create().show()
+}
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
 }

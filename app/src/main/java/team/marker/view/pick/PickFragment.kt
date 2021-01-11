@@ -70,13 +70,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             val x = event.x.toInt()
             val y = event.y.toInt()
             if (event.action == MotionEvent.ACTION_DOWN) {
-                viewModel.products.observe(viewLifecycleOwner) { products ->
+                viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rect?.contains(x, y) == true) {
                             viewModel.setClickStatus(
                                 Product(it.id, it.name, it.rect, if (it.clickStatus == 0) 1 else 0)
                             )
-                            return@observe
                         }
                     }
                 }
