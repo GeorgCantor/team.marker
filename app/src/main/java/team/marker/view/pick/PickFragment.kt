@@ -150,16 +150,14 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         when (pickMode) {
             0 -> {
                 viewModel.products.observeOnce(viewLifecycleOwner) {
-                    val filtered = mutableListOf<PickProduct>()
-                    products.forEach { product ->
-                        it.forEach { p ->
-                            if (product.id == p.id && p.clickStatus == 1) filtered.add(product)
-                        }
+                    val list = mutableListOf<PickProduct>()
+                    it.forEach {
+                        list.add(PickProduct(it.id, 1.toDouble(), 0))
                     }
                     try {
                         findNavController().navigate(
                             R.id.action_pickFragment_to_pickCompleteFragment,
-                            bundleOf(PRODUCTS to filtered)
+                            bundleOf(PRODUCTS to list)
                         )
                     } catch (e: IllegalArgumentException) {
                     }
