@@ -147,19 +147,29 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun goToComplete() {
-        viewModel.products.observeOnce(viewLifecycleOwner) {
-            val filtered = mutableListOf<PickProduct>()
-            products.forEach { product ->
-                it.forEach { p ->
-                    if (product.id == p.id && p.clickStatus == 1) filtered.add(product)
+        when (pickMode) {
+            0 -> {
+                viewModel.products.observeOnce(viewLifecycleOwner) {
+                    val filtered = mutableListOf<PickProduct>()
+                    products.forEach { product ->
+                        it.forEach { p ->
+                            if (product.id == p.id && p.clickStatus == 1) filtered.add(product)
+                        }
+                    }
+                    try {
+                        findNavController().navigate(
+                            R.id.action_pickFragment_to_pickCompleteFragment,
+                            bundleOf(PRODUCTS to filtered)
+                        )
+                    } catch (e: IllegalArgumentException) {
+                    }
                 }
             }
-            try {
+            else -> {
                 findNavController().navigate(
                     R.id.action_pickFragment_to_pickCompleteFragment,
-                    bundleOf(PRODUCTS to filtered)
+                    bundleOf(PRODUCTS to products)
                 )
-            } catch (e: IllegalArgumentException) {
             }
         }
     }
