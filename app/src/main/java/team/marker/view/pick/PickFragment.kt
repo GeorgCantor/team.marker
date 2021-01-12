@@ -152,7 +152,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 viewModel.products.observeOnce(viewLifecycleOwner) {
                     val list = mutableListOf<PickProduct>()
                     it.forEach {
-                        list.add(PickProduct(it.id, 1.toDouble(), 0))
+                       if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
                     }
                     try {
                         findNavController().navigate(
