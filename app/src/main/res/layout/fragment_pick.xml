@@ -140,47 +140,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/pick_success_text"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/scan_pick_success"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textColor="#fff"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Распознано"
-            tools:visibility="visible" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/pick_fail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/scan_pick_fail"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/pick_fail_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/not_recognized"
-                android:textAllCaps="true"
-                android:textColor="#fff"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

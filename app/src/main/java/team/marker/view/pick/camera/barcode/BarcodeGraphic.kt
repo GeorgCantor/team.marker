@@ -20,8 +20,9 @@ class BarcodeGraphic internal constructor(
     private val rectPaint: Paint = Paint()
     private val textPaint: Paint
     private val backgroundPaint: Paint
-    private val buttonPaint: Paint
-    private val buttonPaint2: Paint
+    private val redPaint: Paint
+    private val greenPaint: Paint
+    private val whiteTextPaint: Paint
     private var prodName = ""
     private var isClick = false
 
@@ -67,14 +68,16 @@ class BarcodeGraphic internal constructor(
             val background: Rect = getTextBackgroundSize(rect.left, rect.bottom + 100, prodName, textPaint)
             canvas.drawRect(background, backgroundPaint)
             val buttonRect: Rect = getTextBackgroundSize(rect.left, rect.bottom + 200, prodName, textPaint)
+            val halfTextLength = textPaint.measureText(prodName) / 2 + 5
             if (isClick) {
-                canvas.drawRect(buttonRect, buttonPaint)
+                canvas.drawRect(buttonRect, redPaint)
+                canvas.drawText("Удалить", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
             } else {
-                canvas.drawRect(buttonRect, buttonPaint2)
+                canvas.drawRect(buttonRect, greenPaint)
+                canvas.drawText("Добавить", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
             }
 
             viewModel.setRect(background, prodName)
-            val halfTextLength = textPaint.measureText(prodName) / 2 + 5
             canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
         }
     }
@@ -105,12 +108,16 @@ class BarcodeGraphic internal constructor(
         backgroundPaint.color = Color.WHITE
         backgroundPaint.textSize = 906.0f
 
-        buttonPaint = Paint()
-        buttonPaint.color = Color.RED
-        buttonPaint.textSize = 906.0f
+        redPaint = Paint()
+        redPaint.color = Color.RED
+        redPaint.textSize = 906.0f
 
-        buttonPaint2 = Paint()
-        buttonPaint2.color = Color.GREEN
-        buttonPaint2.textSize = 906.0f
+        greenPaint = Paint()
+        greenPaint.color = Color.GREEN
+        greenPaint.textSize = 906.0f
+
+        whiteTextPaint = Paint()
+        whiteTextPaint.color = Color.WHITE
+        whiteTextPaint.textSize = 62.0f
     }
 }

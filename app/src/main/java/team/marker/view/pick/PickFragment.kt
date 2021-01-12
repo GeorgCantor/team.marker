@@ -9,14 +9,10 @@ import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FLASH_MODE_OFF
 import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
-import android.media.AudioManager.STREAM_MUSIC
-import android.media.ToneGenerator
-import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.GONE
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
@@ -54,7 +50,7 @@ import kotlin.properties.Delegates
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private val products = mutableListOf<PickProduct>()
+    private var products = mutableListOf<PickProduct>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
@@ -109,10 +105,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 }
 
                 lastId = product.id ?: 0
-                pick_success_text.visible()
-                2000L.runDelayed { pick_success_text?.gone() }
-                ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                pick_success_text.text = getString(R.string.recognized, products.size, products.size)
             }
         }
 
@@ -155,10 +147,21 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun goToComplete() {
-        findNavController().navigate(
-            R.id.action_pickFragment_to_pickCompleteFragment,
-            bundleOf(PRODUCTS to products)
-        )
+        viewModel.products.observeOnce(viewLifecycleOwner) {
+            val filtered = mutableListOf<PickProduct>()
+            products.forEach { product ->
+                it.forEach { p ->
+                    if (product.id == p.id && p.clickStatus == 1) filtered.add(product)
+                }
+            }
+            try {
+                findNavController().navigate(
+                    R.id.action_pickFragment_to_pickCompleteFragment,
+                    bundleOf(PRODUCTS to filtered)
+                )
+            } catch (e: IllegalArgumentException) {
+            }
+        }
     }
 
     private fun requestCameraPermission() {
@@ -204,14 +207,9 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 if (builder.length == 13) {
                     val id = builder.trimStart('0').dropLast(1).toString().toInt()
                     if (products.all { it.id != id }) {
+                        viewModel.addProduct(PickProduct(id, 1.toDouble(), 0))
                         products.add(PickProduct(id, 1.toDouble(), 0))
                         lastId = id
-                        pick_toolbar.post {
-                            pick_success_text.visibility = View.VISIBLE
-                            2000L.runDelayed { pick_success_text?.visibility = GONE }
-                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                            pick_success_text.text = getString(R.string.recognized, products.size, products.size)
-                        }
                     }
                 }
             }
