@@ -67,7 +67,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         super.onViewCreated(view, savedInstanceState)
 
         view.setOnTouchListener { v, event ->
-            val x = event.x.toInt()
+            val x = event.x.toInt() + 200
             val y = event.y.toInt()
             if (pickMode == 0 && event.action == MotionEvent.ACTION_DOWN) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
