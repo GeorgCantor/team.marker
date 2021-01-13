@@ -54,9 +54,11 @@
     <string name="pick_by_length">Оприходование изделий по длине</string>
     <string name="pick_by_weight">Оприходование изделий по весу</string>
     <string name="pick_by_volume">Оприходование изделий по объему</string>
+    <string name="pick_unreadable">Оприходование нечитаемых кодов</string>
     <string name="length">Длина</string>
     <string name="weight">Вес</string>
     <string name="volume">Объем</string>
+    <string name="damaged_code">Поврежденный код</string>
     <string name="email">email</string>
     // product
     <string name="description">Описание</string>

@@ -1,6 +1,10 @@
 package team.marker.view.pick.camera.barcode
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color.*
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.barcode.Barcode
 import team.marker.view.pick.camera.GraphicOverlay
@@ -16,13 +20,24 @@ class BarcodeGraphic internal constructor(
     private val viewModel: PickCompleteViewModel,
     private val lifecycleOwner: LifecycleOwner
 ) : Graphic(overlay!!) {
+
     var id = 0
-    private val rectPaint: Paint = Paint()
-    private val textPaint: Paint
-    private val backgroundPaint: Paint
-    private val redPaint: Paint
-    private val greenPaint: Paint
-    private val whiteTextPaint: Paint
+    private val rectPaint = Paint().apply {
+        color = GREEN
+        style = Paint.Style.FILL
+        alpha = 50
+    }
+    private val textPaint = Paint().apply {
+        color = BLACK
+        textSize = 42.0f
+    }
+    private val backgroundPaint = Paint().apply { color = WHITE }
+    private val redPaint = Paint().apply { color = RED }
+    private val greenPaint = Paint().apply { color = GREEN }
+    private val whiteTextPaint = Paint().apply {
+        color = WHITE
+        textSize = 48.0f
+    }
     private var prodName = ""
     private var isClick = false
 
@@ -41,12 +56,13 @@ class BarcodeGraphic internal constructor(
 
     override fun draw(canvas: Canvas?) {
         val barcode = barcode ?: return
-        val rect = RectF(barcode.boundingBox)
-        rect.left = translateX(rect.left)
-        rect.top = translateY(rect.top)
-        rect.right = translateX(rect.right)
-        rect.bottom = translateY(rect.bottom)
-        canvas!!.drawRect(rect, rectPaint)
+        val rect = RectF(barcode.boundingBox).apply {
+            left = translateX(left)
+            top = translateY(top)
+            right = translateX(right)
+            bottom = translateY(bottom)
+            canvas?.drawRect(this, rectPaint)
+        }
 
         val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
         viewModel.getProduct(productId)
@@ -66,19 +82,19 @@ class BarcodeGraphic internal constructor(
 
         if (prodName.isNotEmpty()) {
             val background: Rect = getTextBackgroundSize(rect.left, rect.bottom + 100, prodName, textPaint)
-            canvas.drawRect(background, backgroundPaint)
+            canvas?.drawRect(background, backgroundPaint)
             val buttonRect: Rect = getTextBackgroundSize(rect.left, rect.bottom + 200, prodName, textPaint)
             val halfTextLength = textPaint.measureText(prodName) / 2 + 5
             if (isClick) {
-                canvas.drawRect(buttonRect, redPaint)
-                canvas.drawText("Удалить", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
+                canvas?.drawRect(buttonRect, redPaint)
+                canvas?.drawText("УДАЛИТЬ", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
             } else {
-                canvas.drawRect(buttonRect, greenPaint)
-                canvas.drawText("Добавить", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
+                canvas?.drawRect(buttonRect, greenPaint)
+                canvas?.drawText("ДОБАВИТЬ", (rect.left - halfTextLength), rect.bottom + 200, whiteTextPaint)
             }
 
             viewModel.setRect(buttonRect, prodName)
-            canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
+            canvas?.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
         }
     }
 
@@ -92,32 +108,5 @@ class BarcodeGraphic internal constructor(
             (x + halfTextLength + margin).toInt(),
             (y + fontMetrics.bottom + margin).toInt()
         )
-    }
-
-    init {
-        rectPaint.color = Color.GREEN
-        rectPaint.style = Paint.Style.FILL
-        rectPaint.alpha = 50
-        rectPaint.strokeWidth = 4.0f
-
-        textPaint = Paint()
-        textPaint.color = Color.BLACK
-        textPaint.textSize = 42.0f
-
-        backgroundPaint = Paint()
-        backgroundPaint.color = Color.WHITE
-        backgroundPaint.textSize = 906.0f
-
-        redPaint = Paint()
-        redPaint.color = Color.RED
-        redPaint.textSize = 906.0f
-
-        greenPaint = Paint()
-        greenPaint.color = Color.GREEN
-        greenPaint.textSize = 906.0f
-
-        whiteTextPaint = Paint()
-        whiteTextPaint.color = Color.WHITE
-        whiteTextPaint.textSize = 62.0f
     }
 }
