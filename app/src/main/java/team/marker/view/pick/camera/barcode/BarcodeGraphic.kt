@@ -131,6 +131,6 @@ class BarcodeGraphic internal constructor(
         val width = r.width()
         val numOfChars = whiteTextPaint.breakText(text, true, width.toFloat(), null)
         val start = (text.length - numOfChars) / 2
-        canvas.drawText(text, start, start + numOfChars, r.exactCenterX(), r.exactCenterY() + 10, whiteTextPaint)
+        canvas.drawText(text, start, start + numOfChars, r.exactCenterX(), r.exactCenterY() + 15, whiteTextPaint)
     }
 }
