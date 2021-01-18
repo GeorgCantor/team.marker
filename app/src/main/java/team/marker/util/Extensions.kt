@@ -88,21 +88,19 @@ fun Context.loadPhoto(file: File, imageView: ImageView) = Glide.with(this)
     .load(file)
     .into(imageView)
 
-fun Context.showError(textView: TextView, message: String?, hide: Int) {
+fun Context.showError(textView: TextView, message: String?) {
     textView.text = message
     val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
     animation.reset()
     textView.clearAnimation()
     textView.startAnimation(animation)
-    if (hide > 0) {
-        3000L.runDelayed {
-            val a = AnimationUtils.loadAnimation(this, R.anim.fade_out)
-            a.reset()
-            textView.clearAnimation()
-            textView.startAnimation(a)
-        }
-        3350L.runDelayed { textView.text = "" }
+    3000L.runDelayed {
+        val a = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        a.reset()
+        textView.clearAnimation()
+        textView.startAnimation(a)
     }
+    3350L.runDelayed { textView.text = "" }
 }
 
 fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {

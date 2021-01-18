@@ -15,6 +15,7 @@ import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
 import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
+import team.marker.util.isNetworkAvailable
 import team.marker.util.putAny
 import team.marker.util.showError
 
@@ -42,13 +43,27 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         })
 
         viewModel.error.observe(viewLifecycleOwner, {
-            context?.showError(error_login, getString(R.string.wrong_login_password), 5000)
+            context?.showError(error_login, getString(R.string.wrong_login_password))
         })
     }
 
     private fun apply() {
-        val login: String = input_login.text.toString()
-        val password: String = input_password.text.toString()
+        if (context?.isNetworkAvailable() == false) {
+            context?.showError(error_login, getString(R.string.internet_unavailable))
+            return
+        }
+
+        val login = input_login.text.toString()
+        val password = input_password.text.toString()
+        if (login.isBlank()) {
+            context?.showError(error_login, getString(R.string.input_login))
+            return
+        }
+        if (password.isBlank()) {
+            context?.showError(error_login, getString(R.string.input_password))
+            return
+        }
+
         viewModel.login(LoginRequest(login, password))
     }
 }
