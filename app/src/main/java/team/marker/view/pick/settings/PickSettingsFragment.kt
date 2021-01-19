@@ -1,6 +1,7 @@
 package team.marker.view.pick.settings
 
 import android.content.SharedPreferences
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
@@ -24,11 +25,12 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         when(preferences.getAny(0, MODE) as Int) {
-            0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.dark_blue), android.graphics.PorterDuff.Mode.SRC_IN)
-            1 -> ic_update_1.setColorFilter(getColor(requireContext(), R.color.dark_blue), android.graphics.PorterDuff.Mode.SRC_IN)
-            2 -> ic_update_2.setColorFilter(getColor(requireContext(), R.color.dark_blue), android.graphics.PorterDuff.Mode.SRC_IN)
-            3 -> ic_update_3.setColorFilter(getColor(requireContext(), R.color.dark_blue), android.graphics.PorterDuff.Mode.SRC_IN)
-            4 -> ic_update_4.setColorFilter(getColor(requireContext(), R.color.dark_blue), android.graphics.PorterDuff.Mode.SRC_IN)
+            0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            1 -> ic_update_1.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            2 -> ic_update_2.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            3 -> ic_update_3.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            4 -> ic_update_4.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            5 -> ic_update_5.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
         }
 
         btn_update_0.setOnClickListener { update(0) }
@@ -36,6 +38,7 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
         btn_update_2.setOnClickListener { update(2) }
         btn_update_3.setOnClickListener { update(3) }
         btn_update_4.setOnClickListener { update(4) }
+        btn_update_5.setOnClickListener { update(5) }
         btn_back.setOnClickListener { activity?.onBackPressed() }
     }
 

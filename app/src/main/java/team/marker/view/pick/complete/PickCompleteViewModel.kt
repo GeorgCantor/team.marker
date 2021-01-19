@@ -1,5 +1,6 @@
 package team.marker.view.pick.complete
 
+import android.graphics.Rect
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
 
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
-    val products = MutableLiveData<MutableList<Product>>()
+    val products = MutableLiveData<MutableSet<Product>>()
     val currentProduct = MutableLiveData<PickProduct>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -35,7 +36,7 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
         viewModelScope.launch(exceptionHandler) {
             if (products.value == null || products.value?.all { it.id != productId.toInt() } == true) {
                 repository.products(productId).apply {
-                    val prods = mutableListOf<Product>()
+                    val prods = mutableSetOf<Product>()
                     products.value?.let { prods.addAll(it) }
                     this?.response?.info?.firstOrNull()?.let {
                         prods.add(Product(it.id!!, it.title!!))
@@ -49,6 +50,28 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
     fun addProduct(product: PickProduct) {
         viewModelScope.launch(exceptionHandler) {
             if (currentProduct.value != product) currentProduct.postValue(product)
+        }
+    }
+
+    fun setRect(rect: Rect, name: String) {
+        viewModelScope.launch {
+            val prods = mutableSetOf<Product>()
+            products.value?.let { prods.addAll(it) }
+            prods.forEach {
+                if (it.name == name) it.rect = rect
+            }
+            products.postValue(prods)
+        }
+    }
+
+    fun setClickStatus(product: Product) {
+        viewModelScope.launch {
+            val prods = mutableSetOf<Product>()
+            products.value?.let { prods.addAll(it) }
+            prods.forEach {
+                if (it.id == product.id) it.clickStatus = product.clickStatus
+            }
+            products.postValue(prods)
         }
     }
 }

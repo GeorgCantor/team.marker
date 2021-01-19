@@ -16,6 +16,9 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.gms.vision.CameraSource
 import team.marker.R
@@ -85,21 +88,19 @@ fun Context.loadPhoto(file: File, imageView: ImageView) = Glide.with(this)
     .load(file)
     .into(imageView)
 
-fun Context.showError(textView: TextView, message: String?, hide: Int) {
+fun Context.showError(textView: TextView, message: String?) {
     textView.text = message
     val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
     animation.reset()
     textView.clearAnimation()
     textView.startAnimation(animation)
-    if (hide > 0) {
-        3000L.runDelayed {
-            val a = AnimationUtils.loadAnimation(this, R.anim.fade_out)
-            a.reset()
-            textView.clearAnimation()
-            textView.startAnimation(a)
-        }
-        3350L.runDelayed { textView.text = "" }
+    3000L.runDelayed {
+        val a = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        a.reset()
+        textView.clearAnimation()
+        textView.startAnimation(a)
     }
+    3350L.runDelayed { textView.text = "" }
 }
 
 fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
@@ -107,4 +108,13 @@ fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
     setPositiveButton(getString(R.string.yes)) { _, _ -> action() }
     setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
     create().show()
+}
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
 }

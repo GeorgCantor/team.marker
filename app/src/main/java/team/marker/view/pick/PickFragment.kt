@@ -14,6 +14,7 @@ import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
@@ -36,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.model.Product
 import team.marker.model.requests.PickProduct
 import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
@@ -52,7 +54,7 @@ import kotlin.properties.Delegates
 class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private val products = mutableListOf<PickProduct>()
+    private var products = mutableListOf<PickProduct>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
@@ -60,8 +62,26 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private var lastId = 0
     private var torchOn: Boolean = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.setOnTouchListener { v, event ->
+            val x = event.x.toInt() + 200
+            val y = event.y.toInt()
+            if (pickMode == 0 && event.action == MotionEvent.ACTION_DOWN) {
+                viewModel.products.observeOnce(viewLifecycleOwner) { products ->
+                    products.forEach {
+                        if (it.rect?.contains(x, y) == true) {
+                            viewModel.setClickStatus(
+                                Product(it.id, it.name, it.rect, if (it.clickStatus == 0) 1 else 0)
+                            )
+                        }
+                    }
+                }
+            }
+            true
+        }
 
         pickMode = preferences.getAny(0, MODE) as Int
 
@@ -73,26 +93,33 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
         viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
             if (product != null) {
-                if (pickMode != 0) {
-                    pick_window.visible()
-                    when (pickMode) {
-                        1 -> {
-                            pick_note.text = getString(R.string.enter_number_accepted_units)
-                            pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+                when (pickMode) {
+                    in 1..4 -> {
+                        pick_window.visible()
+                        when (pickMode) {
+                            1 -> {
+                                pick_note.text = getString(R.string.enter_number_accepted_units)
+                                pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+                            }
+                            2 -> pick_note.text = getString(R.string.enter_product_length)
+                            3 -> pick_note.text = getString(R.string.enter_product_weight)
+                            4 -> pick_note.text = getString(R.string.enter_product_volume)
                         }
-                        2 -> pick_note.text = getString(R.string.enter_product_length)
-                        3 -> pick_note.text = getString(R.string.enter_product_weight)
-                        4 -> pick_note.text = getString(R.string.enter_product_volume)
+                        ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                     }
-                } else {
-                    if (products.isEmpty() || products.all { it.id != product.id }) products.add(product)
+                    5 -> {
+                        if (products.isEmpty() || products.all { it.id != product.id }) {
+                            products.add(product)
+                            pick_success_text.visible()
+                            2000L.runDelayed { pick_success_text?.gone() }
+                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                            pick_success_text.text = getString(R.string.recognized, products.size, products.size)
+                        }
+                    }
+                    else -> if (products.isEmpty() || products.all { it.id != product.id }) products.add(product)
                 }
 
                 lastId = product.id ?: 0
-                pick_success_text.visible()
-                2000L.runDelayed { pick_success_text?.gone() }
-                ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-                pick_success_text.text = getString(R.string.recognized, products.size, products.size)
             }
         }
 
@@ -135,10 +162,29 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun goToComplete() {
-        findNavController().navigate(
-            R.id.action_pickFragment_to_pickCompleteFragment,
-            bundleOf(PRODUCTS to products)
-        )
+        when (pickMode) {
+            0 -> {
+                viewModel.products.observeOnce(viewLifecycleOwner) {
+                    val list = mutableListOf<PickProduct>()
+                    it.forEach {
+                       if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
+                    }
+                    try {
+                        findNavController().navigate(
+                            R.id.action_pickFragment_to_pickCompleteFragment,
+                            bundleOf(PRODUCTS to list)
+                        )
+                    } catch (e: IllegalArgumentException) {
+                    }
+                }
+            }
+            else -> {
+                findNavController().navigate(
+                    R.id.action_pickFragment_to_pickCompleteFragment,
+                    bundleOf(PRODUCTS to products)
+                )
+            }
+        }
     }
 
     private fun requestCameraPermission() {
@@ -173,7 +219,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
             override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
                 val items = detections.detectedItems
-                if (items.size() <= 0) return
+                if (pickMode != 5 || items.size() <= 0) return
 
                 val builder = StringBuilder()
                 for (i in 0 until items.size()) {
