@@ -16,6 +16,4 @@ object Constants {
     const val PRODUCTS = "products"
     const val PHOTO_DETAIL = "photo_detail"
     const val MODE = "mode"
-    const val PATH = "path"
-    const val TITLE = "title"
 }

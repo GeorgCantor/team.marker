@@ -40,7 +40,7 @@ class ProductFilesAdapter(
                     3 -> R.drawable.ic_excel
                     4 -> R.drawable.ic_txt
                     5 -> R.drawable.ic_jpg
-                    else -> R.drawable.ic_pdf
+                    else -> R.drawable.transparent
                 }
             )
 

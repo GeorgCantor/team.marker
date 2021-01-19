@@ -2,13 +2,15 @@ package team.marker.view.product
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,10 +26,8 @@ import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
-import team.marker.util.Constants.PATH
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
-import team.marker.util.Constants.TITLE
 
 class ProductFragment : Fragment() {
 
@@ -144,21 +144,16 @@ class ProductFragment : Fragment() {
             }
 
             if (it.options?.size!! > 0) {
-                product_options_recycler.isNestedScrollingEnabled = false;
+                product_options_recycler.isNestedScrollingEnabled = false
                 product_options_recycler.adapter = ProductOptionsAdapter(it.options) { }
             } else {
                 expand_2_empty.visible()
             }
 
             if (it.files?.isNotEmpty() == true) {
-                product_files_recycler.isNestedScrollingEnabled = false;
+                product_files_recycler.isNestedScrollingEnabled = false
                 product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
-                    if (file.type == 1) {
-                        findNavController().navigate(
-                            R.id.action_productFragment_to_documentsFragment,
-                            bundleOf(PATH to file.path, TITLE to file.title)
-                        )
-                    }
+                    file.path?.let { openDocument(it) }
                 }
             } else {
                 expand_5_empty.visible()
@@ -191,16 +186,24 @@ class ProductFragment : Fragment() {
         }
     }
 
-    private fun onMapReadyCallback1(): OnMapReadyCallback? {
+    private fun onMapReadyCallback1(): OnMapReadyCallback {
         return OnMapReadyCallback { googleMap ->
             manufacturerMap = googleMap
         }
     }
 
-    private fun onMapReadyCallback2(): OnMapReadyCallback? {
+    private fun onMapReadyCallback2(): OnMapReadyCallback {
         return OnMapReadyCallback { googleMap ->
             customerMap = googleMap
         }
+    }
+
+    private fun openDocument(filePath: String) {
+        CustomTabsIntent.Builder().apply {
+            setToolbarColor(getColor(requireContext(), R.color.dark_blue))
+            setStartAnimations(requireContext(), R.anim.slide_in_right, R.anim.slide_out_left)
+            setExitAnimations(requireContext(), R.anim.slide_in_left, R.anim.slide_out_right)
+        }.build().launchUrl(requireContext(), Uri.parse(filePath))
     }
 
     private fun share(url: String, title: String) {
