@@ -3,12 +3,9 @@ package team.marker.view.product
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_product_file.view.*
-import kotlinx.android.synthetic.main.item_product_option.view.title_tv
 import team.marker.R
 import team.marker.model.responses.ProductFile
 
@@ -17,13 +14,9 @@ class ProductFilesAdapter(
     private val clickListener: (ProductFile) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val rootView: View = LayoutInflater.from(parent.context).inflate(R.layout.item_product_file, null, false)
-        val lp = RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        rootView.layoutParams = lp
-
-        return ProductOptionsViewHolder(rootView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ProductOptionsViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_product_file, parent, false)
+    )
 
     override fun getItemCount() = files.size
 
