@@ -304,7 +304,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         )
         if (code != ConnectionResult.SUCCESS) {
             val dlg = GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS)
-            dlg.show()
+            dlg?.show()
         }
         if (cameraSource != null) {
             try {

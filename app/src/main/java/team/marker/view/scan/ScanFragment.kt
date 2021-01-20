@@ -2,11 +2,7 @@ package team.marker.view.scan
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager.FEATURE_CAMERA_FLASH
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.hardware.Camera
-import android.hardware.Camera.Parameters.FLASH_MODE_OFF
-import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
 import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
@@ -34,8 +30,8 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
-import team.marker.util.getCamera
 import team.marker.util.shortToast
+import team.marker.util.toggleTorch
 import kotlin.properties.Delegates
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
@@ -126,7 +122,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         })
 
         btn_scan_flash.setOnClickListener {
-            toggleTorch(torchOn)
+            activity?.toggleTorch(cameraSource, torchOn)
             torchOn = !torchOn
             btn_scan_flash.setImageResource(if (torchOn) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
         }
@@ -154,17 +150,6 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         barcodeDetector.release()
         cameraSource.stop()
         cameraSource.release()
-    }
-
-    @SuppressLint("MissingPermission")
-    fun toggleTorch(torchOn: Boolean) {
-        requireActivity().packageManager.hasSystemFeature(FEATURE_CAMERA_FLASH)
-        cameraSource.start(sv_barcode.holder)
-        val camera: Camera? = cameraSource.getCamera()
-        val parameters: Camera.Parameters = camera!!.parameters
-        parameters.flashMode = if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH
-        camera.parameters = parameters
-        camera.startPreview()
     }
 
     fun openProduct() {
