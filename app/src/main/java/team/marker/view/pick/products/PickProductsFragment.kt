@@ -29,7 +29,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
         })
 
         viewModel.response.observe(viewLifecycleOwner, {
-            history_recycler.adapter = PickProductsAdapter(it.info ?: mutableListOf()) { item ->
+            history_recycler.adapter = PickProductsAdapter(it.info ?: listOf()) { item ->
                 findNavController().navigate(
                     R.id.action_pickProductsFragment_to_productFragment,
                     bundleOf(PRODUCT_URL to "$PRODUCTS_URL${item.id?.toString()}")
