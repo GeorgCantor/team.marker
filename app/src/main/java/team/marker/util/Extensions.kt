@@ -127,6 +127,10 @@ fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
     create().show()
 }
 
+fun Context.hasInternetBeforeAction() = isNetworkAvailable().apply {
+    if (!this) shortToast(getString(R.string.internet_unavailable))
+}
+
 fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
     observe(lifecycleOwner, object : Observer<T> {
         override fun onChanged(t: T?) {

@@ -14,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.hasInternetBeforeAction
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -77,6 +78,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     }
 
     private fun send(productId: Int) {
+        if (!requireContext().hasInternetBeforeAction()) return
         val reasonId = 0
         val userReason = ""
         val comment = input_comment.text.toString().trim()

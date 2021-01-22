@@ -19,6 +19,7 @@ import team.marker.R
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
+import team.marker.util.hasInternetBeforeAction
 import team.marker.util.putAny
 import team.marker.util.showDialog
 import team.marker.view.MainActivity
@@ -32,12 +33,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_scan.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_scannFragment) }
-        btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
-        btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
+        btn_scan.setOnClickListener { openScanner(R.id.action_homeFragment_to_scannFragment) }
+        btn_pick.setOnClickListener { openScanner(R.id.action_homeFragment_to_pickFragment) }
+        btn_breach.setOnClickListener { openScanner(R.id.action_homeFragment_to_breachFragment) }
         btn_logout.setOnClickListener { context?.showDialog { logout() } }
 
         getLocation()
+    }
+
+    private fun openScanner(destination: Int) {
+        if (!requireContext().hasInternetBeforeAction()) return
+        findNavController().navigate(destination)
     }
 
     private fun logout() {
@@ -61,7 +67,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun getLocationExecute() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED &&
-            checkSelfPermission(requireContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+            checkSelfPermission(requireContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED
+        ) {
             return
         }
         fusedLocationClient

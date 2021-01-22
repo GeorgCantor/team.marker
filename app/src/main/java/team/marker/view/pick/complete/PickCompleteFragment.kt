@@ -13,7 +13,9 @@ import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.hasInternetBeforeAction
 import team.marker.util.nameCase
+import team.marker.util.shortToast
 
 class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
@@ -39,6 +41,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
     }
 
     private fun products() {
+        if (!requireContext().hasInternetBeforeAction()) return
         val productIds = arrayListOf<String>()
         for (product in products) productIds.add(product.id.toString())
         val productIdsStr = productIds.joinToString(",")
@@ -49,8 +52,12 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
     }
 
     private fun send(size: Int) {
+        if (!requireContext().hasInternetBeforeAction()) return
         val email = input_email.text.toString()
-        if (size > 0 && email.isEmpty()) return
+        if (size > 0 && email.isEmpty()) {
+            context?.shortToast(getString(R.string.enter_email))
+            return
+        }
         if (size > 0) viewModel.pick(PickRequest(products, email))
         activity?.onBackPressed()
     }
