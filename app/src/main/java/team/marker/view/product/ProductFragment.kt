@@ -25,6 +25,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.util.*
+import team.marker.util.Constants.FORCE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
@@ -72,7 +73,7 @@ class ProductFragment : Fragment() {
         list3 = ExpandList(expand_3, list_3_expand)
         list4 = ExpandList(expand_4, list_4_expand)
         list5 = ExpandList(expand_5, list_5_expand)
-        list1.toggleList("force")
+        list1.toggleList(FORCE)
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
         list_1.setOnClickListener { list1.toggleList() }

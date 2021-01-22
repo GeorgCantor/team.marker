@@ -14,7 +14,10 @@ import android.os.Looper.getMainLooper
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.animation.Animation.RELATIVE_TO_SELF
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,6 +31,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.vision.CameraSource
 import kotlinx.android.synthetic.main.fragment_breach.*
 import team.marker.R
+import team.marker.util.Constants.FORCE
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -95,6 +99,15 @@ fun View.gone() { visibility = GONE }
 
 fun View.hideKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
+fun View.rotate(mode: String?, from: Float, to: Float) {
+    RotateAnimation(from, to, RELATIVE_TO_SELF, 0.5F, RELATIVE_TO_SELF, 0.5F).apply {
+        duration = if (mode == FORCE) 0 else 300
+        interpolator = DecelerateInterpolator()
+        fillAfter = true
+        startAnimation(this)
+    }
+}
 
 fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false

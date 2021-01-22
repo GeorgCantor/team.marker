@@ -3,13 +3,14 @@ package team.marker.util
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.Animation.RELATIVE_TO_SELF
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import android.view.animation.RotateAnimation
 
-class ExpandList(val view: View, val icon: View) {
+class ExpandList(val view: View, private val icon: View) {
 
     var isCollapsed = true
     var inProgress = false
@@ -17,71 +18,65 @@ class ExpandList(val view: View, val icon: View) {
     fun toggleList(mode: String? = "default") {
         if (inProgress) return
         inProgress = true
+
         if (isCollapsed) {
             expand(view)
             isCollapsed = false
-
-            val rotate = RotateAnimation(0F, 180F, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f)
-            rotate.duration = if (mode == "force") 0 else 300
-            rotate.interpolator = DecelerateInterpolator()
-            rotate.fillAfter = true
-            icon.startAnimation(rotate)
+            icon.rotate(mode, 0F, 180F)
         } else {
             collapse(view)
             isCollapsed = true
-
-            val rotate = RotateAnimation(180F, 0F, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f)
-            rotate.duration = if (mode == "force") 0 else 300
-            rotate.interpolator = DecelerateInterpolator()
-            rotate.fillAfter = true
-            icon.startAnimation(rotate)
+            icon.rotate(mode, 180F, 0F)
         }
     }
 
     private fun expand(v: View) {
-        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        v.measure(MATCH_PARENT, WRAP_CONTENT)
         val targetHeight = v.measuredHeight
         v.layoutParams.height = 1
-        v.visibility = View.VISIBLE
+        v.visibility = VISIBLE
 
-        val va = ValueAnimator.ofInt(1, targetHeight)
-        va.addUpdateListener {
-            v.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            v.requestLayout()
-        }
-        va.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationEnd(animation: Animator) {
-                inProgress = false
+        ValueAnimator.ofInt(1, targetHeight).apply {
+            addUpdateListener {
+                v.layoutParams.height = WRAP_CONTENT
+                v.requestLayout()
             }
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
-        })
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator) {
+                    inProgress = false
+                }
 
-        va.duration = 500
-        va.interpolator = OvershootInterpolator()
-        va.start()
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            duration = 500
+            interpolator = OvershootInterpolator()
+            start()
+        }
     }
 
     private fun collapse(v: View) {
         val initialHeight = v.measuredHeight
 
-        val va = ValueAnimator.ofInt(initialHeight, 0)
-        va.addUpdateListener { animation ->
-            v.layoutParams.height = (animation.animatedValue as Int)
-            v.requestLayout()
-        }
-        va.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationEnd(animation: Animator) {
-                v.visibility = View.GONE
-                inProgress = false
+        ValueAnimator.ofInt(initialHeight, 0).apply {
+            addUpdateListener { animation ->
+                v.layoutParams.height = (animation.animatedValue as Int)
+                v.requestLayout()
             }
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
-        })
-        va.duration = 500
-        va.interpolator = DecelerateInterpolator()
-        va.start()
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator) {
+                    v.visibility = GONE
+                    inProgress = false
+                }
+
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
+            })
+            duration = 500
+            interpolator = DecelerateInterpolator()
+            start()
+        }
     }
 }
