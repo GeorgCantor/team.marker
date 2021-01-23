@@ -63,7 +63,7 @@ class LoginFragmentTest : BaseAndroidTest() {
 
     @Test
     fun open_home_when_credentials_is_correct() {
-        if (!isUserLoggedIn()) {
+        if (isNetworkAvailable() && !isUserLoggedIn()) {
             onView(withId(R.id.input_login)).perform(replaceText(LOGIN))
             onView(withId(R.id.input_password)).perform(replaceText(PASSWORD))
             onView(withId(R.id.btn_login)).perform(click())

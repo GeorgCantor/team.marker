@@ -4,9 +4,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.google.android.material.internal.ContextUtils.getActivity
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +37,29 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_login)).check(matches(isDisplayed()))
             onView(withId(R.id.login_note)).check(matches(isDisplayed()))
             if (!isUserLoggedIn()) assert(true)
+        }
+    }
+
+    @Test
+    fun show_toast_if_click_scan_without_internet() {
+        if (!isNetworkAvailable() && isUserLoggedIn()) {
+            onView(withId(R.id.btn_scan)).perform(click())
+            onView(withId(R.id.btn_pick)).perform(click())
+            onView(withId(R.id.btn_breach)).perform(click())
+
+            onView(withText(R.string.internet_unavailable))
+                .inRoot(withDecorView(not(getActivity(getContext())?.window?.decorView)))
+                .check(matches(isDisplayed()))
+            onView(withId(R.id.btn_logout)).check(matches(isDisplayed()))
+        }
+    }
+
+    @Test
+    fun open_scan_fragment() {
+        if (isNetworkAvailable() && isUserLoggedIn()) {
+            onView(withId(R.id.btn_scan)).perform(click())
+            onView(isRoot()).perform(waitFor(1000))
+            onView(withId(R.id.scan)).check(matches(isDisplayed()))
         }
     }
 }
