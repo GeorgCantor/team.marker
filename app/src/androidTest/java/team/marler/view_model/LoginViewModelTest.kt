@@ -41,4 +41,14 @@ class LoginViewModelTest : BaseAndroidTest() {
             }
         }
     }
+
+    @Test
+    fun login_with_correct_credentials() {
+        if (isNetworkAvailable() && !isUserLoggedIn()) {
+            viewModel.login(LoginRequest(LOGIN, PASSWORD))
+            viewModel.response.observe(mockLifecycleOwner()) {
+                if (it.token?.isNotEmpty() == true) assert(true)
+            }
+        }
+    }
 }

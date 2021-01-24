@@ -20,6 +20,11 @@ import team.marker.util.isNetworkAvailable
 
 open class BaseAndroidTest {
 
+    companion object {
+        const val LOGIN = "info@ngkomplekt.ru"
+        const val PASSWORD = "demo12345"
+    }
+
     protected fun getContext(): Context = ApplicationProvider.getApplicationContext()
 
     protected fun isUserLoggedIn(): Boolean {

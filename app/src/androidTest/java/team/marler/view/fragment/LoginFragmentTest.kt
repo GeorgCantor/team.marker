@@ -17,11 +17,6 @@ import team.marler.base.BaseAndroidTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class LoginFragmentTest : BaseAndroidTest() {
 
-    companion object {
-        private const val LOGIN = "info@ngkomplekt.ru"
-        private const val PASSWORD = "demo12345"
-    }
-
     @get: Rule
     val rule = ActivityScenarioRule(MainActivity::class.java)
 
