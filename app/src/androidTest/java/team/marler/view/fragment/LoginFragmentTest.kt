@@ -33,8 +33,7 @@ class LoginFragmentTest : BaseAndroidTest() {
     @Test
     fun show_input_login_when_click_without_login() {
         if (isNetworkAvailable() && !isUserLoggedIn()) {
-            onView(withId(R.id.input_login))
-                .perform(replaceText(" "))
+            onView(withId(R.id.input_login)).perform(replaceText(" "))
             onView(withId(R.id.btn_login)).perform(click())
             onView(withId(R.id.error_login))
                 .check(matches(isDisplayed()))
@@ -45,10 +44,8 @@ class LoginFragmentTest : BaseAndroidTest() {
     @Test
     fun show_input_password_when_click_without_password() {
         if (isNetworkAvailable() && !isUserLoggedIn()) {
-            onView(withId(R.id.input_login))
-                .perform(replaceText(LOGIN))
-            onView(withId(R.id.input_password))
-                .check(matches(withText("")))
+            onView(withId(R.id.input_login)).perform(replaceText(LOGIN))
+            onView(withId(R.id.input_password)).check(matches(withText("")))
             onView(withId(R.id.btn_login)).perform(click())
             onView(withId(R.id.error_login))
                 .check(matches(isDisplayed()))
