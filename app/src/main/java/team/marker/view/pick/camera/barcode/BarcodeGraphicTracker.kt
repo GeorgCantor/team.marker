@@ -36,18 +36,12 @@ class BarcodeGraphicTracker internal constructor(
     override fun onUpdate(detectionResults: Detections<Barcode?>, item: Barcode?) {
         mOverlay?.add(mGraphic)
         mGraphic.updateItem(item)
-        val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 1000 else 100
+        val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 800 else 300
         if (seconds < 5) return
         lastTime = Date()
         val productId = item?.rawValue?.takeLastWhile { it.isDigit() }?.toIntOrNull() ?: return
         if (productId == lastProductId) return
-        viewModel.addProduct(
-            PickProduct(
-                productId,
-                1.toDouble(),
-                0
-            )
-        )
+        viewModel.addProduct(PickProduct(productId, 1.toDouble(), 0))
     }
 
     /**

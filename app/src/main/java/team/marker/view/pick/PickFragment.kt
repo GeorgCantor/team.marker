@@ -141,7 +141,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             findNavController().navigate(R.id.action_pickFragment_to_pickSettingsFragment)
         }
 
-        btn_scan_back.setOnClickListener { goToComplete() }
+        btn_complete.setOnClickListener { goToComplete() }
     }
 
     private fun addProductQuantity() {
