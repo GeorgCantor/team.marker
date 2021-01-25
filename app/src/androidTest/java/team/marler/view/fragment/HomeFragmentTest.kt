@@ -1,5 +1,7 @@
 package team.marler.view.fragment
 
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -10,6 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.google.android.material.internal.ContextUtils.getActivity
 import org.hamcrest.Matchers.not
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,6 +25,14 @@ class HomeFragmentTest : BaseAndroidTest() {
 
     @get: Rule
     val rule = ActivityScenarioRule(MainActivity::class.java)
+
+    private lateinit var navController: TestNavHostController
+
+    @Before
+    fun setup() {
+        navController = TestNavHostController(getApplicationContext())
+        navController.setGraph(R.navigation.nav_graph)
+    }
 
     @Test
     fun logout_when_click_exit_yes() {
@@ -60,6 +71,7 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_scan)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.btn_scan_flash)).check(matches(isDisplayed()))
+            if (navController.currentDestination?.id == R.id.scanFragment) assert(true)
         }
     }
 
@@ -69,6 +81,7 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_pick)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.pick_toolbar)).check(matches(isDisplayed()))
+            if (navController.currentDestination?.id == R.id.pickFragment) assert(true)
         }
     }
 
@@ -78,6 +91,7 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_breach)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.sv_barcode)).check(matches(isDisplayed()))
+            if (navController.currentDestination?.id == R.id.breachFragment) assert(true)
         }
     }
 }
