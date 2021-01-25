@@ -88,7 +88,7 @@ class BarcodeGraphic internal constructor(
                 drawRectText("ДОБАВИТЬ", canvas!!, buttonRect)
             }
 
-            viewModel.setRect(buttonRect, prodName)
+            viewModel.setRect(background, buttonRect, prodName)
             canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
         }
     }

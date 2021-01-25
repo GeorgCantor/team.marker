@@ -43,6 +43,8 @@ import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
+import team.marker.util.Constants.PRODUCTS_URL
+import team.marker.util.Constants.PRODUCT_URL
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
@@ -72,9 +74,15 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             if (pickMode == 0 && event.action == MotionEvent.ACTION_DOWN) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
-                        if (it.rect?.contains(x, y) == true) {
+                        if (it.rectName?.contains(x, y) == true) {
+                            findNavController().navigate(
+                                R.id.action_pickFragment_to_productFragment,
+                                bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
+                            )
+                        }
+                        if (it.rectButton?.contains(x, y) == true) {
                             viewModel.setClickStatus(
-                                Product(it.id, it.name, it.rect, if (it.clickStatus == 0) 1 else 0)
+                                Product(it.id, it.name, it.rectName, it.rectButton, if (it.clickStatus == 0) 1 else 0)
                             )
                         }
                     }

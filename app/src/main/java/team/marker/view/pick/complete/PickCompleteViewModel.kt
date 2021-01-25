@@ -53,12 +53,15 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
         }
     }
 
-    fun setRect(rect: Rect, name: String) {
+    fun setRect(rectName: Rect, rectButton: Rect, name: String) {
         viewModelScope.launch {
             val prods = mutableSetOf<Product>()
             products.value?.let { prods.addAll(it) }
             prods.forEach {
-                if (it.name == name) it.rect = rect
+                if (it.name == name) {
+                    it.rectButton = rectButton
+                    it.rectName = rectName
+                }
             }
             products.postValue(prods)
         }
