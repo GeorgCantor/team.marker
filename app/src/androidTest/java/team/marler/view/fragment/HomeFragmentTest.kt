@@ -12,6 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.google.android.material.internal.ContextUtils.getActivity
 import org.hamcrest.Matchers.not
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,7 +48,7 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.input_login)).check(matches(isDisplayed()))
             onView(withId(R.id.btn_login)).check(matches(isDisplayed()))
             onView(withId(R.id.login_note)).check(matches(isDisplayed()))
-            if (!isUserLoggedIn()) assert(true)
+            assertTrue(!isUserLoggedIn())
         }
     }
 
@@ -71,7 +72,6 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_scan)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.btn_scan_flash)).check(matches(isDisplayed()))
-            if (navController.currentDestination?.id == R.id.scanFragment) assert(true)
         }
     }
 
@@ -81,7 +81,6 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_pick)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.pick_toolbar)).check(matches(isDisplayed()))
-            if (navController.currentDestination?.id == R.id.pickFragment) assert(true)
         }
     }
 
@@ -91,7 +90,6 @@ class HomeFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_breach)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.sv_barcode)).check(matches(isDisplayed()))
-            if (navController.currentDestination?.id == R.id.breachFragment) assert(true)
         }
     }
 }

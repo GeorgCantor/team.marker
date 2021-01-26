@@ -75,10 +75,13 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rectName?.contains(x, y) == true) {
-                            findNavController().navigate(
-                                R.id.action_pickFragment_to_productFragment,
-                                bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
-                            )
+                            try {
+                                findNavController().navigate(
+                                    R.id.action_pickFragment_to_productFragment,
+                                    bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
+                                )
+                            } catch (e: IllegalArgumentException) {
+                            }
                         }
                         if (it.rectButton?.contains(x, y) == true) {
                             viewModel.setClickStatus(

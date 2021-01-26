@@ -2,6 +2,7 @@ package team.marler.view_model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -14,6 +15,7 @@ import team.marker.model.remote.ApiRepository
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marler.base.BaseAndroidTest
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class BreachCompleteViewModelTest : BaseAndroidTest() {
@@ -35,11 +37,22 @@ class BreachCompleteViewModelTest : BaseAndroidTest() {
 
     @Test
     fun add_file() {
-        if (isNetworkAvailable() && isUserLoggedIn()) {
+        if (isUserLoggedIn()) {
             viewModel.addPhoto(File.createTempFile(LOGIN, LOGIN))
             viewModel.photos.observe(mockLifecycleOwner()) {
-                if (it.isNotEmpty()) assert(true)
+                assertTrue(it.isNotEmpty())
             }
+        }
+    }
+
+    @Test
+    fun remove_file() {
+        if (isUserLoggedIn()) {
+            val file = File.createTempFile(LOGIN, LOGIN)
+            viewModel.addPhoto(file)
+            viewModel.removePhoto(file)
+            TimeUnit.SECONDS.sleep(2)
+            assertTrue(viewModel.photos.value?.isEmpty() == true)
         }
     }
 }

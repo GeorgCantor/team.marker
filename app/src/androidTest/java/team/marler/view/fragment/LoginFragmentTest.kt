@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import junit.framework.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -64,7 +65,7 @@ class LoginFragmentTest : BaseAndroidTest() {
             onView(withId(R.id.btn_scan)).check(matches(isDisplayed()))
             onView(withId(R.id.btn_pick)).check(matches(isDisplayed()))
             onView(withId(R.id.btn_breach)).check(matches(isDisplayed()))
-            if (isUserLoggedIn()) assert(true)
+            assertTrue(isUserLoggedIn())
         }
     }
 }

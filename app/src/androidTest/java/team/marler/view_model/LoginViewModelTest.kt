@@ -2,12 +2,12 @@ package team.marler.view_model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import team.marker.R
 import team.marker.model.remote.ApiClient
 import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.LoginRequest
@@ -37,7 +37,7 @@ class LoginViewModelTest : BaseAndroidTest() {
         if (isNetworkAvailable() && !isUserLoggedIn()) {
             viewModel.login(LoginRequest("xx", "xx"))
             viewModel.error.observe(mockLifecycleOwner()) {
-                if (it == getContext().getString(R.string.wrong_login_password)) assert(true)
+                assertTrue(it == LOGIN_ERROR)
             }
         }
     }
@@ -47,7 +47,7 @@ class LoginViewModelTest : BaseAndroidTest() {
         if (isNetworkAvailable() && !isUserLoggedIn()) {
             viewModel.login(LoginRequest(LOGIN, PASSWORD))
             viewModel.response.observe(mockLifecycleOwner()) {
-                if (it.token?.isNotEmpty() == true) assert(true)
+                assertTrue(it.token?.isNotEmpty() == true)
             }
         }
     }

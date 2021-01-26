@@ -30,8 +30,10 @@ class BreachCompleteFragmentTest : BaseAndroidTest() {
 
     @Test
     fun click_send_with_empty_comment() {
-        onView(withId(R.id.input_comment)).perform(replaceText("  "))
-        onView(withId(R.id.btn_send)).perform((click()))
-        onView(withText(R.string.enter_description)).check(matches(isDisplayed()))
+        if (isNetworkAvailable() && isUserLoggedIn()) {
+            onView(withId(R.id.input_comment)).perform(replaceText("  "))
+            onView(withId(R.id.btn_send)).perform((click()))
+            onView(withText(R.string.enter_description)).check(matches(isDisplayed()))
+        }
     }
 }
