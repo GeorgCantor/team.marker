@@ -45,18 +45,18 @@ fun Int.nameCase(names: Array<String>): String {
     return names[2]
 }
 
-fun CameraSourcePreview.calculateFocusArea(x: Float, y: Float): Rect {
-    val left = java.lang.Float.valueOf(x / width * 2000 - 1000).toInt().clamp()
-    val top = java.lang.Float.valueOf(y / height * 2000 - 1000).toInt().clamp()
+fun CameraSourcePreview.calculateFocusArea(x: Float, y: Float, areaSize: Int): Rect {
+    val left = java.lang.Float.valueOf(x / width * 2000 - areaSize).toInt().clamp(areaSize)
+    val top = java.lang.Float.valueOf(y / height * 2000 - areaSize).toInt().clamp(areaSize)
 
     return Rect(left, top, left + 1000, top + 1000)
 }
 
-private fun Int.clamp(): Int {
-    return if (abs(this) + 1000 / 2 > 1000) {
-        if (this > 0) 1000 - 1000 / 2 else -1000 + 1000 / 2
+private fun Int.clamp(areaSize: Int): Int {
+    return if (abs(this) + (areaSize / 2) > 1000) {
+        if (this > 0) 1000 - (areaSize / 2) else -1000 + (areaSize / 2)
     } else {
-        this - 1000 / 2
+        this - (areaSize / 2)
     }
 }
 

@@ -82,7 +82,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         preview.setOnTouchListener { _, event ->
             if (cameraSource != null && isFocusManual) {
-                val rect = preview.calculateFocusArea(event.x, event.y)
+                val rect = preview.calculateFocusArea(event.x, event.y, preview.width)
                 cameraSource?.doTouchFocus(rect)
             }
             true
