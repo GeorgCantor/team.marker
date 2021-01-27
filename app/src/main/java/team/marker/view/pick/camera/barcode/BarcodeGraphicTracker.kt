@@ -17,7 +17,7 @@ import java.util.*
 class BarcodeGraphicTracker internal constructor(
     private val mOverlay: GraphicOverlay<BarcodeGraphic?>?,
     private val mGraphic: BarcodeGraphic,
-    private val viewModel: PickCompleteViewModel
+    private val viewModel: PickCompleteViewModel?
 ) : Tracker<Barcode?>() {
 
     private var lastTime: Date? = null
@@ -41,7 +41,7 @@ class BarcodeGraphicTracker internal constructor(
         lastTime = Date()
         val productId = item?.rawValue?.takeLastWhile { it.isDigit() }?.toIntOrNull() ?: return
         if (productId == lastProductId) return
-        viewModel.addProduct(PickProduct(productId, 1.toDouble(), 0))
+        viewModel?.addProduct(PickProduct(productId, 1.toDouble(), 0))
     }
 
     /**

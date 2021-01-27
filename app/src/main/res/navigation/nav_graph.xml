@@ -166,6 +166,11 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/scanFragment" />
+        <action
+            android:id="@+id/action_scanFragment_self"
+            app:destination="@id/scanFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment

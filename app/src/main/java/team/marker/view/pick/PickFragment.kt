@@ -178,7 +178,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 viewModel.products.observeOnce(viewLifecycleOwner) {
                     val list = mutableListOf<PickProduct>()
                     it.forEach {
-                       if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
+                        if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
                     }
                     try {
                         findNavController().navigate(
@@ -259,12 +259,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             .add(textRecognizer)
             .build()
 
-        var builder = CameraSource.Builder(requireActivity().applicationContext, multiDetector)
+        val builder = CameraSource.Builder(requireActivity().applicationContext, multiDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
+            .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
 
-        builder = builder.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
         cameraSource = builder
             .setFlashMode(null)
             .build()

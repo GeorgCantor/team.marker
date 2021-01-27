@@ -14,7 +14,7 @@ import team.marker.view.pick.complete.PickCompleteViewModel
 
 class BarcodeGraphic internal constructor(
     overlay: GraphicOverlay<*>?,
-    private val viewModel: PickCompleteViewModel,
+    private val viewModel: PickCompleteViewModel?,
     private val lifecycleOwner: LifecycleOwner
 ) : Graphic(overlay!!) {
 
@@ -60,8 +60,8 @@ class BarcodeGraphic internal constructor(
 
         val productId = barcode.rawValue.takeLastWhile { it.isDigit() }
 
-        viewModel.getProduct(productId)
-        viewModel.products.observe(lifecycleOwner) {
+        viewModel?.getProduct(productId)
+        viewModel?.products?.observe(lifecycleOwner) {
             it?.let {
                 it.forEach {
                     try {
@@ -88,7 +88,7 @@ class BarcodeGraphic internal constructor(
                 drawRectText("ДОБАВИТЬ", canvas!!, buttonRect)
             }
 
-            viewModel.setRect(background, buttonRect, prodName)
+            viewModel?.setRect(background, buttonRect, prodName)
             canvas.drawText(prodName, (rect.left - halfTextLength), rect.bottom + 100, textPaint)
         }
     }

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.ImageFormat
+import android.graphics.Rect
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.os.Build
@@ -468,6 +469,26 @@ private constructor() {
     }
 
     /**
+     * Called from PreviewSurfaceView to set touch focus.
+     * @param - Rect - new area for auto focus
+     */
+    fun doTouchFocus(focusRect: Rect?) {
+        val autoFocusCallback = Camera.AutoFocusCallback { p0, _ -> if (p0) mCamera?.cancelAutoFocus() }
+        try {
+            val focusList: MutableList<Camera.Area> = ArrayList()
+            val focusArea = Camera.Area(focusRect, 1000)
+            focusList.add(focusArea)
+            val param = mCamera?.parameters
+            param?.focusAreas = focusList
+            param?.meteringAreas = focusList
+            mCamera?.parameters = param
+            mCamera?.autoFocus(autoFocusCallback)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
      * Sets the flash mode.
      *
      * @param mode flash mode.
@@ -550,9 +571,6 @@ private constructor() {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     fun setAutoFocusMoveCallback(cb: AutoFocusMoveCallback?): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            return false
-        }
         synchronized(mCameraLock) {
             if (mCamera != null) {
                 var autoFocusMoveCallback: CameraAutoFocusMoveCallback? = null

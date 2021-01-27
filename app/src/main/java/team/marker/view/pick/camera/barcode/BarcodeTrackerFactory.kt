@@ -12,7 +12,7 @@ import team.marker.view.pick.complete.PickCompleteViewModel
  */
 internal class BarcodeTrackerFactory(
     private val mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>?,
-    private val viewModel: PickCompleteViewModel,
+    private val viewModel: PickCompleteViewModel?,
     private val lifecycleOwner: LifecycleOwner
 ) : MultiProcessor.Factory<Barcode> {
 
