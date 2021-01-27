@@ -1,13 +1,7 @@
 package team.marker.util
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager.FEATURE_CAMERA_FLASH
-import android.hardware.Camera
-import android.hardware.Camera.Parameters.FLASH_MODE_OFF
-import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -28,8 +22,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.android.gms.vision.CameraSource
-import kotlinx.android.synthetic.main.fragment_breach.*
 import team.marker.R
 import team.marker.util.Constants.FORCE
 import java.io.File
@@ -62,31 +54,6 @@ fun SharedPreferences.getAny(type: Any, key: String): Any {
         is String -> getString(key, "") as Any
         else -> getInt(key, 0)
     }
-}
-
-fun CameraSource.getCamera(): Camera? {
-    for (field in CameraSource::class.java.declaredFields) {
-        if (field.type == Camera::class.java) {
-            field.isAccessible = true
-            try {
-                return field.get(this) as Camera
-            } catch (e: IllegalAccessException) {
-            }
-            break
-        }
-    }
-    return null
-}
-
-@SuppressLint("MissingPermission")
-fun Activity.toggleTorch(cameraSource: CameraSource, torchOn: Boolean) {
-    packageManager.hasSystemFeature(FEATURE_CAMERA_FLASH)
-    cameraSource.start(sv_barcode.holder)
-    val camera: Camera? = cameraSource.getCamera()
-    val parameters: Camera.Parameters? = camera?.parameters
-    parameters?.flashMode = if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH
-    camera?.parameters = parameters
-    camera?.startPreview()
 }
 
 fun View.setVisibility(visible: Boolean) {

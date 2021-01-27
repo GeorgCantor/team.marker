@@ -57,7 +57,7 @@
             android:padding="10dp"
             app:layout_constraintStart_toEndOf="@id/btn_scan_flash"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_flash_2" />
+            app:srcCompat="@drawable/ic_auto_focus" />
 
         <ImageView
             android:id="@+id/btn_cancel"

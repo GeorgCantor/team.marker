@@ -14,7 +14,7 @@ import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType
-import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
@@ -45,6 +45,8 @@ import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
+import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.view.pick.camera.CameraSource
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.barcode.BarcodeGraphic
@@ -71,7 +73,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         view.setOnTouchListener { v, event ->
             val x = event.x.toInt() + 200
             val y = event.y.toInt()
-            if (pickMode == 0 && event.action == MotionEvent.ACTION_DOWN) {
+            if (pickMode == 0 && event.action == ACTION_DOWN) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rectName?.contains(x, y) == true) {
@@ -329,13 +331,5 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private fun toggleTorch(torchOn: Boolean) {
         cameraSource?.setFlashMode(if (torchOn) FLASH_MODE_OFF else FLASH_MODE_TORCH)
-    }
-
-    companion object {
-        // intent request code to handle updating play services if needed.
-        private const val RC_HANDLE_GMS = 9001
-
-        // permission request codes need to be < 256
-        private const val RC_HANDLE_CAMERA_PERM = 2
     }
 }

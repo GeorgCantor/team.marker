@@ -18,4 +18,6 @@ object Constants {
     const val MODE = "mode"
     const val FORCE = "force"
     const val FOCUS_MODE = "focus_mode"
+    const val RC_HANDLE_GMS = 9001
+    const val RC_HANDLE_CAMERA_PERM = 2
 }

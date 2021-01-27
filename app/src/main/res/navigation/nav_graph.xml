@@ -9,7 +9,7 @@
         android:id="@+id/breachFragment"
         android:name="team.marker.view.breach.BreachFragment"
         android:label="BreachFragment"
-        tools:layout="@layout/fragment_breach">
+        tools:layout="@layout/fragment_scan">
         <action
             android:id="@+id/action_breachFragment_to_breachCompleteFragment"
             app:destination="@id/breachCompleteFragment"
@@ -17,6 +17,11 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_breachFragment_self"
+            app:destination="@id/breachFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
