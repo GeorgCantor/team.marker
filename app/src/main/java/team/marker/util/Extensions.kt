@@ -25,39 +25,40 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import team.marker.R
 import team.marker.util.Constants.FORCE
-import team.marker.view.pick.camera.CameraSourcePreview
 import java.io.File
 import java.util.concurrent.TimeUnit
-import kotlin.math.abs
 
 fun Long.runDelayed(action: () -> Unit) {
     Handler(getMainLooper()).postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
 }
 
 fun Int.nameCase(names: Array<String>): String {
-    // calculate
     val count = kotlin.math.abs(this)
     val a1 = count % 10
     val a2 = count % 100
-    // output
+
     if (a1 == 1 && (a2 <= 10 || a2 > 20)) return names[0]
     if (a1 in 2..4 && (a2 <= 10 || a2 > 20)) return names[1]
     return names[2]
 }
 
-fun CameraSourcePreview.calculateFocusArea(x: Float, y: Float, areaSize: Int): Rect {
-    val left = java.lang.Float.valueOf(x / width * 2000 - areaSize).toInt().clamp(areaSize)
-    val top = java.lang.Float.valueOf(y / height * 2000 - areaSize).toInt().clamp(areaSize)
+fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {
+    val y = height - oldX
+    val focusAreaSize = 300F
+    val areaSize = java.lang.Float.valueOf(focusAreaSize * coefficient).toInt()
+    val centerX = (oldY / width * 2000 - 1000).toInt()
+    val centerY = (y / height * 2000 - 1000).toInt()
+    val left = (centerX - areaSize / 2).clamp(-1000, 1000)
+    val right = (left + areaSize).clamp(-1000, 1000)
+    val top = (centerY - areaSize / 2).clamp(-1000, 1000)
+    val bottom = (top + areaSize).clamp(-1000, 1000)
 
-    return Rect(left, top, left + 1000, top + 1000)
+    return Rect(left, top, right, bottom)
 }
 
-private fun Int.clamp(areaSize: Int): Int {
-    return if (abs(this) + (areaSize / 2) > 1000) {
-        if (this > 0) 1000 - (areaSize / 2) else -1000 + (areaSize / 2)
-    } else {
-        this - (areaSize / 2)
-    }
+private fun Int.clamp(min: Int, max: Int): Int {
+    if (this > max) return max
+    return if (this < min) min else this
 }
 
 fun SharedPreferences.putAny(key: String, any: Any) {

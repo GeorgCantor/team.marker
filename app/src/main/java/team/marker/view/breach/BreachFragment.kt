@@ -38,7 +38,7 @@ import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
-import team.marker.util.calculateFocusArea
+import team.marker.util.calculateTapArea
 import team.marker.view.pick.camera.CameraSource
 import java.io.IOException
 import kotlin.properties.Delegates
@@ -80,7 +80,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
 
         preview.setOnTouchListener { _, event ->
             if (cameraSource != null && isFocusManual) {
-                val rect = preview.calculateFocusArea(event.x, event.y, preview.width)
+                val rect = preview.calculateTapArea(event.x, event.y, 1000F)
                 cameraSource?.doTouchFocus(rect)
             }
             true
