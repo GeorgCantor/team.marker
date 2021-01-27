@@ -55,19 +55,19 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
     private var torchOn = false
-    private var focusMode = 0
+    private var isFocusManual = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            focusMode = it.get(FOCUS_MODE) as Int
+            isFocusManual = it.get(FOCUS_MODE) as Boolean
         }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
         if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
-        btn_manual_focus.setImageResource(if (focusMode == 0) R.drawable.ic_flash_2 else R.drawable.ic_flash_off_2)
+        btn_manual_focus.setImageResource(if (isFocusManual) R.drawable.ic_manual_focus else R.drawable.ic_auto_focus)
 
         btn_scan_flash.setOnClickListener {
             toggleTorch(torchOn)
@@ -78,12 +78,14 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         btn_manual_focus.setOnClickListener {
             findNavController().navigate(
                 R.id.action_scanFragment_self,
-                bundleOf(FOCUS_MODE to if (focusMode == 0) 1 else 0)
+                bundleOf(FOCUS_MODE to !isFocusManual)
             )
         }
 
+        btn_cancel.setOnClickListener { activity?.onBackPressed() }
+
         preview.setOnTouchListener { _, motionEvent ->
-            if (cameraSource != null && focusMode == 1) {
+            if (cameraSource != null && isFocusManual) {
                 val rect = calculateFocusArea(motionEvent.x, motionEvent.y)
                 cameraSource?.doTouchFocus(rect)
             }
@@ -176,7 +178,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
-            .setFocusMode(if (focusMode == 0) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else Camera.Parameters.FOCUS_MODE_FIXED)
+            .setFocusMode(if (isFocusManual) Camera.Parameters.FOCUS_MODE_FIXED else Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
             .setFlashMode(null)
