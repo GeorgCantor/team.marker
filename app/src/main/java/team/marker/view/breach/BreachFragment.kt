@@ -4,9 +4,7 @@ import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.graphics.Rect
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FLASH_MODE_OFF
 import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
@@ -28,6 +26,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.MultiDetector
 import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.Barcode.ALL_FORMATS
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
@@ -35,13 +34,13 @@ import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFI
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
-import team.marker.util.Constants
 import team.marker.util.Constants.FOCUS_MODE
+import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
+import team.marker.util.calculateFocusArea
 import team.marker.view.pick.camera.CameraSource
 import java.io.IOException
-import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class BreachFragment : Fragment(R.layout.fragment_scan) {
@@ -79,30 +78,12 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
 
         btn_cancel.setOnClickListener { activity?.onBackPressed() }
 
-        preview.setOnTouchListener { _, motionEvent ->
+        preview.setOnTouchListener { _, event ->
             if (cameraSource != null && isFocusManual) {
-                val rect = calculateFocusArea(motionEvent.x, motionEvent.y)
+                val rect = preview.calculateFocusArea(event.x, event.y)
                 cameraSource?.doTouchFocus(rect)
             }
             true
-        }
-    }
-
-    private fun calculateFocusArea(x: Float, y: Float): Rect {
-        val left = clamp(java.lang.Float.valueOf(x / preview.width * 2000 - 1000).toInt(), 1000)
-        val top = clamp(java.lang.Float.valueOf(y / preview.height * 2000 - 1000).toInt(), 1000)
-        return Rect(left, top, left + 1000, top + 1000)
-    }
-
-    private fun clamp(touchCoordinateInCameraReper: Int, focusAreaSize: Int): Int {
-        return if (abs(touchCoordinateInCameraReper) + focusAreaSize / 2 > 1000) {
-            if (touchCoordinateInCameraReper > 0) {
-                1000 - focusAreaSize / 2
-            } else {
-                -1000 + focusAreaSize / 2
-            }
-        } else {
-            touchCoordinateInCameraReper - focusAreaSize / 2
         }
     }
 
@@ -123,7 +104,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
 
     @SuppressLint("InlinedApi")
     private fun createCameraSource() {
-        val barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build()
+        val barcodeDetector = BarcodeDetector.Builder(requireContext()).setBarcodeFormats(ALL_FORMATS).build()
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
             }
@@ -202,7 +183,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
             createCameraSource()
             return
         }
@@ -244,7 +225,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
             ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
             findNavController().navigate(
                 R.id.action_breachFragment_to_breachCompleteFragment,
-                bundleOf(Constants.PRODUCT_IDS to products)
+                bundleOf(PRODUCT_IDS to products)
             )
         }
     }

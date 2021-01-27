@@ -2,6 +2,7 @@ package team.marker.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -24,8 +25,10 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import team.marker.R
 import team.marker.util.Constants.FORCE
+import team.marker.view.pick.camera.CameraSourcePreview
 import java.io.File
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 fun Long.runDelayed(action: () -> Unit) {
     Handler(getMainLooper()).postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
@@ -40,6 +43,21 @@ fun Int.nameCase(names: Array<String>): String {
     if (a1 == 1 && (a2 <= 10 || a2 > 20)) return names[0]
     if (a1 in 2..4 && (a2 <= 10 || a2 > 20)) return names[1]
     return names[2]
+}
+
+fun CameraSourcePreview.calculateFocusArea(x: Float, y: Float): Rect {
+    val left = java.lang.Float.valueOf(x / width * 2000 - 1000).toInt().clamp()
+    val top = java.lang.Float.valueOf(y / height * 2000 - 1000).toInt().clamp()
+
+    return Rect(left, top, left + 1000, top + 1000)
+}
+
+private fun Int.clamp(): Int {
+    return if (abs(this) + 1000 / 2 > 1000) {
+        if (this > 0) 1000 - 1000 / 2 else -1000 + 1000 / 2
+    } else {
+        this - 1000 / 2
+    }
 }
 
 fun SharedPreferences.putAny(key: String, any: Any) {
