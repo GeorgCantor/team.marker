@@ -42,20 +42,6 @@ fun Int.nameCase(names: Array<String>): String {
     return names[2]
 }
 
-fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {
-    val y = height - oldX
-    val focusAreaSize = 300F
-    val areaSize = java.lang.Float.valueOf(focusAreaSize * coefficient).toInt()
-    val centerX = (oldY / width * 2000 - 1000).toInt()
-    val centerY = (y / height * 2000 - 1000).toInt()
-    val left = (centerX - areaSize / 2).clamp(-1000, 1000)
-    val right = (left + areaSize).clamp(-1000, 1000)
-    val top = (centerY - areaSize / 2).clamp(-1000, 1000)
-    val bottom = (top + areaSize).clamp(-1000, 1000)
-
-    return Rect(left, top, right, bottom)
-}
-
 private fun Int.clamp(min: Int, max: Int): Int {
     if (this > max) return max
     return if (this < min) min else this
@@ -73,6 +59,20 @@ fun SharedPreferences.getAny(type: Any, key: String): Any {
         is String -> getString(key, "") as Any
         else -> getInt(key, 0)
     }
+}
+
+fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {
+    val y = height - oldX
+    val focusAreaSize = 300F
+    val areaSize = java.lang.Float.valueOf(focusAreaSize * coefficient).toInt()
+    val centerX = (oldY / width * 2000 - 1000).toInt()
+    val centerY = (y / height * 2000 - 1000).toInt()
+    val left = (centerX - areaSize / 2).clamp(-1000, 1000)
+    val right = (left + areaSize).clamp(-1000, 1000)
+    val top = (centerY - areaSize / 2).clamp(-1000, 1000)
+    val bottom = (top + areaSize).clamp(-1000, 1000)
+
+    return Rect(left, top, right, bottom)
 }
 
 fun View.visible() { visibility = VISIBLE }

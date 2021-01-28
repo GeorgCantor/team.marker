@@ -1,6 +1,7 @@
 package team.marker.util
 
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -14,20 +15,19 @@ object NetworkUtils : ConnectivityManager.NetworkCallback() {
     private val networkLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getNetworkLiveData(context: Context): LiveData<Boolean> {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(this)
+            manager.registerDefaultNetworkCallback(this)
         } else {
             val builder = NetworkRequest.Builder()
-            connectivityManager.registerNetworkCallback(builder.build(), this)
+            manager.registerNetworkCallback(builder.build(), this)
         }
 
         var isConnected = false
 
-        connectivityManager.allNetworks.forEach { network ->
-            val networkCapability = connectivityManager.getNetworkCapabilities(network)
+        manager.allNetworks.forEach { network ->
+            val networkCapability = manager.getNetworkCapabilities(network)
 
             networkCapability?.let {
                 if (it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
