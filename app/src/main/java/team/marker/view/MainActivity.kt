@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -16,7 +17,6 @@ import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
-import team.marker.util.setVisibility
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         navHostFragment.navController.graph = graph
 
         getNetworkLiveData(applicationContext).observe(this) {
-            no_internet_warning.setVisibility(!it)
+            no_internet_warning.isVisible = !it
         }
     }
 }

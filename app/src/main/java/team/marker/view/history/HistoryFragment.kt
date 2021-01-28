@@ -2,12 +2,12 @@ package team.marker.view.history
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
-import team.marker.util.setVisibility
 
 class HistoryFragment : Fragment(R.layout.fragment_history) {
 
@@ -19,7 +19,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         viewModel.getHistory()
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner, {
-            progress_bar.setVisibility(it)
+            progress_bar.isVisible = it
         })
 
         viewModel.response.observe(viewLifecycleOwner, {

@@ -3,6 +3,7 @@ package team.marker.view.pick.products
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_products.*
@@ -12,7 +13,6 @@ import team.marker.R
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
-import team.marker.util.setVisibility
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -25,7 +25,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
         viewModel.getProducts(productIds)
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner, {
-            progress_bar.setVisibility(it)
+            progress_bar.isVisible = it
         })
 
         viewModel.response.observe(viewLifecycleOwner, {

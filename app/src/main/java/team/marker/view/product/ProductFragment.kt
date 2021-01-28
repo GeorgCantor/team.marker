@@ -11,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -183,7 +184,7 @@ class ProductFragment : Fragment() {
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner) {
             root_layout.visibility = if (it) GONE else VISIBLE
-            200L.runDelayed { progress_bar.setVisibility(it) }
+            200L.runDelayed { progress_bar.isVisible = it }
         }
     }
 

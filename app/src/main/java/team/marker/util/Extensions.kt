@@ -75,10 +75,6 @@ fun SharedPreferences.getAny(type: Any, key: String): Any {
     }
 }
 
-fun View.setVisibility(visible: Boolean) {
-    visibility = if (visible) VISIBLE else GONE
-}
-
 fun View.visible() { visibility = VISIBLE }
 
 fun View.gone() { visibility = GONE }
