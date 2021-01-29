@@ -1,10 +1,9 @@
 package team.marker.view.breach.complete
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -51,20 +50,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
         }
 
-        input_comment.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
+        input_comment.doOnTextChanged { text, _, _, _ ->
+            when (text?.isBlank()) {
+                true -> comment_input_view.error = getString(R.string.enter_description)
+                false -> comment_input_view.error = null
             }
-
-            override fun beforeTextChanged(chars: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(chars: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                when (chars?.isBlank()) {
-                    true -> comment_input_view.error = getString(R.string.enter_description)
-                    false -> comment_input_view.error = null
-                }
-            }
-        })
+        }
     }
 
     override fun onResume() {
