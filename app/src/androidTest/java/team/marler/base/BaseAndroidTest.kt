@@ -2,6 +2,7 @@ package team.marler.base
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.os.Build
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -10,6 +11,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import org.hamcrest.Matcher
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
@@ -59,6 +63,38 @@ open class BaseAndroidTest {
             override fun getDescription(): String {
                 return "wait for " + delay + "milliseconds"
             }
+        }
+    }
+
+    protected fun grantPermission() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        if (Build.VERSION.SDK_INT >= 23) {
+            val allowPermission = UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text(
+                    when {
+                        Build.VERSION.SDK_INT == 23 -> "Allow"
+                        Build.VERSION.SDK_INT <= 28 -> "ALLOW"
+                        Build.VERSION.SDK_INT == 29 -> "Allow only while using the app"
+                        else -> "While using the app"
+                    }
+                )
+            )
+            if (allowPermission.exists()) allowPermission.click()
+        }
+    }
+
+    protected fun denyPermission() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        if (Build.VERSION.SDK_INT >= 23) {
+            val denyPermission = UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text(
+                    when (Build.VERSION.SDK_INT) {
+                        in 24..28 -> "DENY"
+                        else -> "Deny"
+                    }
+                )
+            )
+            if (denyPermission.exists()) denyPermission.click()
         }
     }
 }

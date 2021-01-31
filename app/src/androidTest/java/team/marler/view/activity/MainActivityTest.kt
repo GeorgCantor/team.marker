@@ -1,6 +1,5 @@
 package team.marler.view.activity
 
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -21,7 +20,6 @@ class MainActivityTest : BaseAndroidTest() {
 
     @Test
     fun is_activity_in_view() {
-        ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.root_layout)).check(matches(isDisplayed()))
     }
 
@@ -32,5 +30,11 @@ class MainActivityTest : BaseAndroidTest() {
                 .check(matches(isDisplayed()))
                 .check(matches(withText(R.string.internet_unavailable)))
         }
+    }
+
+    @Test
+    fun grand_permission_and_dialog_dismiss() {
+        grantPermission()
+        onView(withId(R.id.root_layout)).check(matches(isDisplayed()))
     }
 }
