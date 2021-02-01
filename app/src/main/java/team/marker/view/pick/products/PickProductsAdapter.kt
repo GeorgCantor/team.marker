@@ -11,7 +11,7 @@ import team.marker.model.responses.Product
 class PickProductsAdapter(
     private val items: List<Product>,
     private val clickListener: (Product) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<PickProductsAdapter.PickProductsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PickProductsViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_pick_product, parent, false)
@@ -19,14 +19,20 @@ class PickProductsAdapter(
 
     override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PickProductsViewHolder, position: Int) {
         val item = items[position]
-        with(holder.itemView) {
-            title.text = "${item.title}"
-            manufacturer.text = "${item.manufacturer?.title}"
-            setOnClickListener { clickListener(item) }
+        with(holder) {
+            product = item
+            itemView.title.text = "${item.title}"
+            itemView.manufacturer.text = "${item.manufacturer?.title}"
         }
     }
 
-    class PickProductsViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class PickProductsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var product: Product? = null
+
+        init {
+            view.setOnClickListener { product?.let { clickListener(it) } }
+        }
+    }
 }

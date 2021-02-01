@@ -19,17 +19,22 @@ class PhotosAdapter(
         LayoutInflater.from(parent.context).inflate(R.layout.item_photo, parent, false)
     )
 
+    override fun getItemCount() = photos.size
+
     override fun onBindViewHolder(holder: PhotosViewHolder, position: Int) {
-        val file = photos[position]
+        val item = photos[position]
         with(holder) {
-            itemView.context.loadPhoto(file, photo)
-            itemView.setOnClickListener { clickListener(file) }
+            file = item
+            itemView.context.loadPhoto(item, photo)
         }
     }
 
-    override fun getItemCount() = photos.size
-
-    class PhotosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class PhotosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val photo: ImageView = view.photo
+        var file: File? = null
+
+        init {
+            view.setOnClickListener { file?.let { clickListener(it) } }
+        }
     }
 }
