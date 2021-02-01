@@ -383,12 +383,6 @@
                         tools:itemCount="3"
                         tools:listitem="@layout/item_product_option" />
 
-                    <!--<View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#ccc"
-                        app:layout_constraintBottom_toBottomOf="parent" />-->
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

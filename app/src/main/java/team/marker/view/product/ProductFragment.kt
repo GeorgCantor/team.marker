@@ -147,7 +147,7 @@ class ProductFragment : Fragment() {
 
             if (it.options?.size!! > 0) {
                 product_options_recycler.isNestedScrollingEnabled = false
-                product_options_recycler.adapter = ProductOptionsAdapter(it.options) { }
+                product_options_recycler.adapter = ProductOptionsAdapter(it.options)
             } else {
                 expand_2_empty.visible()
             }
