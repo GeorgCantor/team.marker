@@ -37,22 +37,18 @@ class BreachCompleteViewModelTest : BaseAndroidTest() {
 
     @Test
     fun add_file() {
-        if (isUserLoggedIn()) {
-            viewModel.addPhoto(File.createTempFile(LOGIN, LOGIN))
-            viewModel.photos.observe(mockLifecycleOwner()) {
-                assertTrue(it.isNotEmpty())
-            }
+        viewModel.addPhoto(File.createTempFile(LOGIN, LOGIN))
+        viewModel.photos.observe(mockLifecycleOwner()) {
+            assertTrue(it.isNotEmpty())
         }
     }
 
     @Test
     fun remove_file() {
-        if (isUserLoggedIn()) {
-            val file = File.createTempFile(LOGIN, LOGIN)
-            viewModel.addPhoto(file)
-            viewModel.removePhoto(file)
-            TimeUnit.SECONDS.sleep(2)
-            assertTrue(viewModel.photos.value?.isEmpty() == true)
-        }
+        val file = File.createTempFile(LOGIN, LOGIN)
+        viewModel.addPhoto(file)
+        viewModel.removePhoto(file)
+        TimeUnit.SECONDS.sleep(2)
+        assertTrue(viewModel.photos.value?.isEmpty() == true)
     }
 }

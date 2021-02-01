@@ -34,21 +34,17 @@ class LoginViewModelTest : BaseAndroidTest() {
 
     @Test
     fun login_with_incorrect_credentials() {
-        if (isNetworkAvailable() && !isUserLoggedIn()) {
-            viewModel.login(LoginRequest("xx", "xx"))
-            viewModel.error.observe(mockLifecycleOwner()) {
-                assertTrue(it == LOGIN_ERROR)
-            }
+        viewModel.login(LoginRequest("xx", "xx"))
+        viewModel.error.observe(mockLifecycleOwner()) {
+            assertTrue(it == LOGIN_ERROR)
         }
     }
 
     @Test
     fun login_with_correct_credentials() {
-        if (isNetworkAvailable() && !isUserLoggedIn()) {
-            viewModel.login(LoginRequest(LOGIN, PASSWORD))
-            viewModel.response.observe(mockLifecycleOwner()) {
-                assertTrue(it.token?.isNotEmpty() == true)
-            }
+        viewModel.login(LoginRequest(LOGIN, PASSWORD))
+        viewModel.response.observe(mockLifecycleOwner()) {
+            assertTrue(it.token?.isNotEmpty() == true)
         }
     }
 }
