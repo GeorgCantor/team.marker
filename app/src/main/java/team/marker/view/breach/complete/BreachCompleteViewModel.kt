@@ -31,6 +31,7 @@ class BreachCompleteViewModel(
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
     val photos = MutableLiveData<MutableList<File>>()
+    val sentSuccess = MutableLiveData<Boolean>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -53,6 +54,7 @@ class BreachCompleteViewModel(
             ).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
+                sentSuccess.postValue(this?.success)
                 removeFiles()
 
                 preferences.putAny(DEFERRED_FILES, "")
@@ -86,15 +88,13 @@ class BreachCompleteViewModel(
 
     fun saveFilePathsForDeferredSending(productId: Int, comment: String) {
         val files = DeferredFiles(productId, 0, "", comment, photos.value?.map { it.path } ?: emptyList())
-        val gson = Gson()
-        val json = gson.toJson(files)
-        preferences.putAny(DEFERRED_FILES, json)
+        preferences.putAny(DEFERRED_FILES, Gson().toJson(files))
     }
 
     fun sendDeferredFiles(files: DeferredFiles) {
-            val photoFiles = mutableListOf<File>()
-            files.filePaths.forEach { photoFiles.add(File(it)) }
-            photos.value = photoFiles
-            breach(files.productId, files.reasonId, files.userReason, files.comment)
+        val photoFiles = mutableListOf<File>()
+        files.filePaths.forEach { photoFiles.add(File(it)) }
+        photos.value = photoFiles
+        breach(files.productId, files.reasonId, files.userReason, files.comment)
     }
 }

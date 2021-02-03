@@ -46,7 +46,6 @@ class HomeFragmentTest : BaseAndroidTest() {
         if (!isNetworkAvailable() && isUserLoggedIn()) {
             onView(withId(R.id.btn_scan)).perform(click())
             onView(withId(R.id.btn_pick)).perform(click())
-            onView(withId(R.id.btn_breach)).perform(click())
 
             onView(withText(R.string.internet_unavailable))
                 .inRoot(withDecorView(not(getActivity(getContext())?.window?.decorView)))

@@ -21,6 +21,8 @@ import team.marker.util.Constants.access_sid
 import team.marker.util.Constants.access_token
 import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
+import team.marker.util.longToast
+import team.marker.util.observeOnce
 import team.marker.view.breach.complete.BreachCompleteViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -50,11 +52,14 @@ class MainActivity : AppCompatActivity() {
                 val json = preferences.getAny("", DEFERRED_FILES) as String
                 if (json.isNotBlank()) {
                     val type = object : TypeToken<DeferredFiles>() {}.type
-                    val gson = Gson()
-                    val files = gson.fromJson<DeferredFiles>(json, type)
+                    val files = Gson().fromJson<DeferredFiles>(json, type)
                     viewModel.sendDeferredFiles(files)
                 }
             }
+        }
+
+        viewModel.sentSuccess.observeOnce(this) {
+            if (it) longToast(getString(R.string.breach_request_sent))
         }
     }
 }

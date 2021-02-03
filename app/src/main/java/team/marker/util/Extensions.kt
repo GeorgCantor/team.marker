@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
@@ -95,6 +96,8 @@ fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVIC
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false
 
 fun Context.shortToast(message: String) = Toast.makeText(this, message, LENGTH_SHORT).show()
+
+fun Context.longToast(message: String) = Toast.makeText(this, message, LENGTH_LONG).show()
 
 fun Context.loadPhoto(file: File, imageView: ImageView) = Glide.with(this)
     .load(file)

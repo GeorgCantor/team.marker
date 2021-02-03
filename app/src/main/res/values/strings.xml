@@ -12,14 +12,9 @@
     <string name="input_password">Введите пароль</string>
     <string name="terms_conditions">Осуществляя вход вы выражаете согласие с нашими Условиями обслуживания и Политикой конфиденциальности</string>
     <string name="back">Назад</string>
-    <string name="write_details">Напишите подробности …</string>
-    <string name="enter_description">Введите описание</string>
-    <string name="send_later">Отправим при восстановлении интернет-соединения</string>
     <string name="internet_unavailable">интернет недоступен</string>
     <string name="result_of_checking">Результат проверки</string>
     <string name="product_not_found">изделие не найдено, проверьте код</string>
-    <string name="make_photo">Сделать фото</string>
-    <string name="send">Отправить</string>
     <string name="password">пароль</string>
     // home
     <string name="get_product_info">Получение подробной информации об изделии</string>
@@ -86,6 +81,13 @@
     <string name="application">Приложение</string>
     <string name="documentation">Документация</string>
     <string name="documents_not_loaded">Документы не загружены</string>
+    // breach
+    <string name="send_later">Отправим при восстановлении интернет-соединения</string>
+    <string name="breach_request_sent">Отчет о некондиции отправлен</string>
+    <string name="write_details">Напишите подробности …</string>
+    <string name="enter_description">Введите описание</string>
+    <string name="make_photo">Сделать фото</string>
+    <string name="send">Отправить</string>
 
     <string-array name="scan_array">
         <item>Отсканирован</item>

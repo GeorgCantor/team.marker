@@ -14,7 +14,7 @@ import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.isNetworkAvailable
-import team.marker.util.shortToast
+import team.marker.util.longToast
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -81,7 +81,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             viewModel.breach(productId, reasonId, userReason, comment)
         } else {
             viewModel.saveFilePathsForDeferredSending(productId, comment)
-            context?.shortToast(getString(R.string.send_later))
+            context?.longToast(getString(R.string.send_later))
         }
         activity?.onBackPressed()
     }
