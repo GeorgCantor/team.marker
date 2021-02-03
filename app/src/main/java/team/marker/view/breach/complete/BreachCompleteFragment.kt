@@ -81,7 +81,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             viewModel.breach(productId, reasonId, userReason, comment)
         } else {
             viewModel.saveFilePathsForDeferredSending(productId, comment)
-            context?.shortToast("Отправим при восстановлении интернет-соединения")
+            context?.shortToast(getString(R.string.send_later))
         }
         activity?.onBackPressed()
     }
