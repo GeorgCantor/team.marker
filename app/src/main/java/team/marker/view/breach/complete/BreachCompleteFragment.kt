@@ -13,7 +13,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_DETAIL
 import team.marker.util.Constants.PRODUCT_IDS
-import team.marker.util.hasInternetBeforeAction
+import team.marker.util.isNetworkAvailable
+import team.marker.util.shortToast
 
 class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
@@ -69,7 +70,6 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
     }
 
     private fun send(productId: Int) {
-        if (!requireContext().hasInternetBeforeAction()) return
         val reasonId = 0
         val userReason = ""
         val comment = input_comment.text.toString().trim()
@@ -77,7 +77,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             comment_input_view.error = getString(R.string.enter_description)
             return
         }
-        viewModel.breach(productId, reasonId, userReason, comment)
+        if (context?.isNetworkAvailable() == true) {
+            viewModel.breach(productId, reasonId, userReason, comment)
+        } else {
+            viewModel.saveFilePathsForDeferredSending(productId, comment)
+            context?.shortToast("Отправим при восстановлении интернет-соединения")
+        }
         activity?.onBackPressed()
     }
 }

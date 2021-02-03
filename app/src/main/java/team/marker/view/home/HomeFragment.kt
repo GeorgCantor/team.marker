@@ -35,7 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         btn_scan.setOnClickListener { openScanner(R.id.action_homeFragment_to_scannFragment) }
         btn_pick.setOnClickListener { openScanner(R.id.action_homeFragment_to_pickFragment) }
-        btn_breach.setOnClickListener { openScanner(R.id.action_homeFragment_to_breachFragment) }
+        btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
         btn_logout.setOnClickListener { context?.showDialog { logout() } }
 
         getLocation()

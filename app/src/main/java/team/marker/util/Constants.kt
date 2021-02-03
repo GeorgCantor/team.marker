@@ -10,6 +10,7 @@ object Constants {
     const val BASE_URL = "https://marker.team/api/"
     const val PRODUCTS_URL = "https://marker.team/products/"
     const val MAIN_STORAGE = "main_storage"
+    const val DEFERRED_FILES = "deferred_files"
     const val IMAGE_DIR = "image_dir"
     const val PRODUCT_URL = "product_url"
     const val PRODUCT_IDS = "product_ids"

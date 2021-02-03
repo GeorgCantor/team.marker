@@ -21,7 +21,7 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { BreachCompleteViewModel(androidApplication(), get()) }
+    viewModel { BreachCompleteViewModel(androidApplication(), get(), get()) }
     viewModel { HistoryViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LoginViewModel(get()) }
@@ -35,5 +35,6 @@ val apiModule = module {
 }
 
 val preferenceModule = module {
+    single { androidApplication().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE) }
     single(named(MAIN_STORAGE)) { androidApplication().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE) }
 }
