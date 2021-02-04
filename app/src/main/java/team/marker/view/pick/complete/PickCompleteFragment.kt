@@ -13,6 +13,7 @@ import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.gone
 import team.marker.util.hasInternetBeforeAction
 import team.marker.util.nameCase
 import team.marker.util.shortToast
@@ -27,13 +28,16 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         val size = products.size
         val labelScan = size.nameCase(resources.getStringArray(R.array.scan_array))
         val labelCode = size.nameCase(resources.getStringArray(R.array.codes_array))
-        if (size > 0) note_text.text = "$labelScan $size $labelCode, ${getString(R.string.enter_email)}" else note_text.text = getString(R.string.no_scanned_codes)
-        if (size == 0) {
-            input_email.visibility = View.GONE
-            btn_send.text = getString(R.string.close)
-            note_title.setImageResource(R.drawable.ic_empty)
-            btn_products.visibility = View.GONE
-            ic_email.visibility = View.GONE
+        when (size) {
+            0 -> {
+                note_text.text = getString(R.string.no_scanned_codes)
+                btn_send.text = getString(R.string.close)
+                note_title.setImageResource(R.drawable.ic_empty)
+                input_email.gone()
+                btn_products.gone()
+                ic_email.gone()
+            }
+            else -> note_text.text = "$labelScan $size $labelCode, ${getString(R.string.enter_email)}"
         }
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
