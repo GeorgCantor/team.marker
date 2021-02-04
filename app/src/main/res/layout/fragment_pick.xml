@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/black"
     android:keepScreenOn="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,7 +116,7 @@
                 android:stateListAnimator="@null"
                 android:text="@string/add"
                 android:textAllCaps="true"
-                android:textColor="#19194D"
+                android:textColor="@color/dark_blue"
                 android:textSize="15sp"
                 android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/pick_quantity" />
@@ -133,7 +133,7 @@
                 android:stateListAnimator="@null"
                 android:text="@string/cancel"
                 android:textAllCaps="true"
-                android:textColor="#19194D"
+                android:textColor="@color/dark_blue"
                 android:textSize="15sp"
                 android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/btn_add" />

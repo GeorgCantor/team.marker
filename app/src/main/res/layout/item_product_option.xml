@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
-        android:textColor="@color/black_primary"
+        android:textColor="@color/gray_primary"
         android:textSize="14sp"
         tools:text="описание" />
 

@@ -70,7 +70,7 @@
                         android:letterSpacing="0.05"
                         android:text="@string/recognize"
                         android:textAllCaps="true"
-                        android:textColor="#19194D"
+                        android:textColor="@color/dark_blue"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
@@ -133,7 +133,7 @@
                         android:letterSpacing="0.05"
                         android:text="@string/capitalize"
                         android:textAllCaps="true"
-                        android:textColor="#19194D"
+                        android:textColor="@color/dark_blue"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
@@ -196,7 +196,7 @@
                         android:letterSpacing="0.05"
                         android:text="@string/breach"
                         android:textAllCaps="true"
-                        android:textColor="#19194D"
+                        android:textColor="@color/dark_blue"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
@@ -227,7 +227,7 @@
                 android:stateListAnimator="@null"
                 android:text="@string/exit"
                 android:textAllCaps="true"
-                android:textColor="#19194D"
+                android:textColor="@color/dark_blue"
                 android:textSize="15sp"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"

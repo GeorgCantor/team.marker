@@ -122,7 +122,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/product_name"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -166,7 +166,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +212,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified3"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -259,7 +259,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified3"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -475,7 +475,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/manufacturer_name"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -520,7 +520,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -565,7 +565,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -689,7 +689,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/customer"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -733,7 +733,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -779,7 +779,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -823,7 +823,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -867,7 +867,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -911,7 +911,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -957,7 +957,7 @@
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified2"
-                            android:textColor="@color/black_primary"
+                            android:textColor="@color/gray_primary"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
