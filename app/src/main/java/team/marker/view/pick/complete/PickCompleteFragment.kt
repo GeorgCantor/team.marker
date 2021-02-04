@@ -11,12 +11,9 @@ import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
+import team.marker.util.*
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.Constants.PRODUCT_IDS
-import team.marker.util.gone
-import team.marker.util.hasInternetBeforeAction
-import team.marker.util.nameCase
-import team.marker.util.shortToast
 
 class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
@@ -56,13 +53,20 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
     }
 
     private fun send(size: Int) {
-        if (!requireContext().hasInternetBeforeAction()) return
-        val email = input_email.text.toString()
-        if (size > 0 && email.isEmpty()) {
-            context?.shortToast(getString(R.string.enter_email))
-            return
+        if (size > 0) {
+            val email = input_email.text.toString()
+            if (email.isEmpty()) {
+                context?.shortToast(getString(R.string.enter_email))
+                return
+            }
+            when (context?.isNetworkAvailable()) {
+                true -> viewModel.pick(PickRequest(products, email))
+                false -> {
+                    viewModel.saveForDeferredSending(PickRequest(products, email))
+                    context?.longToast(getString(R.string.send_later))
+                }
+            }
         }
-        if (size > 0) viewModel.pick(PickRequest(products, email))
         activity?.onBackPressed()
     }
 }

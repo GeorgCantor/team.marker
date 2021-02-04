@@ -24,18 +24,18 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
         viewModel.getProducts(productIds)
 
-        viewModel.progressIsVisible.observe(viewLifecycleOwner, {
+        viewModel.progressIsVisible.observe(viewLifecycleOwner) {
             progress_bar.isVisible = it
-        })
+        }
 
-        viewModel.response.observe(viewLifecycleOwner, {
+        viewModel.response.observe(viewLifecycleOwner) {
             history_recycler.adapter = PickProductsAdapter(it.info ?: listOf()) { item ->
                 findNavController().navigate(
                     R.id.action_pickProductsFragment_to_productFragment,
                     bundleOf(PRODUCT_URL to "$PRODUCTS_URL${item.id?.toString()}")
                 )
             }
-        })
+        }
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
     }

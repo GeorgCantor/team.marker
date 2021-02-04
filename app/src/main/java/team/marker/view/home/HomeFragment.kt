@@ -33,17 +33,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_scan.setOnClickListener { openScanner(R.id.action_homeFragment_to_scannFragment) }
-        btn_pick.setOnClickListener { openScanner(R.id.action_homeFragment_to_pickFragment) }
+        btn_scan.setOnClickListener {
+            if (!requireContext().hasInternetBeforeAction()) return@setOnClickListener
+            findNavController().navigate(R.id.action_homeFragment_to_scannFragment)
+        }
+        btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
         btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
         btn_logout.setOnClickListener { context?.showDialog { logout() } }
 
         getLocation()
-    }
-
-    private fun openScanner(destination: Int) {
-        if (!requireContext().hasInternetBeforeAction()) return
-        findNavController().navigate(destination)
     }
 
     private fun logout() {

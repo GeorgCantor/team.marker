@@ -13,7 +13,9 @@ import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.model.DeferredFiles
+import team.marker.model.requests.PickRequest
 import team.marker.util.Constants.DEFERRED_FILES
+import team.marker.util.Constants.DEFERRED_REQUEST
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
@@ -24,10 +26,12 @@ import team.marker.util.getAny
 import team.marker.util.longToast
 import team.marker.util.observeOnce
 import team.marker.view.breach.complete.BreachCompleteViewModel
+import team.marker.view.pick.complete.PickCompleteViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by inject<BreachCompleteViewModel>()
+    private val breachViewModel by inject<BreachCompleteViewModel>()
+    private val pickViewModel by inject<PickCompleteViewModel>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,20 +50,31 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment.navController.graph = graph
 
-        getNetworkLiveData(applicationContext).observe(this) {
-            no_internet_warning.isVisible = !it
-            if (it) {
-                val json = preferences.getAny("", DEFERRED_FILES) as String
-                if (json.isNotBlank()) {
+        getNetworkLiveData(applicationContext).observe(this) { connect ->
+            no_internet_warning.isVisible = !connect
+            if (connect) {
+                val jsonFiles = preferences.getAny("", DEFERRED_FILES) as String
+                if (jsonFiles.isNotBlank()) {
                     val type = object : TypeToken<DeferredFiles>() {}.type
-                    val files = Gson().fromJson<DeferredFiles>(json, type)
-                    viewModel.sendDeferredFiles(files)
+                    val files = Gson().fromJson<DeferredFiles>(jsonFiles, type)
+                    breachViewModel.sendDeferredFiles(files)
+                }
+
+                val jsonPick = preferences.getAny("", DEFERRED_REQUEST) as String
+                if (jsonPick.isNotBlank()) {
+                    val type = object : TypeToken<PickRequest>() {}.type
+                    val request = Gson().fromJson<PickRequest>(jsonPick, type)
+                    pickViewModel.pick(request)
                 }
             }
         }
 
-        viewModel.sentSuccess.observeOnce(this) {
+        breachViewModel.sentSuccess.observeOnce(this) {
             if (it) longToast(getString(R.string.breach_request_sent))
+        }
+
+        pickViewModel.sentSuccess.observeOnce(this) {
+            if (it) longToast(getString(R.string.pick_request_sent))
         }
     }
 }

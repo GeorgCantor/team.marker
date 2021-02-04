@@ -1,9 +1,11 @@
 package team.marker.view.pick.complete
 
+import android.content.SharedPreferences
 import android.graphics.Rect
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import team.marker.model.Product
@@ -11,13 +13,19 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.PickProduct
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.ResponseMessage
+import team.marker.util.Constants.DEFERRED_REQUEST
+import team.marker.util.putAny
 
-class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel() {
+class PickCompleteViewModel(
+    private val repository: ApiRepository,
+    private val preferences: SharedPreferences
+) : ViewModel() {
 
     val response = MutableLiveData<ResponseMessage>()
     val error = MutableLiveData<String>()
     val products = MutableLiveData<MutableSet<Product>>()
     val currentProduct = MutableLiveData<PickProduct>()
+    val sentSuccess = MutableLiveData<Boolean>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
@@ -28,6 +36,10 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             repository.pick(request).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
+                if (this?.success == true) {
+                    sentSuccess.postValue(true)
+                    preferences.putAny(DEFERRED_REQUEST, "")
+                }
             }
         }
     }
@@ -76,5 +88,9 @@ class PickCompleteViewModel(private val repository: ApiRepository) : ViewModel()
             }
             products.postValue(prods)
         }
+    }
+
+    fun saveForDeferredSending(request: PickRequest) {
+        preferences.putAny(DEFERRED_REQUEST, Gson().toJson(request))
     }
 }

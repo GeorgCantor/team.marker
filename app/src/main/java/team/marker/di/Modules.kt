@@ -25,7 +25,7 @@ val viewModelModule = module {
     viewModel { HistoryViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LoginViewModel(get()) }
-    viewModel { PickCompleteViewModel(get()) }
+    viewModel { PickCompleteViewModel(get(), get()) }
     viewModel { PickProductsViewModel(get()) }
     viewModel { ProductViewModel(get()) }
 }
