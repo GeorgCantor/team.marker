@@ -43,10 +43,10 @@ object NetworkUtils : ConnectivityManager.NetworkCallback() {
     }
 
     override fun onAvailable(network: Network) {
-        networkLiveData.postValue(true)
+        5000L.runDelayed { networkLiveData.postValue(true) }
     }
 
     override fun onLost(network: Network) {
-        networkLiveData.postValue(false)
+        5000L.runDelayed { networkLiveData.postValue(false) }
     }
 }
