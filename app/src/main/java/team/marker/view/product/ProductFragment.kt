@@ -4,11 +4,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.MeasureSpec.*
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.isVisible
@@ -27,53 +26,42 @@ import org.koin.core.qualifier.named
 import team.marker.R
 import team.marker.util.*
 import team.marker.util.Constants.FORCE
+import team.marker.util.Constants.LATITUDE
+import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private val viewModel by inject<ProductViewModel>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
 
-    private lateinit var list1: ExpandList
-    private lateinit var list2: ExpandList
-    private lateinit var list3: ExpandList
-    private lateinit var list4: ExpandList
-    private lateinit var list5: ExpandList
-
     private lateinit var manufacturerMap: GoogleMap
     private lateinit var customerMap: GoogleMap
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.fragment_product, container, false)
-        val manufacturer = childFragmentManager.findFragmentById(R.id.manufacturer_map) as SupportMapFragment
-        manufacturer.getMapAsync(onMapReadyCallback1())
-        val customer = childFragmentManager.findFragmentById(R.id.customer_map) as SupportMapFragment
-        customer.getMapAsync(onMapReadyCallback2())
-
-        return v
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val productId = productUrl.replace(PRODUCTS_URL, "")
 
-        val lat = preferences.getAny("", "lat") as String
-        val lng = preferences.getAny("", "lng") as String
+        (childFragmentManager.findFragmentById(R.id.manufacturer_map) as SupportMapFragment).apply {
+            getMapAsync(onMapReadyCallback1())
+        }
+        (childFragmentManager.findFragmentById(R.id.customer_map) as SupportMapFragment).apply {
+            getMapAsync(onMapReadyCallback2())
+        }
+
+        val lat = preferences.getAny("", LATITUDE) as String
+        val lng = preferences.getAny("", LONGITUDE) as String
 
         viewModel.getProduct(productId, lat, lng)
 
-        list1 = ExpandList(expand_1, list_1_expand)
-        list2 = ExpandList(expand_2, list_2_expand)
-        list3 = ExpandList(expand_3, list_3_expand)
-        list4 = ExpandList(expand_4, list_4_expand)
-        list5 = ExpandList(expand_5, list_5_expand)
+        val list1 = ExpandList(expand_1, list_1_expand)
+        val list2 = ExpandList(expand_2, list_2_expand)
+        val list3 = ExpandList(expand_3, list_3_expand)
+        val list4 = ExpandList(expand_4, list_4_expand)
+        val list5 = ExpandList(expand_5, list_5_expand)
         list1.toggleList(FORCE)
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
@@ -133,49 +121,42 @@ class ProductFragment : Fragment() {
 
             val manufacturerMarker = LatLng(manufacturerLat!!, manufacturerLng!!)
             manufacturerMap.addMarker(MarkerOptions().position(manufacturerMarker).title(manufacturerTitle))
-            manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8f))
+            manufacturerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(manufacturerMarker, 8F))
             manufacturerMap.uiSettings.isScrollGesturesEnabled = false
 
-            if (customerLat.toString() == "0.0") {
-                customer_map_wrap.gone()
-            } else {
-                val customerMarker = LatLng(customerLat!!, customerLng!!)
-                customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
-                customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8f))
-                customerMap.uiSettings.isScrollGesturesEnabled = false
-            }
-
-            if (it.options?.size!! > 0) {
-                product_options_recycler.isNestedScrollingEnabled = false
-                product_options_recycler.adapter = ProductOptionsAdapter(it.options)
-            } else {
-                expand_2_empty.visible()
-            }
-
-            if (it.files?.isNotEmpty() == true) {
-                product_files_recycler.isNestedScrollingEnabled = false
-                product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
-                    file.path?.let { openDocument(it) }
+            when (customerLat.toString()) {
+                "0.0" -> customer_map_wrap.gone()
+                else -> {
+                    val customerMarker = LatLng(customerLat!!, customerLng!!)
+                    customerMap.addMarker(MarkerOptions().position(customerMarker).title(customerTitle))
+                    customerMap.moveCamera(CameraUpdateFactory.newLatLngZoom(customerMarker, 8F))
+                    customerMap.uiSettings.isScrollGesturesEnabled = false
                 }
-            } else {
-                expand_5_empty.visible()
             }
 
-            product_options_recycler.measure(
-                View.MeasureSpec.makeMeasureSpec(
-                    expand_2.width,
-                    View.MeasureSpec.EXACTLY
-                ), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST)
-            )
+            when {
+                it.options?.size!! > 0 -> {
+                    product_options_recycler.isNestedScrollingEnabled = false
+                    product_options_recycler.adapter = ProductOptionsAdapter(it.options)
+                }
+                else -> expand_2_empty.visible()
+            }
+
+            when (it.files?.isNotEmpty()) {
+                true -> {
+                    product_files_recycler.isNestedScrollingEnabled = false
+                    product_files_recycler.adapter = ProductFilesAdapter(it.files) { file ->
+                        file.path?.let { openDocument(it) }
+                    }
+                }
+                false -> expand_5_empty.visible()
+            }
+
+            product_options_recycler.measure(makeMeasureSpec(expand_2.width, EXACTLY), makeMeasureSpec(0, AT_MOST))
             val targetHeight2 = product_options_recycler.measuredHeight
             product_options_recycler.layoutParams.height = targetHeight2
 
-            product_files_recycler.measure(
-                View.MeasureSpec.makeMeasureSpec(
-                    expand_5.width,
-                    View.MeasureSpec.EXACTLY
-                ), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.AT_MOST)
-            )
+            product_files_recycler.measure(makeMeasureSpec(expand_5.width, EXACTLY), makeMeasureSpec(0, AT_MOST))
             val targetHeight3 = product_files_recycler.measuredHeight
             product_files_recycler.layoutParams.height = targetHeight3
 
@@ -188,17 +169,9 @@ class ProductFragment : Fragment() {
         }
     }
 
-    private fun onMapReadyCallback1(): OnMapReadyCallback {
-        return OnMapReadyCallback { googleMap ->
-            manufacturerMap = googleMap
-        }
-    }
+    private fun onMapReadyCallback1() = OnMapReadyCallback { map -> manufacturerMap = map }
 
-    private fun onMapReadyCallback2(): OnMapReadyCallback {
-        return OnMapReadyCallback { googleMap ->
-            customerMap = googleMap
-        }
-    }
+    private fun onMapReadyCallback2() = OnMapReadyCallback { map -> customerMap = map }
 
     private fun openDocument(filePath: String) {
         CustomTabsIntent.Builder().apply {

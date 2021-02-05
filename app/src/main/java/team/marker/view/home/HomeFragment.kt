@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.util.Constants.LATITUDE
+import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
@@ -75,8 +77,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 if (location != null) {
                     val lat = location.latitude.toString()
                     val lng = location.longitude.toString()
-                    preferences.putAny("lat", lat)
-                    preferences.putAny("lng", lng)
+                    preferences.putAny(LATITUDE, lat)
+                    preferences.putAny(LONGITUDE, lng)
                 }
             }
     }

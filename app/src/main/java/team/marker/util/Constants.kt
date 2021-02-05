@@ -7,6 +7,8 @@ object Constants {
     const val API_VERSION = "1"
     const val SID = "sid"
     const val TOKEN = "token"
+    const val LATITUDE = "lat"
+    const val LONGITUDE = "lng"
     const val BASE_URL = "https://marker.team/api/"
     const val PRODUCTS_URL = "https://marker.team/products/"
     const val MAIN_STORAGE = "main_storage"
@@ -16,10 +18,12 @@ object Constants {
     const val PRODUCT_URL = "product_url"
     const val PRODUCT_IDS = "product_ids"
     const val PRODUCTS = "products"
+
     const val PHOTO_DETAIL = "photo_detail"
     const val MODE = "mode"
     const val FORCE = "force"
     const val FOCUS_MODE = "focus_mode"
+
     const val RC_HANDLE_GMS = 9001
     const val RC_HANDLE_CAMERA_PERM = 2
 }

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment.navController.graph = graph
 
-        getNetworkLiveData(applicationContext).observe(this) { connect ->
+        getNetworkLiveData(this).observe(this) { connect ->
             no_internet_warning.isVisible = !connect
             if (connect) {
                 val jsonFiles = preferences.getAny("", DEFERRED_FILES) as String

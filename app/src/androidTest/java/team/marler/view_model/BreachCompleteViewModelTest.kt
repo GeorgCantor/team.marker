@@ -1,5 +1,7 @@
 package team.marler.view_model
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.Assert.assertTrue
@@ -12,6 +14,7 @@ import org.mockito.Mock
 import team.marker.MyApplication
 import team.marker.model.remote.ApiClient
 import team.marker.model.remote.ApiRepository
+import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marler.base.BaseAndroidTest
 import java.io.File
@@ -28,11 +31,13 @@ class BreachCompleteViewModelTest : BaseAndroidTest() {
 
     private lateinit var viewModel: BreachCompleteViewModel
     private lateinit var repository: ApiRepository
+    private lateinit var preferences: SharedPreferences
 
     @Before
     fun setup() {
         repository = ApiRepository(client.create(getContext()))
-        viewModel = BreachCompleteViewModel(MyApplication().get(), repository)
+        preferences = getContext().getSharedPreferences(MAIN_STORAGE, MODE_PRIVATE)
+        viewModel = BreachCompleteViewModel(MyApplication().get(), repository, preferences)
     }
 
     @Test

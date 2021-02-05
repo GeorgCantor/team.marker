@@ -6,12 +6,13 @@ import retrofit2.http.*
 import team.marker.model.requests.LoginRequest
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.*
+import team.marker.util.Constants.LATITUDE
+import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.PRODUCTS
 import team.marker.util.Constants.PRODUCT_IDS
 
 interface ApiService {
 
-    // auth
     @POST("login")
     suspend fun getLogin(@Body request: LoginRequest?): ResponseAPI<Login?>?
 
@@ -21,7 +22,6 @@ interface ApiService {
     @GET("owner")
     suspend fun getOwner(): ResponseAPI<User?>?
 
-    // scan
     @Multipart
     @POST("breach")
     suspend fun breach(
@@ -41,8 +41,8 @@ interface ApiService {
     @GET("product")
     suspend fun getProduct(
         @Query("product_id") product_id: String?,
-        @Query("lat") lat: String?,
-        @Query("lng") lng: String?
+        @Query(LATITUDE) lat: String?,
+        @Query(LONGITUDE) lng: String?
     ): ResponseAPI<Product?>?
 
     @GET(PRODUCTS)
