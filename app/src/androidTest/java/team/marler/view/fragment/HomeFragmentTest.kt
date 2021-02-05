@@ -45,7 +45,6 @@ class HomeFragmentTest : BaseAndroidTest() {
     fun show_toast_if_click_scan_without_internet() {
         if (!isNetworkAvailable() && isUserLoggedIn()) {
             onView(withId(R.id.btn_scan)).perform(click())
-            onView(withId(R.id.btn_pick)).perform(click())
 
             onView(withText(R.string.internet_unavailable))
                 .inRoot(withDecorView(not(getActivity(getContext())?.window?.decorView)))

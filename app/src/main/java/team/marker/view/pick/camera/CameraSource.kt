@@ -498,10 +498,10 @@ private constructor() {
     fun setFlashMode(@FlashMode mode: String?): Boolean {
         synchronized(mCameraLock) {
             if (mCamera != null && mode != null) {
-                val parameters = mCamera!!.parameters
-                if (parameters.supportedFlashModes.contains(mode)) {
+                val parameters = mCamera?.parameters
+                if (parameters?.supportedFlashModes?.contains(mode) == true) {
                     parameters.flashMode = mode
-                    mCamera!!.parameters = parameters
+                    mCamera?.parameters = parameters
                     flashMode = mode
                     return true
                 }
