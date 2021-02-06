@@ -24,7 +24,7 @@ val viewModelModule = module {
     viewModel { BreachCompleteViewModel(androidApplication(), get(), get()) }
     viewModel { HistoryViewModel(get()) }
     viewModel { HomeViewModel(get()) }
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get()) }
     viewModel { PickCompleteViewModel(get(), get()) }
     viewModel { PickProductsViewModel(get()) }
     viewModel { ProductViewModel(get()) }

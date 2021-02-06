@@ -1,5 +1,6 @@
 package team.marker.view.login
 
+import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,11 +8,18 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.LoginRequest
-import team.marker.model.responses.Login
+import team.marker.util.Constants.SID
+import team.marker.util.Constants.TOKEN
+import team.marker.util.Constants.access_sid
+import team.marker.util.Constants.access_token
+import team.marker.util.putAny
 
-class LoginViewModel(private val repository: ApiRepository) : ViewModel() {
+class LoginViewModel(
+    private val repository: ApiRepository,
+    private val preferences: SharedPreferences
+) : ViewModel() {
 
-    val response = MutableLiveData<Login>()
+    val loginSuccess = MutableLiveData<Boolean>()
     val error = MutableLiveData<String>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -21,7 +29,15 @@ class LoginViewModel(private val repository: ApiRepository) : ViewModel() {
     fun login(request: LoginRequest) {
         viewModelScope.launch(exceptionHandler) {
             repository.login(request).apply {
-                response.postValue(this?.response)
+                val sid = this?.response?.sid
+                val token = this?.response?.token
+                if (sid != null && token != null) {
+                    preferences.putAny(SID, sid)
+                    preferences.putAny(TOKEN, token)
+                    access_sid = sid
+                    access_token = token
+                }
+                loginSuccess.postValue(this?.success)
                 error.postValue(this?.error?.error_msg)
             }
         }
