@@ -64,7 +64,7 @@ class HomeFragmentTest : BaseAndroidTest() {
 
     @Test
     fun open_pick_fragment() {
-        if (isNetworkAvailable() && isUserLoggedIn()) {
+        if (isUserLoggedIn()) {
             onView(withId(R.id.btn_pick)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.pick_toolbar)).check(matches(isDisplayed()))
@@ -73,7 +73,7 @@ class HomeFragmentTest : BaseAndroidTest() {
 
     @Test
     fun open_breach_fragment() {
-        if (isNetworkAvailable() && isUserLoggedIn()) {
+        if (isUserLoggedIn()) {
             onView(withId(R.id.btn_breach)).perform(click())
             onView(isRoot()).perform(waitFor(1000))
             onView(withId(R.id.preview)).check(matches(isDisplayed()))

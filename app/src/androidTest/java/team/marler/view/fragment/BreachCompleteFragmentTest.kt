@@ -36,13 +36,4 @@ class BreachCompleteFragmentTest : BaseAndroidTest() {
             onView(withText(R.string.enter_description)).check(matches(isDisplayed()))
         }
     }
-
-    @Test
-    fun deny_permission() {
-        if (isNetworkAvailable() && isUserLoggedIn()){
-            onView(withId(R.id.btn_breach)).perform(click())
-            denyPermission()
-            onView(withText(R.string.permission_camera_rationale)).check(matches(isDisplayed()))
-        }
-    }
 }

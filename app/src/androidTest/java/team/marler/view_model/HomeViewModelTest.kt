@@ -2,6 +2,7 @@ package team.marler.view_model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -12,7 +13,6 @@ import team.marker.model.remote.ApiClient
 import team.marker.model.remote.ApiRepository
 import team.marker.view.home.HomeViewModel
 import team.marler.base.BaseAndroidTest
-import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class HomeViewModelTest : BaseAndroidTest() {
@@ -33,11 +33,12 @@ class HomeViewModelTest : BaseAndroidTest() {
     }
 
     @Test
-    fun logout() = runBlocking {
-        if (isUserLoggedIn()) {
+    fun logout_without_token() = runBlocking {
+        if (isNetworkAvailable()) {
             viewModel.logout()
-            TimeUnit.SECONDS.sleep(1)
-            assert(!isUserLoggedIn())
+            viewModel.error.observe(mockLifecycleOwner()) {
+                assertTrue(it == AUTH_ERROR)
+            }
         }
     }
 }

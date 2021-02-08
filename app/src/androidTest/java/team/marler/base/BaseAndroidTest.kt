@@ -28,6 +28,7 @@ open class BaseAndroidTest {
         const val LOGIN = "info@ngkomplekt.ru"
         const val PASSWORD = "demo12345"
         const val LOGIN_ERROR = "Пользователь с указанной почтой не найден"
+        const val AUTH_ERROR = "User authorization failed: no access token passed."
     }
 
     protected fun getContext(): Context = ApplicationProvider.getApplicationContext()
