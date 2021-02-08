@@ -2,7 +2,6 @@ package team.marker.view.product
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -10,6 +9,7 @@ import android.view.View.MeasureSpec.*
 import android.view.View.VISIBLE
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -178,7 +178,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
             setToolbarColor(getColor(requireContext(), R.color.dark_blue))
             setStartAnimations(requireContext(), R.anim.slide_in_right, R.anim.slide_out_left)
             setExitAnimations(requireContext(), R.anim.slide_in_left, R.anim.slide_out_right)
-        }.build().launchUrl(requireContext(), Uri.parse(filePath))
+        }.build().launchUrl(requireContext(), filePath.toUri())
     }
 
     private fun share(url: String, title: String) {

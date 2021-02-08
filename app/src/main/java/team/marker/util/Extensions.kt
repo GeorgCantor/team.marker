@@ -20,6 +20,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -50,8 +51,8 @@ private fun Int.clamp(min: Int, max: Int): Int {
 
 fun SharedPreferences.putAny(key: String, any: Any) {
     when (any) {
-        is String -> edit().putString(key, any).apply()
-        is Int -> edit().putInt(key, any).apply()
+        is String -> edit { putString(key, any) }
+        is Int -> edit { putInt(key, any) }
     }
 }
 
