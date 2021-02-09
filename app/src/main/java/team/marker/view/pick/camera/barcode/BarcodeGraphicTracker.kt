@@ -51,6 +51,7 @@ class BarcodeGraphicTracker internal constructor(
      */
     override fun onMissing(detectionResults: Detections<Barcode?>) {
         mOverlay?.remove(mGraphic)
+        viewModel?.clearVisibility()
     }
 
     /**

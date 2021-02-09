@@ -7,5 +7,6 @@ data class Product(
     val name: String,
     var rectName: Rect? = null,
     var rectButton: Rect? = null,
-    var clickStatus: Int = 0
+    var clickStatus: Int = 0,
+    var isVisible: Boolean = false,
 )

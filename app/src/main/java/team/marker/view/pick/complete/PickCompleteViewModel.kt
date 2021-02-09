@@ -73,6 +73,7 @@ class PickCompleteViewModel(
                 if (it.name == name) {
                     it.rectButton = rectButton
                     it.rectName = rectName
+                    it.isVisible = true
                 }
             }
             products.postValue(prods)
@@ -85,6 +86,17 @@ class PickCompleteViewModel(
             products.value?.let { prods.addAll(it) }
             prods.forEach {
                 if (it.id == product.id) it.clickStatus = product.clickStatus
+            }
+            products.postValue(prods)
+        }
+    }
+
+    fun clearVisibility() {
+        viewModelScope.launch {
+            val prods = mutableSetOf<Product>()
+            products.value?.let { prods.addAll(it) }
+            prods.forEach {
+                it.isVisible = false
             }
             products.postValue(prods)
         }

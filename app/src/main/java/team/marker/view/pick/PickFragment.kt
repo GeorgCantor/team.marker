@@ -74,7 +74,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             if (pickMode == 0 && event.action == ACTION_DOWN) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
-                        if (it.rectName?.contains(x, y) == true) {
+                        if (it.rectName?.contains(x, y) == true && it.isVisible) {
                             try {
                                 findNavController().navigate(
                                     R.id.action_pickFragment_to_productFragment,
@@ -83,7 +83,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                             } catch (e: IllegalArgumentException) {
                             }
                         }
-                        if (it.rectButton?.contains(x, y) == true) {
+                        if (it.rectButton?.contains(x, y) == true && it.isVisible) {
                             viewModel.setClickStatus(
                                 Product(it.id, it.name, it.rectName, it.rectButton, if (it.clickStatus == 0) 1 else 0)
                             )
