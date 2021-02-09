@@ -58,11 +58,9 @@ fun SharedPreferences.putAny(key: String, any: Any) {
     }
 }
 
-fun SharedPreferences.getAny(type: Any, key: String): Any {
-    return when (type) {
-        is String -> getString(key, "") as Any
-        else -> getInt(key, 0)
-    }
+fun SharedPreferences.getAny(type: Any, key: String) = when (type) {
+    is String -> getString(key, "") as Any
+    else -> getInt(key, 0)
 }
 
 fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {

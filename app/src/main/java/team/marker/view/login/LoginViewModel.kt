@@ -10,8 +10,8 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.requests.LoginRequest
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
-import team.marker.util.Constants.access_sid
-import team.marker.util.Constants.access_token
+import team.marker.util.Constants.accessSid
+import team.marker.util.Constants.accessToken
 import team.marker.util.putAny
 
 class LoginViewModel(
@@ -34,8 +34,8 @@ class LoginViewModel(
                 if (sid != null && token != null) {
                     preferences.putAny(SID, sid)
                     preferences.putAny(TOKEN, token)
-                    access_sid = sid
-                    access_token = token
+                    accessSid = sid
+                    accessToken = token
                 }
                 loginSuccess.postValue(this?.success)
                 error.postValue(this?.error?.error_msg)

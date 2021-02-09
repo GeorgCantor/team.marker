@@ -16,8 +16,8 @@ import team.marker.util.Constants.APP_KEY
 import team.marker.util.Constants.BASE_URL
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
-import team.marker.util.Constants.access_sid
-import team.marker.util.Constants.access_token
+import team.marker.util.Constants.accessSid
+import team.marker.util.Constants.accessToken
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -35,8 +35,8 @@ object ApiClient {
                 .addHeader("Accept", "application/json")
                 .addHeader("v", API_VERSION)
                 .addHeader("app-key", APP_KEY)
-                .addHeader(SID, access_sid)
-                .addHeader(TOKEN, access_token)
+                .addHeader(SID, accessSid)
+                .addHeader(TOKEN, accessToken)
                 .build()
             chain.proceed(request)
         }

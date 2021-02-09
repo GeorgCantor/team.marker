@@ -31,6 +31,7 @@ import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.Constants.SHARE_URL
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
@@ -186,6 +187,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         i.type = "text/plain"
         i.putExtra(Intent.EXTRA_SUBJECT, title)
         i.putExtra(Intent.EXTRA_TEXT, url)
-        startActivity(Intent.createChooser(i, "Поделиться URL"))
+        startActivity(Intent.createChooser(i, SHARE_URL))
     }
 }

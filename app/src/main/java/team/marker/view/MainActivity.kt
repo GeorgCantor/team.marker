@@ -19,8 +19,8 @@ import team.marker.util.Constants.DEFERRED_REQUEST
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
-import team.marker.util.Constants.access_sid
-import team.marker.util.Constants.access_token
+import team.marker.util.Constants.accessSid
+import team.marker.util.Constants.accessToken
 import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
 import team.marker.util.longToast
@@ -39,14 +39,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.dark_blue)
 
-        access_sid = preferences.getAny("", SID) as String
-        access_token = preferences.getAny("", TOKEN) as String
+        accessSid = preferences.getAny("", SID) as String
+        accessToken = preferences.getAny("", TOKEN) as String
 
         val navHostFragment = navHostFragment as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
 
-        graph.startDestination = if (access_token.isEmpty()) R.id.loginFragment else R.id.homeFragment
+        graph.startDestination = if (accessToken.isEmpty()) R.id.loginFragment else R.id.homeFragment
 
         navHostFragment.navController.graph = graph
 

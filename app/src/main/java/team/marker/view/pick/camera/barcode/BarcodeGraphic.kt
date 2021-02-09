@@ -8,6 +8,8 @@ import android.graphics.Rect
 import android.graphics.RectF
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.barcode.Barcode
+import team.marker.util.Constants.ADD
+import team.marker.util.Constants.DELETE
 import team.marker.view.pick.camera.GraphicOverlay
 import team.marker.view.pick.camera.GraphicOverlay.Graphic
 import team.marker.view.pick.complete.PickCompleteViewModel
@@ -81,11 +83,11 @@ class BarcodeGraphic internal constructor(
             val buttonRect: Rect = getButtonBackground(rect.left, rect.bottom + 200, prodName, textPaint)
             val halfTextLength = textPaint.measureText(prodName) / 2 + 5
             if (isClick) {
-                canvas?.drawRect(buttonRect, redPaint)
-                drawRectText("УДАЛИТЬ", canvas!!, buttonRect)
+                canvas!!.drawRect(buttonRect, redPaint)
+                drawRectText(DELETE, canvas, buttonRect)
             } else {
-                canvas?.drawRect(buttonRect, greenPaint)
-                drawRectText("ДОБАВИТЬ", canvas!!, buttonRect)
+                canvas!!.drawRect(buttonRect, greenPaint)
+                drawRectText(ADD, canvas, buttonRect)
             }
 
             viewModel?.setRect(background, buttonRect, prodName)

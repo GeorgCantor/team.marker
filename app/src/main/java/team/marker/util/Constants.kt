@@ -1,8 +1,9 @@
 package team.marker.util
 
 object Constants {
-    var access_sid = ""
-    var access_token = ""
+    var accessSid = ""
+    var accessToken = ""
+
     const val APP_KEY = "b0ab73432dc227d82fb47713d1ef247f4f97e4f7"
     const val API_VERSION = "1"
     const val SID = "sid"
@@ -26,4 +27,8 @@ object Constants {
 
     const val RC_HANDLE_GMS = 9001
     const val RC_HANDLE_CAMERA_PERM = 2
+
+    const val DELETE = "УДАЛИТЬ"
+    const val ADD = "ДОБАВИТЬ"
+    const val SHARE_URL = "Поделиться URL"
 }
