@@ -30,8 +30,6 @@ import com.google.android.gms.vision.barcode.Barcode.ALL_FORMATS
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.util.Constants.FOCUS_MODE
@@ -41,6 +39,7 @@ import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.calculateTapArea
+import team.marker.util.showPermissionSnackbar
 import team.marker.view.pick.camera.CameraSource
 import java.io.IOException
 import kotlin.properties.Delegates
@@ -99,9 +98,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
         }
         preview.setOnClickListener(listener)
-        Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
-            .setAction(getString(R.string.ok), listener)
-            .show()
+        graphic_overlay?.showPermissionSnackbar(listener)
     }
 
     @SuppressLint("InlinedApi")
@@ -211,7 +208,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         }
         if (cameraSource != null) {
             try {
-                preview?.start(cameraSource, graphicOverlay)
+                preview?.start(cameraSource, graphic_overlay)
             } catch (e: IOException) {
                 cameraSource?.release()
                 cameraSource = null

@@ -31,8 +31,6 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
@@ -209,10 +207,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         val listener = OnClickListener {
             requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
         }
-        topLayout.setOnClickListener(listener)
-        Snackbar.make(graphicOverlay!!, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
-            .setAction(getString(R.string.ok), listener)
-            .show()
+        top_layout.setOnClickListener(listener)
+        graphic_overlay?.showPermissionSnackbar(listener)
     }
 
     @SuppressLint("InlinedApi")
@@ -220,7 +216,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         val context = requireActivity().applicationContext
         val barcodeDetector = BarcodeDetector.Builder(context).build()
         val barcodeFactory = BarcodeTrackerFactory(
-            graphicOverlay as GraphicOverlay<BarcodeGraphic?>,
+            graphic_overlay as GraphicOverlay<BarcodeGraphic?>,
             viewModel,
             viewLifecycleOwner
         )
@@ -321,7 +317,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         }
         if (cameraSource != null) {
             try {
-                preview?.start(cameraSource, graphicOverlay)
+                preview?.start(cameraSource, graphic_overlay)
             } catch (e: IOException) {
                 cameraSource?.release()
                 cameraSource = null

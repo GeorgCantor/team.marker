@@ -25,6 +25,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
+import com.google.android.material.snackbar.Snackbar
 import team.marker.R
 import team.marker.util.Constants.FORCE
 import java.io.File
@@ -92,6 +94,11 @@ fun View.rotate(mode: String?, from: Float, to: Float) {
         startAnimation(this)
     }
 }
+
+fun View.showPermissionSnackbar(listener: View.OnClickListener) = Snackbar
+    .make(this, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
+    .setAction(context.getString(R.string.ok), listener)
+    .show()
 
 fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false
