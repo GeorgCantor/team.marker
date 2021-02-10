@@ -5,9 +5,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.hardware.Camera
-import android.hardware.Camera.Parameters.FLASH_MODE_OFF
-import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
+import android.hardware.Camera.Parameters.*
 import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
@@ -149,7 +147,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
-            .setFocusMode(if (isFocusManual) Camera.Parameters.FOCUS_MODE_FIXED else Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
+            .setFocusMode(if (isFocusManual) FOCUS_MODE_FIXED else FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
             .setFlashMode(null)

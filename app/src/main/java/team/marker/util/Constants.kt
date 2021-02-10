@@ -31,4 +31,6 @@ object Constants {
     const val DELETE = "УДАЛИТЬ"
     const val ADD = "ДОБАВИТЬ"
     const val SHARE_URL = "Поделиться URL"
+    const val JPG = ".jpg"
+    const val TEXT_PLAIN = "text/plain"
 }

@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_photo.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.IMAGE_DIR
+import team.marker.util.Constants.JPG
 import team.marker.util.shortToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import java.io.BufferedOutputStream
@@ -135,7 +136,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
 
         val cw = ContextWrapper(requireContext())
         val directory = cw.getDir(IMAGE_DIR, MODE_PRIVATE)
-        val photoFile = File(directory, "${UUID.randomUUID()}.jpg")
+        val photoFile = File(directory, "${UUID.randomUUID()}$JPG")
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
@@ -150,7 +151,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
                     val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
                     val resized = getResizedRotatedBitmap(bitmap)
 
-                    val file = File(directory, "${UUID.randomUUID()}.jpg")
+                    val file = File(directory, "${UUID.randomUUID()}$JPG")
                     val outputStream: OutputStream = BufferedOutputStream(FileOutputStream(file))
                     resized.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
 

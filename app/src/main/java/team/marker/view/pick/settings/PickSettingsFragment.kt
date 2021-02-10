@@ -1,7 +1,7 @@
 package team.marker.view.pick.settings
 
 import android.content.SharedPreferences
-import android.graphics.PorterDuff
+import android.graphics.PorterDuff.Mode.SRC_IN
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
@@ -25,12 +25,12 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         when(preferences.getAny(0, MODE) as Int) {
-            0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
-            1 -> ic_update_1.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
-            2 -> ic_update_2.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
-            3 -> ic_update_3.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
-            4 -> ic_update_4.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
-            5 -> ic_update_5.setColorFilter(getColor(requireContext(), R.color.dark_blue), PorterDuff.Mode.SRC_IN)
+            0 -> ic_update_0.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
+            1 -> ic_update_1.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
+            2 -> ic_update_2.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
+            3 -> ic_update_3.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
+            4 -> ic_update_4.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
+            5 -> ic_update_5.setColorFilter(getColor(requireContext(), R.color.dark_blue), SRC_IN)
         }
 
         btn_update_0.setOnClickListener { update(0) }

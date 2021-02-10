@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import team.marker.model.DeferredFiles
@@ -19,6 +19,7 @@ import team.marker.model.remote.ApiRepository
 import team.marker.model.responses.ResponseMessage
 import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.IMAGE_DIR
+import team.marker.util.Constants.TEXT_PLAIN
 import team.marker.util.putAny
 import java.io.File
 
@@ -39,17 +40,17 @@ class BreachCompleteViewModel(
 
     fun breach(productId: Int, reasonId: Int, userReason: String, comment: String) {
         viewModelScope.launch(exceptionHandler) {
-            val files = mutableListOf<MultipartBody.Part>()
+            val files = mutableListOf<Part>()
             photos.value?.forEach {
                 val requestBody = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData("files[]", it.name, requestBody)
+                val filePart = Part.createFormData("files[]", it.name, requestBody)
                 files.add(filePart)
             }
             repository.breach(
                 productId,
                 reasonId,
-                userReason.toRequestBody("text/plain".toMediaTypeOrNull()),
-                comment.toRequestBody("text/plain".toMediaTypeOrNull()),
+                userReason.toRequestBody(TEXT_PLAIN.toMediaTypeOrNull()),
+                comment.toRequestBody(TEXT_PLAIN.toMediaTypeOrNull()),
                 files.toTypedArray()
             ).apply {
                 response.postValue(this?.response)

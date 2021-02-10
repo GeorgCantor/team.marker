@@ -32,6 +32,7 @@ import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.SHARE_URL
+import team.marker.util.Constants.TEXT_PLAIN
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
@@ -184,7 +185,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private fun share(url: String, title: String) {
         val i = Intent(Intent.ACTION_SEND)
-        i.type = "text/plain"
+        i.type = TEXT_PLAIN
         i.putExtra(Intent.EXTRA_SUBJECT, title)
         i.putExtra(Intent.EXTRA_TEXT, url)
         startActivity(Intent.createChooser(i, SHARE_URL))

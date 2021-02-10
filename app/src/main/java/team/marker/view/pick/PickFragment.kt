@@ -1,19 +1,17 @@
 package team.marker.view.pick
 
-import android.Manifest
+import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.hardware.Camera
-import android.hardware.Camera.Parameters.FLASH_MODE_OFF
-import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.hardware.Camera.Parameters.*
 import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
-import android.text.InputType
+import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
@@ -68,7 +66,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.setOnTouchListener { v, event ->
+        view.setOnTouchListener { _, event ->
             val x = event.x.toInt() + 200
             val y = event.y.toInt()
             if (pickMode == 0 && event.action == ACTION_DOWN) {
@@ -99,8 +97,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener { cancelProduct() }
 
-        val rc = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-        if (rc == PackageManager.PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
+        val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
+        if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
         viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
             if (product != null) {
@@ -110,7 +108,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         when (pickMode) {
                             1 -> {
                                 pick_note.text = getString(R.string.enter_number_accepted_units)
-                                pick_quantity.inputType = InputType.TYPE_CLASS_NUMBER
+                                pick_quantity.inputType = TYPE_CLASS_NUMBER
                             }
                             2 -> pick_note.text = getString(R.string.enter_product_length)
                             3 -> pick_note.text = getString(R.string.enter_product_weight)
@@ -199,8 +197,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun requestCameraPermission() {
-        val permissions = arrayOf(Manifest.permission.CAMERA)
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
+        val permissions = arrayOf(CAMERA)
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), CAMERA)) {
             requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
             return
         }
@@ -257,11 +255,11 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             .add(textRecognizer)
             .build()
 
-        val builder = CameraSource.Builder(requireActivity().applicationContext, multiDetector)
+        val builder = CameraSource.Builder(requireContext(), multiDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0f)
-            .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
+            .setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
             .setFlashMode(null)
@@ -292,7 +290,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
             createCameraSource()
             return
         }
