@@ -31,7 +31,8 @@
                 <team.marker.view.pick.camera.GraphicOverlay
                     android:id="@+id/graphic_overlay"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:forceDarkAllowed="false" />
 
             </team.marker.view.pick.camera.CameraSourcePreview>
 
