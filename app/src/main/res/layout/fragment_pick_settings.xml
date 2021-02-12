@@ -68,7 +68,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout
@@ -131,7 +131,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout
@@ -194,7 +194,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout
@@ -257,7 +257,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout
@@ -320,7 +320,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout
@@ -383,7 +383,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_success_3"
+                    app:srcCompat="@drawable/ic_success_settings"
                     app:tint="@color/gray" />
 
                 <LinearLayout

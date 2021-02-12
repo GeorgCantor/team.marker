@@ -65,7 +65,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         btn_scan_flash.setOnClickListener {
             toggleTorch(torchOn)
             torchOn = !torchOn
-            btn_scan_flash.setImageResource(if (torchOn) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
+            btn_scan_flash.setImageResource(if (torchOn) R.drawable.ic_flash_off else R.drawable.ic_flash)
         }
 
         btn_manual_focus.setOnClickListener {

@@ -115,7 +115,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_box_3"
+                    app:srcCompat="@drawable/ic_box_home"
                     app:tint="@color/dark_blue" />
 
                 <LinearLayout
@@ -178,7 +178,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_breach_2"
+                    app:srcCompat="@drawable/ic_breach"
                     app:tint="@color/dark_blue" />
 
                 <LinearLayout

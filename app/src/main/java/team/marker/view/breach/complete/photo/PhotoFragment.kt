@@ -173,7 +173,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             val camera = cameraProvider.bindToLifecycle(viewLifecycleOwner, cameraSelector)
             val cameraControl = camera.cameraControl
             cameraControl.enableTorch(isTorchEnable)
-            flash_button.setImageResource(if (isTorchEnable) R.drawable.ic_flash_off_2 else R.drawable.ic_flash_2)
+            flash_button.setImageResource(if (isTorchEnable) R.drawable.ic_flash_off else R.drawable.ic_flash)
         }, ContextCompat.getMainExecutor(context))
     }
 
