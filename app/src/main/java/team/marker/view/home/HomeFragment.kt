@@ -71,16 +71,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         ) {
             return
         }
-        fusedLocationClient
-            .lastLocation
-            .addOnSuccessListener(requireActivity()) { location ->
-                if (location != null) {
-                    val lat = location.latitude.toString()
-                    val lng = location.longitude.toString()
-                    preferences.putAny(LATITUDE, lat)
-                    preferences.putAny(LONGITUDE, lng)
-                }
+        fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
+            location?.let {
+                preferences.putAny(LATITUDE, it.latitude.toString())
+                preferences.putAny(LONGITUDE, it.longitude.toString())
             }
+        }
     }
 
     override fun onRequestPermissionsResult(

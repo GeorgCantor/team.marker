@@ -18,19 +18,14 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
         viewModel.getHistory()
 
-        viewModel.progressIsVisible.observe(viewLifecycleOwner, {
+        viewModel.progressIsVisible.observe(viewLifecycleOwner) {
             progress_bar.isVisible = it
-        })
+        }
 
         viewModel.response.observe(viewLifecycleOwner, {
-            history_recycler.adapter = HistoryAdapter(it.info ?: mutableListOf()) {
-            }
+            history_recycler.adapter = HistoryAdapter(it.info ?: mutableListOf())
         })
 
-        btn_back.setOnClickListener { back() }
-    }
-
-    private fun back() {
-        activity?.onBackPressed()
+        btn_back.setOnClickListener { activity?.onBackPressed() }
     }
 }
