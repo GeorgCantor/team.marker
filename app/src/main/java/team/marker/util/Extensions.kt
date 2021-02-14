@@ -2,6 +2,7 @@ package team.marker.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.os.Handler
@@ -20,6 +21,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.edit
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -30,19 +32,19 @@ import com.google.android.material.snackbar.Snackbar
 import team.marker.R
 import team.marker.util.Constants.FORCE
 import java.io.File
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 fun Long.runDelayed(action: () -> Unit) {
-    Handler(getMainLooper()).postDelayed(action, TimeUnit.MILLISECONDS.toMillis(this))
+    Handler(getMainLooper()).postDelayed(action, MILLISECONDS.toMillis(this))
 }
 
 fun Int.nameCase(names: Array<String>): String {
     val count = kotlin.math.abs(this)
     val a1 = count % 10
     val a2 = count % 100
-
     if (a1 == 1 && (a2 <= 10 || a2 > 20)) return names[0]
     if (a1 in 2..4 && (a2 <= 10 || a2 > 20)) return names[1]
+
     return names[2]
 }
 
@@ -97,6 +99,8 @@ fun View.showPermissionSnackbar(listener: View.OnClickListener) = Snackbar
     .make(this, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
     .setAction(context.getString(R.string.ok), listener)
     .show()
+
+fun ImageView.setBlueColor() = setColorFilter(getColor(context, R.color.dark_blue), SRC_IN)
 
 fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)
     ?.activeNetworkInfo?.isConnectedOrConnecting ?: false
