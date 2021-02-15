@@ -35,8 +35,8 @@ import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.calculateTapArea
+import team.marker.util.camera.CameraSource
 import team.marker.util.showPermissionSnackbar
-import team.marker.view.pick.camera.CameraSource
 import java.io.IOException
 import kotlin.properties.Delegates
 

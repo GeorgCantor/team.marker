@@ -1,11 +1,11 @@
-package team.marker.view.pick.camera
+package team.marker.util.camera
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import com.google.android.gms.vision.CameraSource
-import team.marker.view.pick.camera.GraphicOverlay.Graphic
+import team.marker.util.camera.GraphicOverlay.Graphic
 import java.util.*
 
 /**

@@ -23,18 +23,18 @@
             android:keepScreenOn="true"
             android:orientation="vertical">
 
-            <team.marker.view.pick.camera.CameraSourcePreview
+            <team.marker.util.camera.CameraSourcePreview
                 android:id="@+id/preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <team.marker.view.pick.camera.GraphicOverlay
+                <team.marker.util.camera.GraphicOverlay
                     android:id="@+id/graphic_overlay"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:forceDarkAllowed="false" />
 
-            </team.marker.view.pick.camera.CameraSourcePreview>
+            </team.marker.util.camera.CameraSourcePreview>
 
         </LinearLayout>
 

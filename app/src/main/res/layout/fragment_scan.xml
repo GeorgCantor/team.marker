@@ -15,17 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <team.marker.view.pick.camera.CameraSourcePreview
+        <team.marker.util.camera.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <team.marker.view.pick.camera.GraphicOverlay
+            <team.marker.util.camera.GraphicOverlay
                 android:id="@+id/graphic_overlay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </team.marker.view.pick.camera.CameraSourcePreview>
+        </team.marker.util.camera.CameraSourcePreview>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

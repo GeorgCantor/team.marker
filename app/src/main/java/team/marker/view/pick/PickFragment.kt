@@ -43,10 +43,10 @@ import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
-import team.marker.view.pick.camera.CameraSource
-import team.marker.view.pick.camera.GraphicOverlay
-import team.marker.view.pick.camera.barcode.BarcodeGraphic
-import team.marker.view.pick.camera.barcode.BarcodeTrackerFactory
+import team.marker.util.barcode.BarcodeGraphic
+import team.marker.util.barcode.BarcodeTrackerFactory
+import team.marker.util.camera.CameraSource
+import team.marker.util.camera.GraphicOverlay
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.io.IOException
 import kotlin.properties.Delegates

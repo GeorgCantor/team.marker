@@ -1,10 +1,10 @@
-package team.marker.view.pick.camera.barcode
+package team.marker.util.barcode
 
 import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.barcode.Barcode
 import team.marker.model.requests.PickProduct
-import team.marker.view.pick.camera.GraphicOverlay
+import team.marker.util.camera.GraphicOverlay
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.util.*
 

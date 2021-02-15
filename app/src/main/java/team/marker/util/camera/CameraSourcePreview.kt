@@ -1,4 +1,4 @@
-package team.marker.view.pick.camera
+package team.marker.util.camera
 
 import android.Manifest
 import android.content.Context

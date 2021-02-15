@@ -1,9 +1,9 @@
-package team.marker.view.pick.camera.barcode
+package team.marker.util.barcode
 
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.Barcode
-import team.marker.view.pick.camera.GraphicOverlay
+import team.marker.util.camera.GraphicOverlay
 import team.marker.view.pick.complete.PickCompleteViewModel
 
 /**
