@@ -5,6 +5,7 @@ import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.barcode.Barcode
 import team.marker.model.requests.PickProduct
 import team.marker.util.camera.GraphicOverlay
+import team.marker.util.runDelayed
 import team.marker.view.pick.complete.PickCompleteViewModel
 import java.util.*
 
@@ -50,8 +51,10 @@ class BarcodeGraphicTracker internal constructor(
      * view.
      */
     override fun onMissing(detectionResults: Detections<Barcode?>) {
-        mOverlay?.remove(mGraphic)
-        viewModel?.clearVisibility()
+        400L.runDelayed {
+            mOverlay?.remove(mGraphic)
+            viewModel?.clearVisibility()
+        }
     }
 
     /**
