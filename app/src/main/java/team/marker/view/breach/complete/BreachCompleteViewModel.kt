@@ -21,6 +21,7 @@ import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.IMAGE_DIR
 import team.marker.util.Constants.TEXT_PLAIN
 import team.marker.util.putAny
+import team.marker.util.toObject
 import java.io.File
 
 class BreachCompleteViewModel(
@@ -92,8 +93,9 @@ class BreachCompleteViewModel(
         preferences.putAny(DEFERRED_FILES, Gson().toJson(files))
     }
 
-    fun sendDeferredFiles(files: DeferredFiles) {
+    fun sendDeferredFiles(jsonFiles: String) {
         val photoFiles = mutableListOf<File>()
+        val files = jsonFiles.toObject<DeferredFiles>()
         files.filePaths.forEach { photoFiles.add(File(it)) }
         photos.value = photoFiles
         breach(files.productId, files.reasonId, files.userReason, files.comment)

@@ -73,13 +73,10 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rectName?.contains(x, y) == true && it.isVisible) {
-                            try {
-                                findNavController().navigate(
-                                    R.id.action_pickFragment_to_productFragment,
-                                    bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
-                                )
-                            } catch (e: IllegalArgumentException) {
-                            }
+                            findNavController().navigate(
+                                R.id.action_pickFragment_to_productFragment,
+                                bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
+                            )
                         }
                         if (it.rectButton?.contains(x, y) == true && it.isVisible) {
                             viewModel.setClickStatus(
@@ -178,13 +175,10 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                     it.forEach {
                         if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
                     }
-                    try {
-                        findNavController().navigate(
-                            R.id.action_pickFragment_to_pickCompleteFragment,
-                            bundleOf(PRODUCTS to list)
-                        )
-                    } catch (e: IllegalArgumentException) {
-                    }
+                    findNavController().navigate(
+                        R.id.action_pickFragment_to_pickCompleteFragment,
+                        bundleOf(PRODUCTS to list)
+                    )
                 }
             }
             else -> {

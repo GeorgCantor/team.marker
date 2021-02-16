@@ -6,14 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
-import team.marker.model.DeferredFiles
-import team.marker.model.requests.PickRequest
 import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.DEFERRED_REQUEST
 import team.marker.util.Constants.MAIN_STORAGE
@@ -25,6 +21,7 @@ import team.marker.util.NetworkUtils.getNetworkLiveData
 import team.marker.util.getAny
 import team.marker.util.longToast
 import team.marker.util.observeOnce
+import team.marker.util.toObject
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marker.view.pick.complete.PickCompleteViewModel
 
@@ -53,18 +50,12 @@ class MainActivity : AppCompatActivity() {
         getNetworkLiveData(this).observe(this) { connect ->
             no_internet_warning.isVisible = !connect
             if (connect) {
-                val jsonFiles = preferences.getAny("", DEFERRED_FILES) as String
-                if (jsonFiles.isNotBlank()) {
-                    val type = object : TypeToken<DeferredFiles>() {}.type
-                    val files = Gson().fromJson<DeferredFiles>(jsonFiles, type)
-                    breachViewModel.sendDeferredFiles(files)
+                (preferences.getAny("", DEFERRED_FILES) as String).apply {
+                    if (isNotBlank()) breachViewModel.sendDeferredFiles(this)
                 }
 
-                val jsonPick = preferences.getAny("", DEFERRED_REQUEST) as String
-                if (jsonPick.isNotBlank()) {
-                    val type = object : TypeToken<PickRequest>() {}.type
-                    val request = Gson().fromJson<PickRequest>(jsonPick, type)
-                    pickViewModel.pick(request)
+                (preferences.getAny("", DEFERRED_REQUEST) as String).apply {
+                    if (isNotBlank()) pickViewModel.pick(toObject())
                 }
             }
         }

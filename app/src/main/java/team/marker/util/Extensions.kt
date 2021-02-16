@@ -29,6 +29,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import team.marker.R
 import team.marker.util.Constants.FORCE
 import java.io.File
@@ -147,3 +149,5 @@ fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observ
         }
     })
 }
+
+inline fun <reified T> String.toObject(): T = Gson().fromJson(this, object : TypeToken<T>() {}.type)
