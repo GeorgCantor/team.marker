@@ -4,12 +4,12 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.util.*
 import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.DEFERRED_REQUEST
 import team.marker.util.Constants.MAIN_STORAGE
@@ -18,10 +18,6 @@ import team.marker.util.Constants.TOKEN
 import team.marker.util.Constants.accessSid
 import team.marker.util.Constants.accessToken
 import team.marker.util.NetworkUtils.getNetworkLiveData
-import team.marker.util.getAny
-import team.marker.util.longToast
-import team.marker.util.observeOnce
-import team.marker.util.toObject
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import team.marker.view.pick.complete.PickCompleteViewModel
 
@@ -48,15 +44,17 @@ class MainActivity : AppCompatActivity() {
         navHostFragment.navController.graph = graph
 
         getNetworkLiveData(this).observe(this) { connect ->
-            no_internet_warning.isVisible = !connect
-            if (connect) {
-                (preferences.getAny("", DEFERRED_FILES) as String).apply {
-                    if (isNotBlank()) breachViewModel.sendDeferredFiles(this)
+            when (connect) {
+                true -> {
+                    no_internet_warning.slideDown()
+                    (preferences.getAny("", DEFERRED_FILES) as String).apply {
+                        if (isNotBlank()) breachViewModel.sendDeferredFiles(this)
+                    }
+                    (preferences.getAny("", DEFERRED_REQUEST) as String).apply {
+                        if (isNotBlank()) pickViewModel.pick(toObject())
+                    }
                 }
-
-                (preferences.getAny("", DEFERRED_REQUEST) as String).apply {
-                    if (isNotBlank()) pickViewModel.pick(toObject())
-                }
+                false -> no_internet_warning.slideUp()
             }
         }
 

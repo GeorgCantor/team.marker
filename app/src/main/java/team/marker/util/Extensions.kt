@@ -14,6 +14,7 @@ import android.view.animation.Animation.RELATIVE_TO_SELF
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
+import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -84,6 +85,26 @@ fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {
 fun View.visible() { visibility = VISIBLE }
 
 fun View.gone() { visibility = GONE }
+
+fun View.slideUp() {
+    startAnimation(
+        TranslateAnimation(0F, 0F, height.toFloat(), 0F).apply {
+            duration = 500
+            fillAfter = true
+        }
+    )
+    visible()
+}
+
+fun View.slideDown() {
+    startAnimation(
+        TranslateAnimation(0F, 0F, 0f, height.toFloat()).apply {
+            duration = 500
+            fillAfter = true
+        }
+    )
+    gone()
+}
 
 fun View.hideKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
