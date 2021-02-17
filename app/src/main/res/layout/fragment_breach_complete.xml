@@ -1,125 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:statusBarBackground="@android:color/transparent">
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_common"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="25dp"
+        android:paddingStart="25dp"
+        android:paddingTop="25dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_common"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/comment_input_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="25dp"
-            android:paddingStart="25dp"
-            android:paddingTop="25dp"
-            android:paddingEnd="25dp"
-            android:paddingBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/comment_input_view"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                android:layout_marginTop="0dp"
+                android:autofillHints=""
+                android:background="@drawable/input_primary"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:gravity="top|start"
+                android:hint="@string/write_details"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:maxLines="10"
+                android:minLines="5"
+                android:scrollbars="vertical"
+                android:textColor="@color/input_text"
+                android:textColorHint="#5519194D"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:theme="@style/CustomTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_primary"
-                    android:cursorVisible="true"
-                    android:ems="10"
-                    android:fontFamily="sans-serif"
-                    android:gravity="top|start"
-                    android:hint="@string/write_details"
-                    android:imeOptions="actionDone"
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:maxLines="10"
-                    android:minLines="5"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/input_text"
-                    android:textColorHint="#5519194D"
-                    android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:theme="@style/CustomTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photos_recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_photo_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comment_input_view"
+            tools:listitem="@layout/item_photo" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/photos_recycler"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_8dp"
-                android:layout_marginBottom="@dimen/margin_8dp"
-                app:layout_constraintBottom_toTopOf="@+id/add_photo_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/comment_input_view"
-                tools:listitem="@layout/item_photo" />
+        <Button
+            android:id="@+id/add_photo_btn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
+            android:background="@drawable/btn_home"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:stateListAnimator="@null"
+            android:text="@string/make_photo"
+            android:textAllCaps="true"
+            android:textColor="@color/dark_blue"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/btn_send"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/add_photo_btn"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="@dimen/margin_16dp"
-                android:background="@drawable/btn_home"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05"
-                android:stateListAnimator="@null"
-                android:text="@string/make_photo"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_blue"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toTopOf="@+id/btn_send"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/btn_send"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/btn_home"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05"
-                android:stateListAnimator="@null"
-                android:text="@string/send"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_blue"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_home"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:stateListAnimator="@null"
+            android:text="@string/send"
+            android:textAllCaps="true"
+            android:textColor="@color/dark_blue"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
