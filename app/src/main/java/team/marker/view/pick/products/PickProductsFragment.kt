@@ -35,6 +35,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
                     bundleOf(PRODUCT_URL to "$PRODUCTS_URL${item.id?.toString()}")
                 )
             }
+            products_recycler.scheduleLayoutAnimation()
         }
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
