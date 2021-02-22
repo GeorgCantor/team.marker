@@ -26,16 +26,19 @@ class PickCompleteViewModel(
     val products = MutableLiveData<MutableSet<Product>>()
     val currentProduct = MutableLiveData<PickProduct>()
     val sentSuccess = MutableLiveData<Boolean>()
+    val progressIsVisible = MutableLiveData<Boolean>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
     }
 
     fun pick(request: PickRequest) {
+        progressIsVisible.value = true
         viewModelScope.launch(exceptionHandler) {
             repository.pick(request).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
+                progressIsVisible.postValue(false)
                 if (this?.success == true) {
                     sentSuccess.postValue(true)
                     preferences.putAny(DEFERRED_REQUEST, "")

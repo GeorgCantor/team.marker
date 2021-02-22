@@ -3,6 +3,7 @@ package team.marker.view.pick.complete
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -39,6 +40,13 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
             }
             else -> note_text.text = "$labelScan $size $labelCode, ${getString(R.string.enter_email)}"
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { it?.let { context?.longToast(it) } }
+
+        viewModel.sentSuccess.observe(viewLifecycleOwner) { if (it) activity?.onBackPressed() }
+
+        viewModel.progressIsVisible.observe(viewLifecycleOwner) { progress_bar.isVisible = it }
+
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
         btn_send.setOnClickListener { send(size) }
@@ -54,6 +62,11 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
     override fun onResume() {
         super.onResume()
         email_input_view.error = null
+    }
+
+    override fun onDetach() {
+        viewModel.sentSuccess.value = false
+        super.onDetach()
     }
 
     private fun products() {
@@ -79,9 +92,9 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
                 false -> {
                     viewModel.saveForDeferredSending(PickRequest(products, email))
                     context?.longToast(getString(R.string.send_later))
+                    activity?.onBackPressed()
                 }
             }
         }
-        activity?.onBackPressed()
     }
 }
