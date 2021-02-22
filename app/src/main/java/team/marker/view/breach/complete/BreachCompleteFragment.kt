@@ -3,6 +3,7 @@ package team.marker.view.breach.complete
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -44,13 +45,20 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
         viewModel.photos.observe(viewLifecycleOwner) {
             photos_recycler.setHasFixedSize(true)
-            photos_recycler.adapter = PhotosAdapter(it) { file ->
+            photos_recycler.adapter = PhotosAdapter(it) { file, extras ->
                 findNavController().navigate(
                     R.id.action_breachCompleteFragment_to_photoDetailFragment,
-                    Bundle().apply { putSerializable(PHOTO_DETAIL, file) }
+                    bundleOf(PHOTO_DETAIL to file),
+                    null,
+                    extras
                 )
             }
             photos_recycler.layoutManager = GridLayoutManager(requireContext(), 3)
+            postponeEnterTransition()
+            photos_recycler.viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
 
         input_comment.doOnTextChanged { text, _, _, _ ->

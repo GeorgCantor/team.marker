@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_photo.view.*
 import team.marker.R
@@ -12,7 +14,7 @@ import java.io.File
 
 class PhotosAdapter(
     private val photos: List<File>,
-    private val clickListener: (File) -> Unit
+    private val clickListener: (File, FragmentNavigator.Extras) -> Unit
 ) : RecyclerView.Adapter<PhotosAdapter.PhotosViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PhotosViewHolder(
@@ -26,15 +28,16 @@ class PhotosAdapter(
         with(holder) {
             file = item
             itemView.context.loadPhoto(item, photo)
+            val extras = FragmentNavigator.Extras.Builder()
+                .addSharedElement(photo, file?.name!!)
+                .build()
+            itemView.setOnClickListener { file?.let { clickListener(it, extras) } }
+            ViewCompat.setTransitionName(photo, file?.name)
         }
     }
 
     inner class PhotosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val photo: ImageView = view.photo
         var file: File? = null
-
-        init {
-            view.setOnClickListener { file?.let { clickListener(it) } }
-        }
     }
 }
