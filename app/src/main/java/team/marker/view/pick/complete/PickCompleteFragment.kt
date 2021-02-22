@@ -95,6 +95,8 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
                     activity?.onBackPressed()
                 }
             }
+        } else {
+            activity?.onBackPressed()
         }
     }
 }
