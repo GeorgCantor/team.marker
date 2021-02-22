@@ -3,6 +3,7 @@ package team.marker.view.pick.complete
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_complete.*
@@ -41,6 +42,18 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
         btn_send.setOnClickListener { send(size) }
+
+        input_email.doOnTextChanged { text, _, _, _ ->
+            when (text?.isBlank()) {
+                true -> email_input_view.error = getString(R.string.enter_email_warning)
+                false -> email_input_view.error = null
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        email_input_view.error = null
     }
 
     private fun products() {
@@ -58,7 +71,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         if (size > 0) {
             val email = input_email.text.toString()
             if (email.isEmpty()) {
-                context?.shortToast(getString(R.string.enter_email))
+                email_input_view.error = getString(R.string.enter_email_warning)
                 return
             }
             when (context?.isNetworkAvailable()) {

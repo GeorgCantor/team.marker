@@ -61,38 +61,46 @@
                 app:layout_constraintTop_toBottomOf="@id/note_title"
                 tools:text="Отсканировано 8 кодов, введите электронную почту для отправки отчета." />
 
-            <EditText
-                android:id="@+id/input_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:autofillHints=""
-                android:background="@drawable/input_primary"
-                android:cursorVisible="true"
-                android:ems="10"
-                android:fontFamily="sans-serif"
-                android:hint="@string/email"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
-                android:maxLength="100"
-                android:maxLines="1"
-                android:textColor="@color/input_text"
-                android:textColorHint="#5519194D"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="18sp"
-                android:textStyle="normal"
-                android:theme="@style/CustomTheme"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/note_text" />
+                app:layout_constraintTop_toBottomOf="@id/note_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:background="@drawable/input_primary"
+                    android:cursorVisible="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/email"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="100"
+                    android:maxLines="1"
+                    android:textColor="@color/input_text"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:theme="@style/CustomTheme" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/ic_email"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintEnd_toEndOf="@+id/input_email"
-                app:layout_constraintTop_toTopOf="@+id/input_email"
+                app:layout_constraintEnd_toEndOf="@+id/email_input_view"
+                app:layout_constraintTop_toTopOf="@+id/email_input_view"
                 app:srcCompat="@drawable/ic_email" />
 
             <Button
@@ -111,7 +119,7 @@
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_email" />
+                app:layout_constraintTop_toBottomOf="@+id/email_input_view" />
 
             <Button
                 android:id="@+id/btn_products"
