@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.ViewCompat
+import androidx.core.view.ViewCompat.setTransitionName
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_photo.view.*
@@ -32,7 +32,7 @@ class PhotosAdapter(
                 .addSharedElement(photo, file?.name!!)
                 .build()
             itemView.setOnClickListener { file?.let { clickListener(it, extras) } }
-            ViewCompat.setTransitionName(photo, file?.name)
+            setTransitionName(photo, file?.name)
         }
     }
 
