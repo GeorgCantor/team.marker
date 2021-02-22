@@ -22,6 +22,8 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.sending_report)
+
         val size = products.size
         val labelScan = size.nameCase(resources.getStringArray(R.array.scan_array))
         val labelCode = size.nameCase(resources.getStringArray(R.array.codes_array))

@@ -23,6 +23,8 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.sending_report)
+
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_breachCompleteFragment_to_homeFragment)

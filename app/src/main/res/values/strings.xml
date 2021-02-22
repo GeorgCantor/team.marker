@@ -43,8 +43,10 @@
     <string name="cancel">Отмена</string>
     <string name="not_recognized">Не распознано</string>
     <string name="end">Завершить</string>
+    <string name="sending_report">Отправка отчета</string>
     <string name="send_report">Отправить отчет</string>
     <string name="product_ist">Список изделий</string>
+    <string name="mode_selection">Выбор режима</string>
     <string name="select_pick_mode">Выберите режим, по которому будет выполняться оприходование изделий. Режим по умолчанию позволяет выполнять множественное сканирование QR-кодов.</string>
     <string name="by_default">По умолчанию</string>
     <string name="quantity">Количество</string>
@@ -88,6 +90,7 @@
     <string name="write_details">Напишите подробности …</string>
     <string name="enter_description">Введите описание</string>
     <string name="make_photo">Сделать фото</string>
+    <string name="viewing_photo">Просмотр фото</string>
     <string name="send">Отправить</string>
 
     <string-array name="scan_array">

@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:fontFamily="sans-serif"
-            android:text="@string/back"
+            android:text="@string/viewing_photo"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/btn_back"

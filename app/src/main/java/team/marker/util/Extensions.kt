@@ -98,7 +98,7 @@ fun View.slideUp() {
 
 fun View.slideDown() {
     startAnimation(
-        TranslateAnimation(0F, 0F, 0f, height.toFloat()).apply {
+        TranslateAnimation(0F, 0F, 0F, height.toFloat()).apply {
             duration = 500
             fillAfter = true
         }

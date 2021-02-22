@@ -22,6 +22,7 @@ class PickSettingsFragment : Fragment(R.layout.fragment_pick_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.mode_selection)
 
         when (preferences.getAny(0, MODE) as Int) {
             0 -> ic_update_0.setBlueColor()
