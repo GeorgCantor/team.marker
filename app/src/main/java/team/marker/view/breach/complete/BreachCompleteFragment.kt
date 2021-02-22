@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -61,6 +62,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             }
         }
 
+        viewModel.error.observe(viewLifecycleOwner) { it?.let { context?.longToast(it) } }
+
+        viewModel.sentSuccess.observe(viewLifecycleOwner) { if (it) activity?.onBackPressed() }
+
+        viewModel.progressIsVisible.observe(viewLifecycleOwner) { progress_bar.isVisible = it }
+
         input_comment.doOnTextChanged { text, _, _, _ ->
             when (text?.isBlank()) {
                 true -> comment_input_view.error = getString(R.string.enter_description)
@@ -76,6 +83,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
     override fun onDetach() {
         viewModel.removeFiles()
+        viewModel.sentSuccess.value = false
         super.onDetach()
     }
 
@@ -92,7 +100,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
         } else {
             viewModel.saveFilePathsForDeferredSending(productId, comment)
             context?.longToast(getString(R.string.send_later))
+            activity?.onBackPressed()
         }
-        activity?.onBackPressed()
     }
 }

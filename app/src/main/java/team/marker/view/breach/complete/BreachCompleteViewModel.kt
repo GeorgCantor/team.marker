@@ -34,12 +34,14 @@ class BreachCompleteViewModel(
     val error = MutableLiveData<String>()
     val photos = MutableLiveData<MutableList<File>>()
     val sentSuccess = MutableLiveData<Boolean>()
+    val progressIsVisible = MutableLiveData<Boolean>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         error.postValue(throwable.message)
     }
 
     fun breach(productId: Int, reasonId: Int, userReason: String, comment: String) {
+        progressIsVisible.value = true
         viewModelScope.launch(exceptionHandler) {
             val files = mutableListOf<Part>()
             photos.value?.forEach {
@@ -57,6 +59,7 @@ class BreachCompleteViewModel(
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
                 sentSuccess.postValue(this?.success)
+                progressIsVisible.postValue(false)
                 removeFiles()
 
                 preferences.putAny(DEFERRED_FILES, "")
