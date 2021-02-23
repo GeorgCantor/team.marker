@@ -12,6 +12,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="36dp"
@@ -56,7 +57,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginEnd="12dp"
             app:layout_constraintBottom_toBottomOf="@+id/email_input_view"
             app:layout_constraintEnd_toEndOf="@+id/email_input_view"
             app:layout_constraintTop_toTopOf="@+id/email_input_view"
@@ -93,16 +94,28 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/ic_password"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_lock"
+            app:layout_constraintBottom_toBottomOf="@+id/password_input_view"
+            app:layout_constraintEnd_toEndOf="@+id/password_input_view"
+            app:layout_constraintTop_toTopOf="@+id/password_input_view" />
+
         <TextView
             android:id="@+id/error_login"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/margin_24dp"
             android:fontFamily="sans-serif"
-            android:text=""
             android:textAlignment="center"
-            android:textColor="#9919194D"
-            android:textSize="12sp"
+            android:textColor="@color/red"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_input_view" />
@@ -111,7 +124,7 @@
             android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_24dp"
             android:background="@drawable/btn_home"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.05"

@@ -2,6 +2,7 @@ package team.marker.view.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -26,6 +27,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.error.observe(viewLifecycleOwner) {
             context?.showError(error_login, getString(R.string.wrong_login_password))
+        }
+
+        input_password.setOnFocusChangeListener { _, hasFocus ->
+            ic_password.isVisible = !hasFocus
         }
     }
 
