@@ -64,7 +64,12 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
         viewModel.error.observe(viewLifecycleOwner) { it?.let { context?.longToast(it) } }
 
-        viewModel.sentSuccess.observe(viewLifecycleOwner) { if (it) activity?.onBackPressed() }
+        viewModel.sentSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                context?.longToast(getString(R.string.breach_request_sent))
+                activity?.onBackPressed()
+            }
+        }
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner) { progress_bar.isVisible = it }
 
