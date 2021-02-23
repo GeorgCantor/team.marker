@@ -49,7 +49,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
         btn_products.setOnClickListener { products() }
-        btn_send.setOnClickListener { send(size) }
+        btn_send.setOnClickListener { sendOrExit() }
 
         input_email.doOnTextChanged { text, _, _, _ ->
             when (text?.isBlank()) {
@@ -80,8 +80,8 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
         )
     }
 
-    private fun send(size: Int) {
-        if (size > 0) {
+    private fun sendOrExit() {
+        if (products.isNotEmpty()) {
             val email = input_email.text.toString()
             if (email.isEmpty()) {
                 email_input_view.error = getString(R.string.enter_email_warning)
