@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
-import android.view.View.GONE
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
@@ -234,8 +233,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         products.add(PickProduct(id, 1.toDouble(), 0))
                         lastId = id
                         pick_toolbar.post {
-                            pick_success_text.visibility = View.VISIBLE
-                            2000L.runDelayed { pick_success_text?.visibility = GONE }
+                            pick_success_text.visible()
+                            2000L.runDelayed { pick_success_text?.gone() }
                             ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
                             pick_success_text.text = getString(R.string.recognized, products.size, products.size)
                         }

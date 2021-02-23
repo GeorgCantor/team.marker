@@ -3,8 +3,6 @@ package team.marker.util
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.DecelerateInterpolator
@@ -34,7 +32,7 @@ class ExpandList(val view: View, private val icon: View) {
         v.measure(MATCH_PARENT, WRAP_CONTENT)
         val targetHeight = v.measuredHeight
         v.layoutParams.height = 1
-        v.visibility = VISIBLE
+        v.visible()
 
         ValueAnimator.ofInt(1, targetHeight).apply {
             addUpdateListener {
@@ -66,7 +64,7 @@ class ExpandList(val view: View, private val icon: View) {
             }
             addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator) {
-                    v.visibility = GONE
+                    v.gone()
                     inProgress = false
                 }
 

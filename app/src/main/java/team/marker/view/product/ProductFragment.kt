@@ -4,9 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
 import android.view.View.MeasureSpec.*
-import android.view.View.VISIBLE
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.net.toUri
@@ -24,7 +22,6 @@ import kotlinx.android.synthetic.main.toolbar_product.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
-import team.marker.util.*
 import team.marker.util.Constants.FORCE
 import team.marker.util.Constants.LATITUDE
 import team.marker.util.Constants.LONGITUDE
@@ -33,6 +30,10 @@ import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.SHARE_URL
 import team.marker.util.Constants.TEXT_PLAIN
+import team.marker.util.ExpandList
+import team.marker.util.getAny
+import team.marker.util.gone
+import team.marker.util.visible
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
@@ -166,8 +167,8 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         })
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner) {
-            root_layout.visibility = if (it) GONE else VISIBLE
-            200L.runDelayed { progress_bar.isVisible = it }
+            root_layout.isVisible = !it
+            progress_bar.isVisible = it
         }
     }
 
