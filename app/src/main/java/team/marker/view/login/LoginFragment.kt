@@ -18,7 +18,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_login.setOnClickListener { apply() }
+        btn_login.setOnClickListener { login() }
 
         viewModel.loginSuccess.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
@@ -29,7 +29,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun apply() {
+    private fun login() {
         if (context?.isNetworkAvailable() == false) {
             context?.showError(error_login, getString(R.string.internet_unavailable))
             return
