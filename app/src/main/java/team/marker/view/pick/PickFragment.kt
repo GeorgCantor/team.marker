@@ -138,7 +138,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             findNavController().navigate(R.id.action_pickFragment_to_pickSettingsFragment)
         }
 
-        btn_complete.setOnClickListener { goToComplete() }
+        btn_complete.setOnClickListener { if (products.isNotEmpty()) goToComplete() }
     }
 
     private fun addProductQuantity() {
@@ -251,7 +251,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         val builder = CameraSource.Builder(requireContext(), multiDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
-            .setRequestedFps(15.0f)
+            .setRequestedFps(15.0F)
             .setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
