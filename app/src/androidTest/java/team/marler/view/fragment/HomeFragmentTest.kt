@@ -28,7 +28,7 @@ class HomeFragmentTest : BaseAndroidTest() {
     fun logout_when_click_exit_yes() {
         if (isUserLoggedIn()) {
             onView(withId(R.id.btn_logout)).perform(click())
-            onView(withText(R.string.logout_dialog_title))
+            onView(withText(R.string.logout_title))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()))
             onView(withId(android.R.id.button1)).perform((click()))

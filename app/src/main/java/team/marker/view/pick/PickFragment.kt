@@ -2,8 +2,6 @@ package team.marker.view.pick
 
 import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
@@ -32,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.model.Dialog
 import team.marker.model.Product
 import team.marker.model.requests.PickProduct
 import team.marker.util.*
@@ -287,14 +286,10 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             createCameraSource()
             return
         }
-        val listener = DialogInterface.OnClickListener { _, _ ->
-            requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
-        }
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(R.string.app_name)
-            .setMessage(R.string.permission_camera_rationale)
-            .setPositiveButton(getString(R.string.ok), listener)
-            .show()
+        context?.showDialog(
+            Dialog(getString(R.string.app_name), getString(R.string.permission_rationale), getString(R.string.ok))
+            { requestPermissions(permissions, RC_HANDLE_CAMERA_PERM) }
+        )
     }
 
     @Throws(SecurityException::class)

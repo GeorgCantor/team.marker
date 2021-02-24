@@ -33,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import team.marker.R
+import team.marker.model.Dialog
 import team.marker.util.Constants.FORCE
 import java.io.File
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -119,7 +120,7 @@ fun View.rotate(mode: String?, from: Float, to: Float) {
 }
 
 fun View.showPermissionSnackbar(listener: View.OnClickListener) = Snackbar
-    .make(this, R.string.permission_camera_rationale, LENGTH_INDEFINITE)
+    .make(this, R.string.permission_rationale, LENGTH_INDEFINITE)
     .setAction(context.getString(R.string.ok), listener)
     .show()
 
@@ -151,10 +152,11 @@ fun Context.showError(textView: TextView, message: String?) {
     3350L.runDelayed { textView.text = "" }
 }
 
-fun Context.showDialog(action: () -> (Unit)) = AlertDialog.Builder(this).apply {
-    setTitle(getString(R.string.logout_dialog_title))
-    setPositiveButton(getString(R.string.yes)) { _, _ -> action() }
-    setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
+fun Context.showDialog(dialog: Dialog) = AlertDialog.Builder(this).apply {
+    setTitle(dialog.title)
+    dialog.message?.let { setMessage(it) }
+    dialog.posText?.let { setPositiveButton(it) { _, _ -> dialog.action() } }
+    dialog.negText?.let { setNegativeButton(it) { dialog, _ -> dialog.dismiss() } }
     create().show()
 }
 

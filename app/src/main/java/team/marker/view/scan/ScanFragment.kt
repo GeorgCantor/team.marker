@@ -2,8 +2,6 @@ package team.marker.view.scan
 
 import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
 import android.media.AudioManager.STREAM_MUSIC
@@ -30,6 +28,7 @@ import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
 import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
+import team.marker.model.Dialog
 import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
@@ -38,6 +37,7 @@ import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.calculateTapArea
 import team.marker.util.camera.CameraSource
+import team.marker.util.showDialog
 import team.marker.util.showPermissionSnackbar
 import java.io.IOException
 import kotlin.properties.Delegates
@@ -185,14 +185,10 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             createCameraSource()
             return
         }
-        val listener = DialogInterface.OnClickListener { _, _ ->
-            requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
-        }
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(R.string.app_name)
-            .setMessage(R.string.permission_camera_rationale)
-            .setPositiveButton(getString(R.string.ok), listener)
-            .show()
+        context?.showDialog(
+            Dialog(getString(R.string.app_name), getString(R.string.permission_rationale), getString(R.string.ok))
+            { requestPermissions(permissions, RC_HANDLE_CAMERA_PERM) }
+        )
     }
 
     @Throws(SecurityException::class)

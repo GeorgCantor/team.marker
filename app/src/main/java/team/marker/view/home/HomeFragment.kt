@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
+import team.marker.model.Dialog
 import team.marker.util.Constants.LATITUDE
 import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
@@ -41,7 +42,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
         btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
-        btn_logout.setOnClickListener { context?.showDialog { logout() } }
+        btn_logout.setOnClickListener {
+            context?.showDialog(
+                Dialog(getString(R.string.logout_title), null, getString(R.string.yes), getString(R.string.no)) { logout() }
+            )
+        }
 
         getLocation()
     }
