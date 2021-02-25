@@ -13,6 +13,8 @@ data class Product(
     @SerializedName("destination") val destination: String? = null,
     @SerializedName("produced") val produced: String? = null,
     @SerializedName("shipped") val shipped: String? = null,
+    @SerializedName("partner_product_id") val partnerProductId: String? = null,
+    @SerializedName("partner_title") val partnerTitle: String? = null,
     // arrays
     @SerializedName("manufacturer") val manufacturer: Company? = null,
     @SerializedName("customer") val customer: Company? = null,

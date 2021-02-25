@@ -31,7 +31,6 @@ import team.marker.R
 import team.marker.model.Dialog
 import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PARTNER
-import team.marker.util.Constants.PARTNERS
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
@@ -229,7 +228,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             R.id.action_scannFragment_to_productFragment,
             bundleOf(
                 PRODUCT_URL to "${PRODUCTS_URL}$productIdsStr",
-                PARTNER to partner,
+                PARTNER to partner
             )
         )
         products.clear()
@@ -238,16 +237,15 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     fun openProducts() {
         if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
         val ids = mutableListOf<String>()
-        products.forEach { ids.add(it.first) }
+        products.forEach {
+            if (it.second != null) ids.add("${it.first}--${it.second}") else ids.add(it.first)
+        }
 
         val productIdsStr = ids.joinToString(",")
 
         findNavController(this).navigate(
             R.id.action_scannFragment_to_pickProductsFragment,
-            bundleOf(
-                PRODUCT_IDS to productIdsStr,
-                PARTNERS to products.toMutableList(),
-            )
+            bundleOf(PRODUCT_IDS to productIdsStr)
         )
         products.clear()
     }

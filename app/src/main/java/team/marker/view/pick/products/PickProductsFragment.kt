@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PARTNER
-import team.marker.util.Constants.PARTNERS
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
@@ -20,7 +19,6 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
     private val viewModel by inject<PickProductsViewModel>()
     private val productIds: String by lazy { arguments?.get(PRODUCT_IDS) as String }
-    private val partners: List<Pair<String, String?>>? by lazy { arguments?.get(PARTNERS) as List<Pair<String, String?>>? }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,11 +31,13 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
         viewModel.response.observe(viewLifecycleOwner) {
             products_recycler.adapter = PickProductsAdapter(it.info ?: listOf()) { item ->
+                val id = if (item.partnerProductId?.isNotBlank() == true) item.partnerProductId else item.id.toString()
+
                 findNavController().navigate(
                     R.id.action_pickProductsFragment_to_productFragment,
                     bundleOf(
-                        PRODUCT_URL to "$PRODUCTS_URL${item.id?.toString()}",
-                        PARTNER to partners?.find { it.first == item.id.toString() }?.second
+                        PRODUCT_URL to "$PRODUCTS_URL$id",
+                        PARTNER to item.partnerTitle
                     )
                 )
             }
