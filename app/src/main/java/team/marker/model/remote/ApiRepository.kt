@@ -23,8 +23,12 @@ class ApiRepository(private val apiService: ApiService) {
 
     suspend fun pick(pickRequest: PickRequest) = apiService.pick(pickRequest)
 
-    suspend fun product(product_id: String, lat: String, lng: String) =
-        apiService.getProduct(product_id, lat, lng)
+    suspend fun product(
+        productId: String,
+        lat: String,
+        lng: String,
+        partner: String?
+    ) = apiService.getProduct(productId, lat, lng, partner)
 
-    suspend fun products(product_ids: String?) = apiService.getProducts(product_ids)
+    suspend fun products(productIds: String?) = apiService.getProducts(productIds)
 }

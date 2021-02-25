@@ -19,6 +19,8 @@ object Constants {
     const val PRODUCT_URL = "product_url"
     const val PRODUCT_IDS = "product_ids"
     const val PRODUCTS = "products"
+    const val PARTNER = "partner"
+    const val PARTNERS = "partners"
 
     const val PHOTO_DETAIL = "photo_detail"
     const val MODE = "mode"

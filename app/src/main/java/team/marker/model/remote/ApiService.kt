@@ -25,10 +25,10 @@ interface ApiService {
     @Multipart
     @POST("breach")
     suspend fun breach(
-        @Part("product_id") product_id: Int?,
-        @Part("reason_id") reason_id: Int?,
-        @Part("user_reason") user_reason: RequestBody?,
-        @Part("comment") comment: RequestBody?,
+        @Part("product_id") productId: Int,
+        @Part("reason_id") reasonId: Int,
+        @Part("user_reason") userReason: RequestBody,
+        @Part("comment") comment: RequestBody,
         @Part files: Array<MultipartBody.Part>?
     ): ResponseAPI<ResponseMessage?>?
 
@@ -40,11 +40,12 @@ interface ApiService {
 
     @GET("product")
     suspend fun getProduct(
-        @Query("product_id") product_id: String?,
+        @Query("product_id") productId: String,
         @Query(LATITUDE) lat: String?,
-        @Query(LONGITUDE) lng: String?
+        @Query(LONGITUDE) lng: String?,
+        @Query("partner") partner: String?
     ): ResponseAPI<Product?>?
 
     @GET(PRODUCTS)
-    suspend fun getProducts(@Query(PRODUCT_IDS) product_ids: String?): ResponseAPI<Products?>?
+    suspend fun getProducts(@Query(PRODUCT_IDS) productIds: String?): ResponseAPI<Products?>?
 }

@@ -19,9 +19,9 @@ class PickProductsViewModel(private val repository: ApiRepository) : ViewModel()
         progressIsVisible.postValue(false)
     }
 
-    fun getProducts(product_ids: String? = null) {
+    fun getProducts(productIds: String? = null) {
         viewModelScope.launch(exceptionHandler) {
-            repository.products(product_ids).apply {
+            repository.products(productIds).apply {
                 response.postValue(this?.response)
                 error.postValue(this?.error?.error_msg)
             }

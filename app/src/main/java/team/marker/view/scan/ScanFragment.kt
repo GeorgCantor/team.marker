@@ -30,6 +30,8 @@ import kotlinx.android.synthetic.main.fragment_scan.*
 import team.marker.R
 import team.marker.model.Dialog
 import team.marker.util.Constants.FOCUS_MODE
+import team.marker.util.Constants.PARTNER
+import team.marker.util.Constants.PARTNERS
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.PRODUCT_URL
@@ -44,7 +46,8 @@ import kotlin.properties.Delegates
 
 class ScanFragment : Fragment(R.layout.fragment_scan) {
 
-    private var products = mutableListOf<String>()
+    private var products = mutableListOf<Pair<String, String?>>()
+    private var partner: String? = null
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
     private var torchOn = false
@@ -108,8 +111,9 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 detections?.detectedItems?.forEach { _, value ->
-                    val product = value.rawValue.takeLastWhile { it.isDigit() }
-                    if (product != "") products.add(product)
+                    val product = value.rawValue.replace(PRODUCTS_URL, "").takeWhile { it != '?' }
+                    if (value.rawValue.last().isLetter()) partner = value.rawValue.takeLastWhile { it != '=' }
+                    if (product != "") products.add(Pair(product, partner))
                 }
 
                 when (products.size) {
@@ -135,7 +139,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
                 if (builder.length == 13) {
                     val id = builder.trimStart('0').dropLast(1)
-                    products.add(id.toString())
+                    products.add(Pair(id.toString(), partner))
                     openProduct()
                 }
             }
@@ -216,21 +220,35 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     fun openProduct() {
         if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-        val productIdsStr = products.joinToString(",")
-        products.clear()
+        val ids = mutableListOf<String>()
+        products.forEach { ids.add(it.first) }
+
+        val productIdsStr = ids.joinToString(",")
+
         findNavController(this).navigate(
             R.id.action_scannFragment_to_productFragment,
-            bundleOf(PRODUCT_URL to "${PRODUCTS_URL}$productIdsStr")
+            bundleOf(
+                PRODUCT_URL to "${PRODUCTS_URL}$productIdsStr",
+                PARTNER to partner,
+            )
         )
+        products.clear()
     }
 
     fun openProducts() {
         if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-        val productIdsStr = products.joinToString(",")
-        products.clear()
+        val ids = mutableListOf<String>()
+        products.forEach { ids.add(it.first) }
+
+        val productIdsStr = ids.joinToString(",")
+
         findNavController(this).navigate(
             R.id.action_scannFragment_to_pickProductsFragment,
-            bundleOf(PRODUCT_IDS to productIdsStr)
+            bundleOf(
+                PRODUCT_IDS to productIdsStr,
+                PARTNERS to products.toMutableList(),
+            )
         )
+        products.clear()
     }
 }

@@ -26,6 +26,7 @@ import team.marker.util.Constants.FORCE
 import team.marker.util.Constants.LATITUDE
 import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
+import team.marker.util.Constants.PARTNER
 import team.marker.util.Constants.PRODUCTS_URL
 import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.SHARE_URL
@@ -40,6 +41,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private val viewModel by inject<ProductViewModel>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
+    private val partner: String? by lazy { arguments?.get(PARTNER) as String? }
 
     private lateinit var manufacturerMap: GoogleMap
     private lateinit var customerMap: GoogleMap
@@ -58,7 +60,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         val lat = preferences.getAny("", LATITUDE) as String
         val lng = preferences.getAny("", LONGITUDE) as String
 
-        viewModel.getProduct(productId, lat, lng)
+        viewModel.getProduct(productId, lat, lng, partner)
 
         val list1 = ExpandList(expand_1, list_1_expand)
         val list2 = ExpandList(expand_2, list_2_expand)
