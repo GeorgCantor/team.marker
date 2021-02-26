@@ -162,6 +162,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
     override fun onResume() {
         super.onResume()
+        products.clear()
         startCameraSource()
     }
 
