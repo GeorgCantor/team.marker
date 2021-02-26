@@ -37,8 +37,7 @@ import team.marker.util.*
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.MODE
 import team.marker.util.Constants.PRODUCTS
-import team.marker.util.Constants.PRODUCTS_URL
-import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.barcode.BarcodeGraphic
@@ -73,7 +72,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         if (it.rectName?.contains(x, y) == true && it.isVisible) {
                             findNavController().navigate(
                                 R.id.action_pickFragment_to_productFragment,
-                                bundleOf(PRODUCT_URL to "${PRODUCTS_URL}${it.id}")
+                                bundleOf(PRODUCT_ID to it.id.toString())
                             )
                         }
                         if (it.rectButton?.contains(x, y) == true && it.isVisible) {

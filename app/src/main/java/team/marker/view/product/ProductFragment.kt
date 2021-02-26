@@ -28,7 +28,7 @@ import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.PARTNER
 import team.marker.util.Constants.PRODUCTS_URL
-import team.marker.util.Constants.PRODUCT_URL
+import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.SHARE_URL
 import team.marker.util.Constants.TEXT_PLAIN
 import team.marker.util.ExpandList
@@ -40,7 +40,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private val viewModel by inject<ProductViewModel>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
-    private val productUrl: String by lazy { arguments?.get(PRODUCT_URL) as String }
+    private val productId: String by lazy { arguments?.get(PRODUCT_ID) as String }
     private val partner: String? by lazy { arguments?.get(PARTNER) as String? }
 
     private lateinit var manufacturerMap: GoogleMap
@@ -48,7 +48,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val productId = productUrl.replace(PRODUCTS_URL, "")
 
         (childFragmentManager.findFragmentById(R.id.manufacturer_map) as SupportMapFragment).apply {
             getMapAsync(onMapReadyCallback1())
@@ -165,7 +164,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
             val targetHeight3 = product_files_recycler.measuredHeight
             product_files_recycler.layoutParams.height = targetHeight3
 
-            btn_share.setOnClickListener { share(productUrl, productTitle) }
+            btn_share.setOnClickListener { share("$PRODUCTS_URL$productId", productTitle) }
         })
 
         viewModel.progressIsVisible.observe(viewLifecycleOwner) {

@@ -11,9 +11,8 @@ import kotlinx.android.synthetic.main.toolbar_history.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PARTNER
-import team.marker.util.Constants.PRODUCTS_URL
+import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.PRODUCT_IDS
-import team.marker.util.Constants.PRODUCT_URL
 
 class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
@@ -36,7 +35,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
                 findNavController().navigate(
                     R.id.action_pickProductsFragment_to_productFragment,
                     bundleOf(
-                        PRODUCT_URL to "$PRODUCTS_URL$id",
+                        PRODUCT_ID to id,
                         PARTNER to item.partnerTitle
                     )
                 )

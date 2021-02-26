@@ -32,8 +32,8 @@ import team.marker.model.Dialog
 import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PARTNER
 import team.marker.util.Constants.PRODUCTS_URL
+import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.PRODUCT_IDS
-import team.marker.util.Constants.PRODUCT_URL
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.calculateTapArea
@@ -222,12 +222,12 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         val ids = mutableListOf<String>()
         products.forEach { ids.add(it.first) }
 
-        val productIdsStr = ids.joinToString(",")
+        val productIds = ids.joinToString(",")
 
         findNavController(this).navigate(
             R.id.action_scannFragment_to_productFragment,
             bundleOf(
-                PRODUCT_URL to "${PRODUCTS_URL}$productIdsStr",
+                PRODUCT_ID to productIds,
                 PARTNER to partner
             )
         )
@@ -241,11 +241,11 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             if (it.second != null) ids.add("${it.first}--${it.second}") else ids.add(it.first)
         }
 
-        val productIdsStr = ids.joinToString(",")
+        val productIds = ids.joinToString(",")
 
         findNavController(this).navigate(
             R.id.action_scannFragment_to_pickProductsFragment,
-            bundleOf(PRODUCT_IDS to productIdsStr)
+            bundleOf(PRODUCT_IDS to productIds)
         )
         products.clear()
     }
