@@ -5,9 +5,6 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
-import android.media.AudioManager.STREAM_MUSIC
-import android.media.ToneGenerator
-import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.MotionEvent.ACTION_DOWN
@@ -108,14 +105,14 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                             3 -> pick_note.text = getString(R.string.enter_product_weight)
                             4 -> pick_note.text = getString(R.string.enter_product_volume)
                         }
-                        ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                        150.beepSound()
                     }
                     5 -> {
                         if (products.isEmpty() || products.all { it.id != product.id }) {
                             products.add(product)
                             pick_success_text.visible()
                             2000L.runDelayed { pick_success_text?.gone() }
-                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                            150.beepSound()
                             pick_success_text.text = getString(R.string.recognized, products.size, products.size)
                         }
                     }
@@ -233,7 +230,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         pick_toolbar.post {
                             pick_success_text.visible()
                             2000L.runDelayed { pick_success_text?.gone() }
-                            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+                            150.beepSound()
                             pick_success_text.text = getString(R.string.recognized, products.size, products.size)
                         }
                     }

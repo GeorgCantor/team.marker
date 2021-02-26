@@ -4,9 +4,6 @@ import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
-import android.media.AudioManager.STREAM_MUSIC
-import android.media.ToneGenerator
-import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
@@ -33,6 +30,7 @@ import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
+import team.marker.util.beepSound
 import team.marker.util.calculateTapArea
 import team.marker.util.camera.CameraSource
 import team.marker.util.showDialog
@@ -212,12 +210,10 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
     }
 
     private fun openBreachComplete() {
-        if (isResumed) {
-            ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
-            findNavController().navigate(
-                R.id.action_breachFragment_to_breachCompleteFragment,
-                bundleOf(PRODUCT_IDS to products)
-            )
-        }
+        150.beepSound()
+        findNavController().navigate(
+            R.id.action_breachFragment_to_breachCompleteFragment,
+            bundleOf(PRODUCT_IDS to products)
+        )
     }
 }

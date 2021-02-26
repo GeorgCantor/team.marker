@@ -4,9 +4,6 @@ import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
-import android.media.AudioManager.STREAM_MUSIC
-import android.media.ToneGenerator
-import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
@@ -36,6 +33,7 @@ import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
+import team.marker.util.beepSound
 import team.marker.util.calculateTapArea
 import team.marker.util.camera.CameraSource
 import team.marker.util.showDialog
@@ -219,7 +217,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     }
 
     fun openProduct() {
-        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+        150.beepSound()
         val ids = mutableListOf<String>()
         products.forEach { ids.add(it.first) }
 
@@ -232,11 +230,10 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
                 PARTNER to partner
             )
         )
-        products.clear()
     }
 
     fun openProducts() {
-        if (isResumed) ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, 150)
+        150.beepSound()
         val ids = mutableListOf<String>()
         products.forEach {
             if (it.second != null) ids.add("${it.first}--${it.second}") else ids.add(it.first)
@@ -248,6 +245,5 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             R.id.action_scannFragment_to_pickProductsFragment,
             bundleOf(PRODUCT_IDS to productIds)
         )
-        products.clear()
     }
 }

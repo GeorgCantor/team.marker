@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.Rect
+import android.media.AudioManager.STREAM_MUSIC
+import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
 import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -41,6 +44,8 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 fun Long.runDelayed(action: () -> Unit) {
     Handler(getMainLooper()).postDelayed(action, MILLISECONDS.toMillis(this))
 }
+
+fun Int.beepSound() = ToneGenerator(STREAM_MUSIC, 100).startTone(TONE_CDMA_ALERT_CALL_GUARD, this)
 
 fun Int.nameCase(names: Array<String>): String {
     val count = kotlin.math.abs(this)
