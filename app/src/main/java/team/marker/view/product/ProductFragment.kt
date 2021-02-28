@@ -1,6 +1,7 @@
 package team.marker.view.product
 
 import android.content.Intent
+import android.content.Intent.*
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -185,11 +186,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         }.build().launchUrl(requireContext(), filePath.toUri())
     }
 
-    private fun share(url: String, title: String) {
-        val i = Intent(Intent.ACTION_SEND)
-        i.type = TEXT_PLAIN
-        i.putExtra(Intent.EXTRA_SUBJECT, title)
-        i.putExtra(Intent.EXTRA_TEXT, url)
-        startActivity(Intent.createChooser(i, SHARE_URL))
-    }
+    private fun share(url: String, title: String) = startActivity(createChooser(Intent(ACTION_SEND)
+        .apply { type = TEXT_PLAIN; putExtra(EXTRA_SUBJECT, title); putExtra(EXTRA_TEXT, url) }, SHARE_URL))
 }
