@@ -6,7 +6,7 @@ import okhttp3.Response
 import team.marker.util.isNetworkAvailable
 import java.io.IOException
 
-class OfflineResponseCacheInterceptor(private val context: Context) : Interceptor {
+class CacheInterceptor(private val context: Context) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -21,5 +21,4 @@ class OfflineResponseCacheInterceptor(private val context: Context) : Intercepto
 
         return chain.proceed(request)
     }
-
 }

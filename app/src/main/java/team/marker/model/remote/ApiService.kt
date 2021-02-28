@@ -14,13 +14,13 @@ import team.marker.util.Constants.PRODUCT_IDS
 interface ApiService {
 
     @POST("login")
-    suspend fun getLogin(@Body request: LoginRequest?): ResponseAPI<Login?>?
+    suspend fun getLogin(@Body request: LoginRequest?): ResponseApi<Login?>?
 
     @POST("logout")
-    suspend fun logout(): ResponseAPI<ResponseMessage?>?
+    suspend fun logout(): ResponseApi<ResponseMessage?>?
 
     @GET("owner")
-    suspend fun getOwner(): ResponseAPI<User?>?
+    suspend fun getOwner(): ResponseApi<User?>?
 
     @Multipart
     @POST("breach")
@@ -30,13 +30,13 @@ interface ApiService {
         @Part("user_reason") userReason: RequestBody,
         @Part("comment") comment: RequestBody,
         @Part files: Array<MultipartBody.Part>?
-    ): ResponseAPI<ResponseMessage?>?
+    ): ResponseApi<ResponseMessage?>?
 
     @GET("history")
-    suspend fun getHistory(@Query("offset") offset: Int?): ResponseAPI<History?>?
+    suspend fun getHistory(@Query("offset") offset: Int?): ResponseApi<History?>?
 
     @POST("pick_extra")
-    suspend fun pick(@Body request: PickRequest?): ResponseAPI<ResponseMessage?>?
+    suspend fun pick(@Body request: PickRequest?): ResponseApi<ResponseMessage?>?
 
     @GET("product")
     suspend fun getProduct(
@@ -44,8 +44,8 @@ interface ApiService {
         @Query(LATITUDE) lat: String?,
         @Query(LONGITUDE) lng: String?,
         @Query("partner") partner: String?
-    ): ResponseAPI<Product?>?
+    ): ResponseApi<Product?>?
 
     @GET(PRODUCTS)
-    suspend fun getProducts(@Query(PRODUCT_IDS) productIds: String?): ResponseAPI<Products?>?
+    suspend fun getProducts(@Query(PRODUCT_IDS) productIds: String?): ResponseApi<Products?>?
 }

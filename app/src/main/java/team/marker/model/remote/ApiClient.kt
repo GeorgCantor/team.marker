@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Level.NONE
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import team.marker.BuildConfig.DEBUG
-import team.marker.model.remote.interceptor.OfflineResponseCacheInterceptor
+import team.marker.model.remote.interceptor.CacheInterceptor
 import team.marker.util.Constants.API_VERSION
 import team.marker.util.Constants.APP_KEY
 import team.marker.util.Constants.BASE_URL
@@ -42,7 +42,7 @@ object ApiClient {
         }
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .addInterceptor(OfflineResponseCacheInterceptor(context))
+            .addInterceptor(CacheInterceptor(context))
             .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
             .cache(Cache(File(context.cacheDir, "ResponsesCache"), (30 * 1024 * 1024).toLong()))

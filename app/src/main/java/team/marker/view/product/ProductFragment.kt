@@ -178,13 +178,11 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private fun onMapReadyCallback2() = OnMapReadyCallback { map -> customerMap = map }
 
-    private fun openDocument(filePath: String) {
-        CustomTabsIntent.Builder().apply {
-            setToolbarColor(getColor(requireContext(), R.color.dark_blue))
-            setStartAnimations(requireContext(), R.anim.slide_in_right, R.anim.slide_out_left)
-            setExitAnimations(requireContext(), R.anim.slide_in_left, R.anim.slide_out_right)
-        }.build().launchUrl(requireContext(), filePath.toUri())
-    }
+    private fun openDocument(filePath: String) = CustomTabsIntent.Builder().apply {
+        setToolbarColor(getColor(requireContext(), R.color.dark_blue))
+        setStartAnimations(requireContext(), R.anim.slide_in_right, R.anim.slide_out_left)
+        setExitAnimations(requireContext(), R.anim.slide_in_left, R.anim.slide_out_right)
+    }.build().launchUrl(requireContext(), filePath.toUri())
 
     private fun share(url: String, title: String) = startActivity(createChooser(Intent(ACTION_SEND)
         .apply { type = TEXT_PLAIN; putExtra(EXTRA_SUBJECT, title); putExtra(EXTRA_TEXT, url) }, SHARE_URL))
