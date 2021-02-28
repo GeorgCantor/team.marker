@@ -49,6 +49,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
     private var cameraSource: CameraSource? = null
     private var torchOn = false
     private var isFocusManual = false
+    private var lastTimestamp = System.currentTimeMillis()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,15 +108,18 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             }
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
-                detections?.detectedItems?.forEach { _, value ->
-                    val product = value.rawValue.replace(PRODUCTS_URL, "").takeWhile { it != '?' }
-                    if (value.rawValue.last().isLetter()) partner = value.rawValue.takeLastWhile { it != '=' }
-                    if (product != "") products.add(Pair(product, partner))
-                }
+                if (System.currentTimeMillis() - lastTimestamp > 1000) {
+                    detections?.detectedItems?.forEach { _, value ->
+                        val product = value.rawValue.replace(PRODUCTS_URL, "").takeWhile { it != '?' }
+                        if (value.rawValue.last().isLetter()) partner = value.rawValue.takeLastWhile { it != '=' }
+                        if (product != "") products.add(Pair(product, partner))
+                    }
 
-                when (products.size) {
-                    1 -> openProduct()
-                    in 2..Int.MAX_VALUE -> openProducts()
+                    when (products.size) {
+                        1 -> openProduct()
+                        in 2..Int.MAX_VALUE -> openProducts()
+                    }
+                    lastTimestamp = System.currentTimeMillis()
                 }
             }
         })
