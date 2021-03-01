@@ -20,6 +20,7 @@ import team.marker.model.responses.ResponseMessage
 import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.IMAGE_DIR
 import team.marker.util.Constants.TEXT_PLAIN
+import team.marker.util.getAny
 import team.marker.util.putAny
 import team.marker.util.toObject
 import java.io.File
@@ -60,12 +61,9 @@ class BreachCompleteViewModel(
                 error.postValue(this?.error?.error_msg)
                 sentSuccess.postValue(this?.success)
                 progressIsVisible.postValue(false)
-                removeFiles()
 
                 preferences.putAny(DEFERRED_FILES, "")
-                val cw = ContextWrapper(app.baseContext)
-                val directory = cw.getDir(IMAGE_DIR, MODE_PRIVATE)
-                directory.deleteRecursively()
+                removeFiles()
             }
         }
     }
@@ -89,6 +87,11 @@ class BreachCompleteViewModel(
 
     fun removeFiles() {
         photos.value = mutableListOf()
+        if ((preferences.getAny("", DEFERRED_FILES) as String).isBlank()) {
+            val cw = ContextWrapper(app.baseContext)
+            val directory = cw.getDir(IMAGE_DIR, MODE_PRIVATE)
+            directory.deleteRecursively()
+        }
     }
 
     fun saveFilePathsForDeferredSending(productId: Int, comment: String) {
