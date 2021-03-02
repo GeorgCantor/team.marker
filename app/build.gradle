@@ -11,8 +11,8 @@ android {
         applicationId "team.marker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 19
-        versionName "2.7"
+        versionCode 22
+        versionName "2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
