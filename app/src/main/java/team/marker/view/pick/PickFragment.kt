@@ -49,11 +49,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
     private val viewModel by inject<PickCompleteViewModel>()
     private var products = mutableListOf<PickProduct>()
+    private var dProducts = mutableListOf<PickProduct>()
     private val preferences: SharedPreferences by inject(named(MAIN_STORAGE))
     private var textRecognizer by Delegates.notNull<TextRecognizer>()
     private var cameraSource: CameraSource? = null
     private var pickMode = 0
-    private var lastId = 0
+    private var lastProduct: Product? = null
     private var torchOn: Boolean = false
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,7 +64,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         view.setOnTouchListener { _, event ->
             val x = event.x.toInt() + 200
             val y = event.y.toInt()
-            if (pickMode == 0 && event.action == ACTION_DOWN) {
+            if (pickMode != 5 && event.action == ACTION_DOWN) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rectName?.contains(x, y) == true && it.isVisible) {
@@ -73,6 +74,30 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                             )
                         }
                         if (it.rectButton?.contains(x, y) == true && it.isVisible) {
+                            if (pickMode != 0) {
+                                when (it.clickStatus) {
+                                    0 -> {
+                                        pick_window.visible()
+                                        lastProduct = it
+                                    }
+                                    1 -> {
+                                        val list = mutableListOf<PickProduct>()
+                                        dProducts.forEach { product ->
+                                            if (product.id != it.id) list.add(product)
+                                        }
+                                        dProducts = list
+                                    }
+                                }
+                            }
+                            when (pickMode) {
+                                1 -> {
+                                    pick_note.text = getString(R.string.enter_number_accepted_units)
+                                    pick_quantity.inputType = TYPE_CLASS_NUMBER
+                                }
+                                2 -> pick_note.text = getString(R.string.enter_product_length)
+                                3 -> pick_note.text = getString(R.string.enter_product_weight)
+                                4 -> pick_note.text = getString(R.string.enter_product_volume)
+                            }
                             viewModel.setClickStatus(
                                 Product(it.id, it.name, it.rectName, it.rectButton, if (it.clickStatus == 0) 1 else 0)
                             )
@@ -86,7 +111,14 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         pickMode = preferences.getAny(0, MODE) as Int
 
         btn_add.setOnClickListener { addProductQuantity() }
-        btn_cancel.setOnClickListener { cancelProduct() }
+        btn_cancel.setOnClickListener {
+            pick_window.gone()
+            if (lastProduct != null) {
+                viewModel.setClickStatus(
+                    Product(lastProduct!!.id, lastProduct!!.name, lastProduct!!.rectName, lastProduct!!.rectButton, if (lastProduct!!.clickStatus == 0) 1 else 0)
+                )
+            }
+        }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
         if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
@@ -94,19 +126,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         viewModel.currentProduct.observe(viewLifecycleOwner) { product ->
             if (product != null) {
                 when (pickMode) {
-                    in 1..4 -> {
-                        pick_window.visible()
-                        when (pickMode) {
-                            1 -> {
-                                pick_note.text = getString(R.string.enter_number_accepted_units)
-                                pick_quantity.inputType = TYPE_CLASS_NUMBER
-                            }
-                            2 -> pick_note.text = getString(R.string.enter_product_length)
-                            3 -> pick_note.text = getString(R.string.enter_product_weight)
-                            4 -> pick_note.text = getString(R.string.enter_product_volume)
-                        }
-                        150.beepSound()
-                    }
                     5 -> {
                         if (products.isEmpty() || products.all { it.id != product.id }) {
                             products.add(product)
@@ -116,10 +135,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                             pick_success_text.text = getString(R.string.recognized, products.size, products.size)
                         }
                     }
-                    else -> if (products.isEmpty() || products.all { it.id != product.id }) products.add(product)
                 }
-
-                lastId = product.id ?: 0
             }
         }
 
@@ -133,7 +149,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
             findNavController().navigate(R.id.action_pickFragment_to_pickSettingsFragment)
         }
 
-        btn_complete.setOnClickListener { if (products.isNotEmpty()) goToComplete() }
+        btn_complete.setOnClickListener { goToComplete() }
     }
 
     private fun addProductQuantity() {
@@ -146,19 +162,11 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
         if (quantity <= 0) return
         pick_quantity.setText("")
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            products.removeIf { it.id == lastId }
-        }
-
         val product = PickProduct()
-        product.id = lastId
+        product.id = lastProduct?.id
         product.quantity = quantity
         product.type = pickMode
-        products.add(product)
-    }
-
-    private fun cancelProduct() {
-        findNavController().navigate(R.id.action_pickFragment_self)
+        dProducts.add(product)
     }
 
     private fun goToComplete() {
@@ -174,6 +182,12 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                         bundleOf(PRODUCTS to list)
                     )
                 }
+            }
+            1, 2, 3, 4 -> {
+                findNavController().navigate(
+                    R.id.action_pickFragment_to_pickCompleteFragment,
+                    bundleOf(PRODUCTS to dProducts)
+                )
             }
             else -> {
                 findNavController().navigate(
@@ -226,7 +240,6 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                     val id = builder.trimStart('0').dropLast(1).toString().toInt()
                     if (products.all { it.id != id }) {
                         products.add(PickProduct(id, 1.toDouble(), 0))
-                        lastId = id
                         pick_toolbar.post {
                             pick_success_text.visible()
                             2000L.runDelayed { pick_success_text?.gone() }
