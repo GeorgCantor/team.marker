@@ -21,12 +21,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         btn_login.setOnClickListener { login() }
 
-        viewModel.loginSuccess.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) {
-            context?.showError(error_login, getString(R.string.wrong_login_password))
+        viewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
+            when (success) {
+                true -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                false -> context?.showError(error_login, getString(R.string.wrong_login_password))
+            }
         }
 
         input_password.setOnFocusChangeListener { _, hasFocus ->

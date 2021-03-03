@@ -214,9 +214,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_pickFragment_self"
-            app:destination="@id/pickFragment" />
-        <action
             android:id="@+id/action_pickFragment_to_productFragment"
             app:destination="@id/productFragment"
             app:enterAnim="@anim/slide_in_right"
