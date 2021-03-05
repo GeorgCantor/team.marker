@@ -16,7 +16,6 @@ object Constants {
     const val DEFERRED_FILES = "deferred_files"
     const val DEFERRED_REQUEST = "deferred_request"
     const val IMAGE_DIR = "image_dir"
-    const val PRODUCT_URL = "product_url"
     const val PRODUCT_ID = "product_id"
     const val PRODUCT_IDS = "product_ids"
     const val PRODUCTS = "products"

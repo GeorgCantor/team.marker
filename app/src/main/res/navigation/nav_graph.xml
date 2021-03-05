@@ -66,31 +66,10 @@
         tools:layout="@layout/fragment_photo" />
 
     <fragment
-        android:id="@+id/historyFragment"
-        android:name="team.marker.view.history.HistoryFragment"
-        android:label="HistoryFragment"
-        tools:layout="@layout/fragment_history">
-        <action
-            android:id="@+id/action_historyFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
-    </fragment>
-
-    <fragment
         android:id="@+id/homeFragment"
         android:name="team.marker.view.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_historyFragment"
-            app:destination="@id/historyFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_scannFragment"
             app:destination="@id/scanFragment"
