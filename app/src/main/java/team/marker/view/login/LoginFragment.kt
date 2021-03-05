@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.model.requests.LoginRequest
+import team.marker.util.gone
 import team.marker.util.isNetworkAvailable
 import team.marker.util.showError
 
@@ -23,14 +24,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
             when (success) {
-                true -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                false -> context?.showError(error_login, getString(R.string.wrong_login_password))
+                true -> {
+                    parent_layout.gone()
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                }
+                false -> showLoginError()
             }
         }
 
-        input_password.setOnFocusChangeListener { _, hasFocus ->
-            ic_password.isVisible = !hasFocus
-        }
+        viewModel.error.observe(viewLifecycleOwner) { showLoginError() }
+
+        input_password.setOnFocusChangeListener { _, hasFocus -> ic_password.isVisible = !hasFocus }
     }
 
     private fun login() {
@@ -52,4 +56,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.login(LoginRequest(login, password))
     }
+
+    private fun showLoginError() = context?.showError(error_login, getString(R.string.wrong_login_password))
 }
