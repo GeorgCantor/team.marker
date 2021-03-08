@@ -15,15 +15,16 @@ class FrameView(
     attributeSet: AttributeSet?
 ) : View(context, attributeSet), OnTouchListener {
 
-    private val paint = Paint()
-    private var mX: Float
-    private var mY: Float
+    private val paint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.yellow)
+        style = Paint.Style.STROKE
+        strokeWidth = 4F
+    }
+    private var mX = 0F
+    private var mY = 0F
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        paint.color = ContextCompat.getColor(context, R.color.yellow)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 4F
         canvas.drawRect(mX - 200, mY + 200, mX + 200, mY - 200, paint)
         invalidate()
     }
@@ -34,10 +35,5 @@ class FrameView(
             mY = event.y
         }
         return false
-    }
-
-    init {
-        mY = -100F
-        mX = mY
     }
 }

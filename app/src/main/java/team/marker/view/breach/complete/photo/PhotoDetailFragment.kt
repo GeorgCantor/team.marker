@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.ViewCompat.setTransitionName
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater.from
-import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
@@ -22,14 +21,11 @@ class PhotoDetailFragment : Fragment(R.layout.fragment_photo_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedElementEnterTransition = from(context).inflateTransition(android.R.transition.move)
+        setTransitionName(view_pager, files.first.name)
 
         val adapter = PagerAdapter(files.second)
-
-        view_pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         view_pager.adapter = adapter
         50L.runDelayed { view_pager.currentItem = files.second.indexOf(files.first) }
-
-        setTransitionName(view_pager, files.first.name)
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
 

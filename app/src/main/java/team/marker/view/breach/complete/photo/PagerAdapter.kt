@@ -10,8 +10,7 @@ import team.marker.R
 import team.marker.util.loadPhoto
 import java.io.File
 
-class PagerAdapter(private val files: List<File>) :
-    RecyclerView.Adapter<PagerAdapter.PagerViewHolder>() {
+class PagerAdapter(private val files: List<File>) : RecyclerView.Adapter<PagerAdapter.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PagerViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_photo_pager, parent, false)
