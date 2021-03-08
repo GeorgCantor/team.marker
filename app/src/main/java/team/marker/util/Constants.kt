@@ -21,7 +21,7 @@ object Constants {
     const val PRODUCTS = "products"
     const val PARTNER = "partner"
 
-    const val PHOTO_DETAIL = "photo_detail"
+    const val PHOTO_FILES = "photo_detail"
     const val MODE = "mode"
     const val FORCE = "force"
     const val FOCUS_MODE = "focus_mode"
