@@ -265,6 +265,25 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph" />
+        <action
+            android:id="@+id/action_demoFragment_to_demoScanFragment"
+            app:destination="@id/demoScanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoScanFragment"
+        android:name="team.marker.view.demo.scan.DemoScanFragment"
+        android:label="DemoScanFragment"
+        tools:layout="@layout/fragment_demo">
+        <action
+            android:id="@+id/action_demoScanFragment_self"
+            app:destination="@id/demoScanFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/demoFragment" />
     </fragment>
 
 </navigation>

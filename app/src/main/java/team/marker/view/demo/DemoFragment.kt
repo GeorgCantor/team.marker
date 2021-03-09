@@ -22,6 +22,8 @@ class DemoFragment : Fragment(R.layout.fragment_demo) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btn_scan.setOnClickListener { findNavController().navigate(R.id.action_demoFragment_to_demoScanFragment) }
+
         btn_logout.setOnClickListener {
             with(preferences) {
                 putAny(SID, "")

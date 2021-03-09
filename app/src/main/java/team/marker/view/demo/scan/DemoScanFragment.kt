@@ -1,12 +1,11 @@
-package team.marker.view.scan
+package team.marker.view.demo.scan
 
 import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.content.pm.PackageManager
 import android.hardware.Camera.Parameters.*
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
@@ -40,7 +39,7 @@ import team.marker.util.showPermissionSnackbar
 import java.io.IOException
 import kotlin.properties.Delegates
 
-class ScanFragment : Fragment(R.layout.fragment_scan) {
+class DemoScanFragment : Fragment(R.layout.fragment_scan) {
 
     private var products = mutableListOf<Pair<String, String?>>()
     private var partner: String? = null
@@ -58,7 +57,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
         }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
-        if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
+        if (rc == PackageManager.PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
         btn_manual_focus.setImageResource(if (isFocusManual) R.drawable.ic_manual_focus else R.drawable.ic_auto_focus)
 
@@ -70,7 +69,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         btn_manual_focus.setOnClickListener {
             findNavController().navigate(
-                R.id.action_scanFragment_self,
+                R.id.action_demoScanFragment_self,
                 bundleOf(FOCUS_MODE to !isFocusManual)
             )
         }
@@ -94,7 +93,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
             return
         }
-        val listener = OnClickListener {
+        val listener = View.OnClickListener {
             requestPermissions(permissions, RC_HANDLE_CAMERA_PERM)
         }
         preview.setOnClickListener(listener)
@@ -188,7 +187,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             createCameraSource()
             return
         }
