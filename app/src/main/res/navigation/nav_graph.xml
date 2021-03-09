@@ -283,6 +283,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_demoScanFragment_to_demoProductsFragment"
+            app:destination="@id/demoProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -298,6 +305,20 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/demoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoProductsFragment"
+        android:name="team.marker.view.demo.products.DemoProductsFragment"
+        android:label="DemoProductsFragment"
+        tools:layout="@layout/fragment_pick_products">
+        <action
+            android:id="@+id/action_demoProductsFragment_to_demoProductFragment"
+            app:destination="@id/demoProductFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

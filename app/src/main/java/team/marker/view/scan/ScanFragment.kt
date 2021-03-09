@@ -230,10 +230,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         findNavController().navigate(
             R.id.action_scannFragment_to_productFragment,
-            bundleOf(
-                PRODUCT_ID to productIds,
-                PARTNER to partner
-            )
+            bundleOf(PRODUCT_ID to productIds, PARTNER to partner)
         )
     }
 
