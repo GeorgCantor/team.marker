@@ -134,7 +134,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -169,16 +170,7 @@
         android:id="@+id/scanErrorFragment"
         android:name="team.marker.view.scan.ScanErrorFragment"
         android:label="ScanErrorFragment"
-        tools:layout="@layout/fragment_scan_error">
-        <action
-            android:id="@+id/action_scanErrorFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/nav_graph" />
-    </fragment>
+        tools:layout="@layout/fragment_scan_error" />
 
     <fragment
         android:id="@+id/pickFragment"
@@ -278,10 +270,32 @@
         android:id="@+id/demoScanFragment"
         android:name="team.marker.view.demo.scan.DemoScanFragment"
         android:label="DemoScanFragment"
-        tools:layout="@layout/fragment_demo">
+        tools:layout="@layout/fragment_scan">
         <action
             android:id="@+id/action_demoScanFragment_self"
             app:destination="@id/demoScanFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/demoFragment" />
+        <action
+            android:id="@+id/action_demoScanFragment_to_demoProductFragment"
+            app:destination="@id/demoProductFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoProductFragment"
+        android:name="team.marker.view.demo.product.DemoProductFragment"
+        android:label="DemoProductFragment"
+        tools:layout="@layout/fragment_product">
+        <action
+            android:id="@+id/action_demoProductFragment_to_scanErrorFragment"
+            app:destination="@id/scanErrorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/demoFragment" />
     </fragment>

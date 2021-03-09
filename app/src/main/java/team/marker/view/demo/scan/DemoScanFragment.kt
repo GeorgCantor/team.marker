@@ -228,7 +228,7 @@ class DemoScanFragment : Fragment(R.layout.fragment_scan) {
         val productIds = ids.joinToString(",")
 
         findNavController().navigate(
-            R.id.action_scannFragment_to_productFragment,
+            R.id.action_demoScanFragment_to_demoProductFragment,
             bundleOf(
                 PRODUCT_ID to productIds,
                 PARTNER to partner
