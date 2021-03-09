@@ -3,6 +3,7 @@
     <string name="mask">МАСК</string>
     <string name="login_message">Приложение для сканирования промышленных изделий</string>
     <string name="login_btn">Войти</string>
+    <string name="demo_mode">Демо режим</string>
     <string name="not_specified">не указан</string>
     <string name="not_specified2">не указано</string>
     <string name="not_specified3">не указана</string>

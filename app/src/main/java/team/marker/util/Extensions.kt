@@ -66,12 +66,14 @@ fun SharedPreferences.putAny(key: String, any: Any) {
     when (any) {
         is String -> edit { putString(key, any) }
         is Int -> edit { putInt(key, any) }
+        is Boolean -> edit { putBoolean(key, any) }
     }
 }
 
 fun SharedPreferences.getAny(type: Any, key: String) = when (type) {
     is String -> getString(key, "") as Any
-    else -> getInt(key, 0)
+    is Int -> getInt(key, 0)
+    else -> getBoolean(key, false)
 }
 
 fun View.calculateTapArea(oldX: Float, oldY: Float, coefficient: Float): Rect {

@@ -8,6 +8,10 @@ object Constants {
     const val API_VERSION = "1"
     const val SID = "sid"
     const val TOKEN = "token"
+    const val DEMO = "demo_mode"
+    const val EMAIL = "pavlov@ngkomplekt.ru"
+    const val PASSWORD = "demo12345"
+
     const val LATITUDE = "lat"
     const val LONGITUDE = "lng"
     const val BASE_URL = "https://marker.team/api/"

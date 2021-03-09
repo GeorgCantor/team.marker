@@ -139,6 +139,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/error_login" />
 
+        <Button
+            android:id="@+id/btn_demo"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:background="@drawable/btn_home"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:stateListAnimator="@null"
+            android:text="@string/demo_mode"
+            android:textAllCaps="true"
+            android:textColor="@color/dark_blue"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
         <TextView
             android:id="@+id/login_note"
             android:layout_width="280dp"
@@ -151,7 +170,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_demo" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

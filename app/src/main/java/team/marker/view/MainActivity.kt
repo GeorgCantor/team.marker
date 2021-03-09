@@ -12,6 +12,7 @@ import team.marker.R
 import team.marker.util.*
 import team.marker.util.Constants.DEFERRED_FILES
 import team.marker.util.Constants.DEFERRED_REQUEST
+import team.marker.util.Constants.DEMO
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
@@ -34,12 +35,16 @@ class MainActivity : AppCompatActivity() {
 
         accessSid = preferences.getAny("", SID) as String
         accessToken = preferences.getAny("", TOKEN) as String
+        val isDemo = preferences.getAny(true, DEMO) as Boolean
 
         val navHostFragment = navHostFragment as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
 
-        graph.startDestination = if (accessToken.isEmpty()) R.id.loginFragment else R.id.homeFragment
+        graph.startDestination = when (accessToken.isEmpty()) {
+            true -> R.id.loginFragment
+            false -> if (isDemo) R.id.demoFragment else R.id.homeFragment
+        }
 
         navHostFragment.navController.graph = graph
 
