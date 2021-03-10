@@ -172,6 +172,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     private fun goToComplete() {
         when (pickMode) {
             0 -> {
+                if (viewModel.products.value == null) viewModel.products.value = mutableSetOf()
                 viewModel.products.observeOnce(viewLifecycleOwner) {
                     val list = mutableListOf<PickProduct>()
                     it.forEach {
@@ -189,7 +190,7 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                     bundleOf(PRODUCTS to dProducts)
                 )
             }
-            else -> {
+            5 -> {
                 findNavController().navigate(
                     R.id.action_pickFragment_to_pickCompleteFragment,
                     bundleOf(PRODUCTS to products)
