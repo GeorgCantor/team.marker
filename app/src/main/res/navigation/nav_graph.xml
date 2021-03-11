@@ -66,31 +66,10 @@
         tools:layout="@layout/fragment_photo" />
 
     <fragment
-        android:id="@+id/historyFragment"
-        android:name="team.marker.view.history.HistoryFragment"
-        android:label="HistoryFragment"
-        tools:layout="@layout/fragment_history">
-        <action
-            android:id="@+id/action_historyFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
-    </fragment>
-
-    <fragment
         android:id="@+id/homeFragment"
         android:name="team.marker.view.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_historyFragment"
-            app:destination="@id/historyFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_scannFragment"
             app:destination="@id/scanFragment"
@@ -127,6 +106,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/nav_graph" />
+        <action
+            android:id="@+id/action_loginFragment_to_demoFragment"
+            app:destination="@id/demoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
 
     <fragment
@@ -147,7 +134,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -182,16 +170,7 @@
         android:id="@+id/scanErrorFragment"
         android:name="team.marker.view.scan.ScanErrorFragment"
         android:label="ScanErrorFragment"
-        tools:layout="@layout/fragment_scan_error">
-        <action
-            android:id="@+id/action_scanErrorFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/nav_graph" />
-    </fragment>
+        tools:layout="@layout/fragment_scan_error" />
 
     <fragment
         android:id="@+id/pickFragment"
@@ -213,9 +192,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_pickFragment_self"
-            app:destination="@id/pickFragment" />
         <action
             android:id="@+id/action_pickFragment_to_productFragment"
             app:destination="@id/productFragment"
@@ -266,6 +242,83 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoFragment"
+        android:name="team.marker.view.demo.DemoFragment"
+        android:label="DemoFragment"
+        tools:layout="@layout/fragment_demo">
+        <action
+            android:id="@+id/action_demoFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/nav_graph" />
+        <action
+            android:id="@+id/action_demoFragment_to_demoScanFragment"
+            app:destination="@id/demoScanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoScanFragment"
+        android:name="team.marker.view.demo.scan.DemoScanFragment"
+        android:label="DemoScanFragment"
+        tools:layout="@layout/fragment_scan">
+        <action
+            android:id="@+id/action_demoScanFragment_self"
+            app:destination="@id/demoScanFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/demoFragment" />
+        <action
+            android:id="@+id/action_demoScanFragment_to_demoProductFragment"
+            app:destination="@id/demoProductFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_demoScanFragment_to_demoProductsFragment"
+            app:destination="@id/demoProductsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoProductFragment"
+        android:name="team.marker.view.demo.product.DemoProductFragment"
+        android:label="DemoProductFragment"
+        tools:layout="@layout/fragment_product">
+        <action
+            android:id="@+id/action_demoProductFragment_to_scanErrorFragment"
+            app:destination="@id/scanErrorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/demoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/demoProductsFragment"
+        android:name="team.marker.view.demo.products.DemoProductsFragment"
+        android:label="DemoProductsFragment"
+        tools:layout="@layout/fragment_pick_products">
+        <action
+            android:id="@+id/action_demoProductsFragment_to_demoProductFragment"
+            app:destination="@id/demoProductFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

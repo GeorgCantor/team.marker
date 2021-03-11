@@ -9,7 +9,6 @@ import team.marker.model.remote.ApiClient
 import team.marker.model.remote.ApiRepository
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.view.breach.complete.BreachCompleteViewModel
-import team.marker.view.history.HistoryViewModel
 import team.marker.view.home.HomeViewModel
 import team.marker.view.login.LoginViewModel
 import team.marker.view.pick.complete.PickCompleteViewModel
@@ -22,7 +21,6 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { BreachCompleteViewModel(androidApplication(), get(), get()) }
-    viewModel { HistoryViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { PickCompleteViewModel(get(), get()) }

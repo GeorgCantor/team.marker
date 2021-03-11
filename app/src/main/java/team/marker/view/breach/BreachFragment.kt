@@ -73,12 +73,14 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
 
         btn_cancel.setOnClickListener { activity?.onBackPressed() }
 
-        preview.setOnTouchListener { _, event ->
-            if (cameraSource != null && isFocusManual) {
+        if (cameraSource != null && isFocusManual) {
+            preview.setOnTouchListener { _, event ->
                 val rect = preview.calculateTapArea(event.x, event.y, 1000F)
                 cameraSource?.doTouchFocus(rect)
+                false
             }
-            true
+
+            frame_view.setOnTouchListener(frame_view)
         }
     }
 

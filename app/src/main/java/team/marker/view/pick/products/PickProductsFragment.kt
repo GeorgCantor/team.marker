@@ -34,10 +34,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
                 findNavController().navigate(
                     R.id.action_pickProductsFragment_to_productFragment,
-                    bundleOf(
-                        PRODUCT_ID to id,
-                        PARTNER to item.partnerTitle
-                    )
+                    bundleOf(PRODUCT_ID to id, PARTNER to item.partnerTitle)
                 )
             }
             products_recycler.scheduleLayoutAnimation()

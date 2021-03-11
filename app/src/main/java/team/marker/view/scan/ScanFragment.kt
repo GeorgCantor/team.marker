@@ -12,7 +12,6 @@ import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.core.util.forEach
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -78,12 +77,14 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         btn_cancel.setOnClickListener { activity?.onBackPressed() }
 
-        preview.setOnTouchListener { _, event ->
-            if (cameraSource != null && isFocusManual) {
+        if (cameraSource != null && isFocusManual) {
+            preview.setOnTouchListener { _, event ->
                 val rect = preview.calculateTapArea(event.x, event.y, 1000F)
                 cameraSource?.doTouchFocus(rect)
+                false
             }
-            true
+
+            frame_view.setOnTouchListener(frame_view)
         }
     }
 
@@ -227,12 +228,9 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         val productIds = ids.joinToString(",")
 
-        findNavController(this).navigate(
+        findNavController().navigate(
             R.id.action_scannFragment_to_productFragment,
-            bundleOf(
-                PRODUCT_ID to productIds,
-                PARTNER to partner
-            )
+            bundleOf(PRODUCT_ID to productIds, PARTNER to partner)
         )
     }
 
@@ -245,7 +243,7 @@ class ScanFragment : Fragment(R.layout.fragment_scan) {
 
         val productIds = ids.joinToString(",")
 
-        findNavController(this).navigate(
+        findNavController().navigate(
             R.id.action_scannFragment_to_pickProductsFragment,
             bundleOf(PRODUCT_IDS to productIds)
         )

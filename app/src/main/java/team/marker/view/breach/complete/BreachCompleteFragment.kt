@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_breach_complete.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
-import team.marker.util.Constants.PHOTO_DETAIL
+import team.marker.util.Constants.PHOTO_FILES
 import team.marker.util.Constants.PRODUCT_IDS
 import team.marker.util.isNetworkAvailable
 import team.marker.util.longToast
@@ -49,7 +49,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             photos_recycler.adapter = PhotosAdapter(it) { file, extras ->
                 findNavController().navigate(
                     R.id.action_breachCompleteFragment_to_photoDetailFragment,
-                    bundleOf(PHOTO_DETAIL to file),
+                    bundleOf(PHOTO_FILES to Pair(file, it)),
                     null,
                     extras
                 )
