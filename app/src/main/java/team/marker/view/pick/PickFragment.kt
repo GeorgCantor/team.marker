@@ -7,6 +7,8 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Camera.Parameters.*
 import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_NUMBER
+import android.transition.TransitionManager
+import android.transition.TransitionManager.beginDelayedTransition
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.OnClickListener
@@ -23,6 +25,7 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_pick.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
@@ -77,6 +80,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
                             if (pickMode != 0) {
                                 when (it.clickStatus) {
                                     0 -> {
+                                        beginDelayedTransition(scan, btn_complete.getTransform(pick_window))
+                                        btn_complete.gone()
                                         pick_window.visible()
                                         lastProduct = it
                                     }
@@ -112,6 +117,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
 
         btn_add.setOnClickListener { addProductQuantity() }
         btn_cancel.setOnClickListener {
+            beginDelayedTransition(scan, pick_window.getTransform(btn_complete))
+            btn_complete.visible()
             pick_window.gone()
             if (lastProduct != null) {
                 viewModel.setClickStatus(
@@ -153,6 +160,8 @@ class PickFragment : Fragment(R.layout.fragment_pick) {
     }
 
     private fun addProductQuantity() {
+        beginDelayedTransition(scan, pick_window.getTransform(btn_complete))
+        btn_complete.visible()
         pick_window.gone()
         pick_bg.gone()
         requireView().hideKeyboard()

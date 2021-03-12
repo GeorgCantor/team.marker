@@ -2,6 +2,7 @@ package team.marker.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.Rect
 import android.media.AudioManager.STREAM_MUSIC
@@ -33,6 +34,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.platform.MaterialArcMotion
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import team.marker.R
@@ -124,6 +127,15 @@ fun View.rotate(mode: String?, from: Float, to: Float) {
         fillAfter = true
         startAnimation(this)
     }
+}
+
+fun View.getTransform(mEndView: View) = MaterialContainerTransform().apply {
+    startView = this@getTransform
+    endView = mEndView
+    addTarget(mEndView)
+    pathMotion = MaterialArcMotion()
+    duration = 550
+    scrimColor = Color.TRANSPARENT
 }
 
 fun View.showPermissionSnackbar(listener: View.OnClickListener) = Snackbar
