@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.ViewCompat.setTransitionName
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater.from
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
@@ -26,6 +27,8 @@ class PhotoDetailFragment : Fragment(R.layout.fragment_photo_detail) {
         val adapter = PagerAdapter(files.second)
         view_pager.adapter = adapter
         50L.runDelayed { view_pager.currentItem = files.second.indexOf(files.first) }
+
+        TabLayoutMediator(tab_layout, view_pager) { _, _ -> }.attach()
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
 
