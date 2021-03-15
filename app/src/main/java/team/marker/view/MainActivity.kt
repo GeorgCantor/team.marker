@@ -2,6 +2,7 @@ package team.marker.view
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
@@ -64,11 +65,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         breachViewModel.sentSuccess.observeOnce(this) {
-            if (it) longToast(getString(R.string.breach_request_sent))
+            if (it) customToast(getString(R.string.breach_request_sent), R.drawable.ic_toast_success, LENGTH_LONG)
         }
 
         pickViewModel.sentSuccess.observeOnce(this) {
-            if (it) longToast(getString(R.string.pick_request_sent))
+            if (it) customToast(getString(R.string.pick_request_sent), R.drawable.ic_toast_success, LENGTH_LONG)
         }
     }
 }

@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
+import android.widget.Toast.LENGTH_SHORT
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -24,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.IMAGE_DIR
 import team.marker.util.Constants.JPG
-import team.marker.util.shortToast
+import team.marker.util.customToast
 import team.marker.view.breach.complete.BreachCompleteViewModel
 import java.io.BufferedOutputStream
 import java.io.File
@@ -85,7 +86,7 @@ class PhotoFragment : Fragment(R.layout.fragment_photo) {
             if (grantedPermissions()) {
                 startCamera()
             } else {
-                context?.shortToast(getString(R.string.no_camera_permissions))
+                context?.customToast(getString(R.string.no_camera_permissions), R.drawable.ic_warning, LENGTH_SHORT)
                 activity?.onBackPressed()
             }
         }

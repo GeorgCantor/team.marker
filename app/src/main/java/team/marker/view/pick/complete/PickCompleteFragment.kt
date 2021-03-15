@@ -2,6 +2,7 @@ package team.marker.view.pick.complete
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast.LENGTH_LONG
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -45,7 +46,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
         viewModel.sentSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
-                context?.longToast(getString(R.string.pick_request_sent))
+                context?.customToast(getString(R.string.pick_request_sent), R.drawable.ic_toast_success, LENGTH_LONG)
                 activity?.onBackPressed()
             }
         }
@@ -96,7 +97,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
                 true -> viewModel.pick(PickRequest(products, email))
                 false -> {
                     viewModel.saveForDeferredSending(PickRequest(products, email))
-                    context?.longToast(getString(R.string.send_later))
+                    context?.customToast(getString(R.string.send_later), R.drawable.ic_warning, LENGTH_LONG)
                     activity?.onBackPressed()
                 }
             }
