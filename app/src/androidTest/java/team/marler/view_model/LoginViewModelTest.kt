@@ -39,7 +39,7 @@ class LoginViewModelTest : BaseAndroidTest() {
 
     @Test
     fun login_with_incorrect_credentials() {
-        viewModel.login(LoginRequest("xx", "xx"))
+        viewModel.login(LoginRequest("xx", "xx"), false)
         viewModel.error.observe(mockLifecycleOwner()) {
             assertTrue(it == LOGIN_ERROR)
         }
@@ -47,7 +47,7 @@ class LoginViewModelTest : BaseAndroidTest() {
 
     @Test
     fun login_with_correct_credentials() {
-        viewModel.login(LoginRequest(LOGIN, PASSWORD))
+        viewModel.login(LoginRequest(LOGIN, PASSWORD), false)
         viewModel.loginSuccess.observe(mockLifecycleOwner()) {
             assertTrue(it == true)
         }
