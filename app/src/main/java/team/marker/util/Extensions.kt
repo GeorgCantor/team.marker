@@ -3,8 +3,10 @@ package team.marker.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.Color.TRANSPARENT
 import android.graphics.PorterDuff.Mode.SRC_IN
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager.STREAM_MUSIC
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
@@ -27,6 +29,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.edit
 import androidx.lifecycle.LifecycleOwner
@@ -39,6 +42,7 @@ import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.layout_dialog.*
 import kotlinx.android.synthetic.main.toast_layout.view.*
 import team.marker.R
 import team.marker.model.Dialog
@@ -186,6 +190,35 @@ fun Context.showDialog(dialog: Dialog) = AlertDialog.Builder(this).apply {
     dialog.posText?.let { setPositiveButton(it) { _, _ -> dialog.action() } }
     dialog.negText?.let { setNegativeButton(it) { dialog, _ -> dialog.dismiss() } }
     create().show()
+}
+
+fun Context.customDialog(
+    title: String,
+    cancelText: String,
+    okText: String,
+    transitionFunction: (View, ConstraintLayout) -> (Unit),
+    function: () -> (Unit)
+): View {
+    val dialogView = LayoutInflater.from(this).inflate(R.layout.layout_dialog, null)
+    val builder = AlertDialog.Builder(this).setView(dialogView)
+    val alertDialog = builder.show()
+
+    with(alertDialog) {
+        window?.setBackgroundDrawable(ColorDrawable(TRANSPARENT))
+        this.title.text = title
+        cancel_btn.text = cancelText
+        cancel_btn.setOnClickListener {
+            transitionFunction(dialogView, dialog_root_layout)
+            550L.runDelayed { dismiss() }
+        }
+        ok_btn.text = okText
+        ok_btn.setOnClickListener {
+            dismiss()
+            function()
+        }
+    }
+
+    return dialogView
 }
 
 fun Context.hasInternetBeforeAction() = isNetworkAvailable().apply {
