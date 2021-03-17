@@ -74,8 +74,8 @@
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="@string/enter_product_length"
-                android:textColor="#9919194D"
-                android:textSize="14sp"
+                android:textColor="@color/text_dark_blue"
+                android:textSize="@dimen/text_14sp"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                 android:text="@string/add"
                 android:textAllCaps="true"
                 android:textColor="@color/dark_blue"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_15sp"
                 android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/pick_quantity" />
 
@@ -135,7 +135,7 @@
                 android:text="@string/cancel"
                 android:textAllCaps="true"
                 android:textColor="@color/dark_blue"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_15sp"
                 android:textStyle="normal"
                 app:layout_constraintTop_toBottomOf="@id/btn_add" />
 
@@ -222,12 +222,12 @@
             android:layout_height="36dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
-            android:background="#000"
+            android:background="@color/black"
             android:letterSpacing="0.05"
             android:paddingHorizontal="10dp"
             android:text="@string/end"
-            android:textColor="#fff"
-            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

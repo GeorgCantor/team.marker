@@ -28,8 +28,8 @@
             android:layout_marginEnd="36dp"
             android:fontFamily="sans-serif"
             android:text="@string/select_pick_mode"
-            android:textColor="#9919194D"
-            android:textSize="12sp"
+            android:textColor="@color/text_dark_blue"
+            android:textSize="@dimen/text_12sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
                     android:text="@string/by_default"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -90,8 +90,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/simple_pick"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -143,7 +143,7 @@
                     android:text="@string/quantity"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -152,8 +152,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/pick_by_quantity"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -205,7 +205,7 @@
                     android:text="@string/length"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -214,8 +214,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/pick_by_length"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -267,7 +267,7 @@
                     android:text="@string/weight"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -276,8 +276,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/pick_by_weight"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -329,7 +329,7 @@
                     android:text="@string/volume"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -338,8 +338,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/pick_by_volume"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -391,7 +391,7 @@
                     android:text="@string/damaged_code"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -400,8 +400,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/pick_unreadable"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>

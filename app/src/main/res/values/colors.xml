@@ -18,4 +18,5 @@
 
     <color name="scan_pick_success">#4CAF50</color>
     <color name="scan_pick_fail">#F44336</color>
+    <color name="text_dark_blue">#9919194D</color>
 </resources>

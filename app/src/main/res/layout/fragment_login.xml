@@ -47,7 +47,7 @@
                 android:textColor="@color/input_text"
                 android:textColorHint="#5519194D"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_18sp"
                 android:textStyle="normal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +89,7 @@
                 android:textColor="@color/input_text"
                 android:textColorHint="#5519194D"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_18sp"
                 android:textStyle="normal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +115,7 @@
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:textColor="@color/red"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_input_view" />
@@ -132,7 +132,7 @@
             android:text="@string/login_btn"
             android:textAllCaps="true"
             android:textColor="@color/dark_blue"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_15sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -151,7 +151,7 @@
             android:text="@string/demo_mode"
             android:textAllCaps="true"
             android:textColor="@color/dark_blue"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_15sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -166,8 +166,8 @@
             android:fontFamily="sans-serif"
             android:text="@string/terms_conditions"
             android:textAlignment="center"
-            android:textColor="#9919194D"
-            android:textSize="12sp"
+            android:textColor="@color/text_dark_blue"
+            android:textSize="@dimen/text_12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_demo" />
