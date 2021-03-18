@@ -39,6 +39,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             findNavController().navigate(R.id.action_homeFragment_to_scannFragment)
         }
         btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
+        btn_ttn.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_ttnScanFragment) }
         btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
 
         btn_logout.setOnClickListener {
