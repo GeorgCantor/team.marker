@@ -7,7 +7,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_cargo_places.*
 import kotlinx.android.synthetic.main.toolbar_common.*
 import team.marker.R
-import team.marker.view.ttn.cargo.pager.PagerAdapter
 
 class CargoPlacesFragment : Fragment(R.layout.fragment_cargo_places) {
 
@@ -20,6 +19,7 @@ class CargoPlacesFragment : Fragment(R.layout.fragment_cargo_places) {
         val titles = arrayOf(getString(R.string.products), getString(R.string.places))
 
         view_pager.adapter = PagerAdapter(requireActivity())
+        view_pager.isUserInputEnabled = false
         TabLayoutMediator(tab_layout, view_pager) { tab, position ->
             tab.text = titles[position]
             view_pager.setCurrentItem(tab.position, true)

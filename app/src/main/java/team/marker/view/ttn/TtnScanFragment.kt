@@ -17,6 +17,7 @@ import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import kotlinx.android.synthetic.main.fragment_ttn_scan.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.model.Dialog
 import team.marker.model.Product
@@ -33,12 +34,13 @@ import team.marker.util.observeOnce
 import team.marker.util.showDialog
 import team.marker.util.showPermissionSnackbar
 import team.marker.view.pick.complete.PickCompleteViewModel
+import team.marker.view.ttn.cargo.CargoPlacesViewModel
 import java.io.IOException
 
 class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
 
     private val viewModel by inject<PickCompleteViewModel>()
-    private var products = mutableListOf<PickProduct>()
+    private val placesViewModel by sharedViewModel<CargoPlacesViewModel>()
     private var cameraSource: CameraSource? = null
     private var torchOn: Boolean = false
 
@@ -89,11 +91,13 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
             it.forEach {
                 if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
             }
-            context?.longToast(it.size.toString())
-            findNavController().navigate(
-                R.id.action_ttnScanFragment_to_cargoPlacesFragment
-//              bundleOf(PRODUCT_ID to it.id.toString())
-            )
+
+            val productIds = arrayListOf<String>()
+            for (product in list) productIds.add(product.id.toString())
+            val productIdsStr = productIds.joinToString(",")
+            placesViewModel.productIds.value = productIdsStr
+
+            findNavController().navigate(R.id.action_ttnScanFragment_to_cargoPlacesFragment)
         }
     }
 

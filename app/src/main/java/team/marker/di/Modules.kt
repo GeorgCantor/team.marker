@@ -14,6 +14,7 @@ import team.marker.view.login.LoginViewModel
 import team.marker.view.pick.complete.PickCompleteViewModel
 import team.marker.view.pick.products.PickProductsViewModel
 import team.marker.view.product.ProductViewModel
+import team.marker.view.ttn.cargo.CargoPlacesViewModel
 
 val repositoryModule = module {
     single { ApiRepository(get()) }
@@ -26,6 +27,7 @@ val viewModelModule = module {
     viewModel { PickCompleteViewModel(get(), get()) }
     viewModel { PickProductsViewModel(get()) }
     viewModel { ProductViewModel(get()) }
+    viewModel { CargoPlacesViewModel(get()) }
 }
 
 val apiModule = module {

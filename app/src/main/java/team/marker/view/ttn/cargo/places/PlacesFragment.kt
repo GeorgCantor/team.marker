@@ -1,11 +1,11 @@
-package team.marker.view.ttn.cargo.pager
+package team.marker.view.ttn.cargo.places
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import team.marker.R
 
-class ProductsFragment : Fragment(R.layout.fragment_products) {
+class PlacesFragment : Fragment(R.layout.fragment_places) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
