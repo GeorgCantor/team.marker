@@ -17,6 +17,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     val products = MutableLiveData<List<Product>>()
     val buttonClickable = MutableLiveData<Boolean>().apply { value = false }
     val places = MutableLiveData<List<ProductPlace>>()
+    val selectedPlace = MutableLiveData<ProductPlace>()
     val error = MutableLiveData<String>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -55,6 +56,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             val prods = mutableListOf<Product>()
             products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
             products.postValue(prods)
+            if (prods.isEmpty()) buttonClickable.postValue(false)
         }
     }
 }

@@ -29,6 +29,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         }
 
         viewModel.products.observe(viewLifecycleOwner) {
+            empty_hint.isVisible = it.isNullOrEmpty()
             products_recycler.setHasFixedSize(true)
             products_recycler.adapter = ProductsAdapter(it ?: listOf(), { product ->
                 viewModel.addSelectedItem(product)
