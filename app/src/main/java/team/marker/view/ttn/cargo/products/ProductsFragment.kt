@@ -7,17 +7,21 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_cargo_places.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PARTNER
 import team.marker.util.Constants.PRODUCT_ID
+import team.marker.util.SwipeToDeleteCallback
 import team.marker.view.ttn.cargo.CargoPlacesViewModel
 
 class ProductsFragment : Fragment(R.layout.fragment_products) {
 
     private val viewModel by sharedViewModel<CargoPlacesViewModel>()
+    private lateinit var adapter: ProductsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,8 +34,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
         viewModel.products.observe(viewLifecycleOwner) {
             empty_hint.isVisible = it.isNullOrEmpty()
-            products_recycler.setHasFixedSize(true)
-            products_recycler.adapter = ProductsAdapter(it ?: listOf(), { product ->
+            adapter = ProductsAdapter(it ?: listOf(), { product ->
                 viewModel.addSelectedItem(product)
             }) { item ->
                 val id = if (item.partnerProductId?.isNotBlank() == true) item.partnerProductId else item.id.toString()
@@ -40,6 +43,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     bundleOf(PRODUCT_ID to id, PARTNER to item.partnerTitle)
                 )
             }
+            products_recycler.setHasFixedSize(true)
+            products_recycler.adapter = adapter
             products_recycler.scheduleLayoutAnimation()
         }
 
@@ -54,5 +59,15 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             viewModel.createProductPlace()
             requireActivity().view_pager.currentItem = 1
         }
+
+        val callback: SwipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
+                val position = viewHolder.adapterPosition
+                viewModel.removeProduct(position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(products_recycler)
     }
 }

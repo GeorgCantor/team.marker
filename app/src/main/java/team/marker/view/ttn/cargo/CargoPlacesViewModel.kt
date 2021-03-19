@@ -59,4 +59,12 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             if (prods.isEmpty()) buttonClickable.postValue(false)
         }
     }
+
+    fun removeProduct(position: Int) {
+        viewModelScope.launch {
+            val items = mutableListOf<Product>()
+            products.value?.forEachIndexed { i, prod -> if (i != position) items.add(prod) }
+            products.postValue(items)
+        }
+    }
 }

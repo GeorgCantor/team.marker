@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
@@ -22,6 +23,7 @@ import team.marker.R
 import team.marker.model.Dialog
 import team.marker.model.Product
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.barcode.BarcodeGraphic
@@ -29,7 +31,6 @@ import team.marker.util.barcode.BarcodeTrackerFactory
 import team.marker.util.camera.CameraSource
 import team.marker.util.camera.CameraSource.Companion.CAMERA_FACING_BACK
 import team.marker.util.camera.GraphicOverlay
-import team.marker.util.longToast
 import team.marker.util.observeOnce
 import team.marker.util.showDialog
 import team.marker.util.showPermissionSnackbar
@@ -55,11 +56,10 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
                 viewModel.products.observeOnce(viewLifecycleOwner) { products ->
                     products.forEach {
                         if (it.rectName?.contains(x, y) == true && it.isVisible) {
-                            context?.longToast(it.name)
-//                            findNavController().navigate(
-//                                R.id.action_pickFragment_to_productFragment,
-//                                bundleOf(Constants.PRODUCT_ID to it.id.toString())
-//                            )
+                            findNavController().navigate(
+                                R.id.action_ttnScanFragment_to_productFragment,
+                                bundleOf(PRODUCT_ID to it.id.toString())
+                            )
                         }
                         if (it.rectButton?.contains(x, y) == true && it.isVisible) {
                             viewModel.setClickStatus(
