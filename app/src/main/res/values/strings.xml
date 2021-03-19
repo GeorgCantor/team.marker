@@ -65,6 +65,12 @@
     <string name="volume">Объем</string>
     <string name="damaged_code">Поврежденный код</string>
     <string name="email">email</string>
+    // ttn
+    <string name="cargo_places">Грузовые места</string>
+    <string name="products">Товары</string>
+    <string name="places">Места</string>
+    <string name="create">Создать</string>
+    <string name="further">Далее</string>
     // product
     <string name="description">Описание</string>
     <string name="name">Наименование</string>

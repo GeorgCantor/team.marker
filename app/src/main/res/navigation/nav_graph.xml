@@ -183,7 +183,22 @@
         android:id="@+id/ttnScanFragment"
         android:name="team.marker.view.ttn.TtnScanFragment"
         android:label="TtnScanFragment"
-        tools:layout="@layout/fragment_ttn_scan" />
+        tools:layout="@layout/fragment_ttn_scan">
+        <action
+            android:id="@+id/action_ttnScanFragment_to_cargoPlacesFragment"
+            app:destination="@id/cargoPlacesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cargoPlacesFragment"
+        android:name="team.marker.view.ttn.cargo.CargoPlacesFragment"
+        android:label="CargoPlacesFragment"
+        tools:layout="@layout/fragment_cargo_places" />
 
     <fragment
         android:id="@+id/pickFragment"

@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.MultiDetector
@@ -39,7 +40,6 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
     private val viewModel by inject<PickCompleteViewModel>()
     private var products = mutableListOf<PickProduct>()
     private var cameraSource: CameraSource? = null
-    private var lastProduct: Product? = null
     private var torchOn: Boolean = false
 
     @SuppressLint("ClickableViewAccessibility")
@@ -90,10 +90,10 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
                 if (it.clickStatus == 1) list.add(PickProduct(it.id, 1.toDouble(), 0))
             }
             context?.longToast(it.size.toString())
-//            findNavController().navigate(
-//                R.id.action_pickFragment_to_pickCompleteFragment,
-//                bundleOf(Constants.PRODUCTS to list)
-//            )
+            findNavController().navigate(
+                R.id.action_ttnScanFragment_to_cargoPlacesFragment
+//              bundleOf(PRODUCT_ID to it.id.toString())
+            )
         }
     }
 
