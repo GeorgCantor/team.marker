@@ -2,10 +2,12 @@ package team.marker.view.ttn.cargo.products
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_cargo_places.*
 import kotlinx.android.synthetic.main.fragment_products.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
@@ -27,7 +29,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         }
 
         viewModel.products.observe(viewLifecycleOwner) {
-            products_recycler.adapter = ProductsAdapter(it.info ?: listOf(), { product ->
+            products_recycler.setHasFixedSize(true)
+            products_recycler.adapter = ProductsAdapter(it ?: listOf(), { product ->
                 viewModel.addSelectedItem(product)
             }) { item ->
                 val id = if (item.partnerProductId?.isNotBlank() == true) item.partnerProductId else item.id.toString()
@@ -37,6 +40,18 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 )
             }
             products_recycler.scheduleLayoutAnimation()
+        }
+
+        viewModel.buttonClickable.observe(viewLifecycleOwner) {
+            btn_create.isClickable = it
+            btn_create.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), if (it) R.color.dark_blue else R.color.gray)
+            )
+        }
+
+        btn_create.setOnClickListener {
+            viewModel.createProductPlace()
+            requireActivity().view_pager.currentItem = 1
         }
     }
 }

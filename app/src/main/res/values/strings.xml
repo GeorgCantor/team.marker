@@ -67,6 +67,8 @@
     <string name="email">email</string>
     // ttn
     <string name="cargo_places">Грузовые места</string>
+    <string name="cargo_place">Грузовое место %d</string>
+    <string name="cargo_quantity">Количество: %d</string>
     <string name="products">Товары</string>
     <string name="places">Места</string>
     <string name="create">Создать</string>

@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_place.view.*
 import team.marker.R
-import team.marker.model.responses.Product
+import team.marker.model.ttn.ProductPlace
 
 class PlacesAdapter(
-    private val items: List<Product>,
-    private val clickListener: (Product) -> Unit
+    private val items: List<ProductPlace>,
+    private val clickListener: (ProductPlace) -> Unit
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PlacesViewHolder(
@@ -22,17 +22,17 @@ class PlacesAdapter(
     override fun onBindViewHolder(holder: PlacesViewHolder, position: Int) {
         val item = items[position]
         with(holder) {
-            product = item
-            itemView.title.text = "${item.title}"
-            itemView.quantity.text = "${item.manufacturer?.title}"
+            place = item
+            itemView.title.text = itemView.context.resources.getString(R.string.cargo_place, position + 1)
+            itemView.quantity.text = itemView.context.resources.getString(R.string.cargo_quantity, item.products.size)
         }
     }
 
     inner class PlacesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var product: Product? = null
+        var place: ProductPlace? = null
 
         init {
-            view.setOnClickListener { product?.let { clickListener(it) } }
+            view.setOnClickListener { place?.let { clickListener(it) } }
         }
     }
 }
