@@ -7,22 +7,12 @@
     android:clickable="true"
     android:focusable="true">
 
-    <CheckBox
-        android:id="@+id/check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:buttonTint="@color/dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/chevron"
-        app:layout_constraintStart_toEndOf="@+id/check_box"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -36,10 +26,10 @@
             android:fontFamily="sans-serif-medium"
             android:textColor="#222"
             android:textSize="@dimen/text_16sp"
-            tools:text="Наименование" />
+            tools:text="Грузовое место 1" />
 
         <TextView
-            android:id="@+id/manufacturer"
+            android:id="@+id/quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_16dp"
@@ -48,7 +38,7 @@
             android:layout_marginBottom="15dp"
             android:textColor="#5B6474"
             android:textSize="@dimen/text_14sp"
-            tools:text="Изготовитель" />
+            tools:text="Количество: 12" />
 
     </LinearLayout>
 

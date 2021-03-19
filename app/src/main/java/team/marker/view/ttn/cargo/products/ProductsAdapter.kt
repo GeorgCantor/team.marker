@@ -10,6 +10,7 @@ import team.marker.model.responses.Product
 
 class ProductsAdapter(
     private val items: List<Product>,
+    private val checkedListener: (Product) -> Unit,
     private val clickListener: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
 
@@ -25,6 +26,9 @@ class ProductsAdapter(
             product = item
             itemView.title.text = "${item.title}"
             itemView.manufacturer.text = "${item.manufacturer?.title}"
+            itemView.check_box.setOnCheckedChangeListener { _, _ ->
+                checkedListener(item)
+            }
         }
     }
 
