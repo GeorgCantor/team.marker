@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_cargo_places.*
 import kotlinx.android.synthetic.main.toolbar_common.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 
 class CargoPlacesFragment : Fragment(R.layout.fragment_cargo_places) {
+
+    private val viewModel by sharedViewModel<CargoPlacesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,5 +27,10 @@ class CargoPlacesFragment : Fragment(R.layout.fragment_cargo_places) {
             tab.text = titles[position]
             view_pager.setCurrentItem(tab.position, true)
         }.attach()
+    }
+
+    override fun onDetach() {
+        viewModel.clearAll()
+        super.onDetach()
     }
 }

@@ -62,8 +62,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
         val callback: SwipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
-                val position = viewHolder.adapterPosition
-                viewModel.removeProduct(position)
+                viewModel.removeProduct(viewHolder.adapterPosition)
             }
         }
 

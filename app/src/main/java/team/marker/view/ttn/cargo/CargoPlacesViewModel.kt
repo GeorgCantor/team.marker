@@ -16,6 +16,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     val productIds = MutableLiveData<String>().apply { value = "" }
     val products = MutableLiveData<List<Product>>()
     val buttonClickable = MutableLiveData<Boolean>().apply { value = false }
+    val nextClickable = MutableLiveData<Boolean>().apply { value = false }
     val places = MutableLiveData<List<ProductPlace>>()
     val selectedPlace = MutableLiveData<ProductPlace>()
     val error = MutableLiveData<String>()
@@ -52,19 +53,45 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             list.add((ProductPlace(selectedItems.value ?: emptyList())))
             places.postValue(list)
             selectedItems.postValue(emptyList())
+            nextClickable.postValue(list.isNotEmpty())
 
             val prods = mutableListOf<Product>()
             products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
             products.postValue(prods)
-            if (prods.isEmpty()) buttonClickable.postValue(false)
+            buttonClickable.postValue(false)
         }
     }
 
     fun removeProduct(position: Int) {
         viewModelScope.launch {
             val items = mutableListOf<Product>()
-            products.value?.forEachIndexed { i, prod -> if (i != position) items.add(prod) }
+            val removed = mutableListOf<Product>()
+            products.value?.forEachIndexed { i, prod -> if (i != position) items.add(prod) else removed.add(prod) }
             products.postValue(items)
+
+            val selected = selectedItems.value?.filter { !removed.contains(it)}
+            selectedItems.postValue(selected)
+            buttonClickable.postValue(selected?.isNotEmpty())
+        }
+    }
+
+    fun removePlace(position: Int) {
+        viewModelScope.launch {
+            val items = mutableListOf<ProductPlace>()
+            places.value?.forEachIndexed { i, place -> if (i != position) items.add(place) }
+            places.postValue(items)
+            nextClickable.postValue(items.isNotEmpty())
+        }
+    }
+
+    fun clearAll() {
+        viewModelScope.launch {
+            selectedItems.postValue(emptyList())
+            progressIsVisible.postValue(false)
+            products.postValue(emptyList())
+            buttonClickable.postValue(false)
+            nextClickable.postValue(false)
+            places.postValue(emptyList())
         }
     }
 }
