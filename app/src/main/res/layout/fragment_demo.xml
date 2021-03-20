@@ -14,7 +14,7 @@
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutDescription="@xml/fragment_home_scene"
+        app:layoutDescription="@xml/fragment_demo_scene"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

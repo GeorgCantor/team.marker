@@ -27,7 +27,7 @@ abstract class SwipeToDeleteCallback internal constructor(
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
-    )= makeMovementFlags(0, ItemTouchHelper.LEFT)
+    ) = makeMovementFlags(0, ItemTouchHelper.LEFT)
 
     override fun onMove(
         view: RecyclerView,

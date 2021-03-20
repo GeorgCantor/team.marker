@@ -22,7 +22,7 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { BreachCompleteViewModel(androidApplication(), get(), get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(androidApplication(), get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { PickCompleteViewModel(get(), get()) }
     viewModel { PickProductsViewModel(get()) }

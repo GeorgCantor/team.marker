@@ -46,6 +46,7 @@ class PickCompleteFragment : Fragment(R.layout.fragment_pick_complete) {
 
         viewModel.sentSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
+                requireView().hideKeyboard()
                 context?.customToast(getString(R.string.pick_request_sent), R.drawable.ic_toast_success, LENGTH_LONG)
                 activity?.onBackPressed()
             }

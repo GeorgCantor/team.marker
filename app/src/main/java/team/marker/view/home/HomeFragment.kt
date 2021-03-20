@@ -17,12 +17,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import team.marker.R
-import team.marker.util.*
 import team.marker.util.Constants.LATITUDE
 import team.marker.util.Constants.LONGITUDE
 import team.marker.util.Constants.MAIN_STORAGE
 import team.marker.util.Constants.SID
 import team.marker.util.Constants.TOKEN
+import team.marker.util.customDialog
+import team.marker.util.getTransform
+import team.marker.util.putAny
 import team.marker.view.MainActivity
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -34,13 +36,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btn_scan.setOnClickListener {
-            if (!requireContext().hasInternetBeforeAction()) return@setOnClickListener
-            findNavController().navigate(R.id.action_homeFragment_to_scannFragment)
+        viewModel.buttons.observe(viewLifecycleOwner) {
+            buttons_recycler.setHasFixedSize(true)
+            buttons_recycler.adapter = ButtonsAdapter(it) { position ->
+                findNavController().navigate(when (position) {
+                    0 -> R.id.action_homeFragment_to_scannFragment
+                    1 -> R.id.action_homeFragment_to_pickFragment
+                    2 -> R.id.action_homeFragment_to_ttnScanFragment
+                    else -> R.id.action_homeFragment_to_breachFragment
+                })
+            }
         }
-        btn_pick.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_pickFragment) }
-        btn_ttn.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_ttnScanFragment) }
-        btn_breach.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_breachFragment) }
 
         btn_logout.setOnClickListener {
             val dialogView = requireContext().customDialog(

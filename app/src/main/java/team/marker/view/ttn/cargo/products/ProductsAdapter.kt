@@ -14,7 +14,7 @@ class ProductsAdapter(
     private val items: List<Product>,
     private val checkedListener: (Product) -> Unit,
     private val clickListener: (Product) -> Unit
-) : ListAdapter<Product,ProductsAdapter.ProductsViewHolder>(ItemDiffCallback()) {
+) : ListAdapter<Product, ProductsAdapter.ProductsViewHolder>(ItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ProductsViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_product, parent, false)
