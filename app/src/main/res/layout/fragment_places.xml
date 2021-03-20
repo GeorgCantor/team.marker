@@ -9,7 +9,6 @@
         android:id="@+id/places_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layoutAnimation="@anim/layout_anim_left_to_right"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/btn_further"
         app:layout_constraintEnd_toEndOf="parent"

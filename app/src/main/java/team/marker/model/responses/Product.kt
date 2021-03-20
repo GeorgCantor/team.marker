@@ -19,5 +19,6 @@ data class Product(
     @SerializedName("consignee") val consignee: Company? = null,
     @SerializedName("options") val options: MutableList<ProductOption>? = null,
     @SerializedName("files") val files: MutableList<ProductFile>? = null,
-    @SerializedName("contract") val contract: Contract? = null
+    @SerializedName("contract") val contract: Contract? = null,
+    @SerializedName("is_selected") var isSelected: Boolean? = false
 ) : Parcelable

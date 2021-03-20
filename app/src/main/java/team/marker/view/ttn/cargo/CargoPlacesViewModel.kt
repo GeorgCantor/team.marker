@@ -15,7 +15,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     val progressIsVisible = MutableLiveData<Boolean>().apply { value = true }
     val productIds = MutableLiveData<String>().apply { value = "" }
     val products = MutableLiveData<List<Product>>()
-    val buttonClickable = MutableLiveData<Boolean>().apply { value = false }
+    val createClickable = MutableLiveData<Boolean>().apply { value = false }
     val nextClickable = MutableLiveData<Boolean>().apply { value = false }
     val places = MutableLiveData<List<ProductPlace>>()
     val selectedPlace = MutableLiveData<ProductPlace>()
@@ -42,7 +42,11 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             selectedItems.value?.let { items.addAll(it) }
             if (items.any { it == prod }) items.removeAll { it == prod } else items.add(prod)
             selectedItems.postValue(items)
-            buttonClickable.postValue(items.isNotEmpty())
+            createClickable.postValue(items.isNotEmpty())
+
+            val list = products.value
+            list?.forEach { if (it == prod) it.isSelected = !prod.isSelected!! }
+            products.postValue(list)
         }
     }
 
@@ -58,7 +62,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             val prods = mutableListOf<Product>()
             products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
             products.postValue(prods)
-            buttonClickable.postValue(false)
+            createClickable.postValue(false)
         }
     }
 
@@ -71,7 +75,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
 
             val selected = selectedItems.value?.filter { !removed.contains(it)}
             selectedItems.postValue(selected)
-            buttonClickable.postValue(selected?.isNotEmpty())
+            createClickable.postValue(selected?.isNotEmpty())
         }
     }
 
@@ -89,7 +93,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             selectedItems.postValue(emptyList())
             progressIsVisible.postValue(false)
             products.postValue(emptyList())
-            buttonClickable.postValue(false)
+            createClickable.postValue(false)
             nextClickable.postValue(false)
             places.postValue(emptyList())
         }

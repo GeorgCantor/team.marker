@@ -45,10 +45,9 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
             products_recycler.setHasFixedSize(true)
             products_recycler.adapter = adapter
-            products_recycler.scheduleLayoutAnimation()
         }
 
-        viewModel.buttonClickable.observe(viewLifecycleOwner) {
+        viewModel.createClickable.observe(viewLifecycleOwner) {
             btn_create.isClickable = it
             btn_create.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), if (it) R.color.dark_blue else R.color.gray)
