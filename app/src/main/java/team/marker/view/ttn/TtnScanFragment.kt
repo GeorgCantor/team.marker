@@ -23,11 +23,13 @@ import team.marker.R
 import team.marker.model.Dialog
 import team.marker.model.Product
 import team.marker.model.requests.PickProduct
+import team.marker.util.Constants.FOCUS_MODE
 import team.marker.util.Constants.PRODUCT_ID
 import team.marker.util.Constants.RC_HANDLE_CAMERA_PERM
 import team.marker.util.Constants.RC_HANDLE_GMS
 import team.marker.util.barcode.BarcodeGraphic
 import team.marker.util.barcode.BarcodeTrackerFactory
+import team.marker.util.calculateTapArea
 import team.marker.util.camera.CameraSource
 import team.marker.util.camera.CameraSource.Companion.CAMERA_FACING_BACK
 import team.marker.util.camera.GraphicOverlay
@@ -44,10 +46,12 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
     private val placesViewModel by sharedViewModel<CargoPlacesViewModel>()
     private var cameraSource: CameraSource? = null
     private var torchOn: Boolean = false
+    private var isFocusManual = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let { isFocusManual = it.get(FOCUS_MODE) as Boolean }
 
         view.setOnTouchListener { _, event ->
             val x = event.x.toInt() + 200
@@ -75,6 +79,15 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
         val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
         if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
 
+        btn_manual_focus.setImageResource(if (isFocusManual) R.drawable.ic_manual_focus else R.drawable.ic_auto_focus)
+
+        btn_manual_focus.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_ttnScanFragment_self,
+                bundleOf(FOCUS_MODE to !isFocusManual)
+            )
+        }
+
         btn_scan_flash.setOnClickListener {
             toggleTorch(torchOn)
             torchOn = !torchOn
@@ -82,6 +95,16 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
         }
 
         btn_complete.setOnClickListener { goToComplete() }
+
+        if (cameraSource != null && isFocusManual) {
+            preview.setOnTouchListener { _, event ->
+                val rect = preview.calculateTapArea(event.x, event.y, 1000F)
+                cameraSource?.doTouchFocus(rect)
+                false
+            }
+
+            frame_view.setOnTouchListener(frame_view)
+        }
     }
 
     private fun goToComplete() {
@@ -133,7 +156,7 @@ class TtnScanFragment : Fragment(R.layout.fragment_ttn_scan) {
             .setFacing(CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
             .setRequestedFps(15.0F)
-            .setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE)
+            .setFocusMode(if (isFocusManual) FOCUS_MODE_FIXED else FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
             .setFlashMode(null)

@@ -49,9 +49,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let {
-            isFocusManual = it.get(FOCUS_MODE) as Boolean
-        }
+        arguments?.let { isFocusManual = it.get(FOCUS_MODE) as Boolean }
 
         val rc = ActivityCompat.checkSelfPermission(requireContext(), CAMERA)
         if (rc == PERMISSION_GRANTED) createCameraSource() else requestCameraPermission()
@@ -146,7 +144,7 @@ class BreachFragment : Fragment(R.layout.fragment_scan) {
         val builder = CameraSource.Builder(requireActivity().applicationContext, multiDetector)
             .setFacing(CameraSource.CAMERA_FACING_BACK)
             .setRequestedPreviewSize(1600, 1024)
-            .setRequestedFps(15.0f)
+            .setRequestedFps(15.0F)
             .setFocusMode(if (isFocusManual) FOCUS_MODE_FIXED else FOCUS_MODE_CONTINUOUS_PICTURE)
 
         cameraSource = builder
