@@ -52,17 +52,17 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
 
     fun createProductPlace() {
         viewModelScope.launch {
+            val prods = mutableSetOf<Product>()
+            products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
+            products.postValue(prods)
+            createClickable.postValue(false)
+
             val list = mutableListOf<ProductPlace>()
             places.value?.let { list.addAll(it) }
             list.add((ProductPlace(selectedItems.value ?: emptyList())))
             places.postValue(list)
             selectedItems.postValue(emptyList())
             nextClickable.postValue(list.isNotEmpty())
-
-            val prods = mutableSetOf<Product>()
-            products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
-            products.postValue(prods)
-            createClickable.postValue(false)
         }
     }
 

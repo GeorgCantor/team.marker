@@ -47,11 +47,13 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             products_recycler.adapter = adapter
         }
 
-        viewModel.createClickable.observe(viewLifecycleOwner) {
-            btn_create.isClickable = it
-            btn_create.setBackgroundColor(
-                ContextCompat.getColor(requireContext(), if (it) R.color.dark_blue else R.color.gray)
-            )
+        viewModel.createClickable.observe(viewLifecycleOwner) { clickable ->
+            clickable?.let {
+                btn_create.isClickable = it
+                btn_create.setBackgroundColor(
+                    ContextCompat.getColor(requireContext(), if (it) R.color.dark_blue else R.color.gray)
+                )
+            }
         }
 
         btn_create.setOnClickListener {
