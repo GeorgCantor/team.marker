@@ -26,8 +26,8 @@ class ProductsAdapter(
         val item = items[position]
         with(holder) {
             product = item
-            itemView.title.text = "${item.title}"
-            itemView.manufacturer.text = "${item.manufacturer?.title}"
+            itemView.title.text = item.title
+            itemView.manufacturer.text = item.manufacturer?.title
             itemView.check_box.isChecked = item.isSelected == true
             itemView.check_box.setOnCheckedChangeListener { _, _ ->
                 checkedListener(item)
