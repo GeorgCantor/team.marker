@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_places.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
+import team.marker.model.responses.Product
+import team.marker.model.ttn.ProductPlace
 import team.marker.util.SwipeToDeleteCallback
 import team.marker.view.ttn.cargo.CargoPlacesViewModel
 
@@ -22,9 +24,17 @@ class PlacesFragment : Fragment(R.layout.fragment_places) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.places.observe(viewLifecycleOwner) {
-            empty_hint.isVisible = it.isNullOrEmpty()
+            val list = mutableListOf<ProductPlace>()
+            it.forEach {
+                val prods = mutableListOf<Product>()
+                it.products.forEach { if (viewModel.products.value?.contains(it) == false) prods.add(it) }
+                if (prods.isNotEmpty()) list.add(ProductPlace(prods))
+            }
+            viewModel.setPlaces(list)
+
+            empty_hint.isVisible = list.isEmpty()
             places_recycler.setHasFixedSize(true)
-            places_recycler.adapter = PlacesAdapter(it) { place ->
+            places_recycler.adapter = PlacesAdapter(list) { place ->
                 viewModel.selectedPlace.value = place
                 findNavController().navigate(R.id.action_cargoPlacesFragment_to_placeListFragment)
             }

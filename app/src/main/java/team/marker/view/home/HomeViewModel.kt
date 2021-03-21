@@ -28,10 +28,10 @@ class HomeViewModel(
         viewModelScope.launch {
             with(app.baseContext){
                 buttons.postValue(listOf(
-                    HomeButton(R.drawable.ic_qr_code, getString(R.string.recognize),getString(R.string.get_product_info)),
-                    HomeButton(R.drawable.ic_box_home, getString(R.string.capitalize),getString(R.string.scan_codes_for_pick)),
-                    HomeButton(R.drawable.ic_box_home, getString(R.string.create_ttn),getString(R.string.create_ttn_full)),
-                    HomeButton(R.drawable.ic_breach, getString(R.string.breach),getString(R.string.send_breach_request))
+                    HomeButton(R.drawable.ic_qr_code, getString(R.string.recognize), getString(R.string.get_product_info)),
+                    HomeButton(R.drawable.ic_box_home, getString(R.string.capitalize), getString(R.string.scan_codes_for_pick)),
+                    HomeButton(R.drawable.ic_box_home, getString(R.string.create_ttn), getString(R.string.create_ttn_full)),
+                    HomeButton(R.drawable.ic_breach, getString(R.string.breach), getString(R.string.send_breach_request))
                 ))
             }
         }

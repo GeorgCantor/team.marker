@@ -14,7 +14,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     private val selectedItems = MutableLiveData<List<Product>>()
     val progressIsVisible = MutableLiveData<Boolean>().apply { value = true }
     val productIds = MutableLiveData<String>().apply { value = "" }
-    val products = MutableLiveData<List<Product>>()
+    val products = MutableLiveData<Set<Product>>()
     val createClickable = MutableLiveData<Boolean>().apply { value = false }
     val nextClickable = MutableLiveData<Boolean>().apply { value = false }
     val places = MutableLiveData<List<ProductPlace>>()
@@ -29,7 +29,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     fun getProducts() {
         viewModelScope.launch(exceptionHandler) {
             repository.products(productIds.value).apply {
-                products.postValue(this?.response?.info)
+                products.postValue(this?.response?.info?.toSet())
                 error.postValue(this?.error?.error_msg)
             }
             progressIsVisible.postValue(false)
@@ -59,7 +59,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             selectedItems.postValue(emptyList())
             nextClickable.postValue(list.isNotEmpty())
 
-            val prods = mutableListOf<Product>()
+            val prods = mutableSetOf<Product>()
             products.value?.forEach { if (selectedItems.value?.contains(it) == false) prods.add(it) }
             products.postValue(prods)
             createClickable.postValue(false)
@@ -68,7 +68,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
 
     fun removeProduct(position: Int) {
         viewModelScope.launch {
-            val items = mutableListOf<Product>()
+            val items = mutableSetOf<Product>()
             val removed = mutableListOf<Product>()
             products.value?.forEachIndexed { i, prod -> if (i != position) items.add(prod) else removed.add(prod) }
             products.postValue(items)
@@ -82,9 +82,41 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
     fun removePlace(position: Int) {
         viewModelScope.launch {
             val items = mutableListOf<ProductPlace>()
-            places.value?.forEachIndexed { i, place -> if (i != position) items.add(place) }
+            val removed = mutableListOf<Product>()
+            products.value?.let { removed.addAll(it) }
+            places.value?.forEachIndexed { i, place ->
+                if (i != position) items.add(place)
+                else removed.addAll(place.products.map { it.isSelected = false; it })
+            }
             places.postValue(items)
+            products.postValue(removed.toSet())
             nextClickable.postValue(items.isNotEmpty())
+        }
+    }
+
+    fun removeProductFromPlace(position: Int) {
+        viewModelScope.launch {
+            val items = mutableListOf<Product>()
+            selectedPlace.value?.products?.forEachIndexed { i, prod ->
+                if (i != position) items.add(prod)
+                else {
+                    val list = mutableListOf<Product>()
+                    products.value?.let { list.addAll(it) }
+                    list.add(prod)
+                    products.postValue(list.map { it.isSelected = false; it }.toSet())
+                }
+            }
+            selectedPlace.postValue(ProductPlace(items))
+        }
+    }
+
+    fun setPlaces(list: List<ProductPlace>) {
+        viewModelScope.launch {
+            val newProducts = mutableListOf<Product>()
+            val oldProducts = mutableListOf<Product>()
+            list.forEach { it.products.forEach { newProducts.add(it) } }
+            places.value?.forEach { it.products.forEach { oldProducts.add(it) } }
+            if (newProducts != oldProducts) places.postValue(list)
         }
     }
 
@@ -92,7 +124,7 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
         viewModelScope.launch {
             selectedItems.postValue(emptyList())
             progressIsVisible.postValue(false)
-            products.postValue(emptyList())
+            products.postValue(emptySet())
             createClickable.postValue(false)
             nextClickable.postValue(false)
             places.postValue(emptyList())

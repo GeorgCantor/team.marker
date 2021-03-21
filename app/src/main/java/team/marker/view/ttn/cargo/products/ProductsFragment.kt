@@ -34,7 +34,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
         viewModel.products.observe(viewLifecycleOwner) {
             empty_hint.isVisible = it.isNullOrEmpty()
-            adapter = ProductsAdapter(it ?: listOf(), { product ->
+            adapter = ProductsAdapter(it.toList(), { product ->
                 viewModel.addSelectedItem(product)
             }) { item ->
                 val id = if (item.partnerProductId?.isNotBlank() == true) item.partnerProductId else item.id.toString()
