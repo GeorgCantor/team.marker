@@ -12,18 +12,523 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/expandable_recycler"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/btn_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:itemCount="6"
-        tools:listitem="@layout/item_pick_product" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_invoice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/icon_invoice"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_doc" />
+
+                <TextView
+                    android:id="@+id/title_invoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/invoice"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_invoice"
+                    app:layout_constraintStart_toEndOf="@id/icon_invoice"
+                    app:layout_constraintTop_toTopOf="@id/icon_invoice" />
+
+                <ImageView
+                    android:id="@+id/exp_icon_invoice"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/title_invoice"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_invoice"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_invoice" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expand_invoice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_invoice">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_invoice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_invoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/invoice"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--================================-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_transport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expand_invoice">
+
+                <ImageView
+                    android:id="@+id/icon_transport"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_vehicle" />
+
+                <TextView
+                    android:id="@+id/title_transport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/vehicle"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_transport"
+                    app:layout_constraintStart_toEndOf="@id/icon_transport"
+                    app:layout_constraintTop_toTopOf="@id/icon_transport" />
+
+                <ImageView
+                    android:id="@+id/exp_icon_transport"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/title_transport"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_transport"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_transport" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expand_transport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_transport">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_transport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_transport"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/vehicle"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--================================-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_shipper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expand_transport">
+
+                <ImageView
+                    android:id="@+id/icon_shipper"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_contractor" />
+
+                <TextView
+                    android:id="@+id/title_shipper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/shipper"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_shipper"
+                    app:layout_constraintStart_toEndOf="@id/icon_shipper"
+                    app:layout_constraintTop_toTopOf="@id/icon_shipper" />
+
+                <ImageView
+                    android:id="@+id/exp_icon_shipper"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/title_shipper"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_shipper"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_shipper" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expand_shipper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_shipper">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_shipper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_shipper"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/shipper"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--================================-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_consignee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expand_shipper">
+
+                <ImageView
+                    android:id="@+id/icon_consignee"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_client" />
+
+                <TextView
+                    android:id="@+id/title_consignee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/consignee"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_consignee"
+                    app:layout_constraintStart_toEndOf="@id/icon_consignee"
+                    app:layout_constraintTop_toTopOf="@id/icon_consignee" />
+
+                <ImageView
+                    android:id="@+id/exp_icon_consignee"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/title_consignee"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_consignee"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_consignee" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expand_consignee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_consignee">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_consignee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_consignee"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/consignee"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--================================-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_payer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expand_consignee">
+
+                <ImageView
+                    android:id="@+id/icon_payer"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_money" />
+
+                <TextView
+                    android:id="@+id/title_payer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/payer"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_payer"
+                    app:layout_constraintStart_toEndOf="@id/icon_payer"
+                    app:layout_constraintTop_toTopOf="@id/icon_payer" />
+
+                <ImageView
+                    android:id="@+id/exp_icon_payer"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="25dp"
+                    app:layout_constraintBottom_toBottomOf="@id/title_payer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/title_payer"
+                    app:srcCompat="@drawable/ic_expand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#ccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_payer" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/expand_payer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="false"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_payer">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_payer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_payer"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/payer"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/btn_send"

@@ -48,6 +48,8 @@ class PlacesFragment : Fragment(R.layout.fragment_places) {
             )
         }
 
+        btn_further.setOnClickListener { findNavController().navigate(R.id.action_cargoPlacesFragment_to_createTtnFragment) }
+
         val callback: SwipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
                 viewModel.removePlace(viewHolder.adapterPosition)

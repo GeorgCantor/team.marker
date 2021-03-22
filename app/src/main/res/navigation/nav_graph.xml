@@ -402,6 +402,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <action
         android:id="@+id/action_global_cargoPlacesFragment"
         app:destination="@id/cargoPlacesFragment" />
@@ -409,10 +410,10 @@
         android:id="@+id/action_global_cargoPlacesFragment2"
         app:destination="@id/cargoPlacesFragment" />
     <action
-        android:id="@+id/action_global_placeListFragment"
-        app:destination="@id/placeListFragment" />
-    <action
         android:id="@+id/action_global_cargoPlacesFragment3"
         app:destination="@id/cargoPlacesFragment" />
+    <action
+        android:id="@+id/action_global_placeListFragment"
+        app:destination="@id/placeListFragment" />
 
 </navigation>
