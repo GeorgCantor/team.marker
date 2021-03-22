@@ -1,6 +1,7 @@
 package team.marker.view.ttn.cargo.places
 
 import android.os.Bundle
+import android.transition.TransitionManager.beginDelayedTransition
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -14,6 +15,8 @@ import team.marker.R
 import team.marker.model.responses.Product
 import team.marker.model.ttn.ProductPlace
 import team.marker.util.SwipeToDeleteCallback
+import team.marker.util.customDialog
+import team.marker.util.getTransform
 import team.marker.view.ttn.cargo.CargoPlacesViewModel
 
 class PlacesFragment : Fragment(R.layout.fragment_places) {
@@ -48,7 +51,18 @@ class PlacesFragment : Fragment(R.layout.fragment_places) {
             )
         }
 
-        btn_further.setOnClickListener { findNavController().navigate(R.id.action_cargoPlacesFragment_to_createTtnFragment) }
+        btn_further.setOnClickListener {
+            if (viewModel.products.value.isNullOrEmpty()) {
+                findNavController().navigate(R.id.action_cargoPlacesFragment_to_createTtnFragment)
+            } else {
+                context?.customDialog(
+                    getString(R.string.unallocated_goods), getString(R.string.no), getString(R.string.yes),
+                    { view, root -> beginDelayedTransition(root, view.getTransform(btn_further)) }, {
+                        findNavController().navigate(R.id.action_cargoPlacesFragment_to_createTtnFragment)
+                    }
+                )
+            }
+        }
 
         val callback: SwipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {

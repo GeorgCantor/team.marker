@@ -76,6 +76,7 @@
     <string name="further">Далее</string>
     <string name="no_products">Изделия отсутствуют</string>
     <string name="no_places">Грузовые места не созданы</string>
+    <string name="unallocated_goods">Остались нераспределенные товары. Продолжить?</string>
     <string name="vehicle">Транспортное средство</string>
     <string name="invoice">Накладная</string>
     <string name="shipper">Грузоотправитель</string>
