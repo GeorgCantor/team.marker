@@ -252,7 +252,22 @@
         android:id="@+id/createTtnFragment"
         android:name="team.marker.view.ttn.cargo.create.CreateTtnFragment"
         android:label="CreateTtnFragment"
-        tools:layout="@layout/fragment_create_ttn" />
+        tools:layout="@layout/fragment_create_ttn">
+        <action
+            android:id="@+id/action_createTtnFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="team.marker.view.ttn.cargo.create.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success" />
 
     <fragment
         android:id="@+id/pickFragment"
@@ -415,5 +430,8 @@
     <action
         android:id="@+id/action_global_placeListFragment"
         app:destination="@id/placeListFragment" />
+    <action
+        android:id="@+id/action_global_createTtnFragment"
+        app:destination="@id/createTtnFragment" />
 
 </navigation>

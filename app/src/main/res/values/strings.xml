@@ -81,6 +81,8 @@
     <string name="invoice">Накладная</string>
     <string name="shipper">Грузоотправитель</string>
     <string name="payer">Плательщик</string>
+    <string name="ttn_sending">Отправка накладной</string>
+    <string name="ttn_sent">Товарно-транспортная накладная создана и отправлена на подписание</string>
     // product
     <string name="description">Описание</string>
     <string name="name">Наименование</string>
