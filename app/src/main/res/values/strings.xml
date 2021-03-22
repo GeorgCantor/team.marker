@@ -22,6 +22,7 @@
     <string name="recognize">Распознать</string>
     <string name="capitalize">Оприходовать</string>
     <string name="scan_codes_for_pick">Сканировать QR-коды для оприходования изделий</string>
+    <string name="creation_ttn">Создание ТТН</string>
     <string name="create_ttn">Создать ТТН</string>
     <string name="create_ttn_full">Создать товарно-транспортную накладную</string>
     <string name="breach">Некондиция</string>

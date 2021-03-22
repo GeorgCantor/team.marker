@@ -225,6 +225,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_cargoPlacesFragment_to_createTtnFragment"
+            app:destination="@id/createTtnFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -240,6 +247,12 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createTtnFragment"
+        android:name="team.marker.view.ttn.cargo.create.CreateTtnFragment"
+        android:label="CreateTtnFragment"
+        tools:layout="@layout/fragment_create_ttn" />
 
     <fragment
         android:id="@+id/pickFragment"
@@ -398,5 +411,8 @@
     <action
         android:id="@+id/action_global_placeListFragment"
         app:destination="@id/placeListFragment" />
+    <action
+        android:id="@+id/action_global_cargoPlacesFragment3"
+        app:destination="@id/cargoPlacesFragment" />
 
 </navigation>

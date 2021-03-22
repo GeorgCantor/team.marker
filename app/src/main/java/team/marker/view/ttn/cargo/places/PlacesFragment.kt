@@ -32,6 +32,7 @@ class PlacesFragment : Fragment(R.layout.fragment_places) {
             }
             viewModel.setPlaces(list)
 
+            viewModel.nextClickable.value = list.isNotEmpty()
             empty_hint.isVisible = list.isEmpty()
             places_recycler.setHasFixedSize(true)
             places_recycler.adapter = PlacesAdapter(list) { place ->

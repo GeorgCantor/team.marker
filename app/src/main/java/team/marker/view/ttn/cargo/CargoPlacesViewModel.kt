@@ -62,7 +62,6 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             list.add((ProductPlace(selectedItems.value ?: emptyList())))
             places.postValue(list)
             selectedItems.postValue(emptyList())
-            nextClickable.postValue(list.isNotEmpty())
         }
     }
 
@@ -90,7 +89,6 @@ class CargoPlacesViewModel(private val repository: ApiRepository) : ViewModel() 
             }
             places.postValue(items)
             products.postValue(removed.toSet())
-            nextClickable.postValue(items.isNotEmpty())
         }
     }
 
