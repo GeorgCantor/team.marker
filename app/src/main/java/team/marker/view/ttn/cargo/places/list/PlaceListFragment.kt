@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_place_list.*
-import kotlinx.android.synthetic.main.toolbar_history.*
+import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PARTNER
@@ -22,6 +22,7 @@ class PlaceListFragment : Fragment(R.layout.fragment_place_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.product_ist)
 
         viewModel.selectedPlace.observe(viewLifecycleOwner) {
             if (it.products.isNullOrEmpty()) activity?.onBackPressed()

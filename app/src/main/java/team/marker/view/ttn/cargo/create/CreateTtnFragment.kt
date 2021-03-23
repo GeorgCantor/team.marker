@@ -49,6 +49,7 @@ class CreateTtnFragment : Fragment(R.layout.fragment_create_ttn) {
         }
 
         btn_send.setOnClickListener { viewModel.sendTtn() }
+        btn_send.isClickable = false
     }
 
     private fun checkAllFilled() {

@@ -15,7 +15,7 @@
     <string name="back">Назад</string>
     <string name="internet_unavailable">интернет недоступен</string>
     <string name="result_of_checking">Результат проверки</string>
-    <string name="product_not_found">изделие не найдено, проверьте код</string>
+    <string name="product_not_found">Изделие не найдено, проверьте код</string>
     <string name="password">пароль</string>
     // home
     <string name="get_product_info">Получение подробной информации об изделии</string>
