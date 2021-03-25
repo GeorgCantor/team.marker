@@ -79,7 +79,21 @@
     <string name="unallocated_goods">Остались нераспределенные товары. Продолжить?</string>
     <string name="vehicle">Транспортное средство</string>
     <string name="invoice">Накладная</string>
-    <string name="shipper">Грузоотправитель</string>
+    <string name="shipper">отправитель</string>
+    <string name="consignee2">получатель</string>
+    <string name="carrier">перевозчик</string>
+    <string name="customer2">заказчик</string>
+    <string name="requisites">Реквизиты</string>
+    <string name="freight_cost">стоимость грузоперевозки</string>
+    <string name="shipping_cost">стоимость отгрузки</string>
+    <string name="gross_weight">масса груза брутто</string>
+    <string name="ts_type">тип ТС</string>
+    <string name="ts_mark">марка ТС</string>
+    <string name="ts_number">номер ТС</string>
+    <string name="driver_surname">фамилия водителя</string>
+    <string name="driver_name">имя водителя</string>
+    <string name="driver_patronymic">отчество водителя</string>
+    <string name="driver_phone">мобильный телефон водителя</string>
     <string name="payer">Плательщик</string>
     <string name="ttn_sending">Отправка накладной</string>
     <string name="ttn_sent">Товарно-транспортная накладная создана и отправлена на подписание</string>
@@ -125,5 +139,16 @@
         <item>код</item>
         <item>кода</item>
         <item>кодов</item>
+    </string-array>
+
+    <string-array name="ts_type_array">
+        <item>Автомобиль</item>
+        <item>Прицеп</item>
+    </string-array>
+
+    <string-array name="companies_array">
+        <item>ОАО "Волгограднефтемаш"</item>
+        <item>ООО «Газпромнефть-Ямал»</item>
+        <item>ООО "НефтеГазКомплект»</item>
     </string-array>
 </resources>

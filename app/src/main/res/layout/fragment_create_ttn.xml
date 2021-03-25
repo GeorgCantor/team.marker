@@ -95,9 +95,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/item_invoice">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_view_invoice"
+                    android:id="@+id/input_view_freight_cost"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
                     android:paddingStart="@dimen/margin_8dp"
                     android:paddingEnd="@dimen/margin_8dp"
                     android:paddingBottom="@dimen/margin_8dp"
@@ -106,15 +107,77 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_invoice"
+                        android:id="@+id/input_freight_cost"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/input_primary"
                         android:fontFamily="sans-serif"
                         android:gravity="bottom"
-                        android:hint="@string/invoice"
+                        android:hint="@string/freight_cost"
                         android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
+                        android:inputType="numberDecimal"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_shipping_cost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_freight_cost">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_shipping_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/shipping_cost"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_gross_weight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_shipping_cost">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_gross_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/gross_weight"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
                         android:maxLength="100"
                         android:maxLines="1"
                         android:textColor="@color/input_text"
@@ -194,8 +257,70 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_transport">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_ts_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_8dp"
+                    android:background="@drawable/input_primary"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="sans-serif"
+                    android:gravity="bottom"
+                    android:hint="@string/ts_type"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/ts_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="90dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_ts_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/input_ts_type" />
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_view_transport"
+                    android:id="@+id/input_view_ts_mark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_ts_type">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_ts_mark"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/ts_mark"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_ts_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/margin_8dp"
@@ -203,18 +328,142 @@
                     android:paddingBottom="@dimen/margin_8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_ts_mark">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_transport"
+                        android:id="@+id/input_ts_number"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/input_primary"
                         android:fontFamily="sans-serif"
                         android:gravity="bottom"
-                        android:hint="@string/vehicle"
+                        android:hint="@string/ts_number"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_driver_surname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_ts_number">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_driver_surname"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/driver_surname"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_driver_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_driver_surname">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_driver_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/driver_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_driver_patronymic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_driver_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_driver_patronymic"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/driver_patronymic"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:textColor="@color/input_text"
+                        android:textColorHint="#5519194D"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/text_18sp"
+                        android:textStyle="normal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_view_driver_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/margin_8dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_view_driver_patronymic">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_driver_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/input_primary"
+                        android:fontFamily="sans-serif"
+                        android:gravity="bottom"
+                        android:hint="@string/driver_phone"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
                         android:maxLength="100"
                         android:maxLines="1"
                         android:textColor="@color/input_text"
@@ -247,7 +496,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_contractor" />
+                    app:srcCompat="@drawable/ic_documentation" />
 
                 <TextView
                     android:id="@+id/title_shipper"
@@ -255,7 +504,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="@string/shipper"
+                    android:text="@string/requisites"
                     android:textColor="@color/dark_blue"
                     android:textSize="@dimen/text_16sp"
                     app:layout_constraintBottom_toBottomOf="@id/icon_shipper"
@@ -292,238 +541,128 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_shipper">
+                app:layout_constraintTop_toBottomOf="@+id/item_shipper"
+                tools:visibility="visible">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_view_shipper"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/margin_8dp"
-                    android:paddingEnd="@dimen/margin_8dp"
-                    android:paddingBottom="@dimen/margin_8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_shipper"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/input_primary"
-                        android:fontFamily="sans-serif"
-                        android:gravity="bottom"
-                        android:hint="@string/shipper"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLength="100"
-                        android:maxLines="1"
-                        android:textColor="@color/input_text"
-                        android:textColorHint="#5519194D"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/text_18sp"
-                        android:textStyle="normal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--================================-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/item_consignee"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expand_shipper">
-
-                <ImageView
-                    android:id="@+id/icon_consignee"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_client" />
-
-                <TextView
-                    android:id="@+id/title_consignee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/consignee"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/text_16sp"
-                    app:layout_constraintBottom_toBottomOf="@id/icon_consignee"
-                    app:layout_constraintStart_toEndOf="@id/icon_consignee"
-                    app:layout_constraintTop_toTopOf="@id/icon_consignee" />
-
-                <ImageView
-                    android:id="@+id/exp_icon_consignee"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="25dp"
-                    app:layout_constraintBottom_toBottomOf="@id/title_consignee"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/title_consignee"
-                    app:srcCompat="@drawable/ic_expand" />
-
-                <View
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_shipper"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#ccc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_consignee" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/expand_consignee"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="false"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_consignee">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_view_consignee"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/margin_8dp"
-                    android:paddingEnd="@dimen/margin_8dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_8dp"
+                    android:background="@drawable/input_primary"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="sans-serif"
+                    android:gravity="bottom"
+                    android:hint="@string/shipper"
                     android:paddingBottom="@dimen/margin_8dp"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_consignee"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/input_primary"
-                        android:fontFamily="sans-serif"
-                        android:gravity="bottom"
-                        android:hint="@string/consignee"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLength="100"
-                        android:maxLines="1"
-                        android:textColor="@color/input_text"
-                        android:textColorHint="#5519194D"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/text_18sp"
-                        android:textStyle="normal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--================================-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/item_payer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expand_consignee">
-
-                <ImageView
-                    android:id="@+id/icon_payer"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_money" />
-
-                <TextView
-                    android:id="@+id/title_payer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/payer"
-                    android:textColor="@color/dark_blue"
-                    android:textSize="@dimen/text_16sp"
-                    app:layout_constraintBottom_toBottomOf="@id/icon_payer"
-                    app:layout_constraintStart_toEndOf="@id/icon_payer"
-                    app:layout_constraintTop_toTopOf="@id/icon_payer" />
-
-                <ImageView
-                    android:id="@+id/exp_icon_payer"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="25dp"
-                    app:layout_constraintBottom_toBottomOf="@id/title_payer"
+                <Spinner
+                    android:id="@+id/shipper_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_shipper"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/title_payer"
-                    app:srcCompat="@drawable/ic_expand" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/input_shipper" />
 
-                <View
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_consignee"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#ccc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_payer" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/expand_payer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="false"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_payer">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_view_payer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/margin_8dp"
-                    android:paddingEnd="@dimen/margin_8dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_8dp"
+                    android:background="@drawable/input_primary"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="sans-serif"
+                    android:gravity="bottom"
+                    android:hint="@string/consignee2"
                     android:paddingBottom="@dimen/margin_8dp"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/input_shipper" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_payer"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/input_primary"
-                        android:fontFamily="sans-serif"
-                        android:gravity="bottom"
-                        android:hint="@string/payer"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLength="100"
-                        android:maxLines="1"
-                        android:textColor="@color/input_text"
-                        android:textColorHint="#5519194D"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/text_18sp"
-                        android:textStyle="normal" />
+                <Spinner
+                    android:id="@+id/consignee_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_consignee"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/input_consignee" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_carrier"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_8dp"
+                    android:background="@drawable/input_primary"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="sans-serif"
+                    android:gravity="bottom"
+                    android:hint="@string/carrier"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_consignee" />
+
+                <Spinner
+                    android:id="@+id/carrier_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_carrier"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/input_carrier" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/margin_8dp"
+                    android:layout_marginEnd="@dimen/margin_8dp"
+                    android:background="@drawable/input_primary"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="sans-serif"
+                    android:gravity="bottom"
+                    android:hint="@string/customer2"
+                    android:paddingBottom="@dimen/margin_8dp"
+                    android:textColorHint="#5519194D"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_carrier" />
+
+                <Spinner
+                    android:id="@+id/customer_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/input_customer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/input_customer" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
