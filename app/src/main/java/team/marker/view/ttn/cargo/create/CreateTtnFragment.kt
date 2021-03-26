@@ -45,7 +45,13 @@ class CreateTtnFragment : Fragment(R.layout.fragment_create_ttn) {
         inputs = listOf(
             input_freight_cost,
             input_shipping_cost,
-            input_gross_weight
+            input_gross_weight,
+            input_ts_mark,
+            input_ts_number,
+            input_driver_surname,
+            input_driver_name,
+            input_driver_patronymic,
+            input_driver_phone
         ).onEach { it.doAfterTextChanged { checkAllFilled() } }
 
         spinners = listOf(

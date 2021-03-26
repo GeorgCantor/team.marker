@@ -340,7 +340,7 @@
                         android:gravity="bottom"
                         android:hint="@string/ts_number"
                         android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:maxLength="100"
                         android:maxLines="1"
                         android:textColor="@color/input_text"

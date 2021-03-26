@@ -2,7 +2,7 @@ package team.marker.model.requests
 
 import com.google.gson.annotations.SerializedName
 
-class CargoRequest(
+data class CargoRequest(
     @SerializedName("places") val places: Array<IntArray>,
     @SerializedName("consignor_id") val consignor_id: Int,
     @SerializedName("consignee_id") val consignee_id: Int,
