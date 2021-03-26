@@ -255,7 +255,8 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_transport">
+                app:layout_constraintTop_toBottomOf="@+id/item_transport"
+                tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_ts_type"
@@ -541,8 +542,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_shipper"
-                tools:visibility="visible">
+                app:layout_constraintTop_toBottomOf="@+id/item_shipper">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_shipper"

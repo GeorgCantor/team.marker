@@ -3,6 +3,7 @@ package team.marker.model.remote
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
+import team.marker.model.requests.CargoRequest
 import team.marker.model.requests.LoginRequest
 import team.marker.model.requests.PickRequest
 import team.marker.model.responses.*
@@ -48,4 +49,7 @@ interface ApiService {
 
     @GET(PRODUCTS)
     suspend fun getProducts(@Query(PRODUCT_IDS) productIds: String?): ResponseApi<Products?>?
+
+    @POST("cargo")
+    suspend fun cargo(@Body request: CargoRequest): ResponseApi<ResponseMessage?>?
 }

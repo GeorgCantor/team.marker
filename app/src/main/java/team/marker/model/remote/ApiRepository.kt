@@ -2,6 +2,7 @@ package team.marker.model.remote
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import team.marker.model.requests.CargoRequest
 import team.marker.model.requests.LoginRequest
 import team.marker.model.requests.PickRequest
 
@@ -31,4 +32,6 @@ class ApiRepository(private val apiService: ApiService) {
     ) = apiService.getProduct(productId, lat, lng, partner)
 
     suspend fun products(productIds: String?) = apiService.getProducts(productIds)
+
+    suspend fun cargo(request: CargoRequest) = apiService.cargo(request)
 }
