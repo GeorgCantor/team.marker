@@ -59,7 +59,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/description"
                         android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_1_photo"
                         app:layout_constraintStart_toEndOf="@id/list_1_photo"
                         app:layout_constraintTop_toTopOf="@id/list_1_photo" />
@@ -110,7 +110,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/name"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,7 +123,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/product_name"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,7 +153,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/factory_number"
                             android:textColor="@color/dark_blue"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,7 +167,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/text_18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -199,7 +199,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/manufacturing_date"
                             android:textColor="@color/dark_blue"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -213,7 +213,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified3"
                             android:textColor="@color/gray_primary"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/text_18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -246,7 +246,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/shipping_date"
                             android:textColor="@color/dark_blue"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -260,7 +260,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified3"
                             android:textColor="@color/gray_primary"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/text_18sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -305,7 +305,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/specifications"
                         android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_2_photo"
                         app:layout_constraintStart_toEndOf="@id/list_2_photo"
                         app:layout_constraintTop_toTopOf="@id/list_2_photo" />
@@ -356,7 +356,7 @@
                             android:text="@string/characteristics_not_specified"
                             android:textAlignment="center"
                             android:textColor="#333333"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -411,7 +411,7 @@
                         android:paddingStart="20dp"
                         android:text="@string/provider"
                         android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_3_photo"
                         app:layout_constraintStart_toEndOf="@id/list_3_photo"
                         app:layout_constraintTop_toTopOf="@id/list_3_photo" />
@@ -462,7 +462,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/manufacturer"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -476,7 +476,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/manufacturer_name"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -507,7 +507,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/manufacturer_address"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -521,7 +521,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -552,7 +552,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/purchasing_department"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -566,7 +566,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -625,7 +625,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/customer"
                         android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_4_photo"
                         app:layout_constraintStart_toEndOf="@id/list_4_photo"
                         app:layout_constraintTop_toTopOf="@id/list_4_photo" />
@@ -676,7 +676,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/customer"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -690,7 +690,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/customer"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -720,7 +720,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/customer_address"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -734,7 +734,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -766,7 +766,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/consignee"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -780,7 +780,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -810,7 +810,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/consignee_address"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -824,7 +824,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -854,7 +854,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/destination"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -868,7 +868,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -898,7 +898,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/delivery_contract"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -912,7 +912,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -944,7 +944,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/application"
                             android:textColor="@color/dark_blue"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/text_16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -958,7 +958,7 @@
                             android:paddingEnd="20dp"
                             android:text="@string/not_specified2"
                             android:textColor="@color/gray_primary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -1026,7 +1026,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/documentation"
                         android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
                         app:layout_constraintBottom_toBottomOf="@id/list_5_photo"
                         app:layout_constraintStart_toEndOf="@id/list_5_photo"
                         app:layout_constraintTop_toTopOf="@id/list_5_photo" />
@@ -1078,7 +1078,7 @@
                             android:text="@string/documents_not_loaded"
                             android:textAlignment="center"
                             android:textColor="#333333"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_14sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

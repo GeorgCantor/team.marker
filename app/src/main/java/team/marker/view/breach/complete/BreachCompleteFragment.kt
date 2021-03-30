@@ -2,6 +2,7 @@ package team.marker.view.breach.complete
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast.LENGTH_LONG
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import team.marker.R
 import team.marker.util.Constants.PHOTO_FILES
 import team.marker.util.Constants.PRODUCT_IDS
+import team.marker.util.customToast
 import team.marker.util.isNetworkAvailable
 import team.marker.util.longToast
 
@@ -66,7 +68,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
 
         viewModel.sentSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
-                context?.longToast(getString(R.string.breach_request_sent))
+                context?.customToast(getString(R.string.breach_request_sent), R.drawable.ic_toast_success, LENGTH_LONG)
                 activity?.onBackPressed()
             }
         }
@@ -104,7 +106,7 @@ class BreachCompleteFragment : Fragment(R.layout.fragment_breach_complete) {
             viewModel.breach(productId, reasonId, userReason, comment)
         } else {
             viewModel.saveFilePathsForDeferredSending(productId, comment)
-            context?.longToast(getString(R.string.send_later))
+            context?.customToast(getString(R.string.send_later), R.drawable.ic_warning, LENGTH_LONG)
             activity?.onBackPressed()
         }
     }

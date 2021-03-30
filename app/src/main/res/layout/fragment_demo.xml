@@ -14,7 +14,7 @@
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutDescription="@xml/fragment_home_scene"
+        app:layoutDescription="@xml/fragment_demo_scene"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
                     android:text="@string/recognize"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -75,8 +75,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/get_product_info"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -129,7 +129,7 @@
                     android:text="@string/capitalize"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -138,8 +138,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/scan_codes_for_pick"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -192,7 +192,7 @@
                     android:text="@string/breach"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_blue"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/text_15sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -201,8 +201,8 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/send_breach_request"
-                    android:textColor="#9919194D"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_dark_blue"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -223,7 +223,7 @@
             android:text="@string/exit"
             android:textAllCaps="true"
             android:textColor="@color/dark_blue"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_15sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

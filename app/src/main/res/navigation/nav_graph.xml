@@ -91,6 +91,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_ttnScanFragment"
+            app:destination="@id/ttnScanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -171,6 +178,96 @@
         android:name="team.marker.view.scan.ScanErrorFragment"
         android:label="ScanErrorFragment"
         tools:layout="@layout/fragment_scan_error" />
+
+    <fragment
+        android:id="@+id/ttnScanFragment"
+        android:name="team.marker.view.ttn.TtnScanFragment"
+        android:label="TtnScanFragment"
+        tools:layout="@layout/fragment_ttn_scan">
+        <action
+            android:id="@+id/action_ttnScanFragment_to_cargoPlacesFragment"
+            app:destination="@id/cargoPlacesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_ttnScanFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_ttnScanFragment_self"
+            app:destination="@id/ttnScanFragment"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cargoPlacesFragment"
+        android:name="team.marker.view.ttn.cargo.CargoPlacesFragment"
+        android:label="CargoPlacesFragment"
+        tools:layout="@layout/fragment_cargo_places">
+        <action
+            android:id="@+id/action_cargoPlacesFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_cargoPlacesFragment_to_placeListFragment"
+            app:destination="@id/placeListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_cargoPlacesFragment_to_createTtnFragment"
+            app:destination="@id/createTtnFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/placeListFragment"
+        android:name="team.marker.view.ttn.cargo.places.list.PlaceListFragment"
+        android:label="PlaceListFragment"
+        tools:layout="@layout/fragment_place_list">
+        <action
+            android:id="@+id/action_placeListFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createTtnFragment"
+        android:name="team.marker.view.ttn.cargo.create.CreateTtnFragment"
+        android:label="CreateTtnFragment"
+        tools:layout="@layout/fragment_create_ttn">
+        <action
+            android:id="@+id/action_createTtnFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="team.marker.view.ttn.cargo.create.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success" />
 
     <fragment
         android:id="@+id/pickFragment"
@@ -320,5 +417,21 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <action
+        android:id="@+id/action_global_cargoPlacesFragment"
+        app:destination="@id/cargoPlacesFragment" />
+    <action
+        android:id="@+id/action_global_cargoPlacesFragment2"
+        app:destination="@id/cargoPlacesFragment" />
+    <action
+        android:id="@+id/action_global_cargoPlacesFragment3"
+        app:destination="@id/cargoPlacesFragment" />
+    <action
+        android:id="@+id/action_global_placeListFragment"
+        app:destination="@id/placeListFragment" />
+    <action
+        android:id="@+id/action_global_createTtnFragment"
+        app:destination="@id/createTtnFragment" />
 
 </navigation>

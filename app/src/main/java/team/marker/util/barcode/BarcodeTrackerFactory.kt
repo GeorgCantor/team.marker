@@ -11,14 +11,14 @@ import team.marker.view.pick.complete.PickCompleteViewModel
  * multi-processor uses this factory to create barcode trackers as needed -- one for each barcode.
  */
 internal class BarcodeTrackerFactory(
-    private val mGraphicOverlay: GraphicOverlay<BarcodeGraphic?>?,
+    private val graphicOverlay: GraphicOverlay<BarcodeGraphic?>?,
     private val viewModel: PickCompleteViewModel?,
     private val lifecycleOwner: LifecycleOwner
 ) : MultiProcessor.Factory<Barcode> {
 
     override fun create(barcode: Barcode): BarcodeGraphicTracker {
-        val graphic = BarcodeGraphic(mGraphicOverlay, viewModel, lifecycleOwner)
+        val graphic = BarcodeGraphic(graphicOverlay, viewModel, lifecycleOwner)
 
-        return BarcodeGraphicTracker(mGraphicOverlay, graphic, viewModel)
+        return BarcodeGraphicTracker(graphicOverlay, graphic, viewModel)
     }
 }

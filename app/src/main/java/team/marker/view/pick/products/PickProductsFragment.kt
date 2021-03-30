@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_pick_products.*
-import kotlinx.android.synthetic.main.toolbar_history.*
+import kotlinx.android.synthetic.main.toolbar_common.*
 import org.koin.android.ext.android.inject
 import team.marker.R
 import team.marker.util.Constants.PARTNER
@@ -21,6 +21,7 @@ class PickProductsFragment : Fragment(R.layout.fragment_pick_products) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.product_ist)
 
         viewModel.getProducts(productIds)
 

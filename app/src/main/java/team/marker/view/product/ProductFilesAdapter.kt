@@ -24,7 +24,7 @@ class ProductFilesAdapter(
         val file = files[position]
 
         with(holder) {
-            itemView.title_tv.text = "${file.title}"
+            itemView.title_tv.text = file.title
 
             itemView.icon_iv.setImageResource(
                 when (file.type) {

@@ -10,6 +10,7 @@ class ScanErrorFragment : Fragment(R.layout.fragment_scan_error) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolbar_text.text = getString(R.string.result_of_checking)
 
         btn_back.setOnClickListener { activity?.onBackPressed() }
     }

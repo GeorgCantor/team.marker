@@ -14,6 +14,8 @@ import team.marker.view.login.LoginViewModel
 import team.marker.view.pick.complete.PickCompleteViewModel
 import team.marker.view.pick.products.PickProductsViewModel
 import team.marker.view.product.ProductViewModel
+import team.marker.view.ttn.cargo.CargoPlacesViewModel
+import team.marker.view.ttn.cargo.create.CreateTtnViewModel
 
 val repositoryModule = module {
     single { ApiRepository(get()) }
@@ -21,11 +23,13 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { BreachCompleteViewModel(androidApplication(), get(), get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(androidApplication(), get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { PickCompleteViewModel(get(), get()) }
     viewModel { PickProductsViewModel(get()) }
     viewModel { ProductViewModel(get()) }
+    viewModel { CargoPlacesViewModel(get()) }
+    viewModel { CreateTtnViewModel(get()) }
 }
 
 val apiModule = module {

@@ -16,8 +16,8 @@ import java.util.*
  * goes away.
  */
 class BarcodeGraphicTracker internal constructor(
-    private val mOverlay: GraphicOverlay<BarcodeGraphic?>?,
-    private val mGraphic: BarcodeGraphic,
+    private val overlay: GraphicOverlay<BarcodeGraphic?>?,
+    private val graphic: BarcodeGraphic,
     private val viewModel: PickCompleteViewModel?
 ) : Tracker<Barcode?>() {
 
@@ -28,15 +28,15 @@ class BarcodeGraphicTracker internal constructor(
      * Start tracking the detected item instance within the item overlay.
      */
     override fun onNewItem(id: Int, item: Barcode?) {
-        mGraphic.id = id
+        graphic.id = id
     }
 
     /**
      * Update the position/characteristics of the item within the overlay.
      */
     override fun onUpdate(detectionResults: Detections<Barcode?>, item: Barcode?) {
-        mOverlay?.add(mGraphic)
-        mGraphic.updateItem(item)
+        overlay?.add(graphic)
+        graphic.updateItem(item)
         val seconds: Long = if (lastTime != null) (Date().time - lastTime!!.time) / 800 else 300
         if (seconds < 5) return
         lastTime = Date()
@@ -52,7 +52,7 @@ class BarcodeGraphicTracker internal constructor(
      */
     override fun onMissing(detectionResults: Detections<Barcode?>) {
         400L.runDelayed {
-            mOverlay?.remove(mGraphic)
+            overlay?.remove(graphic)
             viewModel?.clearVisibility()
         }
     }
@@ -62,6 +62,6 @@ class BarcodeGraphicTracker internal constructor(
      * the overlay.
      */
     override fun onDone() {
-        mOverlay?.remove(mGraphic)
+        overlay?.remove(graphic)
     }
 }

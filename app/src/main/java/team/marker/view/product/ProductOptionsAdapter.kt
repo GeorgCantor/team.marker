@@ -21,10 +21,10 @@ class ProductOptionsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val option = options[position]
-        var title = "${option.title}"
+        var title = option.title
         if (!option.units_title.isNullOrEmpty()) title += ", ${option.units_title}"
         holder.itemView.title_tv.text = title
-        holder.itemView.value_tv.text = "${option.value}"
+        holder.itemView.value_tv.text = option.value
     }
 
     class ProductOptionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
